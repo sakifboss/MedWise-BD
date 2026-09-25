@@ -1,6 +1,8 @@
+import os
 from functools import lru_cache
 from pathlib import Path
 
+from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 BACKEND_DIR = Path(__file__).resolve().parents[2]
@@ -15,13 +17,25 @@ class Settings(BaseSettings):
     gemini_model: str = "gemini-3.8-flash"
     # Tried in order when the main model is overloaded or unavailable (comma-separated).
     gemini_fallback_models: str = "gemini-3.6-flash,gemini-3.5-flash"
-    gemini_timeout_seconds: float = 45.0
+    # Per model attempt; a hung model then falls through to the next one.
+    gemini_timeout_seconds: float = 20.0
     max_upload_mb: float = 8.0
     # Protects the Gemini quota: per client per hour, and for everyone per day.
     prescription_limit_per_hour: int = 10
     prescription_limit_per_day: int = 300
     cors_origins: str = "http://localhost:3000"
     seed_dir: Path = REPO_DIR / "data" / "seed"
+
+    @field_validator("gemini_api_key")
+    @classmethod
+    def _clean_key(cls, key: str) -> str:
+        """Drop whitespace/quotes that sneak in when pasting into hosting dashboards."""
+        return key.strip().strip("'\"").strip()
+
+    @property
+    def version(self) -> str:
+        """Deployed git commit (Render sets RENDER_GIT_COMMIT), or 'dev' locally."""
+        return os.environ.get("RENDER_GIT_COMMIT", "dev")[:7]
 
     @property
     def gemini_models(self) -> list[str]:

@@ -28,7 +28,7 @@ def _brand_id(client: TestClient, name: str, strength: str) -> int:
 
 
 def test_health(client: TestClient) -> None:
-    assert _ok(client.get("/api/health")) == {"status": "ok", "database": "ok"}
+    assert _ok(client.get("/api/health")) == {"status": "ok", "database": "ok", "version": "dev"}
 
 
 # ---------------------------------------------------------------- search

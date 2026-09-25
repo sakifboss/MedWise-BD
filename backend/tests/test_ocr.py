@@ -170,3 +170,21 @@ def test_missing_api_key() -> None:
     with pytest.raises(AppError) as exc:
         GeminiExtractor(Settings(gemini_api_key=""))
     assert exc.value.status == 503
+
+
+def test_falls_back_to_next_model_after_timeout() -> None:
+    reply = gemini_reply({"medicines": [{"name": "Montiva", "strength": "10 mg"}]})
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        if "main-model" in request.url.path:
+            raise httpx.ReadTimeout("hung")
+        return httpx.Response(200, json=reply)
+
+    extractor, seen = make_extractor(handler)
+    assert extractor(IMAGE, "image/jpeg") == [ExtractedMedicine("Montiva", "10 mg")]
+    assert len(seen) == 2
+
+
+@pytest.mark.parametrize("pasted", ["  abc123\n", '"abc123"', "'abc123'"])
+def test_api_key_is_cleaned(pasted: str) -> None:
+    assert Settings(gemini_api_key=pasted).gemini_api_key == "abc123"

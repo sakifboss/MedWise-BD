@@ -147,7 +147,8 @@ class GeminiExtractor:
         self._settings = settings
         self._client = client or httpx.Client(timeout=settings.gemini_timeout_seconds)
 
-    def _post(self, model: str, body: dict) -> httpx.Response:
+    def _post(self, model: str, body: dict) -> httpx.Response | None:
+        """POST to one model; None on timeout or network error (worth trying the next model)."""
         try:
             return self._client.post(
                 GEMINI_URL.format(model=model),
@@ -156,13 +157,16 @@ class GeminiExtractor:
             )
         except httpx.HTTPError as exc:
             logger.warning("Gemini request to %s failed: %s", model, type(exc).__name__)
-            raise AppError(503, "ocr_unavailable", "Prescription reading is unavailable.") from exc
+            return None
 
     def __call__(self, image: bytes, mime_type: str) -> list[ExtractedMedicine]:
         body = _request_body(image, mime_type)
         last_status = 0
         for model in self._settings.gemini_models:
             response = self._post(model, body)
+            if response is None:
+                last_status = 503
+                continue
             if response.status_code == 200:
                 return parse_medicines(_response_text(response.json()))
             # Log status only: the body may echo request details.
