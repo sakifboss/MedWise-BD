@@ -3,7 +3,7 @@ from fastapi.testclient import TestClient
 
 from app.api import prescription
 from app.api.prescription import get_extractor
-from app.core.db import normalize_database_url
+from app.core.db import make_engine, normalize_database_url
 from app.core.rate_limit import RateLimiter
 from app.main import app
 
@@ -20,10 +20,32 @@ JPEG = b"\xff\xd8\xff\xe0" + b"\x00" * 64
         ("postgres://u:p@host/db", "postgresql+psycopg://u:p@host/db"),
         ("postgresql+psycopg://u:p@host/db", "postgresql+psycopg://u:p@host/db"),
         ("sqlite:///./medwise.db", "sqlite:///./medwise.db"),
+        # Copy-paste mistakes from hosting dashboards
+        (
+            "psql 'postgresql://u:p@host/db?sslmode=require'",
+            "postgresql+psycopg://u:p@host/db?sslmode=require",
+        ),
+        ('"postgresql://u:p@host/db"', "postgresql+psycopg://u:p@host/db"),
+        ("  postgresql://u:p@host/db\n", "postgresql+psycopg://u:p@host/db"),
+        ("DATABASE_URL=postgresql://u:p@host/db", "postgresql+psycopg://u:p@host/db"),
     ],
 )
 def test_normalize_database_url(url: str, expected: str) -> None:
     assert normalize_database_url(url) == expected
+
+
+@pytest.mark.parametrize(
+    ("url", "hint"),
+    [
+        ("ep-cool-name.aws.neon.tech/neondb", "does not contain '://'"),
+        ("connect with psql and postgresql://u:secret@host/db", "extra text before"),
+    ],
+)
+def test_invalid_database_url_explains_without_leaking_password(url: str, hint: str) -> None:
+    with pytest.raises(ValueError) as exc:
+        make_engine(url)
+    assert hint in str(exc.value)
+    assert "secret" not in str(exc.value)
 
 
 def test_rate_limiter_sliding_window() -> None:
