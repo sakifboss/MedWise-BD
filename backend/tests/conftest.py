@@ -34,3 +34,9 @@ def client(seeded_engine: Engine) -> Iterator[TestClient]:
     with TestClient(app) as test_client:
         yield test_client
     app.dependency_overrides.clear()
+
+
+@pytest.fixture(autouse=True)
+def no_real_gemini(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Tests must never call the real Gemini API, even if backend/.env has a key."""
+    monkeypatch.setattr(get_settings(), "gemini_api_key", "")

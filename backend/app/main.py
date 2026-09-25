@@ -9,9 +9,10 @@ from sqlalchemy import text
 from sqlalchemy.orm import Session
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
-from app.api import alternatives, generics, search
+from app.api import alternatives, generics, prescription, search
 from app.core.config import get_settings
 from app.core.db import get_db
+from app.core.errors import AppError
 from app.schemas.common import Envelope, ErrorBody
 
 logger = logging.getLogger(__name__)
@@ -27,6 +28,10 @@ def _error(status: int, code: str, message: str, details: list | None = None) ->
 async def _http_error(_: Request, exc: StarletteHTTPException) -> JSONResponse:
     code = _ERROR_CODES.get(exc.status_code, "http_error")
     return _error(exc.status_code, code, str(exc.detail))
+
+
+async def _app_error(_: Request, exc: AppError) -> JSONResponse:
+    return _error(exc.status, exc.code, exc.message)
 
 
 async def _validation_error(_: Request, exc: RequestValidationError) -> JSONResponse:
@@ -50,11 +55,12 @@ def create_app() -> FastAPI:
         allow_methods=["GET", "POST"],
         allow_headers=["*"],
     )
+    app.add_exception_handler(AppError, _app_error)  # type: ignore[arg-type]
     app.add_exception_handler(StarletteHTTPException, _http_error)  # type: ignore[arg-type]
     app.add_exception_handler(RequestValidationError, _validation_error)  # type: ignore[arg-type]
     app.add_exception_handler(Exception, _unhandled_error)
 
-    for module in (search, generics, alternatives):
+    for module in (search, generics, alternatives, prescription):
         app.include_router(module.router, prefix="/api")
 
     @app.get("/api/health", response_model=Envelope[dict[str, str]], tags=["health"])
