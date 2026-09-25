@@ -1,9 +1,10 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, HTTPException, Path
+from fastapi import APIRouter, Depends, HTTPException, Path, Query
 from sqlalchemy.orm import Session
 
 from app.core.db import get_db
+from app.models import Generic
 from app.schemas.alternatives import (
     AlternativesResponse,
     GenericRef,
@@ -12,13 +13,14 @@ from app.schemas.alternatives import (
     RankedAlternative,
 )
 from app.schemas.common import Envelope
-from app.services.alternatives import find_alternatives
+from app.schemas.seed import normalize_dosage_form, normalize_strength
+from app.services.alternatives import find_alternatives, rank_group
 from app.services.ranking import RankedBrand
 
 router = APIRouter(tags=["alternatives"])
 
 
-def _to_schema(item: RankedBrand, selected_id: int) -> RankedAlternative:
+def _to_schema(item: RankedBrand, selected_id: int | None) -> RankedAlternative:
     c, m = item.candidate, item.candidate.manufacturer
     return RankedAlternative(
         rank=item.rank,
@@ -37,6 +39,24 @@ def _to_schema(item: RankedBrand, selected_id: int) -> RankedAlternative:
     )
 
 
+def _response(
+    generic: Generic,
+    strength: str,
+    dosage_form: str,
+    ranked: list[RankedBrand],
+    selected_id: int | None = None,
+) -> Envelope[AlternativesResponse]:
+    return Envelope(
+        data=AlternativesResponse(
+            selected_brand_id=selected_id,
+            generic=GenericRef(id=generic.id, name=generic.name),
+            strength=strength,
+            dosage_form=dosage_form,
+            alternatives=[_to_schema(item, selected_id) for item in ranked],
+        )
+    )
+
+
 @router.get("/alternatives/{brand_id}", response_model=Envelope[AlternativesResponse])
 def get_alternatives(
     brand_id: Annotated[int, Path(ge=1)],
@@ -50,12 +70,25 @@ def get_alternatives(
     if result is None:
         raise HTTPException(status_code=404, detail=f"Brand {brand_id} not found")
     brand = result.selected
-    return Envelope(
-        data=AlternativesResponse(
-            selected_brand_id=brand.id,
-            generic=GenericRef(id=brand.generic.id, name=brand.generic.name),
-            strength=brand.strength,
-            dosage_form=brand.dosage_form,
-            alternatives=[_to_schema(item, brand.id) for item in result.ranked],
+    return _response(brand.generic, brand.strength, brand.dosage_form, result.ranked, brand.id)
+
+
+@router.get("/generics/{generic_id}/ranking", response_model=Envelope[AlternativesResponse])
+def get_generic_ranking(
+    generic_id: Annotated[int, Path(ge=1)],
+    strength: Annotated[str, Query(min_length=1, max_length=50)],
+    dosage_form: Annotated[str, Query(min_length=1, max_length=50)],
+    db: Annotated[Session, Depends(get_db)],
+) -> Envelope[AlternativesResponse]:
+    """Rank every brand of a generic at one strength and dosage form (no selected brand)."""
+    generic = db.get(Generic, generic_id)
+    if generic is None:
+        raise HTTPException(status_code=404, detail=f"Generic {generic_id} not found")
+    strength, dosage_form = normalize_strength(strength), normalize_dosage_form(dosage_form)
+    ranked = rank_group(db, generic_id, strength, dosage_form)
+    if not ranked:
+        raise HTTPException(
+            status_code=404,
+            detail=f"No {generic.name} {strength} {dosage_form} brands found",
         )
-    )
+    return _response(generic, strength, dosage_form, ranked)

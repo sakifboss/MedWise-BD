@@ -52,23 +52,30 @@ def load_bounds(db: Session) -> Bounds:
     return compute_bounds(to_factors(m) for m in db.scalars(select(Manufacturer)))
 
 
-def comparable_brands(db: Session, brand: Brand) -> list[Brand]:
-    """Brands with the same generic, strength and dosage form (including `brand`)."""
+def comparable_brands(db: Session, generic_id: int, strength: str, dosage_form: str) -> list[Brand]:
+    """Brands with the same generic, strength and dosage form."""
     query = (
         select(Brand)
         .options(joinedload(Brand.manufacturer))
         .where(
-            Brand.generic_id == brand.generic_id,
-            Brand.strength == brand.strength,
-            Brand.dosage_form == brand.dosage_form,
+            Brand.generic_id == generic_id,
+            Brand.strength == strength,
+            Brand.dosage_form == dosage_form,
         )
     )
     return list(db.scalars(query))
+
+
+def rank_group(db: Session, generic_id: int, strength: str, dosage_form: str) -> list[RankedBrand]:
+    brands = comparable_brands(db, generic_id, strength, dosage_form)
+    if not brands:
+        return []
+    return rank_brands([to_candidate(b) for b in brands], load_bounds(db))
 
 
 def find_alternatives(db: Session, brand_id: int) -> AlternativesResult | None:
     brand = db.get(Brand, brand_id, options=[joinedload(Brand.generic)])
     if brand is None:
         return None
-    candidates = [to_candidate(b) for b in comparable_brands(db, brand)]
-    return AlternativesResult(selected=brand, ranked=rank_brands(candidates, load_bounds(db)))
+    ranked = rank_group(db, brand.generic_id, brand.strength, brand.dosage_form)
+    return AlternativesResult(selected=brand, ranked=ranked)

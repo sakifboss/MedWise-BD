@@ -39,7 +39,7 @@ class RankedAlternative(BaseModel):
 
 
 class AlternativesResponse(BaseModel):
-    selected_brand_id: int
+    selected_brand_id: int | None
     generic: GenericRef
     strength: str
     dosage_form: str

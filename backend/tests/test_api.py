@@ -158,3 +158,35 @@ def test_alternatives_score_matches_formula(client: TestClient) -> None:
 def test_alternatives_not_found(client: TestClient) -> None:
     error = _err(client.get("/api/alternatives/99999"), 404, "not_found")
     assert "99999" in error["message"]
+
+
+# ---------------------------------------------------------------- generic ranking
+
+
+def _generic_id(client: TestClient, name: str) -> int:
+    results = _ok(client.get("/api/search", params={"q": name}))["results"]
+    return next(r["id"] for r in results if r["type"] == "generic" and r["name"] == name)
+
+
+def test_generic_ranking_matches_brand_alternatives(client: TestClient) -> None:
+    generic_id = _generic_id(client, "Paracetamol")
+    params = {"strength": "500MG", "dosage_form": "Tablet"}  # normalised by the API
+    data = _ok(client.get(f"/api/generics/{generic_id}/ranking", params=params))
+    assert data["selected_brand_id"] is None
+    assert (data["strength"], data["dosage_form"]) == ("500 mg", "tablet")
+    assert not any(a["is_selected"] for a in data["alternatives"])
+
+    via_brand = _ok(client.get(f"/api/alternatives/{_brand_id(client, 'Pyrolin', '500 mg')}"))
+    assert [a["brand_id"] for a in data["alternatives"]] == [
+        a["brand_id"] for a in via_brand["alternatives"]
+    ]
+
+
+def test_generic_ranking_unknown_presentation(client: TestClient) -> None:
+    generic_id = _generic_id(client, "Paracetamol")
+    params = {"strength": "999 mg", "dosage_form": "tablet"}
+    _err(client.get(f"/api/generics/{generic_id}/ranking", params=params), 404, "not_found")
+
+
+def test_generic_ranking_requires_params(client: TestClient) -> None:
+    _err(client.get("/api/generics/1/ranking"), 422, "validation_error")
