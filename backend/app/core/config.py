@@ -16,7 +16,10 @@ class Settings(BaseSettings):
     gemini_api_key: str = ""
     gemini_model: str = "gemini-3.8-flash"
     # Tried in order when the main model is overloaded or unavailable (comma-separated).
-    gemini_fallback_models: str = "gemini-3.6-flash,gemini-3.5-flash"
+    # Each model has its own free-tier quota, so more fallbacks = fewer 429s under bursts.
+    gemini_fallback_models: str = (
+        "gemini-3.5-flash-lite,gemini-3.6-flash,gemini-3.1-flash-lite,gemini-3.5-flash"
+    )
     # Per model attempt; a hung model then falls through to the next one.
     gemini_timeout_seconds: float = 20.0
     # Don't start another model after this long (keeps the whole request bounded).
