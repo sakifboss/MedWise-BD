@@ -1,0 +1,863 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "MedWise BD API",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/search": {
+      "get": {
+        "tags": [
+          "search"
+        ],
+        "summary": "Search",
+        "operationId": "search_api_search_get",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100,
+              "description": "Brand or generic name",
+              "title": "Q"
+            },
+            "description": "Brand or generic name"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 50,
+              "minimum": 1,
+              "default": 20,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_SearchResponse_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/generics/{generic_id}": {
+      "get": {
+        "tags": [
+          "generics"
+        ],
+        "summary": "Get Generic",
+        "operationId": "get_generic_api_generics__generic_id__get",
+        "parameters": [
+          {
+            "name": "generic_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "title": "Generic Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_GenericDetail_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/alternatives/{brand_id}": {
+      "get": {
+        "tags": [
+          "alternatives"
+        ],
+        "summary": "Get Alternatives",
+        "description": "Same generic, same strength, same dosage form, ranked by quality (80%) and price (20%).\n\nThe selected brand is included in the list (is_selected=true) so users can see where it stands.",
+        "operationId": "get_alternatives_api_alternatives__brand_id__get",
+        "parameters": [
+          {
+            "name": "brand_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "title": "Brand Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_AlternativesResponse_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/generics/{generic_id}/ranking": {
+      "get": {
+        "tags": [
+          "alternatives"
+        ],
+        "summary": "Get Generic Ranking",
+        "description": "Rank every brand of a generic at one strength and dosage form (no selected brand).",
+        "operationId": "get_generic_ranking_api_generics__generic_id__ranking_get",
+        "parameters": [
+          {
+            "name": "generic_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "title": "Generic Id"
+            }
+          },
+          {
+            "name": "strength",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 50,
+              "title": "Strength"
+            }
+          },
+          {
+            "name": "dosage_form",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 50,
+              "title": "Dosage Form"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_AlternativesResponse_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/health": {
+      "get": {
+        "tags": [
+          "health"
+        ],
+        "summary": "Health",
+        "operationId": "health_api_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_dict_str__str__"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AlternativesResponse": {
+        "properties": {
+          "selected_brand_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Selected Brand Id"
+          },
+          "generic": {
+            "$ref": "#/components/schemas/GenericRef"
+          },
+          "strength": {
+            "type": "string",
+            "title": "Strength"
+          },
+          "dosage_form": {
+            "type": "string",
+            "title": "Dosage Form"
+          },
+          "alternatives": {
+            "items": {
+              "$ref": "#/components/schemas/RankedAlternative"
+            },
+            "type": "array",
+            "title": "Alternatives"
+          },
+          "disclaimer": {
+            "type": "string",
+            "title": "Disclaimer",
+            "default": "Consult your doctor or pharmacist before changing any medicine."
+          }
+        },
+        "type": "object",
+        "required": [
+          "selected_brand_id",
+          "generic",
+          "strength",
+          "dosage_form",
+          "alternatives"
+        ],
+        "title": "AlternativesResponse"
+      },
+      "Envelope_AlternativesResponse_": {
+        "properties": {
+          "data": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AlternativesResponse"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorBody"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "Envelope[AlternativesResponse]"
+      },
+      "Envelope_GenericDetail_": {
+        "properties": {
+          "data": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/GenericDetail"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorBody"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "Envelope[GenericDetail]"
+      },
+      "Envelope_SearchResponse_": {
+        "properties": {
+          "data": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SearchResponse"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorBody"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "Envelope[SearchResponse]"
+      },
+      "Envelope_dict_str__str__": {
+        "properties": {
+          "data": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Data"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorBody"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "Envelope[dict[str, str]]"
+      },
+      "ErrorBody": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "title": "Code"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          },
+          "details": {
+            "anyOf": [
+              {
+                "items": {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Details"
+          }
+        },
+        "type": "object",
+        "required": [
+          "code",
+          "message"
+        ],
+        "title": "ErrorBody"
+      },
+      "GenericDetail": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "drug_class": {
+            "type": "string",
+            "title": "Drug Class"
+          },
+          "indications": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Indications"
+          },
+          "dosage_forms": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Dosage Forms"
+          },
+          "side_effects": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Side Effects"
+          },
+          "precautions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Precautions"
+          },
+          "presentations": {
+            "items": {
+              "$ref": "#/components/schemas/Presentation"
+            },
+            "type": "array",
+            "title": "Presentations"
+          },
+          "interactions": {
+            "items": {
+              "$ref": "#/components/schemas/InteractionSummary"
+            },
+            "type": "array",
+            "title": "Interactions"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "drug_class",
+          "indications",
+          "dosage_forms",
+          "side_effects",
+          "precautions",
+          "presentations",
+          "interactions"
+        ],
+        "title": "GenericDetail"
+      },
+      "GenericRef": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name"
+        ],
+        "title": "GenericRef"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "InteractionSummary": {
+        "properties": {
+          "generic_id": {
+            "type": "integer",
+            "title": "Generic Id"
+          },
+          "generic_name": {
+            "type": "string",
+            "title": "Generic Name"
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "minor",
+              "moderate",
+              "major"
+            ],
+            "title": "Severity"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          }
+        },
+        "type": "object",
+        "required": [
+          "generic_id",
+          "generic_name",
+          "severity",
+          "description"
+        ],
+        "title": "InteractionSummary"
+      },
+      "ManufacturerSummary": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "who_gmp": {
+            "type": "boolean",
+            "title": "Who Gmp"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "who_gmp"
+        ],
+        "title": "ManufacturerSummary"
+      },
+      "Presentation": {
+        "properties": {
+          "strength": {
+            "type": "string",
+            "title": "Strength"
+          },
+          "dosage_form": {
+            "type": "string",
+            "title": "Dosage Form"
+          },
+          "brand_count": {
+            "type": "integer",
+            "title": "Brand Count"
+          },
+          "min_price": {
+            "type": "number",
+            "title": "Min Price"
+          },
+          "max_price": {
+            "type": "number",
+            "title": "Max Price"
+          }
+        },
+        "type": "object",
+        "required": [
+          "strength",
+          "dosage_form",
+          "brand_count",
+          "min_price",
+          "max_price"
+        ],
+        "title": "Presentation"
+      },
+      "QualityBreakdown": {
+        "properties": {
+          "certification": {
+            "type": "number",
+            "title": "Certification"
+          },
+          "export": {
+            "type": "number",
+            "title": "Export"
+          },
+          "compliance": {
+            "type": "number",
+            "title": "Compliance"
+          },
+          "recall_history": {
+            "type": "number",
+            "title": "Recall History"
+          },
+          "market": {
+            "type": "number",
+            "title": "Market"
+          }
+        },
+        "type": "object",
+        "required": [
+          "certification",
+          "export",
+          "compliance",
+          "recall_history",
+          "market"
+        ],
+        "title": "QualityBreakdown",
+        "description": "Normalised 0-1 inputs to the quality score."
+      },
+      "RankedAlternative": {
+        "properties": {
+          "rank": {
+            "type": "integer",
+            "title": "Rank"
+          },
+          "brand_id": {
+            "type": "integer",
+            "title": "Brand Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "manufacturer": {
+            "$ref": "#/components/schemas/ManufacturerSummary"
+          },
+          "price_per_unit": {
+            "type": "number",
+            "title": "Price Per Unit"
+          },
+          "final_score": {
+            "type": "number",
+            "title": "Final Score"
+          },
+          "quality_score": {
+            "type": "number",
+            "title": "Quality Score"
+          },
+          "price_score": {
+            "type": "number",
+            "title": "Price Score"
+          },
+          "quality_breakdown": {
+            "$ref": "#/components/schemas/QualityBreakdown"
+          },
+          "reasons": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Reasons"
+          },
+          "is_selected": {
+            "type": "boolean",
+            "title": "Is Selected"
+          }
+        },
+        "type": "object",
+        "required": [
+          "rank",
+          "brand_id",
+          "name",
+          "manufacturer",
+          "price_per_unit",
+          "final_score",
+          "quality_score",
+          "price_score",
+          "quality_breakdown",
+          "reasons",
+          "is_selected"
+        ],
+        "title": "RankedAlternative"
+      },
+      "SearchResponse": {
+        "properties": {
+          "query": {
+            "type": "string",
+            "title": "Query"
+          },
+          "interpreted_as": {
+            "type": "string",
+            "title": "Interpreted As"
+          },
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/SearchResult"
+            },
+            "type": "array",
+            "title": "Results"
+          }
+        },
+        "type": "object",
+        "required": [
+          "query",
+          "interpreted_as",
+          "results"
+        ],
+        "title": "SearchResponse"
+      },
+      "SearchResult": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "brand",
+              "generic"
+            ],
+            "title": "Type"
+          },
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "score": {
+            "type": "number",
+            "title": "Score"
+          },
+          "generic_id": {
+            "type": "integer",
+            "title": "Generic Id"
+          },
+          "generic_name": {
+            "type": "string",
+            "title": "Generic Name"
+          },
+          "strength": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Strength"
+          },
+          "dosage_form": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dosage Form"
+          },
+          "manufacturer": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Manufacturer"
+          }
+        },
+        "type": "object",
+        "required": [
+          "type",
+          "id",
+          "name",
+          "score",
+          "generic_id",
+          "generic_name"
+        ],
+        "title": "SearchResult"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}

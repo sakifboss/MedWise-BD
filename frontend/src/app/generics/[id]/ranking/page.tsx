@@ -1,0 +1,53 @@
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+
+import { BackLink } from "@/components/back-link";
+import { Disclaimer } from "@/components/disclaimer";
+import { HowRankingWorks } from "@/components/how-ranking-works";
+import { RankingList } from "@/components/ranking-list";
+import { api, isNotFound } from "@/lib/api";
+import { parseId } from "@/lib/format";
+
+type Props = PageProps<"/generics/[id]/ranking">;
+
+function single(value: string | string[] | undefined): string | undefined {
+  return Array.isArray(value) ? value[0] : value;
+}
+
+async function load(props: Props) {
+  const id = parseId((await props.params).id);
+  const query = await props.searchParams;
+  const strength = single(query.strength);
+  const form = single(query.form);
+  if (id === null || !strength || !form) notFound();
+  try {
+    return await api.genericRanking(id, strength, form);
+  } catch (error) {
+    if (isNotFound(error)) notFound();
+    throw error;
+  }
+}
+
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const data = await load(props);
+  return { title: `${data.generic.name} ${data.strength} ${data.dosage_form} brands ranked` };
+}
+
+export default async function GenericRankingPage(props: Props) {
+  const data = await load(props);
+
+  return (
+    <div className="space-y-6">
+      <BackLink href={`/generics/${data.generic.id}`}>{data.generic.name}</BackLink>
+      <header className="space-y-1">
+        <h1 className="text-2xl font-semibold tracking-tight">
+          {data.generic.name} {data.strength} {data.dosage_form}
+        </h1>
+        <p className="text-muted-foreground">All brands, ranked</p>
+      </header>
+      <Disclaimer text={data.disclaimer} />
+      <HowRankingWorks />
+      <RankingList data={data} />
+    </div>
+  );
+}
