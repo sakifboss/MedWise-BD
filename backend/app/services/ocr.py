@@ -9,6 +9,7 @@ Safety rules (CLAUDE.md):
 import base64
 import json
 import logging
+import time
 from collections.abc import Callable
 from dataclasses import dataclass
 
@@ -153,8 +154,8 @@ class GeminiExtractor:
             transport=httpx.HTTPTransport(local_address="0.0.0.0", retries=1),
         )
 
-    def _post(self, model: str, body: dict) -> httpx.Response | None:
-        """POST to one model; None on timeout or network error (worth trying the next model)."""
+    def _post(self, model: str, body: dict) -> httpx.Response | str:
+        """POST to one model; on timeout/network error return the error name instead."""
         try:
             return self._client.post(
                 GEMINI_URL.format(model=model),
@@ -164,14 +165,23 @@ class GeminiExtractor:
         except httpx.HTTPError as exc:
             # The exception text holds the error only (no headers), so the key is not logged.
             logger.warning("Gemini request to %s failed: %s: %s", model, type(exc).__name__, exc)
-            return None
+            return type(exc).__name__
 
     def __call__(self, image: bytes, mime_type: str) -> list[ExtractedMedicine]:
         body = _request_body(image, mime_type)
+        started = time.monotonic()
+        attempts: list[dict] = []
         last_status = 0
         for model in self._settings.gemini_models:
+            if attempts and time.monotonic() - started > self._settings.gemini_total_seconds:
+                break  # out of time budget: don't start another model
+            t0 = time.monotonic()
             response = self._post(model, body)
-            if response is None:
+            outcome = response if isinstance(response, str) else f"HTTP {response.status_code}"
+            attempts.append(
+                {"model": model, "result": outcome, "seconds": round(time.monotonic() - t0, 1)}
+            )
+            if isinstance(response, str):
                 last_status = 503
                 continue
             if response.status_code == 200:
@@ -182,8 +192,11 @@ class GeminiExtractor:
             if last_status not in _TRY_NEXT_MODEL:
                 break
 
+        # Attempt details (model, outcome, time) help diagnose failures; they hold no secrets.
         if last_status == 429:
-            raise AppError(429, "ocr_busy", "Too many prescriptions right now. Try again soon.")
+            raise AppError(
+                429, "ocr_busy", "Too many prescriptions right now. Try again soon.", attempts
+            )
         if last_status == 400:
-            raise AppError(502, "ocr_failed", "The prescription could not be read.")
-        raise AppError(503, "ocr_unavailable", "Prescription reading is unavailable.")
+            raise AppError(502, "ocr_failed", "The prescription could not be read.", attempts)
+        raise AppError(503, "ocr_unavailable", "Prescription reading is unavailable.", attempts)

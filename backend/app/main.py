@@ -31,7 +31,7 @@ async def _http_error(_: Request, exc: StarletteHTTPException) -> JSONResponse:
 
 
 async def _app_error(_: Request, exc: AppError) -> JSONResponse:
-    return _error(exc.status, exc.code, exc.message)
+    return _error(exc.status, exc.code, exc.message, exc.details)
 
 
 async def _validation_error(_: Request, exc: RequestValidationError) -> JSONResponse:

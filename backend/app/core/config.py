@@ -19,6 +19,8 @@ class Settings(BaseSettings):
     gemini_fallback_models: str = "gemini-3.6-flash,gemini-3.5-flash"
     # Per model attempt; a hung model then falls through to the next one.
     gemini_timeout_seconds: float = 20.0
+    # Don't start another model after this long (keeps the whole request bounded).
+    gemini_total_seconds: float = 40.0
     max_upload_mb: float = 8.0
     # Protects the Gemini quota: per client per hour, and for everyone per day.
     prescription_limit_per_hour: int = 10
