@@ -80,6 +80,28 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/prescription": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Read Prescription
+         * @description Extract medicine names + strengths from a photo and propose database matches.
+         *
+         *     The image is processed in memory and never stored. Results must be confirmed by the user.
+         */
+        post: operations["read_prescription_api_prescription_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/health": {
         parameters: {
             query?: never;
@@ -118,6 +140,14 @@ export interface components {
              */
             disclaimer: string;
         };
+        /** Body_read_prescription_api_prescription_post */
+        Body_read_prescription_api_prescription_post: {
+            /**
+             * Image
+             * @description Photo of the prescription
+             */
+            image: string;
+        };
         /** Envelope[AlternativesResponse] */
         Envelope_AlternativesResponse_: {
             data?: components["schemas"]["AlternativesResponse"] | null;
@@ -126,6 +156,11 @@ export interface components {
         /** Envelope[GenericDetail] */
         Envelope_GenericDetail_: {
             data?: components["schemas"]["GenericDetail"] | null;
+            error?: components["schemas"]["ErrorBody"] | null;
+        };
+        /** Envelope[PrescriptionResponse] */
+        Envelope_PrescriptionResponse_: {
+            data?: components["schemas"]["PrescriptionResponse"] | null;
             error?: components["schemas"]["ErrorBody"] | null;
         };
         /** Envelope[SearchResponse] */
@@ -207,6 +242,53 @@ export interface components {
             name: string;
             /** Who Gmp */
             who_gmp: boolean;
+        };
+        /** MatchOptionOut */
+        MatchOptionOut: {
+            /**
+             * Kind
+             * @enum {string}
+             */
+            kind: "brand" | "generic";
+            /** Brand Id */
+            brand_id: number | null;
+            /** Generic Id */
+            generic_id: number;
+            /** Generic Name */
+            generic_name: string;
+            /** Name */
+            name: string;
+            /** Strength */
+            strength: string;
+            /** Dosage Form */
+            dosage_form: string;
+            /** Manufacturer */
+            manufacturer: string | null;
+            /** Score */
+            score: number;
+            /** Strength Matches */
+            strength_matches: boolean;
+        };
+        /** PrescriptionItem */
+        PrescriptionItem: {
+            /** Extracted Name */
+            extracted_name: string;
+            /** Extracted Strength */
+            extracted_strength: string | null;
+            /** Options */
+            options: components["schemas"]["MatchOptionOut"][];
+            /** Suggested Index */
+            suggested_index: number | null;
+        };
+        /** PrescriptionResponse */
+        PrescriptionResponse: {
+            /** Items */
+            items: components["schemas"]["PrescriptionItem"][];
+            /**
+             * Note
+             * @default Your photo was sent to Google Gemini only to read medicine names and strengths. MedWise does not store it.
+             */
+            note: string;
         };
         /** Presentation */
         Presentation: {
@@ -431,6 +513,39 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Envelope_AlternativesResponse_"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    read_prescription_api_prescription_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["Body_read_prescription_api_prescription_post"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Envelope_PrescriptionResponse_"];
                 };
             };
             /** @description Validation Error */

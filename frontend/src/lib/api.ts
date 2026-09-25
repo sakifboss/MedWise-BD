@@ -10,6 +10,9 @@ export type InteractionSummary = Schemas["InteractionSummary"];
 export type AlternativesResponse = Schemas["AlternativesResponse"];
 export type RankedAlternative = Schemas["RankedAlternative"];
 export type Severity = InteractionSummary["severity"];
+export type PrescriptionResponse = Schemas["PrescriptionResponse"];
+export type PrescriptionItem = Schemas["PrescriptionItem"];
+export type MatchOption = Schemas["MatchOptionOut"];
 
 type Envelope<T> = {
   data?: T | null;
@@ -80,5 +83,10 @@ export const api = {
   },
   alternatives(brandId: number) {
     return request<AlternativesResponse>(`/api/alternatives/${brandId}`);
+  },
+  readPrescription(image: Blob, filename: string) {
+    const form = new FormData();
+    form.append("image", image, filename);
+    return request<PrescriptionResponse>("/api/prescription", { method: "POST", body: form });
   },
 };
