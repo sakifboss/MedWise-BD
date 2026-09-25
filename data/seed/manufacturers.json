@@ -1,0 +1,113 @@
+{
+  "meta": {
+    "dataset": "manufacturers",
+    "source": "SAMPLE",
+    "is_sample": true,
+    "sample_fields": [
+      "years_active"
+    ],
+    "note": "SAMPLE DATA for development and demo only. Not official DGDA data. All numeric values (years_active) are illustrative and must not be used for real decisions."
+  },
+  "records": [
+    {
+      "name": "Square Pharmaceuticals PLC",
+      "years_active": 68,
+      "export_countries": [
+        "Sri Lanka",
+        "Nepal",
+        "Myanmar",
+        "Kenya",
+        "Philippines",
+        "Vietnam",
+        "United Kingdom"
+      ]
+    },
+    {
+      "name": "Incepta Pharmaceuticals Ltd",
+      "years_active": 27,
+      "export_countries": [
+        "Sri Lanka",
+        "Nepal",
+        "Cambodia",
+        "Kenya",
+        "Philippines",
+        "Australia"
+      ]
+    },
+    {
+      "name": "Beximco Pharmaceuticals Ltd",
+      "years_active": 50,
+      "export_countries": [
+        "Sri Lanka",
+        "Nepal",
+        "Kenya",
+        "United States",
+        "Australia",
+        "Singapore",
+        "Malaysia"
+      ]
+    },
+    {
+      "name": "Renata PLC",
+      "years_active": 54,
+      "export_countries": [
+        "Nepal",
+        "Myanmar",
+        "Kenya",
+        "United Kingdom"
+      ]
+    },
+    {
+      "name": "Eskayef Pharmaceuticals Ltd",
+      "years_active": 36,
+      "export_countries": [
+        "Nepal",
+        "Sri Lanka",
+        "Myanmar",
+        "Philippines"
+      ]
+    },
+    {
+      "name": "ACI Limited",
+      "years_active": 58,
+      "export_countries": [
+        "Nepal",
+        "Myanmar",
+        "Sri Lanka"
+      ]
+    },
+    {
+      "name": "Healthcare Pharmaceuticals Ltd",
+      "years_active": 38,
+      "export_countries": [
+        "Nepal",
+        "Myanmar",
+        "Afghanistan",
+        "Kenya"
+      ]
+    },
+    {
+      "name": "Opsonin Pharma Ltd",
+      "years_active": 70,
+      "export_countries": [
+        "Nepal",
+        "Myanmar"
+      ]
+    },
+    {
+      "name": "Aristopharma Ltd",
+      "years_active": 40,
+      "export_countries": [
+        "Nepal"
+      ]
+    },
+    {
+      "name": "Drug International Ltd",
+      "years_active": 52,
+      "export_countries": [
+        "Nepal",
+        "Myanmar"
+      ]
+    }
+  ]
+}

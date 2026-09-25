@@ -1,0 +1,103 @@
+{
+  "meta": {
+    "dataset": "interactions",
+    "source": "SAMPLE",
+    "is_sample": true,
+    "sample_fields": [
+      "severity"
+    ],
+    "note": "SAMPLE DATA for development and demo only. Not official DGDA data. All numeric values (severity) are illustrative and must not be used for real decisions."
+  },
+  "records": [
+    {
+      "generic_a": "Warfarin",
+      "generic_b": "Aspirin",
+      "severity": "major",
+      "description": "Taking both greatly increases the risk of serious bleeding."
+    },
+    {
+      "generic_a": "Warfarin",
+      "generic_b": "Ibuprofen",
+      "severity": "major",
+      "description": "NSAIDs increase bleeding risk and may irritate the stomach lining while on warfarin."
+    },
+    {
+      "generic_a": "Warfarin",
+      "generic_b": "Ciprofloxacin",
+      "severity": "major",
+      "description": "Ciprofloxacin can raise warfarin levels and INR, increasing bleeding risk."
+    },
+    {
+      "generic_a": "Warfarin",
+      "generic_b": "Metronidazole",
+      "severity": "major",
+      "description": "Metronidazole strongly increases the effect of warfarin; INR can rise sharply."
+    },
+    {
+      "generic_a": "Warfarin",
+      "generic_b": "Azithromycin",
+      "severity": "moderate",
+      "description": "Azithromycin may increase INR in some patients; closer INR monitoring may be needed."
+    },
+    {
+      "generic_a": "Warfarin",
+      "generic_b": "Paracetamol",
+      "severity": "moderate",
+      "description": "Regular or high-dose paracetamol can raise INR; occasional use is generally considered lower risk."
+    },
+    {
+      "generic_a": "Clopidogrel",
+      "generic_b": "Omeprazole",
+      "severity": "major",
+      "description": "Omeprazole can reduce activation of clopidogrel and lower its antiplatelet effect."
+    },
+    {
+      "generic_a": "Clopidogrel",
+      "generic_b": "Esomeprazole",
+      "severity": "moderate",
+      "description": "Esomeprazole may reduce the antiplatelet effect of clopidogrel."
+    },
+    {
+      "generic_a": "Clopidogrel",
+      "generic_b": "Aspirin",
+      "severity": "moderate",
+      "description": "Combined antiplatelet therapy increases bleeding risk; often prescribed together on purpose under supervision."
+    },
+    {
+      "generic_a": "Aspirin",
+      "generic_b": "Ibuprofen",
+      "severity": "moderate",
+      "description": "Ibuprofen may reduce the heart-protective effect of low-dose aspirin and adds to stomach bleeding risk."
+    },
+    {
+      "generic_a": "Losartan",
+      "generic_b": "Ibuprofen",
+      "severity": "moderate",
+      "description": "NSAIDs can reduce the blood-pressure-lowering effect of losartan and may affect kidney function."
+    },
+    {
+      "generic_a": "Metformin",
+      "generic_b": "Ciprofloxacin",
+      "severity": "moderate",
+      "description": "Ciprofloxacin can cause unpredictable changes in blood sugar in people taking diabetes medicines."
+    },
+    {
+      "generic_a": "Gliclazide",
+      "generic_b": "Ciprofloxacin",
+      "severity": "moderate",
+      "description": "Ciprofloxacin may increase the blood-sugar-lowering effect of gliclazide, risking hypoglycaemia."
+    },
+    {
+      "generic_a": "Atorvastatin",
+      "generic_b": "Azithromycin",
+      "severity": "minor",
+      "description": "Rare reports of muscle problems when combined; report unexplained muscle pain."
+    },
+    {
+      "generic_a": "Amlodipine",
+      "generic_b": "Atorvastatin",
+      "severity": "minor",
+      "description": "Amlodipine may slightly increase atorvastatin levels; usually not clinically significant."
+    }
+  ]
+}

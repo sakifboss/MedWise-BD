@@ -1,0 +1,444 @@
+{
+  "meta": {
+    "dataset": "generics",
+    "source": "SAMPLE",
+    "is_sample": true,
+    "sample_fields": [],
+    "note": "SAMPLE DATA for development and demo only. Not official DGDA data. All numeric values (none) are illustrative and must not be used for real decisions."
+  },
+  "records": [
+    {
+      "name": "Paracetamol",
+      "drug_class": "Analgesic and antipyretic",
+      "indications": [
+        "Fever",
+        "Mild to moderate pain",
+        "Headache",
+        "Toothache"
+      ],
+      "dosage_forms": [
+        "tablet",
+        "suspension"
+      ],
+      "side_effects": [
+        "Rarely skin rash",
+        "Liver damage in overdose"
+      ],
+      "precautions": [
+        "Do not exceed the maximum daily dose",
+        "Use caution in liver disease or regular alcohol use",
+        "Avoid taking with other paracetamol-containing products"
+      ]
+    },
+    {
+      "name": "Ibuprofen",
+      "drug_class": "Non-steroidal anti-inflammatory drug (NSAID)",
+      "indications": [
+        "Pain",
+        "Fever",
+        "Inflammation",
+        "Dysmenorrhoea"
+      ],
+      "dosage_forms": [
+        "tablet"
+      ],
+      "side_effects": [
+        "Stomach upset",
+        "Heartburn",
+        "Nausea",
+        "Gastrointestinal bleeding"
+      ],
+      "precautions": [
+        "Take with food",
+        "Use caution with peptic ulcer, kidney disease or heart failure",
+        "Avoid in late pregnancy"
+      ]
+    },
+    {
+      "name": "Aspirin",
+      "drug_class": "Antiplatelet agent (low dose)",
+      "indications": [
+        "Prevention of heart attack and stroke",
+        "Secondary prevention after cardiovascular events"
+      ],
+      "dosage_forms": [
+        "tablet"
+      ],
+      "side_effects": [
+        "Stomach irritation",
+        "Increased bleeding tendency",
+        "Gastrointestinal bleeding"
+      ],
+      "precautions": [
+        "Not for children under 16",
+        "Use caution with peptic ulcer or bleeding disorders",
+        "Inform doctor before surgery"
+      ]
+    },
+    {
+      "name": "Omeprazole",
+      "drug_class": "Proton pump inhibitor",
+      "indications": [
+        "Gastro-oesophageal reflux disease",
+        "Peptic ulcer",
+        "Helicobacter pylori eradication (with antibiotics)"
+      ],
+      "dosage_forms": [
+        "capsule"
+      ],
+      "side_effects": [
+        "Headache",
+        "Diarrhoea",
+        "Abdominal pain",
+        "Nausea"
+      ],
+      "precautions": [
+        "Long-term use may lower magnesium and vitamin B12",
+        "May reduce the effect of clopidogrel"
+      ]
+    },
+    {
+      "name": "Esomeprazole",
+      "drug_class": "Proton pump inhibitor",
+      "indications": [
+        "Gastro-oesophageal reflux disease",
+        "Peptic ulcer",
+        "NSAID-associated ulcer prevention"
+      ],
+      "dosage_forms": [
+        "tablet"
+      ],
+      "side_effects": [
+        "Headache",
+        "Diarrhoea",
+        "Abdominal pain",
+        "Flatulence"
+      ],
+      "precautions": [
+        "Long-term use may lower magnesium and vitamin B12",
+        "Use the lowest effective dose"
+      ]
+    },
+    {
+      "name": "Pantoprazole",
+      "drug_class": "Proton pump inhibitor",
+      "indications": [
+        "Gastro-oesophageal reflux disease",
+        "Peptic ulcer",
+        "Zollinger-Ellison syndrome"
+      ],
+      "dosage_forms": [
+        "tablet"
+      ],
+      "side_effects": [
+        "Headache",
+        "Diarrhoea",
+        "Nausea"
+      ],
+      "precautions": [
+        "Long-term use may lower magnesium and vitamin B12"
+      ]
+    },
+    {
+      "name": "Amoxicillin",
+      "drug_class": "Penicillin antibiotic",
+      "indications": [
+        "Respiratory tract infections",
+        "Ear infections",
+        "Urinary tract infections",
+        "Dental infections"
+      ],
+      "dosage_forms": [
+        "capsule",
+        "suspension"
+      ],
+      "side_effects": [
+        "Diarrhoea",
+        "Nausea",
+        "Skin rash",
+        "Allergic reactions"
+      ],
+      "precautions": [
+        "Do not use if allergic to penicillin",
+        "Complete the full course"
+      ]
+    },
+    {
+      "name": "Azithromycin",
+      "drug_class": "Macrolide antibiotic",
+      "indications": [
+        "Respiratory tract infections",
+        "Skin infections",
+        "Typhoid fever",
+        "Sexually transmitted infections"
+      ],
+      "dosage_forms": [
+        "tablet"
+      ],
+      "side_effects": [
+        "Diarrhoea",
+        "Nausea",
+        "Abdominal pain"
+      ],
+      "precautions": [
+        "Use caution with heart rhythm problems (QT prolongation)",
+        "Use caution in liver disease",
+        "Complete the full course"
+      ]
+    },
+    {
+      "name": "Cefixime",
+      "drug_class": "Third-generation cephalosporin antibiotic",
+      "indications": [
+        "Urinary tract infections",
+        "Typhoid fever",
+        "Respiratory tract infections",
+        "Gonorrhoea"
+      ],
+      "dosage_forms": [
+        "capsule"
+      ],
+      "side_effects": [
+        "Diarrhoea",
+        "Abdominal pain",
+        "Nausea"
+      ],
+      "precautions": [
+        "Use caution with penicillin allergy",
+        "Dose adjustment in kidney disease",
+        "Complete the full course"
+      ]
+    },
+    {
+      "name": "Ciprofloxacin",
+      "drug_class": "Fluoroquinolone antibiotic",
+      "indications": [
+        "Urinary tract infections",
+        "Gastrointestinal infections",
+        "Bone and joint infections"
+      ],
+      "dosage_forms": [
+        "tablet"
+      ],
+      "side_effects": [
+        "Nausea",
+        "Diarrhoea",
+        "Dizziness",
+        "Tendon pain"
+      ],
+      "precautions": [
+        "Risk of tendon rupture",
+        "Avoid taking with antacids, iron or dairy at the same time",
+        "Not routinely used in children"
+      ]
+    },
+    {
+      "name": "Metronidazole",
+      "drug_class": "Nitroimidazole antimicrobial",
+      "indications": [
+        "Amoebic dysentery",
+        "Giardiasis",
+        "Anaerobic bacterial infections",
+        "Bacterial vaginosis"
+      ],
+      "dosage_forms": [
+        "tablet"
+      ],
+      "side_effects": [
+        "Metallic taste",
+        "Nausea",
+        "Headache",
+        "Dark urine"
+      ],
+      "precautions": [
+        "Avoid alcohol during treatment and for 48 hours after",
+        "Use caution in liver disease"
+      ]
+    },
+    {
+      "name": "Metformin",
+      "drug_class": "Biguanide antidiabetic",
+      "indications": [
+        "Type 2 diabetes mellitus"
+      ],
+      "dosage_forms": [
+        "tablet"
+      ],
+      "side_effects": [
+        "Nausea",
+        "Diarrhoea",
+        "Abdominal discomfort",
+        "Metallic taste"
+      ],
+      "precautions": [
+        "Take with meals",
+        "Not for use in severe kidney disease",
+        "Stop before iodinated contrast procedures if advised"
+      ]
+    },
+    {
+      "name": "Gliclazide",
+      "drug_class": "Sulfonylurea antidiabetic",
+      "indications": [
+        "Type 2 diabetes mellitus"
+      ],
+      "dosage_forms": [
+        "tablet"
+      ],
+      "side_effects": [
+        "Low blood sugar",
+        "Weight gain",
+        "Stomach upset"
+      ],
+      "precautions": [
+        "Do not skip meals",
+        "Use caution in elderly and kidney or liver disease"
+      ]
+    },
+    {
+      "name": "Amlodipine",
+      "drug_class": "Calcium channel blocker",
+      "indications": [
+        "Hypertension",
+        "Angina"
+      ],
+      "dosage_forms": [
+        "tablet"
+      ],
+      "side_effects": [
+        "Ankle swelling",
+        "Flushing",
+        "Headache",
+        "Dizziness"
+      ],
+      "precautions": [
+        "Use caution in severe liver disease",
+        "Do not stop suddenly without advice"
+      ]
+    },
+    {
+      "name": "Losartan",
+      "drug_class": "Angiotensin II receptor blocker",
+      "indications": [
+        "Hypertension",
+        "Diabetic kidney disease"
+      ],
+      "dosage_forms": [
+        "tablet"
+      ],
+      "side_effects": [
+        "Dizziness",
+        "High potassium",
+        "Tiredness"
+      ],
+      "precautions": [
+        "Do not use in pregnancy",
+        "Kidney function and potassium should be monitored"
+      ]
+    },
+    {
+      "name": "Atorvastatin",
+      "drug_class": "HMG-CoA reductase inhibitor (statin)",
+      "indications": [
+        "High cholesterol",
+        "Prevention of cardiovascular disease"
+      ],
+      "dosage_forms": [
+        "tablet"
+      ],
+      "side_effects": [
+        "Muscle pain",
+        "Headache",
+        "Digestive upset"
+      ],
+      "precautions": [
+        "Report unexplained muscle pain or weakness",
+        "Do not use in pregnancy",
+        "Use caution in liver disease"
+      ]
+    },
+    {
+      "name": "Clopidogrel",
+      "drug_class": "Antiplatelet agent (P2Y12 inhibitor)",
+      "indications": [
+        "Prevention of heart attack and stroke",
+        "After coronary stent placement"
+      ],
+      "dosage_forms": [
+        "tablet"
+      ],
+      "side_effects": [
+        "Bleeding",
+        "Bruising",
+        "Stomach upset"
+      ],
+      "precautions": [
+        "Inform doctor before surgery or dental work",
+        "Do not stop without advice after a stent"
+      ]
+    },
+    {
+      "name": "Warfarin",
+      "drug_class": "Vitamin K antagonist anticoagulant",
+      "indications": [
+        "Prevention of blood clots",
+        "Atrial fibrillation",
+        "Deep vein thrombosis",
+        "Pulmonary embolism"
+      ],
+      "dosage_forms": [
+        "tablet"
+      ],
+      "side_effects": [
+        "Bleeding",
+        "Bruising"
+      ],
+      "precautions": [
+        "Needs regular INR monitoring",
+        "Many medicine and food interactions",
+        "Do not use in pregnancy"
+      ]
+    },
+    {
+      "name": "Montelukast",
+      "drug_class": "Leukotriene receptor antagonist",
+      "indications": [
+        "Asthma (maintenance)",
+        "Allergic rhinitis"
+      ],
+      "dosage_forms": [
+        "tablet"
+      ],
+      "side_effects": [
+        "Headache",
+        "Abdominal pain",
+        "Mood or sleep changes"
+      ],
+      "precautions": [
+        "Not for relief of an acute asthma attack",
+        "Report mood or behaviour changes"
+      ]
+    },
+    {
+      "name": "Cetirizine",
+      "drug_class": "Second-generation antihistamine",
+      "indications": [
+        "Allergic rhinitis",
+        "Urticaria",
+        "Itching"
+      ],
+      "dosage_forms": [
+        "tablet"
+      ],
+      "side_effects": [
+        "Drowsiness",
+        "Dry mouth",
+        "Headache"
+      ],
+      "precautions": [
+        "May cause drowsiness; use caution when driving",
+        "Dose adjustment in kidney disease"
+      ]
+    }
+  ]
+}

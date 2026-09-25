@@ -1,0 +1,693 @@
+{
+  "meta": {
+    "dataset": "brands",
+    "source": "SAMPLE",
+    "is_sample": true,
+    "sample_fields": [
+      "price_per_unit"
+    ],
+    "note": "SAMPLE DATA for development and demo only. Not official DGDA data. All numeric values (price_per_unit) are illustrative and must not be used for real decisions."
+  },
+  "records": [
+    {
+      "name": "Pyrolin",
+      "generic": "Paracetamol",
+      "manufacturer": "Square Pharmaceuticals PLC",
+      "strength": "500 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 1.2
+    },
+    {
+      "name": "Fevonil",
+      "generic": "Paracetamol",
+      "manufacturer": "Beximco Pharmaceuticals Ltd",
+      "strength": "500 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 1.2
+    },
+    {
+      "name": "Tempex",
+      "generic": "Paracetamol",
+      "manufacturer": "Incepta Pharmaceuticals Ltd",
+      "strength": "500 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 1.1
+    },
+    {
+      "name": "Opamol",
+      "generic": "Paracetamol",
+      "manufacturer": "Opsonin Pharma Ltd",
+      "strength": "500 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 0.9
+    },
+    {
+      "name": "Dimol",
+      "generic": "Paracetamol",
+      "manufacturer": "Drug International Ltd",
+      "strength": "500 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 0.85
+    },
+    {
+      "name": "Pyrolin",
+      "generic": "Paracetamol",
+      "manufacturer": "Square Pharmaceuticals PLC",
+      "strength": "120 mg/5 ml",
+      "dosage_form": "suspension",
+      "price_per_unit": 40.0
+    },
+    {
+      "name": "Fevonil",
+      "generic": "Paracetamol",
+      "manufacturer": "Beximco Pharmaceuticals Ltd",
+      "strength": "120 mg/5 ml",
+      "dosage_form": "suspension",
+      "price_per_unit": 38.0
+    },
+    {
+      "name": "Profenix",
+      "generic": "Ibuprofen",
+      "manufacturer": "Square Pharmaceuticals PLC",
+      "strength": "400 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 2.5
+    },
+    {
+      "name": "Inflarex",
+      "generic": "Ibuprofen",
+      "manufacturer": "Incepta Pharmaceuticals Ltd",
+      "strength": "400 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 2.4
+    },
+    {
+      "name": "Ibulon",
+      "generic": "Ibuprofen",
+      "manufacturer": "ACI Limited",
+      "strength": "400 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 2.0
+    },
+    {
+      "name": "Aristoprofen",
+      "generic": "Ibuprofen",
+      "manufacturer": "Aristopharma Ltd",
+      "strength": "400 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 1.8
+    },
+    {
+      "name": "Cardiprin",
+      "generic": "Aspirin",
+      "manufacturer": "Square Pharmaceuticals PLC",
+      "strength": "75 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 0.8
+    },
+    {
+      "name": "Plateva",
+      "generic": "Aspirin",
+      "manufacturer": "Renata PLC",
+      "strength": "75 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 0.75
+    },
+    {
+      "name": "Opsoprin",
+      "generic": "Aspirin",
+      "manufacturer": "Opsonin Pharma Ltd",
+      "strength": "75 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 0.5
+    },
+    {
+      "name": "Omezol",
+      "generic": "Omeprazole",
+      "manufacturer": "Square Pharmaceuticals PLC",
+      "strength": "20 mg",
+      "dosage_form": "capsule",
+      "price_per_unit": 6.0
+    },
+    {
+      "name": "Gastrocap",
+      "generic": "Omeprazole",
+      "manufacturer": "Eskayef Pharmaceuticals Ltd",
+      "strength": "20 mg",
+      "dosage_form": "capsule",
+      "price_per_unit": 5.5
+    },
+    {
+      "name": "Acidex",
+      "generic": "Omeprazole",
+      "manufacturer": "Beximco Pharmaceuticals Ltd",
+      "strength": "20 mg",
+      "dosage_form": "capsule",
+      "price_per_unit": 5.5
+    },
+    {
+      "name": "Ulsecap",
+      "generic": "Omeprazole",
+      "manufacturer": "Healthcare Pharmaceuticals Ltd",
+      "strength": "20 mg",
+      "dosage_form": "capsule",
+      "price_per_unit": 5.0
+    },
+    {
+      "name": "Omidil",
+      "generic": "Omeprazole",
+      "manufacturer": "Drug International Ltd",
+      "strength": "20 mg",
+      "dosage_form": "capsule",
+      "price_per_unit": 4.0
+    },
+    {
+      "name": "Esoprex",
+      "generic": "Esomeprazole",
+      "manufacturer": "Square Pharmaceuticals PLC",
+      "strength": "20 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 7.0
+    },
+    {
+      "name": "Nexocid",
+      "generic": "Esomeprazole",
+      "manufacturer": "Renata PLC",
+      "strength": "20 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 7.0
+    },
+    {
+      "name": "Gastrosafe",
+      "generic": "Esomeprazole",
+      "manufacturer": "Healthcare Pharmaceuticals Ltd",
+      "strength": "20 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 7.0
+    },
+    {
+      "name": "Esoprex",
+      "generic": "Esomeprazole",
+      "manufacturer": "Square Pharmaceuticals PLC",
+      "strength": "40 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 11.0
+    },
+    {
+      "name": "Nexocid",
+      "generic": "Esomeprazole",
+      "manufacturer": "Renata PLC",
+      "strength": "40 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 11.0
+    },
+    {
+      "name": "Pantorex",
+      "generic": "Pantoprazole",
+      "manufacturer": "Incepta Pharmaceuticals Ltd",
+      "strength": "40 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 8.0
+    },
+    {
+      "name": "Pantocid",
+      "generic": "Pantoprazole",
+      "manufacturer": "Square Pharmaceuticals PLC",
+      "strength": "40 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 8.0
+    },
+    {
+      "name": "Panzol",
+      "generic": "Pantoprazole",
+      "manufacturer": "Eskayef Pharmaceuticals Ltd",
+      "strength": "40 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 7.5
+    },
+    {
+      "name": "Aristopan",
+      "generic": "Pantoprazole",
+      "manufacturer": "Aristopharma Ltd",
+      "strength": "40 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 6.0
+    },
+    {
+      "name": "Moxacil",
+      "generic": "Amoxicillin",
+      "manufacturer": "Square Pharmaceuticals PLC",
+      "strength": "500 mg",
+      "dosage_form": "capsule",
+      "price_per_unit": 7.0
+    },
+    {
+      "name": "Amoxibex",
+      "generic": "Amoxicillin",
+      "manufacturer": "Beximco Pharmaceuticals Ltd",
+      "strength": "500 mg",
+      "dosage_form": "capsule",
+      "price_per_unit": 6.5
+    },
+    {
+      "name": "Amoxin",
+      "generic": "Amoxicillin",
+      "manufacturer": "ACI Limited",
+      "strength": "500 mg",
+      "dosage_form": "capsule",
+      "price_per_unit": 6.0
+    },
+    {
+      "name": "Opsomox",
+      "generic": "Amoxicillin",
+      "manufacturer": "Opsonin Pharma Ltd",
+      "strength": "500 mg",
+      "dosage_form": "capsule",
+      "price_per_unit": 5.0
+    },
+    {
+      "name": "Moxacil",
+      "generic": "Amoxicillin",
+      "manufacturer": "Square Pharmaceuticals PLC",
+      "strength": "125 mg/5 ml",
+      "dosage_form": "suspension",
+      "price_per_unit": 75.0
+    },
+    {
+      "name": "Amoxibex",
+      "generic": "Amoxicillin",
+      "manufacturer": "Beximco Pharmaceuticals Ltd",
+      "strength": "125 mg/5 ml",
+      "dosage_form": "suspension",
+      "price_per_unit": 70.0
+    },
+    {
+      "name": "Zithrox",
+      "generic": "Azithromycin",
+      "manufacturer": "Square Pharmaceuticals PLC",
+      "strength": "500 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 40.0
+    },
+    {
+      "name": "Azimed",
+      "generic": "Azithromycin",
+      "manufacturer": "Beximco Pharmaceuticals Ltd",
+      "strength": "500 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 40.0
+    },
+    {
+      "name": "Azicin",
+      "generic": "Azithromycin",
+      "manufacturer": "Incepta Pharmaceuticals Ltd",
+      "strength": "500 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 38.0
+    },
+    {
+      "name": "Azidil",
+      "generic": "Azithromycin",
+      "manufacturer": "Drug International Ltd",
+      "strength": "500 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 30.0
+    },
+    {
+      "name": "Cefitrex",
+      "generic": "Cefixime",
+      "manufacturer": "Square Pharmaceuticals PLC",
+      "strength": "200 mg",
+      "dosage_form": "capsule",
+      "price_per_unit": 35.0
+    },
+    {
+      "name": "Fixocef",
+      "generic": "Cefixime",
+      "manufacturer": "Incepta Pharmaceuticals Ltd",
+      "strength": "200 mg",
+      "dosage_form": "capsule",
+      "price_per_unit": 35.0
+    },
+    {
+      "name": "Cefiren",
+      "generic": "Cefixime",
+      "manufacturer": "Renata PLC",
+      "strength": "200 mg",
+      "dosage_form": "capsule",
+      "price_per_unit": 34.0
+    },
+    {
+      "name": "Aristocef",
+      "generic": "Cefixime",
+      "manufacturer": "Aristopharma Ltd",
+      "strength": "200 mg",
+      "dosage_form": "capsule",
+      "price_per_unit": 28.0
+    },
+    {
+      "name": "Ciprox",
+      "generic": "Ciprofloxacin",
+      "manufacturer": "Square Pharmaceuticals PLC",
+      "strength": "500 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 15.0
+    },
+    {
+      "name": "Ciprobex",
+      "generic": "Ciprofloxacin",
+      "manufacturer": "Beximco Pharmaceuticals Ltd",
+      "strength": "500 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 15.0
+    },
+    {
+      "name": "Quinocip",
+      "generic": "Ciprofloxacin",
+      "manufacturer": "ACI Limited",
+      "strength": "500 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 13.0
+    },
+    {
+      "name": "Opsocip",
+      "generic": "Ciprofloxacin",
+      "manufacturer": "Opsonin Pharma Ltd",
+      "strength": "500 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 12.0
+    },
+    {
+      "name": "Metrodaz",
+      "generic": "Metronidazole",
+      "manufacturer": "Square Pharmaceuticals PLC",
+      "strength": "400 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 2.0
+    },
+    {
+      "name": "Metrozen",
+      "generic": "Metronidazole",
+      "manufacturer": "ACI Limited",
+      "strength": "400 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 1.8
+    },
+    {
+      "name": "Protozol",
+      "generic": "Metronidazole",
+      "manufacturer": "Healthcare Pharmaceuticals Ltd",
+      "strength": "400 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 1.8
+    },
+    {
+      "name": "Metridil",
+      "generic": "Metronidazole",
+      "manufacturer": "Drug International Ltd",
+      "strength": "400 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 1.5
+    },
+    {
+      "name": "Metglu",
+      "generic": "Metformin",
+      "manufacturer": "Square Pharmaceuticals PLC",
+      "strength": "500 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 4.0
+    },
+    {
+      "name": "Diabetrol",
+      "generic": "Metformin",
+      "manufacturer": "Incepta Pharmaceuticals Ltd",
+      "strength": "500 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 4.0
+    },
+    {
+      "name": "Metforex",
+      "generic": "Metformin",
+      "manufacturer": "Renata PLC",
+      "strength": "500 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 3.8
+    },
+    {
+      "name": "Formet",
+      "generic": "Metformin",
+      "manufacturer": "Aristopharma Ltd",
+      "strength": "500 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 3.0
+    },
+    {
+      "name": "Metglu",
+      "generic": "Metformin",
+      "manufacturer": "Square Pharmaceuticals PLC",
+      "strength": "850 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 5.5
+    },
+    {
+      "name": "Diabetrol",
+      "generic": "Metformin",
+      "manufacturer": "Incepta Pharmaceuticals Ltd",
+      "strength": "850 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 5.5
+    },
+    {
+      "name": "Glicaron",
+      "generic": "Gliclazide",
+      "manufacturer": "Square Pharmaceuticals PLC",
+      "strength": "80 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 8.0
+    },
+    {
+      "name": "Diazide",
+      "generic": "Gliclazide",
+      "manufacturer": "Eskayef Pharmaceuticals Ltd",
+      "strength": "80 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 7.5
+    },
+    {
+      "name": "Glizen",
+      "generic": "Gliclazide",
+      "manufacturer": "Opsonin Pharma Ltd",
+      "strength": "80 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 6.0
+    },
+    {
+      "name": "Amlovas",
+      "generic": "Amlodipine",
+      "manufacturer": "Square Pharmaceuticals PLC",
+      "strength": "5 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 6.0
+    },
+    {
+      "name": "Amlocard",
+      "generic": "Amlodipine",
+      "manufacturer": "Beximco Pharmaceuticals Ltd",
+      "strength": "5 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 6.0
+    },
+    {
+      "name": "Vasodip",
+      "generic": "Amlodipine",
+      "manufacturer": "Healthcare Pharmaceuticals Ltd",
+      "strength": "5 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 5.5
+    },
+    {
+      "name": "Amlodil",
+      "generic": "Amlodipine",
+      "manufacturer": "Drug International Ltd",
+      "strength": "5 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 4.5
+    },
+    {
+      "name": "Losarex",
+      "generic": "Losartan",
+      "manufacturer": "Square Pharmaceuticals PLC",
+      "strength": "50 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 10.0
+    },
+    {
+      "name": "Angiotan",
+      "generic": "Losartan",
+      "manufacturer": "Incepta Pharmaceuticals Ltd",
+      "strength": "50 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 10.0
+    },
+    {
+      "name": "Cardotan",
+      "generic": "Losartan",
+      "manufacturer": "Renata PLC",
+      "strength": "50 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 9.5
+    },
+    {
+      "name": "Aristotan",
+      "generic": "Losartan",
+      "manufacturer": "Aristopharma Ltd",
+      "strength": "50 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 8.0
+    },
+    {
+      "name": "Cholvas",
+      "generic": "Atorvastatin",
+      "manufacturer": "Square Pharmaceuticals PLC",
+      "strength": "10 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 12.0
+    },
+    {
+      "name": "Atorin",
+      "generic": "Atorvastatin",
+      "manufacturer": "Incepta Pharmaceuticals Ltd",
+      "strength": "10 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 12.0
+    },
+    {
+      "name": "Statova",
+      "generic": "Atorvastatin",
+      "manufacturer": "Eskayef Pharmaceuticals Ltd",
+      "strength": "10 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 11.0
+    },
+    {
+      "name": "Cholvas",
+      "generic": "Atorvastatin",
+      "manufacturer": "Square Pharmaceuticals PLC",
+      "strength": "20 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 20.0
+    },
+    {
+      "name": "Atorin",
+      "generic": "Atorvastatin",
+      "manufacturer": "Incepta Pharmaceuticals Ltd",
+      "strength": "20 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 19.0
+    },
+    {
+      "name": "Clopivas",
+      "generic": "Clopidogrel",
+      "manufacturer": "Square Pharmaceuticals PLC",
+      "strength": "75 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 12.0
+    },
+    {
+      "name": "Clotrex",
+      "generic": "Clopidogrel",
+      "manufacturer": "Beximco Pharmaceuticals Ltd",
+      "strength": "75 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 12.0
+    },
+    {
+      "name": "Anclog",
+      "generic": "Clopidogrel",
+      "manufacturer": "Healthcare Pharmaceuticals Ltd",
+      "strength": "75 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 11.0
+    },
+    {
+      "name": "Warfex",
+      "generic": "Warfarin",
+      "manufacturer": "Square Pharmaceuticals PLC",
+      "strength": "5 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 6.0
+    },
+    {
+      "name": "Coumarex",
+      "generic": "Warfarin",
+      "manufacturer": "Renata PLC",
+      "strength": "5 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 5.5
+    },
+    {
+      "name": "Montiva",
+      "generic": "Montelukast",
+      "manufacturer": "Square Pharmaceuticals PLC",
+      "strength": "10 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 16.0
+    },
+    {
+      "name": "Lukast",
+      "generic": "Montelukast",
+      "manufacturer": "Beximco Pharmaceuticals Ltd",
+      "strength": "10 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 16.0
+    },
+    {
+      "name": "Asmalex",
+      "generic": "Montelukast",
+      "manufacturer": "Incepta Pharmaceuticals Ltd",
+      "strength": "10 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 15.0
+    },
+    {
+      "name": "Montidil",
+      "generic": "Montelukast",
+      "manufacturer": "Drug International Ltd",
+      "strength": "10 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 12.0
+    },
+    {
+      "name": "Allercet",
+      "generic": "Cetirizine",
+      "manufacturer": "Square Pharmaceuticals PLC",
+      "strength": "10 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 3.0
+    },
+    {
+      "name": "Cetirex",
+      "generic": "Cetirizine",
+      "manufacturer": "ACI Limited",
+      "strength": "10 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 2.5
+    },
+    {
+      "name": "Histacet",
+      "generic": "Cetirizine",
+      "manufacturer": "Opsonin Pharma Ltd",
+      "strength": "10 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 2.0
+    },
+    {
+      "name": "Aristocet",
+      "generic": "Cetirizine",
+      "manufacturer": "Aristopharma Ltd",
+      "strength": "10 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 2.0
+    }
+  ]
+}

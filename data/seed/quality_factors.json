@@ -1,0 +1,97 @@
+{
+  "meta": {
+    "dataset": "quality_factors",
+    "source": "SAMPLE",
+    "is_sample": true,
+    "sample_fields": [
+      "who_gmp",
+      "regulated_market_exports",
+      "compliance_score",
+      "recall_count",
+      "market_share"
+    ],
+    "note": "SAMPLE DATA for development and demo only. Not official DGDA data. All numeric values (who_gmp, regulated_market_exports, compliance_score, recall_count, market_share) are illustrative and must not be used for real decisions."
+  },
+  "records": [
+    {
+      "manufacturer": "Square Pharmaceuticals PLC",
+      "who_gmp": true,
+      "regulated_market_exports": 3,
+      "compliance_score": 92,
+      "recall_count": 0,
+      "market_share": 16.5
+    },
+    {
+      "manufacturer": "Incepta Pharmaceuticals Ltd",
+      "who_gmp": true,
+      "regulated_market_exports": 3,
+      "compliance_score": 90,
+      "recall_count": 1,
+      "market_share": 11.0
+    },
+    {
+      "manufacturer": "Beximco Pharmaceuticals Ltd",
+      "who_gmp": true,
+      "regulated_market_exports": 4,
+      "compliance_score": 91,
+      "recall_count": 1,
+      "market_share": 8.5
+    },
+    {
+      "manufacturer": "Renata PLC",
+      "who_gmp": true,
+      "regulated_market_exports": 2,
+      "compliance_score": 88,
+      "recall_count": 0,
+      "market_share": 5.2
+    },
+    {
+      "manufacturer": "Eskayef Pharmaceuticals Ltd",
+      "who_gmp": true,
+      "regulated_market_exports": 2,
+      "compliance_score": 87,
+      "recall_count": 1,
+      "market_share": 5.0
+    },
+    {
+      "manufacturer": "ACI Limited",
+      "who_gmp": true,
+      "regulated_market_exports": 1,
+      "compliance_score": 84,
+      "recall_count": 1,
+      "market_share": 4.1
+    },
+    {
+      "manufacturer": "Healthcare Pharmaceuticals Ltd",
+      "who_gmp": true,
+      "regulated_market_exports": 1,
+      "compliance_score": 85,
+      "recall_count": 0,
+      "market_share": 5.5
+    },
+    {
+      "manufacturer": "Opsonin Pharma Ltd",
+      "who_gmp": true,
+      "regulated_market_exports": 0,
+      "compliance_score": 78,
+      "recall_count": 2,
+      "market_share": 4.0
+    },
+    {
+      "manufacturer": "Aristopharma Ltd",
+      "who_gmp": false,
+      "regulated_market_exports": 0,
+      "compliance_score": 76,
+      "recall_count": 2,
+      "market_share": 3.8
+    },
+    {
+      "manufacturer": "Drug International Ltd",
+      "who_gmp": false,
+      "regulated_market_exports": 0,
+      "compliance_score": 74,
+      "recall_count": 3,
+      "market_share": 3.5
+    }
+  ]
+}
