@@ -128,6 +128,13 @@ export default async function GenericPage(props: PageProps<"/generics/[id]">) {
       </Section>
       <Section title="Interactions">
         <Interactions generic={generic} />
+        <Link
+          href={`/interactions?g=${generic.id}`}
+          className="inline-flex items-center gap-1 text-sm font-medium text-primary underline-offset-4 hover:underline"
+        >
+          Check {generic.name} with your other medicines
+          <ChevronRight aria-hidden className="size-4" />
+        </Link>
       </Section>
 
       <Disclaimer />

@@ -258,6 +258,48 @@
         }
       }
     },
+    "/api/interactions/check": {
+      "post": {
+        "tags": [
+          "interactions"
+        ],
+        "summary": "Check",
+        "description": "Recorded interactions between any of the given brands/generics, most severe first.\n\nAlso lists generics that were chosen through more than one brand (duplicate medicine).",
+        "operationId": "check_api_interactions_check_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InteractionCheckRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_InteractionCheckResponse_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/health": {
       "get": {
         "tags": [
@@ -344,6 +386,32 @@
         ],
         "title": "Body_read_prescription_api_prescription_post"
       },
+      "CheckedMedicine": {
+        "properties": {
+          "generic_id": {
+            "type": "integer",
+            "title": "Generic Id"
+          },
+          "generic_name": {
+            "type": "string",
+            "title": "Generic Name"
+          },
+          "brands": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Brands"
+          }
+        },
+        "type": "object",
+        "required": [
+          "generic_id",
+          "generic_name",
+          "brands"
+        ],
+        "title": "CheckedMedicine"
+      },
       "Envelope_AlternativesResponse_": {
         "properties": {
           "data": {
@@ -395,6 +463,32 @@
         },
         "type": "object",
         "title": "Envelope[GenericDetail]"
+      },
+      "Envelope_InteractionCheckResponse_": {
+        "properties": {
+          "data": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/InteractionCheckResponse"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorBody"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "Envelope[InteractionCheckResponse]"
       },
       "Envelope_PrescriptionResponse_": {
         "properties": {
@@ -612,6 +706,108 @@
         },
         "type": "object",
         "title": "HTTPValidationError"
+      },
+      "InteractionCheckRequest": {
+        "properties": {
+          "brand_ids": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "maxItems": 20,
+            "title": "Brand Ids",
+            "default": []
+          },
+          "generic_ids": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "maxItems": 20,
+            "title": "Generic Ids",
+            "default": []
+          }
+        },
+        "type": "object",
+        "title": "InteractionCheckRequest"
+      },
+      "InteractionCheckResponse": {
+        "properties": {
+          "medicines": {
+            "items": {
+              "$ref": "#/components/schemas/CheckedMedicine"
+            },
+            "type": "array",
+            "title": "Medicines"
+          },
+          "interactions": {
+            "items": {
+              "$ref": "#/components/schemas/InteractionOut"
+            },
+            "type": "array",
+            "title": "Interactions"
+          },
+          "duplicates": {
+            "items": {
+              "$ref": "#/components/schemas/CheckedMedicine"
+            },
+            "type": "array",
+            "title": "Duplicates"
+          },
+          "pairs_checked": {
+            "type": "integer",
+            "title": "Pairs Checked"
+          },
+          "note": {
+            "type": "string",
+            "title": "Note",
+            "default": "Only interactions recorded in our data are shown. No result does not mean it is safe to combine medicines."
+          },
+          "disclaimer": {
+            "type": "string",
+            "title": "Disclaimer",
+            "default": "Consult your doctor or pharmacist before changing any medicine."
+          }
+        },
+        "type": "object",
+        "required": [
+          "medicines",
+          "interactions",
+          "duplicates",
+          "pairs_checked"
+        ],
+        "title": "InteractionCheckResponse"
+      },
+      "InteractionOut": {
+        "properties": {
+          "generic_a": {
+            "$ref": "#/components/schemas/GenericRef"
+          },
+          "generic_b": {
+            "$ref": "#/components/schemas/GenericRef"
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "minor",
+              "moderate",
+              "major"
+            ],
+            "title": "Severity"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          }
+        },
+        "type": "object",
+        "required": [
+          "generic_a",
+          "generic_b",
+          "severity",
+          "description"
+        ],
+        "title": "InteractionOut"
       },
       "InteractionSummary": {
         "properties": {

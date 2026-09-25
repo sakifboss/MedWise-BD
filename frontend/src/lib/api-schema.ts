@@ -102,6 +102,28 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/interactions/check": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Check
+         * @description Recorded interactions between any of the given brands/generics, most severe first.
+         *
+         *     Also lists generics that were chosen through more than one brand (duplicate medicine).
+         */
+        post: operations["check_api_interactions_check_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/health": {
         parameters: {
             query?: never;
@@ -148,6 +170,15 @@ export interface components {
              */
             image: string;
         };
+        /** CheckedMedicine */
+        CheckedMedicine: {
+            /** Generic Id */
+            generic_id: number;
+            /** Generic Name */
+            generic_name: string;
+            /** Brands */
+            brands: string[];
+        };
         /** Envelope[AlternativesResponse] */
         Envelope_AlternativesResponse_: {
             data?: components["schemas"]["AlternativesResponse"] | null;
@@ -156,6 +187,11 @@ export interface components {
         /** Envelope[GenericDetail] */
         Envelope_GenericDetail_: {
             data?: components["schemas"]["GenericDetail"] | null;
+            error?: components["schemas"]["ErrorBody"] | null;
+        };
+        /** Envelope[InteractionCheckResponse] */
+        Envelope_InteractionCheckResponse_: {
+            data?: components["schemas"]["InteractionCheckResponse"] | null;
             error?: components["schemas"]["ErrorBody"] | null;
         };
         /** Envelope[PrescriptionResponse] */
@@ -219,6 +255,52 @@ export interface components {
         HTTPValidationError: {
             /** Detail */
             detail?: components["schemas"]["ValidationError"][];
+        };
+        /** InteractionCheckRequest */
+        InteractionCheckRequest: {
+            /**
+             * Brand Ids
+             * @default []
+             */
+            brand_ids: number[];
+            /**
+             * Generic Ids
+             * @default []
+             */
+            generic_ids: number[];
+        };
+        /** InteractionCheckResponse */
+        InteractionCheckResponse: {
+            /** Medicines */
+            medicines: components["schemas"]["CheckedMedicine"][];
+            /** Interactions */
+            interactions: components["schemas"]["InteractionOut"][];
+            /** Duplicates */
+            duplicates: components["schemas"]["CheckedMedicine"][];
+            /** Pairs Checked */
+            pairs_checked: number;
+            /**
+             * Note
+             * @default Only interactions recorded in our data are shown. No result does not mean it is safe to combine medicines.
+             */
+            note: string;
+            /**
+             * Disclaimer
+             * @default Consult your doctor or pharmacist before changing any medicine.
+             */
+            disclaimer: string;
+        };
+        /** InteractionOut */
+        InteractionOut: {
+            generic_a: components["schemas"]["GenericRef"];
+            generic_b: components["schemas"]["GenericRef"];
+            /**
+             * Severity
+             * @enum {string}
+             */
+            severity: "minor" | "moderate" | "major";
+            /** Description */
+            description: string;
         };
         /** InteractionSummary */
         InteractionSummary: {
@@ -546,6 +628,39 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Envelope_PrescriptionResponse_"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    check_api_interactions_check_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["InteractionCheckRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Envelope_InteractionCheckResponse_"];
                 };
             };
             /** @description Validation Error */

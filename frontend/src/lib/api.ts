@@ -13,6 +13,10 @@ export type Severity = InteractionSummary["severity"];
 export type PrescriptionResponse = Schemas["PrescriptionResponse"];
 export type PrescriptionItem = Schemas["PrescriptionItem"];
 export type MatchOption = Schemas["MatchOptionOut"];
+export type InteractionCheckRequest = Schemas["InteractionCheckRequest"];
+export type InteractionCheckResponse = Schemas["InteractionCheckResponse"];
+export type FoundInteraction = Schemas["InteractionOut"];
+export type CheckedMedicine = Schemas["CheckedMedicine"];
 
 type Envelope<T> = {
   data?: T | null;
@@ -83,6 +87,14 @@ export const api = {
   },
   alternatives(brandId: number) {
     return request<AlternativesResponse>(`/api/alternatives/${brandId}`);
+  },
+  checkInteractions(body: InteractionCheckRequest, signal?: AbortSignal) {
+    return request<InteractionCheckResponse>("/api/interactions/check", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+      signal,
+    });
   },
   readPrescription(image: Blob, filename: string) {
     const form = new FormData();

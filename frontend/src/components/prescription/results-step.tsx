@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import { Disclaimer } from "@/components/disclaimer";
+import { InteractionPanel } from "@/components/interactions/interaction-panel";
 import { optionKey, optionLabel } from "@/components/prescription/types";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -110,8 +111,18 @@ export function ResultsStep({
 }) {
   return (
     <div className="space-y-4">
-      <h2 className="text-xl font-semibold">Alternatives for your prescription</h2>
+      <h2 className="text-xl font-semibold">Your prescription</h2>
       <Disclaimer />
+      {selections.length >= 2 && (
+        <section className="space-y-2 rounded-xl border p-4">
+          <h3 className="font-semibold">Interactions between these medicines</h3>
+          <InteractionPanel
+            brandIds={selections.filter((o) => o.kind === "brand").map((o) => o.brand_id!)}
+            genericIds={selections.filter((o) => o.kind === "generic").map((o) => o.generic_id)}
+          />
+        </section>
+      )}
+      <h3 className="pt-2 text-lg font-semibold">Alternatives</h3>
       <ul className="space-y-3">
         {selections.map((option) => (
           <li key={optionKey(option)}>
