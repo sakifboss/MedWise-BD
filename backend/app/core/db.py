@@ -33,7 +33,14 @@ def make_engine(database_url: str) -> Engine:
         event.listen(engine, "connect", _enable_sqlite_foreign_keys)
         return engine
     # Serverless Postgres (Neon) drops idle connections; check before reuse.
-    return create_engine(url, pool_pre_ping=True, pool_recycle=300)
+    # prepare_threshold=None: no server-side prepared statements, which break behind
+    # a transaction-mode pooler such as Neon's PgBouncer endpoint.
+    return create_engine(
+        url,
+        pool_pre_ping=True,
+        pool_recycle=300,
+        connect_args={"prepare_threshold": None},
+    )
 
 
 engine = make_engine(get_settings().database_url)
