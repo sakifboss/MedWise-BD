@@ -1,11 +1,12 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, File, UploadFile
+from fastapi import APIRouter, Depends, File, Request, UploadFile
 from sqlalchemy.orm import Session
 
 from app.core.config import get_settings
 from app.core.db import get_db
 from app.core.errors import AppError
+from app.core.rate_limit import RateLimiter, client_key
 from app.schemas.common import Envelope
 from app.schemas.prescription import MatchOptionOut, PrescriptionItem, PrescriptionResponse
 from app.services.ocr import Extractor, GeminiExtractor
@@ -13,9 +14,25 @@ from app.services.prescription import PrescriptionMatch, match_prescription
 
 router = APIRouter(tags=["prescription"])
 
+HOUR, DAY = 3600, 86400
+per_client_limiter = RateLimiter(get_settings().prescription_limit_per_hour, HOUR)
+global_limiter = RateLimiter(get_settings().prescription_limit_per_day, DAY)
+
 
 def get_extractor() -> Extractor:
     return GeminiExtractor(get_settings())
+
+
+def enforce_rate_limit(request: Request) -> None:
+    # Per-client first, so a client that is already blocked doesn't use up everyone's quota.
+    if not per_client_limiter.allow(client_key(request)):
+        raise AppError(
+            429, "rate_limited", "Too many prescriptions from this device. Try again in an hour."
+        )
+    if not global_limiter.allow("all"):
+        raise AppError(
+            429, "ocr_busy", "Prescription reading has reached today's limit. Try tomorrow."
+        )
 
 
 def detect_image_type(data: bytes) -> str | None:
@@ -55,7 +72,11 @@ def _to_item(match: PrescriptionMatch) -> PrescriptionItem:
     )
 
 
-@router.post("/prescription", response_model=Envelope[PrescriptionResponse])
+@router.post(
+    "/prescription",
+    response_model=Envelope[PrescriptionResponse],
+    dependencies=[Depends(enforce_rate_limit)],
+)
 def read_prescription(
     image: Annotated[UploadFile, File(description="Photo of the prescription")],
     db: Annotated[Session, Depends(get_db)],

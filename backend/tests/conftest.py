@@ -1,3 +1,4 @@
+import os
 from collections.abc import Iterator
 from pathlib import Path
 
@@ -14,9 +15,16 @@ from scripts.import_data import run_import
 
 @pytest.fixture(scope="session")
 def seeded_engine(tmp_path_factory: pytest.TempPathFactory) -> Engine:
-    """A SQLite database loaded with the shipped seed data (read-only for tests)."""
-    db_path: Path = tmp_path_factory.mktemp("db") / "seeded.db"
-    engine = make_engine(f"sqlite:///{db_path.as_posix()}")
+    """A database loaded with the shipped seed data (read-only for tests).
+
+    SQLite by default; set TEST_DATABASE_URL to run the API tests against Postgres.
+    Its data is replaced, so never point it at a real database.
+    """
+    url = os.environ.get("TEST_DATABASE_URL")
+    if not url:
+        db_path: Path = tmp_path_factory.mktemp("db") / "seeded.db"
+        url = f"sqlite:///{db_path.as_posix()}"
+    engine = make_engine(url)
     result = run_import(get_settings().seed_dir, engine)
     assert result.ok, result.errors
     return engine
@@ -40,3 +48,12 @@ def client(seeded_engine: Engine) -> Iterator[TestClient]:
 def no_real_gemini(monkeypatch: pytest.MonkeyPatch) -> None:
     """Tests must never call the real Gemini API, even if backend/.env has a key."""
     monkeypatch.setattr(get_settings(), "gemini_api_key", "")
+
+
+@pytest.fixture(autouse=True)
+def reset_rate_limits() -> None:
+    """Rate limiters are module-level; start every test with a clean slate."""
+    from app.api import prescription
+
+    prescription.per_client_limiter.reset()
+    prescription.global_limiter.reset()

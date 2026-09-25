@@ -18,13 +18,22 @@ def _enable_sqlite_foreign_keys(dbapi_connection: Any, _record: Any) -> None:
     cursor.close()
 
 
+def normalize_database_url(url: str) -> str:
+    """Hosts like Neon give 'postgresql://...'; name the installed psycopg 3 driver explicitly."""
+    for prefix in ("postgres://", "postgresql://"):
+        if url.startswith(prefix):
+            return "postgresql+psycopg://" + url.removeprefix(prefix)
+    return url
+
+
 def make_engine(database_url: str) -> Engine:
-    is_sqlite = database_url.startswith("sqlite")
-    connect_args = {"check_same_thread": False} if is_sqlite else {}
-    engine = create_engine(database_url, connect_args=connect_args)
-    if is_sqlite:
+    url = normalize_database_url(database_url)
+    if url.startswith("sqlite"):
+        engine = create_engine(url, connect_args={"check_same_thread": False})
         event.listen(engine, "connect", _enable_sqlite_foreign_keys)
-    return engine
+        return engine
+    # Serverless Postgres (Neon) drops idle connections; check before reuse.
+    return create_engine(url, pool_pre_ping=True, pool_recycle=300)
 
 
 engine = make_engine(get_settings().database_url)

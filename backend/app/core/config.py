@@ -17,6 +17,9 @@ class Settings(BaseSettings):
     gemini_fallback_models: str = "gemini-3.6-flash,gemini-3.5-flash"
     gemini_timeout_seconds: float = 45.0
     max_upload_mb: float = 8.0
+    # Protects the Gemini quota: per client per hour, and for everyone per day.
+    prescription_limit_per_hour: int = 10
+    prescription_limit_per_day: int = 300
     cors_origins: str = "http://localhost:3000"
     seed_dir: Path = REPO_DIR / "data" / "seed"
 
