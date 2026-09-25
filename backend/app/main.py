@@ -9,7 +9,7 @@ from sqlalchemy import text
 from sqlalchemy.orm import Session
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
-from app.api import alternatives, generics, prescription, search
+from app.api import alternatives, generics, interactions, prescription, search
 from app.core.config import get_settings
 from app.core.db import get_db
 from app.core.errors import AppError
@@ -60,7 +60,7 @@ def create_app() -> FastAPI:
     app.add_exception_handler(RequestValidationError, _validation_error)  # type: ignore[arg-type]
     app.add_exception_handler(Exception, _unhandled_error)
 
-    for module in (search, generics, alternatives, prescription):
+    for module in (search, generics, alternatives, prescription, interactions):
         app.include_router(module.router, prefix="/api")
 
     @app.get("/api/health", response_model=Envelope[dict[str, str]], tags=["health"])
