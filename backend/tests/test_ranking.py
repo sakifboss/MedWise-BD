@@ -1,11 +1,12 @@
 """Unit tests for app/services/ranking.py.
 
 Hand-worked example (bounds come from manufacturers A, B, C):
-    A: best on every factor           -> C=1, E=1,   R=1,   H=0,   M=1   -> Q = 1.00
-    B: worst on every factor          -> C=0, E=0,   R=0,   H=1,   M=0   -> Q = 0.00
-    C: WHO-GMP, midway on the rest    -> C=1, E=0.5, R=0.5, H=0.5, M=0.5 -> Q = 0.65
-    Prices A=10, B=5, C=7.5           -> P_A=0, P_B=1, P_C=0.5
-    Final = 100*(0.8Q + 0.2P)         -> A=80, C=62, B=20
+    A: all 4 regulators, best on the rest -> C=1,   E=1,   R=1,   H=0,   M=1   -> Q = 1.00
+    B: no approvals, worst on the rest    -> C=0,   E=0,   R=0,   H=1,   M=0   -> Q = 0.00
+    C: 2 of 4 regulators, midway          -> C=0.5, E=0.5, R=0.5, H=0.5, M=0.5 -> Q = 0.50
+    Prices A=10, B=5, C=7.5               -> P_A=0, P_B=1, P_C=0.5
+    Final = 100*(0.8Q + 0.2P)             -> A=80, C=50, B=20
+R is the absolute compliance score / 100 (A=100, B=0, C=50).
 """
 
 from dataclasses import replace
@@ -26,9 +27,10 @@ from app.services.ranking import (
     rank_brands,
 )
 
-A = ManufacturerFactors(1, "Alpha", True, 10, 4, 90, 0, 20, 50)
-B = ManufacturerFactors(2, "Beta", False, 0, 0, 70, 4, 0, 10)
-C = ManufacturerFactors(3, "Gamma", True, 5, 2, 80, 2, 10, 30)
+ALL_FOUR = ("US FDA", "UK MHRA", "EU GMP", "TGA Australia")
+A = ManufacturerFactors(1, "Alpha", ALL_FOUR, 10, 4, 100, 0, 20, 50)
+B = ManufacturerFactors(2, "Beta", (), 0, 0, 0, 4, 0, 10)
+C = ManufacturerFactors(3, "Gamma", ("US FDA", "UK MHRA"), 5, 2, 50, 2, 10, 30)
 BOUNDS = compute_bounds([A, B, C])
 
 
@@ -99,14 +101,14 @@ def test_compute_bounds_requires_manufacturers() -> None:
 
 def test_quality_components_hand_example() -> None:
     c = quality_components(C, BOUNDS)
-    assert c.certification == 1.0
+    assert c.certification == pytest.approx(0.5)
     assert c.export == pytest.approx(0.5)
     assert c.compliance == pytest.approx(0.5)
     assert c.recall_history == pytest.approx(0.5)
     assert c.market == pytest.approx(0.5)
 
 
-@pytest.mark.parametrize(("m", "expected"), [(A, 1.0), (B, 0.0), (C, 0.65)])
+@pytest.mark.parametrize(("m", "expected"), [(A, 1.0), (B, 0.0), (C, 0.5)])
 def test_quality_score_hand_example(m: ManufacturerFactors, expected: float) -> None:
     assert quality_score(quality_components(m, BOUNDS)) == pytest.approx(expected)
 
@@ -126,7 +128,7 @@ def test_price_score_is_one_when_all_prices_equal() -> None:
 
 
 def test_final_score() -> None:
-    assert final_score(0.65, 0.5) == pytest.approx(62.0)
+    assert final_score(0.5, 0.5) == pytest.approx(50.0)
     assert final_score(1.0, 1.0) == pytest.approx(100.0)
     assert final_score(0.0, 0.0) == 0.0
 
@@ -138,7 +140,7 @@ def test_rank_brands_hand_example() -> None:
     ranked = rank_brands(GROUP, BOUNDS)
     assert [r.candidate.brand_id for r in ranked] == [1, 3, 2]
     assert [r.rank for r in ranked] == [1, 2, 3]
-    assert [r.final_score for r in ranked] == pytest.approx([80.0, 62.0, 20.0])
+    assert [r.final_score for r in ranked] == pytest.approx([80.0, 50.0, 20.0])
     assert [r.price_score for r in ranked] == pytest.approx([0.0, 0.5, 1.0])
 
 
@@ -150,9 +152,9 @@ def test_quality_outweighs_price() -> None:
 
 def test_quality_does_not_depend_on_group() -> None:
     alone = rank_brands([brand(3, C, "7.50")], BOUNDS)[0]
-    assert alone.quality_score == pytest.approx(0.65)
+    assert alone.quality_score == pytest.approx(0.5)
     assert alone.price_score == 1.0  # only brand -> all prices equal
-    assert alone.final_score == pytest.approx(100 * (0.8 * 0.65 + 0.2))
+    assert alone.final_score == pytest.approx(100 * (0.8 * 0.5 + 0.2))
 
 
 def test_ties_go_to_cheaper_then_name() -> None:
@@ -186,9 +188,9 @@ def test_rejects_brands_that_are_not_comparable(odd_one: dict) -> None:
 
 def test_reasons_for_strong_manufacturer() -> None:
     reasons = rank_brands(GROUP, BOUNDS)[0].reasons
-    assert "WHO-GMP certified" in reasons
+    assert "Has plant(s) approved by US FDA, UK MHRA, EU GMP, TGA Australia" in reasons
     assert "Exports to 10 countries, including 4 regulated markets" in reasons
-    assert "Compliance score 90/100" in reasons
+    assert "Compliance score 100/100" in reasons
     assert "No recall on record" in reasons
     assert "20% market share, 50 years in operation" in reasons
     assert "Tk 10.00/unit, 100% more than the cheapest" in reasons
@@ -196,7 +198,7 @@ def test_reasons_for_strong_manufacturer() -> None:
 
 def test_reasons_for_weak_manufacturer() -> None:
     reasons = rank_brands(GROUP, BOUNDS)[-1].reasons
-    assert "Not WHO-GMP certified" in reasons
+    assert "No US FDA, UK MHRA, EU GMP or TGA plant approval found" in reasons
     assert "No export record" in reasons
     assert "4 recalls on record" in reasons
     assert "Lowest price in this group (Tk 5.00/unit)" in reasons
@@ -210,3 +212,44 @@ def test_reasons_use_singular_forms() -> None:
     assert "Exports to 1 country, including 1 regulated market" in reasons
     assert "1 recall on record" in reasons
     assert "Same price as all alternatives (Tk 3.00/unit)" in reasons
+
+
+# ---------------------------------------------------------------- real-data edge cases
+
+
+def test_certification_counts_each_regulator_once_and_ignores_unknown() -> None:
+    m = replace(C, stringent_approvals=("US FDA", "US FDA", "WHO-GMP"))
+    assert quality_components(m, BOUNDS).certification == pytest.approx(0.25)
+
+
+def test_certification_reason_uses_canonical_order() -> None:
+    m = replace(C, stringent_approvals=("TGA Australia", "US FDA"))
+    reasons = rank_brands([brand(1, m, "1.00")], BOUNDS)[0].reasons
+    assert "Has plant(s) approved by US FDA, TGA Australia" in reasons
+
+
+def test_unknown_market_share_scores_as_zero_and_is_explained() -> None:
+    unknown = replace(C, market_share=None)
+    assert quality_components(unknown, BOUNDS).market == pytest.approx(
+        0.5 * 0.0 + 0.5 * normalize(30, *BOUNDS["years_active"])
+    )
+    reasons = rank_brands([brand(1, unknown, "1.00")], BOUNDS)[0].reasons
+    assert "30 years in operation (market share not available)" in reasons
+
+
+def test_bounds_handle_unknown_market_share() -> None:
+    bounds = compute_bounds([A, replace(B, market_share=None)])
+    assert bounds["market_share"] == (0.0, 20.0)
+
+
+def test_missing_recall_data_is_explained_not_claimed_clean() -> None:
+    m = replace(A, recall_data_available=False)
+    reasons = rank_brands([brand(1, m, "1.00")], BOUNDS)[0].reasons
+    assert "Recall history not available" in reasons
+    assert "No recall on record" not in reasons
+
+
+def test_compliance_is_absolute_not_relative() -> None:
+    # One company at 85 among companies at 100 keeps 0.85, not 0.
+    m = replace(A, compliance_score=85)
+    assert quality_components(m, BOUNDS).compliance == pytest.approx(0.85)

@@ -255,11 +255,14 @@ def _insert_manufacturers(session: Session, data: SeedData) -> dict[str, int]:
                 name=m.name,
                 years_active=m.years_active,
                 export_countries=m.export_countries,
-                who_gmp=q.who_gmp,
+                export_country_count=m.export_country_count,
+                stringent_approvals=q.stringent_approvals,
                 regulated_market_exports=q.regulated_market_exports,
                 compliance_score=q.compliance_score,
                 recall_count=q.recall_count,
+                recall_data_available=q.recall_data_available,
                 market_share=q.market_share,
+                source_urls=q.source_urls,
             )
         )
     session.add_all(rows)
@@ -285,6 +288,7 @@ def _insert_brands(
             strength=b.strength,
             dosage_form=b.dosage_form,
             price_per_unit=b.price_per_unit,
+            source_url=b.source_url,
         )
         for b in data.brands
     )
@@ -301,7 +305,13 @@ def _insert_interactions(session: Session, data: SeedData, generic_ids: dict[str
 
 
 def write_database(engine: Engine, data: SeedData) -> None:
-    """Replace all medicine data in one transaction."""
+    """Replace all medicine data in one transaction.
+
+    The tables are dropped and recreated first: they hold only data derived from the
+    seed files, and recreating them keeps an existing database in step with the models
+    after a column change.
+    """
+    Base.metadata.drop_all(engine)
     Base.metadata.create_all(engine)
     with Session(engine) as session, session.begin():
         _clear_tables(session)

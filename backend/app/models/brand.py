@@ -23,6 +23,7 @@ class Brand(Base):
     strength: Mapped[str] = mapped_column(String(50))
     dosage_form: Mapped[str] = mapped_column(String(50))
     price_per_unit: Mapped[Decimal] = mapped_column(Numeric(10, 2))
+    source_url: Mapped[str | None] = mapped_column(String(500), nullable=True)
 
     generic: Mapped[Generic] = relationship(back_populates="brands")
     manufacturer: Mapped[Manufacturer] = relationship(back_populates="brands")

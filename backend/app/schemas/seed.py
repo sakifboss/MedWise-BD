@@ -62,19 +62,46 @@ class SeedMeta(_SeedRow):
     note: str | None = None
 
 
+StringentRegulator = Literal["US FDA", "UK MHRA", "EU GMP", "TGA Australia"]
+STRINGENT_REGULATORS: tuple[str, ...] = ("US FDA", "UK MHRA", "EU GMP", "TGA Australia")
+
+
+def _unique_regulators(values: list[str]) -> list[str]:
+    """Deduplicate and keep the canonical order of STRINGENT_REGULATORS."""
+    return [r for r in STRINGENT_REGULATORS if r in set(values)]
+
+
+RegulatorList = Annotated[list[StringentRegulator], AfterValidator(_unique_regulators)]
+
+UrlStr = Annotated[str, StringConstraints(strip_whitespace=True, pattern=r"^https?://\S+$")]
+UrlList = Annotated[list[UrlStr], AfterValidator(_unique_nonempty)]
+
+
 class ManufacturerSeed(_SeedRow):
     name: NonEmptyStr
     years_active: int = Field(ge=0, le=200)
     export_countries: TextList = []
+    export_country_count: int | None = Field(
+        default=None,
+        ge=0,
+        description="Number of export countries when names are not known (overrides list length)",
+    )
 
 
 class QualityFactorSeed(_SeedRow):
     manufacturer: NonEmptyStr
-    who_gmp: bool
+    stringent_approvals: RegulatorList = Field(
+        default=[],
+        description="Regulators that approved at least one of the company's plants",
+    )
     regulated_market_exports: int = Field(ge=0, description="Number of regulated markets")
     compliance_score: float = Field(ge=0, le=100)
     recall_count: int = Field(ge=0)
-    market_share: float = Field(ge=0, le=100, description="Percent of national market")
+    recall_data_available: bool = True
+    market_share: float | None = Field(
+        default=None, ge=0, le=100, description="Percent of national market; null if unknown"
+    )
+    source_urls: UrlList = []
 
 
 class GenericSeed(_SeedRow):
@@ -93,6 +120,7 @@ class BrandSeed(_SeedRow):
     strength: StrengthStr
     dosage_form: DosageFormStr
     price_per_unit: Decimal = Field(gt=0, max_digits=10, decimal_places=2)
+    source_url: UrlStr | None = Field(default=None, description="Where the price was taken from")
 
 
 class InteractionSeed(_SeedRow):

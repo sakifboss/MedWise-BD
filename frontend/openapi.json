@@ -852,16 +852,27 @@
             "type": "string",
             "title": "Name"
           },
-          "who_gmp": {
-            "type": "boolean",
-            "title": "Who Gmp"
+          "stringent_approvals": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Stringent Approvals"
+          },
+          "source_urls": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Source Urls"
           }
         },
         "type": "object",
         "required": [
           "id",
           "name",
-          "who_gmp"
+          "stringent_approvals",
+          "source_urls"
         ],
         "title": "ManufacturerSummary"
       },

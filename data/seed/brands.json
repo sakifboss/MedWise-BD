@@ -44,7 +44,7 @@
     {
       "name": "Dimol",
       "generic": "Paracetamol",
-      "manufacturer": "Drug International Ltd",
+      "manufacturer": "The ACME Laboratories Ltd",
       "strength": "500 mg",
       "dosage_form": "tablet",
       "price_per_unit": 0.85
@@ -156,7 +156,7 @@
     {
       "name": "Omidil",
       "generic": "Omeprazole",
-      "manufacturer": "Drug International Ltd",
+      "manufacturer": "The ACME Laboratories Ltd",
       "strength": "20 mg",
       "dosage_form": "capsule",
       "price_per_unit": 4.0
@@ -308,7 +308,7 @@
     {
       "name": "Azidil",
       "generic": "Azithromycin",
-      "manufacturer": "Drug International Ltd",
+      "manufacturer": "The ACME Laboratories Ltd",
       "strength": "500 mg",
       "dosage_form": "tablet",
       "price_per_unit": 30.0
@@ -404,7 +404,7 @@
     {
       "name": "Metridil",
       "generic": "Metronidazole",
-      "manufacturer": "Drug International Ltd",
+      "manufacturer": "The ACME Laboratories Ltd",
       "strength": "400 mg",
       "dosage_form": "tablet",
       "price_per_unit": 1.5
@@ -508,7 +508,7 @@
     {
       "name": "Amlodil",
       "generic": "Amlodipine",
-      "manufacturer": "Drug International Ltd",
+      "manufacturer": "The ACME Laboratories Ltd",
       "strength": "5 mg",
       "dosage_form": "tablet",
       "price_per_unit": 4.5
@@ -652,7 +652,7 @@
     {
       "name": "Montidil",
       "generic": "Montelukast",
-      "manufacturer": "Drug International Ltd",
+      "manufacturer": "The ACME Laboratories Ltd",
       "strength": "10 mg",
       "dosage_form": "tablet",
       "price_per_unit": 12.0

@@ -322,8 +322,10 @@ export interface components {
             id: number;
             /** Name */
             name: string;
-            /** Who Gmp */
-            who_gmp: boolean;
+            /** Stringent Approvals */
+            stringent_approvals: string[];
+            /** Source Urls */
+            source_urls: string[];
         };
         /** MatchOptionOut */
         MatchOptionOut: {

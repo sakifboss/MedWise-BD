@@ -6,7 +6,7 @@ import { formatPrice } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
 const BREAKDOWN: { key: keyof RankedAlternative["quality_breakdown"]; label: string; inverted?: boolean }[] = [
-  { key: "certification", label: "WHO-GMP certification" },
+  { key: "certification", label: "Stringent regulator approvals" },
   { key: "export", label: "Export footprint" },
   { key: "compliance", label: "Compliance" },
   { key: "recall_history", label: "Recall history (lower is better)", inverted: true },
@@ -67,6 +67,34 @@ function ScoreDetails({ item }: { item: RankedAlternative }) {
   );
 }
 
+function hostname(url: string): string {
+  try {
+    return new URL(url).hostname.replace(/^www\./, "");
+  } catch {
+    return url;
+  }
+}
+
+function Sources({ urls }: { urls: string[] }) {
+  if (urls.length === 0) return null;
+  return (
+    <details className="rounded-lg border px-3 py-2 text-sm">
+      <summary className="cursor-pointer font-medium select-none">
+        Sources for manufacturer data ({urls.length})
+      </summary>
+      <ul className="mt-2 space-y-1">
+        {urls.map((url) => (
+          <li key={url} className="truncate">
+            <a href={url} target="_blank" rel="noopener noreferrer" className="text-primary underline underline-offset-2">
+              {hostname(url)}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </details>
+  );
+}
+
 function RankedCard({ item }: { item: RankedAlternative }) {
   return (
     <Card className={cn(item.is_selected && "ring-2 ring-primary")}>
@@ -86,6 +114,15 @@ function RankedCard({ item }: { item: RankedAlternative }) {
             {item.is_selected && <Badge>Your medicine</Badge>}
           </div>
           <p className="text-sm text-muted-foreground">{item.manufacturer.name}</p>
+          {item.manufacturer.stringent_approvals.length > 0 && (
+            <div className="mt-1 flex flex-wrap gap-1" aria-label="Plant approvals">
+              {item.manufacturer.stringent_approvals.map((regulator) => (
+                <Badge key={regulator} variant="secondary">
+                  {regulator}
+                </Badge>
+              ))}
+            </div>
+          )}
           <p className="mt-1 text-sm font-medium">{formatPrice(item.price_per_unit)} per unit</p>
         </div>
         <div className="text-right">
@@ -104,6 +141,7 @@ function RankedCard({ item }: { item: RankedAlternative }) {
           ))}
         </ul>
         <ScoreDetails item={item} />
+        <Sources urls={item.manufacturer.source_urls} />
       </CardContent>
     </Card>
   );

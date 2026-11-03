@@ -4,12 +4,15 @@
     P     = 1 - (price - min_price) / (max_price - min_price)    (P = 1 if all prices equal)
     Final = 100 * (0.8*Q + 0.2*P)
 
-C = certification (who_gmp), E = export footprint, R = compliance,
+C = certification: share of the four stringent regulators (US FDA, UK MHRA, EU GMP,
+    TGA Australia) that approved at least one of the manufacturer's plants
+E = export footprint, R = compliance (absolute 0-100 score / 100),
 H = normalised recall history, M = market trust.
 
-Quality factors are min-max normalised across ALL manufacturers, so a manufacturer's
-Q is stable no matter which brands are being compared. Price is normalised within the
-compared group, as the formula specifies. This module is pure (no database access).
+Export, recall and market factors are min-max normalised across ALL manufacturers, so
+a manufacturer's Q is stable no matter which brands are being compared. Price is
+normalised within the compared group, as the formula specifies. An unknown market
+share counts as 0. This module is pure (no database access).
 """
 
 from collections.abc import Iterable, Sequence
@@ -32,6 +35,8 @@ RANKING_CONFIG: dict[str, dict[str, float]] = {
     "market": {"market_share": 0.5, "years_active": 0.5},
 }
 
+STRINGENT_REGULATORS: tuple[str, ...] = ("US FDA", "UK MHRA", "EU GMP", "TGA Australia")
+
 RAW_FACTOR_FIELDS = (
     "export_countries",
     "regulated_market_exports",
@@ -48,13 +53,15 @@ Bounds = dict[str, tuple[float, float]]
 class ManufacturerFactors:
     id: int
     name: str
-    who_gmp: bool
+    stringent_approvals: tuple[str, ...]
     export_countries: int  # number of countries exported to
     regulated_market_exports: int
     compliance_score: float
     recall_count: int
-    market_share: float
+    market_share: float | None  # None = unknown, scored as 0
     years_active: int
+    recall_data_available: bool = True
+    source_urls: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -100,21 +107,28 @@ def normalize(value: float, low: float, high: float) -> float:
     return min(1.0, max(0.0, (value - low) / (high - low)))
 
 
+def _raw(m: ManufacturerFactors, field: str) -> float:
+    value = getattr(m, field)
+    return 0.0 if value is None else float(value)
+
+
 def compute_bounds(manufacturers: Iterable[ManufacturerFactors]) -> Bounds:
     items = list(manufacturers)
     if not items:
         raise ValueError("cannot compute bounds without manufacturers")
     return {
-        field: (
-            min(float(getattr(m, field)) for m in items),
-            max(float(getattr(m, field)) for m in items),
-        )
+        field: (min(_raw(m, field) for m in items), max(_raw(m, field) for m in items))
         for field in RAW_FACTOR_FIELDS
     }
 
 
 def _weighted_mix(m: ManufacturerFactors, bounds: Bounds, weights: dict[str, float]) -> float:
-    return sum(w * normalize(float(getattr(m, f)), *bounds[f]) for f, w in weights.items())
+    return sum(w * normalize(_raw(m, f), *bounds[f]) for f, w in weights.items())
+
+
+def certification_score(m: ManufacturerFactors) -> float:
+    approved = {r for r in m.stringent_approvals if r in STRINGENT_REGULATORS}
+    return len(approved) / len(STRINGENT_REGULATORS)
 
 
 # ---------------------------------------------------------------- scores
@@ -122,9 +136,9 @@ def _weighted_mix(m: ManufacturerFactors, bounds: Bounds, weights: dict[str, flo
 
 def quality_components(m: ManufacturerFactors, bounds: Bounds) -> QualityComponents:
     return QualityComponents(
-        certification=1.0 if m.who_gmp else 0.0,
+        certification=certification_score(m),
         export=_weighted_mix(m, bounds, RANKING_CONFIG["export"]),
-        compliance=normalize(m.compliance_score, *bounds["compliance_score"]),
+        compliance=min(1.0, max(0.0, m.compliance_score / 100)),
         recall_history=normalize(m.recall_count, *bounds["recall_count"]),
         market=_weighted_mix(m, bounds, RANKING_CONFIG["market"]),
     )
@@ -178,16 +192,36 @@ def _price_reason(price: Decimal, min_price: Decimal, max_price: Decimal) -> str
     return f"{unit}, {extra:.0f}% more than the cheapest"
 
 
+def _certification_reason(m: ManufacturerFactors) -> str:
+    approved = [r for r in STRINGENT_REGULATORS if r in m.stringent_approvals]
+    if not approved:
+        return "No US FDA, UK MHRA, EU GMP or TGA plant approval found"
+    return f"Has plant(s) approved by {', '.join(approved)}"
+
+
+def _recall_reason(m: ManufacturerFactors) -> str:
+    if not m.recall_data_available:
+        return "Recall history not available"
+    if m.recall_count == 0:
+        return "No recall on record"
+    return f"{_plural(m.recall_count, 'recall')} on record"
+
+
+def _market_reason(m: ManufacturerFactors) -> str:
+    years = _plural(m.years_active, "year")
+    if m.market_share is None:
+        return f"{years} in operation (market share not available)"
+    return f"{m.market_share:g}% market share, {years} in operation"
+
+
 def build_reasons(candidate: BrandCandidate, min_price: Decimal, max_price: Decimal) -> list[str]:
     m = candidate.manufacturer
     return [
-        "WHO-GMP certified" if m.who_gmp else "Not WHO-GMP certified",
+        _certification_reason(m),
         _export_reason(m),
         f"Compliance score {m.compliance_score:g}/100",
-        "No recall on record"
-        if m.recall_count == 0
-        else f"{_plural(m.recall_count, 'recall')} on record",
-        f"{m.market_share:g}% market share, {_plural(m.years_active, 'year')} in operation",
+        _recall_reason(m),
+        _market_reason(m),
         _price_reason(candidate.price_per_unit, min_price, max_price),
     ]
 

@@ -11,7 +11,8 @@ class GenericRef(BaseModel):
 class ManufacturerSummary(BaseModel):
     id: int
     name: str
-    who_gmp: bool
+    stringent_approvals: list[str]
+    source_urls: list[str]
 
 
 class QualityBreakdown(BaseModel):

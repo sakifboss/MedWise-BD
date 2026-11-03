@@ -26,7 +26,12 @@ def _to_schema(item: RankedBrand, selected_id: int | None) -> RankedAlternative:
         rank=item.rank,
         brand_id=c.brand_id,
         name=c.name,
-        manufacturer=ManufacturerSummary(id=m.id, name=m.name, who_gmp=m.who_gmp),
+        manufacturer=ManufacturerSummary(
+            id=m.id,
+            name=m.name,
+            stringent_approvals=list(m.stringent_approvals),
+            source_urls=list(m.source_urls),
+        ),
         price_per_unit=float(c.price_per_unit),
         final_score=round(item.final_score, 1),
         quality_score=round(item.quality_score, 3),

@@ -43,20 +43,22 @@ def _count(engine: Engine, model: type) -> int:
 def test_shipped_seed_data_is_valid() -> None:
     result = run_import(SEED_DIR, engine=None, dry_run=True)
     assert result.errors == []
-    assert result.counts["manufacturers"] == 10
+    assert result.counts["manufacturers"] == 13
     assert result.counts["generics"] == 20
-    assert 75 <= result.counts["brands"] <= 90
-    assert result.counts["interactions"] == 15
-    assert set(result.sample_datasets) == set(result.counts)
+    assert result.counts["brands"] >= 40
+    assert result.counts["interactions"] >= 1
+    # Manufacturer quality data is real (sourced), not sample.
+    assert "manufacturers" not in result.sample_datasets
+    assert "quality_factors" not in result.sample_datasets
 
 
 def test_import_writes_all_rows(data_dir: Path, engine: Engine) -> None:
     result = run_import(data_dir, engine)
     assert result.ok
-    assert _count(engine, Manufacturer) == 10
+    assert _count(engine, Manufacturer) == result.counts["manufacturers"]
     assert _count(engine, Generic) == 20
     assert _count(engine, Brand) == result.counts["brands"]
-    assert _count(engine, Interaction) == 15
+    assert _count(engine, Interaction) == result.counts["interactions"]
 
 
 def test_quality_factors_are_merged_into_manufacturers(data_dir: Path, engine: Engine) -> None:
@@ -65,16 +67,18 @@ def test_quality_factors_are_merged_into_manufacturers(data_dir: Path, engine: E
         square = session.scalars(
             select(Manufacturer).where(Manufacturer.name == "Square Pharmaceuticals PLC")
         ).one()
-    assert square.who_gmp is True
+    assert "US FDA" in square.stringent_approvals
     assert square.compliance_score > 0
-    assert square.export_countries
+    assert square.export_country_total > 0
+    assert square.recall_data_available is False
+    assert all(url.startswith("http") for url in square.source_urls)
 
 
 def test_reimport_replaces_instead_of_duplicating(data_dir: Path, engine: Engine) -> None:
+    first = run_import(data_dir, engine)
     run_import(data_dir, engine)
-    run_import(data_dir, engine)
-    assert _count(engine, Manufacturer) == 10
-    assert _count(engine, Interaction) == 15
+    assert _count(engine, Manufacturer) == first.counts["manufacturers"]
+    assert _count(engine, Interaction) == first.counts["interactions"]
 
 
 def test_interaction_pairs_stored_in_id_order(data_dir: Path, engine: Engine) -> None:
@@ -169,3 +173,22 @@ def test_cli_exit_codes(data_dir: Path, tmp_path: Path) -> None:
 )
 def test_normalize_strength(raw: str, expected: str) -> None:
     assert normalize_strength(raw) == expected
+
+
+def test_unknown_regulator_is_rejected(data_dir: Path) -> None:
+    _edit(data_dir, "quality_factors", lambda rows: rows[0].update(stringent_approvals=["WHO"]))
+    result = run_import(data_dir, engine=None, dry_run=True)
+    assert not result.ok
+    assert any("stringent_approvals" in e for e in result.errors)
+
+
+def test_source_urls_must_be_links(data_dir: Path) -> None:
+    _edit(data_dir, "quality_factors", lambda rows: rows[0].update(source_urls=["company site"]))
+    result = run_import(data_dir, engine=None, dry_run=True)
+    assert not result.ok
+    assert any("source_urls" in e for e in result.errors)
+
+
+def test_unknown_market_share_is_allowed(data_dir: Path) -> None:
+    _edit(data_dir, "quality_factors", lambda rows: rows[0].update(market_share=None))
+    assert run_import(data_dir, engine=None, dry_run=True).ok

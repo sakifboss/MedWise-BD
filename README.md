@@ -7,9 +7,11 @@ and dosage form, ranked by manufacturer quality (80%) and price (20%), with the 
 - **Live app:** https://medwise-bd.vercel.app
 - **API docs:** https://medwise-bd.onrender.com/docs
 
-> **Sample data.** All prices, quality values and interactions are sample data for this
-> competition MVP, not official DGDA data. Brand names are fictional. MedWise BD does not give
-> medical advice. Consult your doctor or pharmacist before changing any medicine.
+> **Data status.** Manufacturer quality data (stringent-regulator plant approvals, exports,
+> market share) is **real and sourced**: every manufacturer lists its `source_urls`. Brands,
+> prices and interactions are still **sample data** until the team's collection (see
+> [Collecting real data](#collecting-real-data)) replaces them. MedWise BD does not give medical
+> advice. Consult your doctor or pharmacist before changing any medicine.
 
 ## Features
 
@@ -75,7 +77,39 @@ GitHub Actions runs all of these on every push, with the backend tests on both S
 
 Put new files with the same format in `data/seed/` and push. No code changes are needed.
 The backend re-imports on every deploy, and the import stops with a clear error listing file,
-row and field if anything is invalid.
+row and field if anything is invalid. The import drops and recreates the medicine tables, so
+column changes reach the deployed database automatically.
+
+## Collecting real data
+
+**Manufacturer quality** (`manufacturers.json`, `quality_factors.json`) is already real:
+
+- `stringent_approvals`: regulators (US FDA, UK MHRA, EU GMP, TGA Australia) that approved at
+  least one of the company's plants. This is plant-level, not product-level.
+- `compliance_score`: 100 minus 15 per documented adverse finding by a stringent regulator in
+  the last 5 years.
+- `recall_data_available: false` everywhere, since no structured recall database exists for
+  Bangladesh; the app says "Recall history not available" instead of claiming a clean record.
+- `market_share`: IQVIA figures as reported in public summaries; estimates are explained in the
+  file's `meta.note`.
+
+**Brands and prices:** fill `data/templates/brands_template.csv` (one row per brand, with the
+page the price came from), then from `backend/`:
+
+```bash
+python scripts/build_brands_from_csv.py ../data/templates/brands_template.csv
+python scripts/import_data.py --dry-run
+```
+
+**Interactions:** download every `ddinter_downloads_code_*.csv` from
+https://ddinter.scbdd.com/download/ into `data/raw/ddinter/`, then from `backend/`:
+
+```bash
+python scripts/extract_ddinter.py ../data/raw/ddinter
+python scripts/import_data.py --dry-run
+```
+
+DDInter is licensed CC BY-NC-SA 4.0 (non-commercial, attribution required).
 
 ## Deployment
 

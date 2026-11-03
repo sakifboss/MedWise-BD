@@ -1,97 +1,243 @@
 {
   "meta": {
     "dataset": "quality_factors",
-    "source": "SAMPLE",
-    "is_sample": true,
-    "sample_fields": [
-      "who_gmp",
-      "regulated_market_exports",
-      "compliance_score",
-      "recall_count",
-      "market_share"
-    ],
-    "note": "SAMPLE DATA for development and demo only. Not official DGDA data. All numeric values (who_gmp, regulated_market_exports, compliance_score, recall_count, market_share) are illustrative and must not be used for real decisions."
+    "source": "Public sources: company websites, MHRA GMP certificate register, news reports, IQVIA market-share summaries. Collected 2026-11-03; every manufacturer row lists its source_urls.",
+    "is_sample": false,
+    "note": "stringent_approvals are PLANT-level: the company has at least one plant approved by that regulator, not necessarily the plant that makes a given product. Empty means no approval was found in public sources. compliance_score = 100 minus 15 per documented adverse finding by a stringent regulator in the last 5 years. No structured recall data exists for Bangladesh, so recall_data_available is false for every company and recall_count is 0. market_share is from IQVIA MAT Q2 2026 as reported in public summaries; null where no figure was found. Estimates: Renata and Eskayef rank 5th and 6th (IQVIA 1Q 2026) but no exact share was found, so the 7th-ranked share (4.7%) is used as a conservative lower bound. ACME 4.0% = BDT 1,548 crore sales (3Q 2025) / ~BDT 38,530 crore market. ACI 3.8% is from IQVIA MAT Q2 2023 (older figure). Beacon: unknown (null, scored as 0)."
   },
   "records": [
     {
       "manufacturer": "Square Pharmaceuticals PLC",
-      "who_gmp": true,
-      "regulated_market_exports": 3,
-      "compliance_score": 92,
+      "stringent_approvals": [
+        "US FDA",
+        "UK MHRA",
+        "EU GMP",
+        "TGA Australia"
+      ],
+      "regulated_market_exports": 2,
+      "compliance_score": 100,
       "recall_count": 0,
-      "market_share": 16.5
+      "recall_data_available": false,
+      "market_share": 17.0,
+      "source_urls": [
+        "https://cms.mhra.gov.uk/mhra/gmp/uk-gmp-29943-insp-gmp-29943309403-0007h",
+        "https://today.thefinancialexpress.com.bd/print/square-pharma-audited-by-us-fda",
+        "https://futurestartup.com/?p=45593",
+        "https://thefinancialexpress.com.bd/stock/bangladesh/renata-wins-eu-nod-for-drug-exports",
+        "https://squarepharma.com.bd/export_market.php",
+        "https://bd.linkedin.com/in/moon-rock-041743124"
+      ]
     },
     {
       "manufacturer": "Incepta Pharmaceuticals Ltd",
-      "who_gmp": true,
+      "stringent_approvals": [
+        "US FDA",
+        "UK MHRA",
+        "EU GMP"
+      ],
       "regulated_market_exports": 3,
-      "compliance_score": 90,
-      "recall_count": 1,
-      "market_share": 11.0
+      "compliance_score": 100,
+      "recall_count": 0,
+      "recall_data_available": false,
+      "market_share": 12.6,
+      "source_urls": [
+        "https://cms.mhra.gov.uk/mhra/gmp/uk-gmp-35139-insp-gmp-35139903504-0005h",
+        "https://dcvmn.org/member/incepta/",
+        "https://www.observerbd.com/news.php?id=467371",
+        "https://en.wikipedia.org/wiki/Incepta_Pharmaceuticals",
+        "https://bd.linkedin.com/in/moon-rock-041743124"
+      ]
     },
     {
       "manufacturer": "Beximco Pharmaceuticals Ltd",
-      "who_gmp": true,
-      "regulated_market_exports": 4,
-      "compliance_score": 91,
-      "recall_count": 1,
-      "market_share": 8.5
-    },
-    {
-      "manufacturer": "Renata PLC",
-      "who_gmp": true,
-      "regulated_market_exports": 2,
-      "compliance_score": 88,
+      "stringent_approvals": [
+        "US FDA",
+        "EU GMP",
+        "TGA Australia"
+      ],
+      "regulated_market_exports": 3,
+      "compliance_score": 85,
       "recall_count": 0,
-      "market_share": 5.2
-    },
-    {
-      "manufacturer": "Eskayef Pharmaceuticals Ltd",
-      "who_gmp": true,
-      "regulated_market_exports": 2,
-      "compliance_score": 87,
-      "recall_count": 1,
-      "market_share": 5.0
-    },
-    {
-      "manufacturer": "ACI Limited",
-      "who_gmp": true,
-      "regulated_market_exports": 1,
-      "compliance_score": 84,
-      "recall_count": 1,
-      "market_share": 4.1
+      "recall_data_available": false,
+      "market_share": 9.8,
+      "source_urls": [
+        "https://www.beximco.com/news/beximco-pharma-gets-us-fda-approval",
+        "https://www.beximco.com/news/beximco-pharma-receives-gmp-accreditation-from-austria",
+        "https://extranet.who.int/prequal/sites/default/files/whopir_files/WHOPIR_Beximco_DeskAssess_21-22February2026.pdf",
+        "https://bbf.digital/?p=5975",
+        "https://bd.linkedin.com/in/md-ebrahim-bappy-b6160314b",
+        "https://thefinancialexpress.com.bd/bangladesh/beximco-pharma-faces-eu-export-restrictions-on-ophthalmic-plants-design-concerns"
+      ]
     },
     {
       "manufacturer": "Healthcare Pharmaceuticals Ltd",
-      "who_gmp": true,
-      "regulated_market_exports": 1,
-      "compliance_score": 85,
+      "stringent_approvals": [
+        "EU GMP",
+        "TGA Australia"
+      ],
+      "regulated_market_exports": 0,
+      "compliance_score": 100,
       "recall_count": 0,
-      "market_share": 5.5
+      "recall_data_available": false,
+      "market_share": 7.5,
+      "source_urls": [
+        "https://www.tbsnews.net/node/1468481",
+        "https://www.pharmacity.vn/thuong-hieu/healthcare-pharmaceuticals",
+        "https://bd.linkedin.com/in/jasim-uddin-81933371"
+      ]
     },
     {
-      "manufacturer": "Opsonin Pharma Ltd",
-      "who_gmp": true,
-      "regulated_market_exports": 0,
-      "compliance_score": 78,
-      "recall_count": 2,
-      "market_share": 4.0
+      "manufacturer": "Renata PLC",
+      "stringent_approvals": [
+        "US FDA",
+        "UK MHRA",
+        "EU GMP"
+      ],
+      "regulated_market_exports": 3,
+      "compliance_score": 100,
+      "recall_count": 0,
+      "recall_data_available": false,
+      "market_share": 4.7,
+      "source_urls": [
+        "https://today.thefinancialexpress.com.bd/print/renata-to-set-up-uk-subsidiary-1526581427",
+        "https://www.observerbd.com/news.php?id=467371",
+        "https://thefinancialexpress.com.bd/stock/bangladesh/renata-wins-eu-nod-for-drug-exports",
+        "https://en.wikipedia.org/wiki/Renata_Limited",
+        "https://thefinancialexpress.com.bd/stock/renata-gets-eu-approval-to-export-drug-for-parkinsons-disease",
+        "https://bd.linkedin.com/in/rubayet-rafsan",
+        "https://bd.linkedin.com/in/sowmik-saha-24abb3113"
+      ]
+    },
+    {
+      "manufacturer": "Eskayef Pharmaceuticals Ltd",
+      "stringent_approvals": [
+        "US FDA",
+        "UK MHRA",
+        "EU GMP",
+        "TGA Australia"
+      ],
+      "regulated_market_exports": 2,
+      "compliance_score": 100,
+      "recall_count": 0,
+      "recall_data_available": false,
+      "market_share": 4.7,
+      "source_urls": [
+        "https://skfbd.com/gmp",
+        "https://skfbd.com/accreditations",
+        "https://www.thedailystar.net/business/news/eskayefs-3rd-manufacturing-unit-achieves-us-fda-approval-3421061",
+        "https://www.advacarepharma.com/en/news/pharma-companies-bangladesh",
+        "https://skfbd.com/newsandevents/eskayef-becomes-1st-bangladesh-pharma-company-to-export-injectable-products-to-usa/-Leesx",
+        "https://www.skfbd.com/ahd",
+        "https://bd.linkedin.com/in/rubayet-rafsan",
+        "https://bd.linkedin.com/in/sowmik-saha-24abb3113"
+      ]
     },
     {
       "manufacturer": "Aristopharma Ltd",
-      "who_gmp": false,
+      "stringent_approvals": [
+        "EU GMP"
+      ],
       "regulated_market_exports": 0,
-      "compliance_score": 76,
-      "recall_count": 2,
-      "market_share": 3.8
+      "compliance_score": 100,
+      "recall_count": 0,
+      "recall_data_available": false,
+      "market_share": 4.7,
+      "source_urls": [
+        "https://aristopharma.com/single_news/aristopharmas-excellence-is-now-recognized-globally-eu-gmp-approved",
+        "https://aristopharma.com/page/company-profile",
+        "https://bd.linkedin.com/in/sowmik-saha-24abb3113"
+      ]
     },
     {
-      "manufacturer": "Drug International Ltd",
-      "who_gmp": false,
+      "manufacturer": "Opsonin Pharma Ltd",
+      "stringent_approvals": [],
       "regulated_market_exports": 0,
-      "compliance_score": 74,
-      "recall_count": 3,
-      "market_share": 3.5
+      "compliance_score": 100,
+      "recall_count": 0,
+      "recall_data_available": false,
+      "market_share": 4.7,
+      "source_urls": [
+        "https://bd.linkedin.com/in/abdul-halim-rph-a69451228",
+        "https://www.advacarepharma.com/en/news/pharma-companies-bangladesh"
+      ]
+    },
+    {
+      "manufacturer": "Popular Pharmaceuticals PLC",
+      "stringent_approvals": [],
+      "regulated_market_exports": 0,
+      "compliance_score": 100,
+      "recall_count": 0,
+      "recall_data_available": false,
+      "market_share": 4.0,
+      "source_urls": [
+        "https://popular-pharma.com/global-presence",
+        "https://popular-pharma.com/at-a-glance",
+        "https://bd.linkedin.com/in/moon-rock-041743124"
+      ]
+    },
+    {
+      "manufacturer": "Radiant Pharmaceuticals Ltd",
+      "stringent_approvals": [],
+      "regulated_market_exports": 0,
+      "compliance_score": 100,
+      "recall_count": 0,
+      "recall_data_available": false,
+      "market_share": 4.0,
+      "source_urls": [
+        "https://www.dhakatribune.com/amp/business/391270/novartis-bangladesh-now-nevian-lifesciences",
+        "https://www.pharmanow.live/pharma-companies/radiant-pharmaceuticals-limited",
+        "https://bd.linkedin.com/in/moon-rock-041743124"
+      ]
+    },
+    {
+      "manufacturer": "The ACME Laboratories Ltd",
+      "stringent_approvals": [
+        "UK MHRA"
+      ],
+      "regulated_market_exports": 2,
+      "compliance_score": 100,
+      "recall_count": 0,
+      "recall_data_available": false,
+      "market_share": 4.0,
+      "source_urls": [
+        "https://thefinancialexpress.com.bd/stock/bangladesh/european-markets-now-open-for-acme-lab-1552367625",
+        "https://en.wikipedia.org/wiki/Acme_Laboratories",
+        "https://bd.linkedin.com/in/mohammad-hussain-76a1b6112",
+        "https://bd.linkedin.com/in/mohsin-sakaline-60ab2583"
+      ]
+    },
+    {
+      "manufacturer": "ACI Limited",
+      "stringent_approvals": [
+        "US FDA"
+      ],
+      "regulated_market_exports": 1,
+      "compliance_score": 100,
+      "recall_count": 0,
+      "recall_data_available": false,
+      "market_share": 3.8,
+      "source_urls": [
+        "https://www.tbsnews.net/economy/stocks/aci-gets-first-us-fda-approval-412322",
+        "https://www.aci-bd.com/aci-pharmaceuticals/",
+        "https://intuitionlabs.ai/companies/biotech/aci-limited",
+        "https://www.dhakatribune.com/business/281824/first-ever-pharmaceutical-products%E2%80%99-export-to-usa",
+        "https://www.slideshare.net/slideshow/potential-investment-pharmaceutical-pptx/273472615"
+      ]
+    },
+    {
+      "manufacturer": "Beacon Pharmaceuticals PLC",
+      "stringent_approvals": [
+        "EU GMP"
+      ],
+      "regulated_market_exports": 0,
+      "compliance_score": 100,
+      "recall_count": 0,
+      "recall_data_available": false,
+      "market_share": null,
+      "source_urls": [
+        "https://beaconpharma.com.bd/beacon-attains-prestigious-eu-gmp-certification-for-antibiotic-manufacturing-facility",
+        "https://beaconpharma.com.bd/beacon-at-a-glance"
+      ]
     }
   ]
 }

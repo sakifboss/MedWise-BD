@@ -26,13 +26,15 @@ def to_factors(m: Manufacturer) -> ManufacturerFactors:
     return ManufacturerFactors(
         id=m.id,
         name=m.name,
-        who_gmp=m.who_gmp,
-        export_countries=len(m.export_countries),
+        stringent_approvals=tuple(m.stringent_approvals or ()),
+        export_countries=m.export_country_total,
         regulated_market_exports=m.regulated_market_exports,
         compliance_score=m.compliance_score,
         recall_count=m.recall_count,
         market_share=m.market_share,
         years_active=m.years_active,
+        recall_data_available=m.recall_data_available,
+        source_urls=tuple(m.source_urls or ()),
     )
 
 

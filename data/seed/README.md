@@ -3,9 +3,10 @@
 The **only** data source for the database. Load with `cd backend && python scripts/import_data.py`
 (add `--dry-run` to validate without writing).
 
-> **All current files are SAMPLE data.** Prices, quality values and interactions are illustrative,
-> not official DGDA data. Brand names are fictional. Manufacturer quality values are placeholders
-> and do not describe the real companies.
+> **Manufacturer and quality files are real, sourced data** (collected 2026-11-03; see each
+> record's `source_urls` and each file's `meta.note`). `generics.json`, `brands.json` and
+> `interactions.json` are still SAMPLE data: brand names are fictional, prices and interaction
+> severities are illustrative. See the main README, "Collecting real data".
 
 To switch to official data, replace these files with new ones using the same format. No code changes are needed.
 
@@ -19,10 +20,10 @@ Rows reference each other **by name** (case-insensitive), not by id. Unknown fie
 
 | File | Record fields |
 |---|---|
-| `manufacturers.json` | `name`, `years_active`, `export_countries[]` |
-| `quality_factors.json` | `manufacturer`, `who_gmp` (bool), `regulated_market_exports` (count of regulated markets), `compliance_score` (0-100), `recall_count`, `market_share` (percent, 0-100) |
+| `manufacturers.json` | `name`, `years_active`, `export_countries[]`, optional `export_country_count` (when only the number is known) |
+| `quality_factors.json` | `manufacturer`, `stringent_approvals[]` (any of `US FDA`, `UK MHRA`, `EU GMP`, `TGA Australia`), `regulated_market_exports` (count of regulated markets), `compliance_score` (0-100), `recall_count`, optional `recall_data_available` (default true), `market_share` (percent, 0-100, or `null` if unknown), `source_urls[]` |
 | `generics.json` | `name`, `drug_class`, `indications[]`, `dosage_forms[]`, `side_effects[]`, `precautions[]` |
-| `brands.json` | `name`, `generic`, `manufacturer`, `strength`, `dosage_form`, `price_per_unit` (BDT) |
+| `brands.json` | `name`, `generic`, `manufacturer`, `strength`, `dosage_form`, `price_per_unit` (BDT), optional `source_url` (price source) |
 | `interactions.json` | `generic_a`, `generic_b`, `severity` (`minor` / `moderate` / `major`), `description` |
 
 `quality_factors.json` is merged into the `manufacturers` table on import. Each manufacturer needs exactly one entry.

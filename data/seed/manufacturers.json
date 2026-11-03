@@ -1,113 +1,82 @@
 {
   "meta": {
     "dataset": "manufacturers",
-    "source": "SAMPLE",
-    "is_sample": true,
-    "sample_fields": [
-      "years_active"
-    ],
-    "note": "SAMPLE DATA for development and demo only. Not official DGDA data. All numeric values (years_active) are illustrative and must not be used for real decisions."
+    "source": "Public sources: company websites, MHRA GMP certificate register, news reports, IQVIA market-share summaries. Collected 2026-11-03; every manufacturer row lists its source_urls.",
+    "is_sample": false,
+    "note": "years_active = 2026 minus founding year. export_country_count is the number of export countries reported by the company or press (country names not listed)."
   },
   "records": [
     {
       "name": "Square Pharmaceuticals PLC",
       "years_active": 68,
-      "export_countries": [
-        "Sri Lanka",
-        "Nepal",
-        "Myanmar",
-        "Kenya",
-        "Philippines",
-        "Vietnam",
-        "United Kingdom"
-      ]
+      "export_countries": [],
+      "export_country_count": 45
     },
     {
       "name": "Incepta Pharmaceuticals Ltd",
       "years_active": 27,
-      "export_countries": [
-        "Sri Lanka",
-        "Nepal",
-        "Cambodia",
-        "Kenya",
-        "Philippines",
-        "Australia"
-      ]
+      "export_countries": [],
+      "export_country_count": 100
     },
     {
       "name": "Beximco Pharmaceuticals Ltd",
       "years_active": 50,
-      "export_countries": [
-        "Sri Lanka",
-        "Nepal",
-        "Kenya",
-        "United States",
-        "Australia",
-        "Singapore",
-        "Malaysia"
-      ]
-    },
-    {
-      "name": "Renata PLC",
-      "years_active": 54,
-      "export_countries": [
-        "Nepal",
-        "Myanmar",
-        "Kenya",
-        "United Kingdom"
-      ]
-    },
-    {
-      "name": "Eskayef Pharmaceuticals Ltd",
-      "years_active": 36,
-      "export_countries": [
-        "Nepal",
-        "Sri Lanka",
-        "Myanmar",
-        "Philippines"
-      ]
-    },
-    {
-      "name": "ACI Limited",
-      "years_active": 58,
-      "export_countries": [
-        "Nepal",
-        "Myanmar",
-        "Sri Lanka"
-      ]
+      "export_countries": [],
+      "export_country_count": 50
     },
     {
       "name": "Healthcare Pharmaceuticals Ltd",
       "years_active": 38,
-      "export_countries": [
-        "Nepal",
-        "Myanmar",
-        "Afghanistan",
-        "Kenya"
-      ]
+      "export_countries": []
     },
     {
-      "name": "Opsonin Pharma Ltd",
-      "years_active": 70,
-      "export_countries": [
-        "Nepal",
-        "Myanmar"
-      ]
+      "name": "Renata PLC",
+      "years_active": 33,
+      "export_countries": [],
+      "export_country_count": 40
+    },
+    {
+      "name": "Eskayef Pharmaceuticals Ltd",
+      "years_active": 47,
+      "export_countries": [],
+      "export_country_count": 67
     },
     {
       "name": "Aristopharma Ltd",
       "years_active": 40,
-      "export_countries": [
-        "Nepal"
-      ]
+      "export_countries": [],
+      "export_country_count": 31
     },
     {
-      "name": "Drug International Ltd",
-      "years_active": 52,
-      "export_countries": [
-        "Nepal",
-        "Myanmar"
-      ]
+      "name": "Opsonin Pharma Ltd",
+      "years_active": 70,
+      "export_countries": []
+    },
+    {
+      "name": "Popular Pharmaceuticals PLC",
+      "years_active": 21,
+      "export_countries": []
+    },
+    {
+      "name": "Radiant Pharmaceuticals Ltd",
+      "years_active": 21,
+      "export_countries": []
+    },
+    {
+      "name": "The ACME Laboratories Ltd",
+      "years_active": 72,
+      "export_countries": []
+    },
+    {
+      "name": "ACI Limited",
+      "years_active": 53,
+      "export_countries": [],
+      "export_country_count": 30
+    },
+    {
+      "name": "Beacon Pharmaceuticals PLC",
+      "years_active": 20,
+      "export_countries": []
     }
   ]
 }
