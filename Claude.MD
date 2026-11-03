@@ -21,7 +21,7 @@ medwise-bd/
   frontend/
   backend/
     app/
-      api/        # routers: search, generics, alternatives, interactions, prescription
+      api/        # routers: search, generics, alternatives, manufacturers, interactions, prescription
       core/       # config, db
       models/     # SQLAlchemy models
       schemas/    # Pydantic schemas
@@ -110,7 +110,7 @@ live deploy -> tick the box here -> stop for the user's review before starting t
   hidden when the browser does not support it. Audio is not sent to our backend or stored.
 - [x] **5. Share for the pharmacist.** Share the chosen alternatives (WhatsApp / native share) and a
   print view with a QR code back to the page. Includes the doctor/pharmacist disclaimer.
-- [ ] **6. Manufacturer transparency page.** `/manufacturers/[id]`: each approval, export and market
+- [x] **6. Manufacturer transparency page.** `/manufacturers/[id]`: each approval, export and market
   data, score breakdown, every source link, and what is not known (recall data).
 - [ ] **7. Installable app (PWA).** Manifest, icons, theme colour; installs from the browser.
 

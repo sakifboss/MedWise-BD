@@ -1,4 +1,4 @@
-import { Camera, ChevronRight, ShieldAlert, type LucideIcon } from "lucide-react";
+import { Camera, ChevronRight, Factory, ShieldAlert, type LucideIcon } from "lucide-react";
 import Link from "next/link";
 
 import { HowRankingWorks } from "@/components/how-ranking-works";
@@ -61,6 +61,12 @@ export default async function HomePage() {
           icon={ShieldAlert}
           title={t.home.interactionsTitle}
           text={t.home.interactionsText}
+        />
+        <FeatureLink
+          href="/manufacturers"
+          icon={Factory}
+          title={t.home.companiesTitle}
+          text={t.home.companiesText}
         />
       </div>
 

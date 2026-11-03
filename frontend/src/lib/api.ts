@@ -19,6 +19,9 @@ export type InteractionCheckRequest = Schemas["InteractionCheckRequest"];
 export type InteractionCheckResponse = Schemas["InteractionCheckResponse"];
 export type FoundInteraction = Schemas["InteractionOut"];
 export type CheckedMedicine = Schemas["CheckedMedicine"];
+export type ManufacturerListItem = Schemas["ManufacturerListItem"];
+export type ManufacturerDetail = Schemas["ManufacturerDetail"];
+export type FactorKey = Schemas["FactorDetail"]["key"];
 
 type Envelope<T> = {
   data?: T | null;
@@ -79,6 +82,12 @@ export const api = {
   search(q: string, options: { limit?: number; signal?: AbortSignal } = {}) {
     const params = new URLSearchParams({ q, limit: String(options.limit ?? 12) });
     return request<SearchResponse>(`/api/search?${params}`, { signal: options.signal });
+  },
+  manufacturers() {
+    return request<ManufacturerListItem[]>("/api/manufacturers");
+  },
+  manufacturer(id: number) {
+    return request<ManufacturerDetail>(`/api/manufacturers/${id}`);
   },
   /** `lang` picks the language of generated text (reasons, interaction descriptions). */
   generic(id: number, lang: Lang = "en") {

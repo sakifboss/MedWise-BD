@@ -80,6 +80,8 @@ const en = {
     scanText: "Take a photo and we’ll find alternatives for every medicine on it.",
     interactionsTitle: "Taking more than one medicine?",
     interactionsText: "Check them together for recorded interactions.",
+    companiesTitle: "Who makes your medicine?",
+    companiesText: "See each manufacturer's regulator approvals, score breakdown and sources.",
     howTitle: "How the ranking works",
   },
   how: {
@@ -130,6 +132,68 @@ const en = {
     perMonth: (cost: string) => `${cost}/month`,
     quantity: (amount: string, unit: string) => `Prescribed amount: ${amount} ${unit}`,
     totals: "Total per month",
+  },
+  manufacturer: {
+    nav: "Companies",
+    listTitle: "Manufacturers",
+    listIntro:
+      "Every manufacturer in our data, ranked by its quality score out of 100. This score is 80% of each " +
+      "brand's ranking; price is the other 20%.",
+    brandCount: (n: number) => `${n} ${enPlural(n, "brand", "brands")} in our data`,
+    all: "All manufacturers",
+    yearsActive: (years: string) => `${years} years in operation`,
+    qualityScore: "Quality score",
+    outOf100: "out of 100",
+    rankOf: (rank: string, total: string) => `Rank ${rank} of ${total} manufacturers`,
+    scoreNote: "This is the manufacturer part (80%) of every brand's score. Price makes up the other 20%.",
+    approvalsTitle: "Plant approvals by strict regulators",
+    approved: "Approved plant on record",
+    notApproved: "No approved plant on record",
+    approvalsNote:
+      "Approvals are for factories (plants), not for each medicine: not every product of a company is made " +
+      "in an approved plant.",
+    breakdownTitle: "How the quality score is built",
+    weight: (percent: string) => `${percent}% weight`,
+    points: (points: string, max: string) => `${points} of ${max} points`,
+    total: (score: string) => `Total: ${score} of 100`,
+    factors: {
+      certification: "Strict regulator approvals",
+      export: "Export footprint",
+      compliance: "Compliance",
+      recall_history: "Recall history",
+      market: "Market trust",
+    },
+    explain: {
+      certification: (n: string) => `${n} of 4 strict regulators (US FDA, UK MHRA, EU GMP, TGA Australia)`,
+      exportKnown: (countries: string, regulated: string) =>
+        `Exports to ${countries} countries, including ${regulated} regulated markets`,
+      exportUnknown: (regulated: string) =>
+        `Exports to ${regulated} regulated markets; the number of countries is not known and counts as 0`,
+      exportNone: "No export record in our data",
+      compliance: (score: string) =>
+        `Compliance score ${score}/100: 100 minus 15 for each documented adverse finding by a strict ` +
+        "regulator in the last 5 years",
+      recallUnavailable:
+        "No structured recall data exists for Bangladesh, so every manufacturer gets the same score here. " +
+        "It does not change any ranking.",
+      recallNone: "No recall on record",
+      recallCount: (n: string) => `${n} recalls on record`,
+      marketKnown: (share: string, years: string) => `${share}% market share, ${years} years in operation`,
+      marketUnknown: (years: string) =>
+        `${years} years in operation; market share is not known and counts as 0`,
+    },
+    unknownTitle: "What we don’t know",
+    unknown: {
+      recall_history: "Recall history: no public, structured recall database exists for Bangladesh.",
+      market_share: "Market share: no published figure was found for this company.",
+      export_country_count: "Number of export countries: not published; only regulated markets are known.",
+    },
+    brandsTitle: "Brands in our data",
+    noBrands: "None of this company’s brands are in our data yet.",
+    sourcesTitle: "Sources",
+    sourcesNote: "The approvals, exports, compliance and market figures on this page come from these public pages.",
+    notFoundTitle: "Manufacturer not found",
+    notFoundText: "We couldn’t find that manufacturer in our data.",
   },
   voice: {
     start: "Search by voice",
@@ -371,6 +435,8 @@ const bn: Dict = {
     scanText: "ছবি তুলুন, এতে থাকা প্রতিটি ওষুধের বিকল্প আমরা খুঁজে দেব।",
     interactionsTitle: "একাধিক ওষুধ খাচ্ছেন?",
     interactionsText: "একসাথে খেলে কোনো ইন্টারঅ্যাকশন নথিভুক্ত আছে কি না দেখুন।",
+    companiesTitle: "আপনার ওষুধ কারা তৈরি করে?",
+    companiesText: "প্রতিটি প্রস্তুতকারকের নিয়ন্ত্রক অনুমোদন, নম্বরের হিসাব ও উৎস দেখুন।",
     howTitle: "র‍্যাঙ্কিং কীভাবে হয়",
   },
   how: {
@@ -421,6 +487,67 @@ const bn: Dict = {
     perMonth: (cost: string) => `মাসে ${cost}`,
     quantity: (amount: string, unit: string) => `প্রেসক্রিপশনের পরিমাণ: ${amount} ${unit}`,
     totals: "মাসে মোট",
+  },
+  manufacturer: {
+    nav: "কোম্পানি",
+    listTitle: "প্রস্তুতকারক কোম্পানি",
+    listIntro:
+      "আমাদের ডেটার সব প্রস্তুতকারক, ১০০-র মধ্যে মানের নম্বর অনুযায়ী সাজানো। প্রতিটি ব্র্যান্ডের র‍্যাঙ্কিংয়ে " +
+      "এই নম্বরের গুরুত্ব ৮০%; বাকি ২০% দাম।",
+    brandCount: (n: number) => `আমাদের ডেটায় ${n.toLocaleString("bn-BD")}টি ব্র্যান্ড`,
+    all: "সব প্রস্তুতকারক",
+    yearsActive: (years: string) => `${years} বছর ধরে চালু`,
+    qualityScore: "মানের নম্বর",
+    outOf100: "১০০-র মধ্যে",
+    rankOf: (rank: string, total: string) => `${total}টি প্রস্তুতকারকের মধ্যে র‍্যাঙ্ক ${rank}`,
+    scoreNote: "এটি প্রতিটি ব্র্যান্ডের নম্বরের প্রস্তুতকারক অংশ (৮০%)। বাকি ২০% আসে দাম থেকে।",
+    approvalsTitle: "কঠোর নিয়ন্ত্রক সংস্থার প্ল্যান্ট অনুমোদন",
+    approved: "অনুমোদিত প্ল্যান্টের রেকর্ড আছে",
+    notApproved: "অনুমোদিত প্ল্যান্টের রেকর্ড নেই",
+    approvalsNote:
+      "অনুমোদন কারখানার (প্ল্যান্টের) জন্য, প্রতিটি ওষুধের জন্য নয়: কোম্পানির সব ওষুধ অনুমোদিত প্ল্যান্টে " +
+      "তৈরি হয় না।",
+    breakdownTitle: "মানের নম্বর কীভাবে তৈরি হয়",
+    weight: (percent: string) => `${percent}% গুরুত্ব`,
+    points: (points: string, max: string) => `${max}-এর মধ্যে ${points}`,
+    total: (score: string) => `মোট: ১০০-র মধ্যে ${score}`,
+    factors: {
+      certification: "কঠোর নিয়ন্ত্রক সংস্থার অনুমোদন",
+      export: "রপ্তানির পরিধি",
+      compliance: "কমপ্লায়েন্স (নিয়ম মানা)",
+      recall_history: "রিকলের ইতিহাস",
+      market: "বাজারে আস্থা",
+    },
+    explain: {
+      certification: (n: string) => `৪টির মধ্যে ${n}টি কঠোর নিয়ন্ত্রক সংস্থা (US FDA, UK MHRA, EU GMP, TGA Australia)`,
+      exportKnown: (countries: string, regulated: string) =>
+        `${countries}টি দেশে রপ্তানি করে, এর মধ্যে ${regulated}টি নিয়ন্ত্রিত বাজার`,
+      exportUnknown: (regulated: string) =>
+        `${regulated}টি নিয়ন্ত্রিত বাজারে রপ্তানি করে; মোট দেশের সংখ্যা জানা নেই, তাই ০ ধরা হয়েছে`,
+      exportNone: "আমাদের ডেটায় রপ্তানির কোনো তথ্য নেই",
+      compliance: (score: string) =>
+        `কমপ্লায়েন্স স্কোর ${score}/১০০: গত ৫ বছরে কঠোর নিয়ন্ত্রক সংস্থার প্রতিটি নথিভুক্ত বিরূপ পর্যবেক্ষণের ` +
+        "জন্য ১০০ থেকে ১৫ কমে",
+      recallUnavailable:
+        "বাংলাদেশে রিকলের কোনো সুবিন্যস্ত ডেটা নেই, তাই এখানে সব প্রস্তুতকারক একই নম্বর পায়। " +
+        "এতে কোনো র‍্যাঙ্কিং বদলায় না।",
+      recallNone: "কোনো রিকলের রেকর্ড নেই",
+      recallCount: (n: string) => `${n}টি রিকলের রেকর্ড আছে`,
+      marketKnown: (share: string, years: string) => `বাজারের ${share}% অংশ, ${years} বছর ধরে চালু`,
+      marketUnknown: (years: string) => `${years} বছর ধরে চালু; বাজারের অংশ জানা নেই, তাই ০ ধরা হয়েছে`,
+    },
+    unknownTitle: "যা আমরা জানি না",
+    unknown: {
+      recall_history: "রিকলের ইতিহাস: বাংলাদেশে রিকলের কোনো প্রকাশ্য, সুবিন্যস্ত ডেটাবেস নেই।",
+      market_share: "বাজারের অংশ: এই কোম্পানির কোনো প্রকাশিত সংখ্যা পাওয়া যায়নি।",
+      export_country_count: "রপ্তানির দেশের সংখ্যা: প্রকাশিত নয়; শুধু নিয়ন্ত্রিত বাজারগুলো জানা আছে।",
+    },
+    brandsTitle: "আমাদের ডেটায় থাকা ব্র্যান্ড",
+    noBrands: "এই কোম্পানির কোনো ব্র্যান্ড এখনো আমাদের ডেটায় নেই।",
+    sourcesTitle: "উৎস",
+    sourcesNote: "এই পেজের অনুমোদন, রপ্তানি, কমপ্লায়েন্স ও বাজারের তথ্য এই প্রকাশ্য পেজগুলো থেকে নেওয়া।",
+    notFoundTitle: "প্রস্তুতকারক পাওয়া যায়নি",
+    notFoundText: "আমাদের ডেটায় এই প্রস্তুতকারক পাওয়া যায়নি।",
   },
   voice: {
     start: "কথা বলে খুঁজুন",

@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { MonthlyCost, SavingsCalculator } from "@/components/savings/savings-calculator";
 import { SavingsProvider } from "@/components/savings/savings-context";
 import { RankingShare } from "@/components/share/ranking-share";
@@ -116,7 +118,12 @@ function RankedCard({ item, t }: { item: RankedAlternative; t: Dict }) {
             <h3 className="text-base font-semibold">{item.name}</h3>
             {item.is_selected && <Badge>{t.ranking.yourMedicine}</Badge>}
           </div>
-          <p className="text-sm text-muted-foreground">{item.manufacturer.name}</p>
+          <Link
+            href={`/manufacturers/${item.manufacturer.id}`}
+            className="text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+          >
+            {item.manufacturer.name}
+          </Link>
           {item.manufacturer.stringent_approvals.length > 0 && (
             <div className="mt-1 flex flex-wrap gap-1" aria-label={t.ranking.approvals}>
               {item.manufacturer.stringent_approvals.map((regulator) => (

@@ -80,6 +80,46 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/manufacturers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Manufacturers
+         * @description Every manufacturer, highest quality score first.
+         */
+        get: operations["list_manufacturers_api_manufacturers_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/manufacturers/{manufacturer_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Manufacturer
+         * @description One manufacturer's quality score, explained factor by factor, with sources and brands.
+         */
+        get: operations["get_manufacturer_api_manufacturers__manufacturer_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/prescription": {
         parameters: {
             query?: never;
@@ -194,6 +234,11 @@ export interface components {
             data?: components["schemas"]["InteractionCheckResponse"] | null;
             error?: components["schemas"]["ErrorBody"] | null;
         };
+        /** Envelope[ManufacturerDetail] */
+        Envelope_ManufacturerDetail_: {
+            data?: components["schemas"]["ManufacturerDetail"] | null;
+            error?: components["schemas"]["ErrorBody"] | null;
+        };
         /** Envelope[PrescriptionResponse] */
         Envelope_PrescriptionResponse_: {
             data?: components["schemas"]["PrescriptionResponse"] | null;
@@ -212,6 +257,12 @@ export interface components {
             } | null;
             error?: components["schemas"]["ErrorBody"] | null;
         };
+        /** Envelope[list[ManufacturerListItem]] */
+        Envelope_list_ManufacturerListItem__: {
+            /** Data */
+            data?: components["schemas"]["ManufacturerListItem"][] | null;
+            error?: components["schemas"]["ErrorBody"] | null;
+        };
         /** ErrorBody */
         ErrorBody: {
             /** Code */
@@ -222,6 +273,29 @@ export interface components {
             details?: {
                 [key: string]: unknown;
             }[] | null;
+        };
+        /** FactorDetail */
+        FactorDetail: {
+            /**
+             * Key
+             * @enum {string}
+             */
+            key: "certification" | "export" | "compliance" | "recall_history" | "market";
+            /**
+             * Weight
+             * @description Weight of this factor in the quality score (weights sum to 1)
+             */
+            weight: number;
+            /**
+             * Score
+             * @description 0-1, higher is better (recall history is already inverted)
+             */
+            score: number;
+            /**
+             * Points
+             * @description weight * score * 100: this factor's share of the 0-100 quality
+             */
+            points: number;
         };
         /** GenericDetail */
         GenericDetail: {
@@ -323,6 +397,94 @@ export interface components {
             severity: "minor" | "moderate" | "major";
             /** Description */
             description: string;
+        };
+        /** ManufacturerBrand */
+        ManufacturerBrand: {
+            /** Id */
+            id: number;
+            /** Name */
+            name: string;
+            /** Generic Id */
+            generic_id: number;
+            /** Generic Name */
+            generic_name: string;
+            /** Strength */
+            strength: string;
+            /** Dosage Form */
+            dosage_form: string;
+            /** Price Per Unit */
+            price_per_unit: number;
+        };
+        /** ManufacturerDetail */
+        ManufacturerDetail: {
+            /** Id */
+            id: number;
+            /** Name */
+            name: string;
+            /** Years Active */
+            years_active: number;
+            /**
+             * Quality Score
+             * @description 0-100, the manufacturer part of every brand's score
+             */
+            quality_score: number;
+            /** Quality Rank */
+            quality_rank: number;
+            /** Manufacturer Count */
+            manufacturer_count: number;
+            /** Stringent Approvals */
+            stringent_approvals: string[];
+            /**
+             * Approvals Missing
+             * @description Stringent regulators with no approved plant on record
+             */
+            approvals_missing: string[];
+            /**
+             * Export Country Count
+             * @description None when the number of countries is unknown
+             */
+            export_country_count: number | null;
+            /** Export Countries */
+            export_countries: string[];
+            /** Regulated Market Exports */
+            regulated_market_exports: number;
+            /** Compliance Score */
+            compliance_score: number;
+            /** Recall Data Available */
+            recall_data_available: boolean;
+            /** Recall Count */
+            recall_count: number;
+            /** Market Share */
+            market_share: number | null;
+            /** Factors */
+            factors: components["schemas"]["FactorDetail"][];
+            /**
+             * Unknowns
+             * @description Facts we do not have for this manufacturer
+             */
+            unknowns: ("recall_history" | "market_share" | "export_country_count")[];
+            /** Source Urls */
+            source_urls: string[];
+            /** Brands */
+            brands: components["schemas"]["ManufacturerBrand"][];
+        };
+        /** ManufacturerListItem */
+        ManufacturerListItem: {
+            /** Id */
+            id: number;
+            /** Name */
+            name: string;
+            /**
+             * Quality Score
+             * @description 0-100
+             */
+            quality_score: number;
+            /** Quality Rank */
+            quality_rank: number;
+            /** Stringent Approvals */
+            stringent_approvals: string[];
+            /** Brand Count */
+            brand_count: number;
         };
         /** ManufacturerSummary */
         ManufacturerSummary: {
@@ -615,6 +777,57 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Envelope_AlternativesResponse_"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_manufacturers_api_manufacturers_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Envelope_list_ManufacturerListItem__"];
+                };
+            };
+        };
+    };
+    get_manufacturer_api_manufacturers__manufacturer_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                manufacturer_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Envelope_ManufacturerDetail_"];
                 };
             };
             /** @description Validation Error */

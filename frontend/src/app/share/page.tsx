@@ -65,7 +65,12 @@ function BrandLine({ label, brand, row, t, highlight }: {
       <dd className="space-y-0.5">
         <p>
           <strong className="font-medium">{brand.name}</strong>{" "}
-          <span className="text-muted-foreground">· {brand.manufacturer.name}</span>
+          <span className="text-muted-foreground">
+            ·{" "}
+            <Link href={`/manufacturers/${brand.manufacturer.id}`} className="underline-offset-4 hover:underline">
+              {brand.manufacturer.name}
+            </Link>
+          </span>
         </p>
         <p className="text-sm text-muted-foreground">
           {t.ranking.perUnit(t.fmt.price(brand.price_per_unit))} · {t.share.scoreLabel(t.fmt.score(brand.final_score))}

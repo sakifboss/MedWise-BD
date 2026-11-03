@@ -264,6 +264,72 @@
         }
       }
     },
+    "/api/manufacturers": {
+      "get": {
+        "tags": [
+          "manufacturers"
+        ],
+        "summary": "List Manufacturers",
+        "description": "Every manufacturer, highest quality score first.",
+        "operationId": "list_manufacturers_api_manufacturers_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_list_ManufacturerListItem__"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/manufacturers/{manufacturer_id}": {
+      "get": {
+        "tags": [
+          "manufacturers"
+        ],
+        "summary": "Get Manufacturer",
+        "description": "One manufacturer's quality score, explained factor by factor, with sources and brands.",
+        "operationId": "get_manufacturer_api_manufacturers__manufacturer_id__get",
+        "parameters": [
+          {
+            "name": "manufacturer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "title": "Manufacturer Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_ManufacturerDetail_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/prescription": {
       "post": {
         "tags": [
@@ -556,6 +622,32 @@
         "type": "object",
         "title": "Envelope[InteractionCheckResponse]"
       },
+      "Envelope_ManufacturerDetail_": {
+        "properties": {
+          "data": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ManufacturerDetail"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorBody"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "Envelope[ManufacturerDetail]"
+      },
       "Envelope_PrescriptionResponse_": {
         "properties": {
           "data": {
@@ -638,6 +730,36 @@
         "type": "object",
         "title": "Envelope[dict[str, str]]"
       },
+      "Envelope_list_ManufacturerListItem__": {
+        "properties": {
+          "data": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ManufacturerListItem"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Data"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorBody"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "Envelope[list[ManufacturerListItem]]"
+      },
       "ErrorBody": {
         "properties": {
           "code": {
@@ -670,6 +792,44 @@
           "message"
         ],
         "title": "ErrorBody"
+      },
+      "FactorDetail": {
+        "properties": {
+          "key": {
+            "type": "string",
+            "enum": [
+              "certification",
+              "export",
+              "compliance",
+              "recall_history",
+              "market"
+            ],
+            "title": "Key"
+          },
+          "weight": {
+            "type": "number",
+            "title": "Weight",
+            "description": "Weight of this factor in the quality score (weights sum to 1)"
+          },
+          "score": {
+            "type": "number",
+            "title": "Score",
+            "description": "0-1, higher is better (recall history is already inverted)"
+          },
+          "points": {
+            "type": "number",
+            "title": "Points",
+            "description": "weight * score * 100: this factor's share of the 0-100 quality"
+          }
+        },
+        "type": "object",
+        "required": [
+          "key",
+          "weight",
+          "score",
+          "points"
+        ],
+        "title": "FactorDetail"
       },
       "GenericDetail": {
         "properties": {
@@ -924,6 +1084,238 @@
           "description"
         ],
         "title": "InteractionSummary"
+      },
+      "ManufacturerBrand": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "generic_id": {
+            "type": "integer",
+            "title": "Generic Id"
+          },
+          "generic_name": {
+            "type": "string",
+            "title": "Generic Name"
+          },
+          "strength": {
+            "type": "string",
+            "title": "Strength"
+          },
+          "dosage_form": {
+            "type": "string",
+            "title": "Dosage Form"
+          },
+          "price_per_unit": {
+            "type": "number",
+            "title": "Price Per Unit"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "generic_id",
+          "generic_name",
+          "strength",
+          "dosage_form",
+          "price_per_unit"
+        ],
+        "title": "ManufacturerBrand"
+      },
+      "ManufacturerDetail": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "years_active": {
+            "type": "integer",
+            "title": "Years Active"
+          },
+          "quality_score": {
+            "type": "number",
+            "title": "Quality Score",
+            "description": "0-100, the manufacturer part of every brand's score"
+          },
+          "quality_rank": {
+            "type": "integer",
+            "title": "Quality Rank"
+          },
+          "manufacturer_count": {
+            "type": "integer",
+            "title": "Manufacturer Count"
+          },
+          "stringent_approvals": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Stringent Approvals"
+          },
+          "approvals_missing": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Approvals Missing",
+            "description": "Stringent regulators with no approved plant on record"
+          },
+          "export_country_count": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Export Country Count",
+            "description": "None when the number of countries is unknown"
+          },
+          "export_countries": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Export Countries"
+          },
+          "regulated_market_exports": {
+            "type": "integer",
+            "title": "Regulated Market Exports"
+          },
+          "compliance_score": {
+            "type": "number",
+            "title": "Compliance Score"
+          },
+          "recall_data_available": {
+            "type": "boolean",
+            "title": "Recall Data Available"
+          },
+          "recall_count": {
+            "type": "integer",
+            "title": "Recall Count"
+          },
+          "market_share": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Market Share"
+          },
+          "factors": {
+            "items": {
+              "$ref": "#/components/schemas/FactorDetail"
+            },
+            "type": "array",
+            "title": "Factors"
+          },
+          "unknowns": {
+            "items": {
+              "type": "string",
+              "enum": [
+                "recall_history",
+                "market_share",
+                "export_country_count"
+              ]
+            },
+            "type": "array",
+            "title": "Unknowns",
+            "description": "Facts we do not have for this manufacturer"
+          },
+          "source_urls": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Source Urls"
+          },
+          "brands": {
+            "items": {
+              "$ref": "#/components/schemas/ManufacturerBrand"
+            },
+            "type": "array",
+            "title": "Brands"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "years_active",
+          "quality_score",
+          "quality_rank",
+          "manufacturer_count",
+          "stringent_approvals",
+          "approvals_missing",
+          "export_country_count",
+          "export_countries",
+          "regulated_market_exports",
+          "compliance_score",
+          "recall_data_available",
+          "recall_count",
+          "market_share",
+          "factors",
+          "unknowns",
+          "source_urls",
+          "brands"
+        ],
+        "title": "ManufacturerDetail"
+      },
+      "ManufacturerListItem": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "quality_score": {
+            "type": "number",
+            "title": "Quality Score",
+            "description": "0-100"
+          },
+          "quality_rank": {
+            "type": "integer",
+            "title": "Quality Rank"
+          },
+          "stringent_approvals": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Stringent Approvals"
+          },
+          "brand_count": {
+            "type": "integer",
+            "title": "Brand Count"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "quality_score",
+          "quality_rank",
+          "stringent_approvals",
+          "brand_count"
+        ],
+        "title": "ManufacturerListItem"
       },
       "ManufacturerSummary": {
         "properties": {
