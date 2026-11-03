@@ -227,3 +227,32 @@ def test_generic_interactions_in_bangla(client: TestClient) -> None:
 
 def test_unknown_language_is_rejected(client: TestClient) -> None:
     _err(client.get("/api/generics/1", params={"lang": "fr"}), 422, "validation_error")
+
+
+def test_generic_text_falls_back_to_english_until_translated() -> None:
+    from app.api.generics import _localized
+    from app.models import Generic
+
+    g = Generic(
+        name="X",
+        drug_class="Class",
+        indications=["Use"],
+        side_effects=["Effect"],
+        precautions=["Care"],
+        drug_class_bn="শ্রেণি",
+        indications_bn=["ব্যবহার"],
+    )
+    text, pending = _localized(g, "bn")
+    assert text["drug_class"] == "শ্রেণি"
+    assert text["indications"] == ["ব্যবহার"]
+    assert text["side_effects"] == ["Effect"]
+    assert pending == ["side_effects", "precautions"]
+    assert _localized(g, "en") == (
+        {
+            "drug_class": "Class",
+            "indications": ["Use"],
+            "side_effects": ["Effect"],
+            "precautions": ["Care"],
+        },
+        [],
+    )

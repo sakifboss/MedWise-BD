@@ -112,6 +112,20 @@ python scripts/import_data.py --dry-run
 
 DDInter is licensed CC BY-NC-SA 4.0 (non-commercial, attribution required).
 
+**Bangla medicine information:** `data/templates/generics_bn.csv` has one row per line of
+English medicine text with a draft Bangla translation. A Bangla speaker checks each row and
+writes `yes` in `approved` (Excel or Google Sheets, saved as CSV). Then from `backend/`:
+
+```bash
+python scripts/build_generics_bn.py apply ../data/templates/generics_bn.csv
+python scripts/import_data.py --dry-run
+```
+
+A section (e.g. side effects) switches to Bangla only when every one of its lines is approved;
+until then it is shown in English with a "translation under review" note. After the English
+text changes, run `python scripts/build_generics_bn.py export ../data/templates/generics_bn.csv`
+to add rows for the new text; changed rows are flagged as stale instead of being shown.
+
 ## Deployment
 
 | Service | Settings |

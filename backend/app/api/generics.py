@@ -1,4 +1,4 @@
-from typing import Annotated
+from typing import Annotated, Any
 
 from fastapi import APIRouter, Depends, HTTPException, Path
 from sqlalchemy import case, func, or_, select
@@ -8,6 +8,7 @@ from app.core.db import get_db
 from app.models import SEVERITIES, Brand, Generic, Interaction
 from app.schemas.common import Envelope, LangQuery
 from app.schemas.generic import GenericDetail, InteractionSummary, Presentation
+from app.schemas.seed import TRANSLATED_FIELDS
 
 router = APIRouter(tags=["generics"])
 
@@ -67,6 +68,18 @@ def _interactions(db: Session, generic_id: int, lang: str) -> list[InteractionSu
     return items
 
 
+def _localized(generic: Generic, lang: str) -> tuple[dict[str, Any], list[str]]:
+    """Medicine text in the requested language; fields without reviewed Bangla stay English."""
+    text: dict[str, Any] = {}
+    pending: list[str] = []
+    for field in TRANSLATED_FIELDS:
+        bangla = getattr(generic, f"{field}_bn") if lang == "bn" else None
+        text[field] = bangla if bangla is not None else getattr(generic, field)
+        if lang == "bn" and bangla is None:
+            pending.append(field)
+    return text, pending
+
+
 @router.get("/generics/{generic_id}", response_model=Envelope[GenericDetail])
 def get_generic(
     generic_id: Annotated[int, Path(ge=1)],
@@ -76,15 +89,14 @@ def get_generic(
     generic = db.get(Generic, generic_id)
     if generic is None:
         raise HTTPException(status_code=404, detail=f"Generic {generic_id} not found")
+    text, pending = _localized(generic, lang)
     detail = GenericDetail(
         id=generic.id,
         name=generic.name,
-        drug_class=generic.drug_class,
-        indications=generic.indications,
         dosage_forms=generic.dosage_forms,
-        side_effects=generic.side_effects,
-        precautions=generic.precautions,
         source_urls=generic.source_urls,
+        translation_pending=pending,
+        **text,
         presentations=_presentations(db, generic_id),
         interactions=_interactions(db, generic_id, lang),
     )

@@ -201,3 +201,10 @@ def test_generic_source_urls_must_be_links(data_dir: Path) -> None:
 def test_unknown_market_share_is_allowed(data_dir: Path) -> None:
     _edit(data_dir, "quality_factors", lambda rows: rows[0].update(market_share=None))
     assert run_import(data_dir, engine=None, dry_run=True).ok
+
+
+def test_bangla_list_must_translate_every_line(data_dir: Path) -> None:
+    _edit(data_dir, "generics", lambda rows: rows[0].update(indications_bn=["শুধু একটি"]))
+    result = run_import(data_dir, engine=None, dry_run=True)
+    assert not result.ok
+    assert any("translate every line" in e for e in result.errors)

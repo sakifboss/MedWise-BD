@@ -23,7 +23,7 @@ Rows reference each other **by name** (case-insensitive), not by id. Unknown fie
 |---|---|
 | `manufacturers.json` | `name`, `years_active`, `export_countries[]`, optional `export_country_count` (when only the number is known) |
 | `quality_factors.json` | `manufacturer`, `stringent_approvals[]` (any of `US FDA`, `UK MHRA`, `EU GMP`, `TGA Australia`), `regulated_market_exports` (count of regulated markets), `compliance_score` (0-100), `recall_count`, optional `recall_data_available` (default true), `market_share` (percent, 0-100, or `null` if unknown), `source_urls[]` |
-| `generics.json` | `name`, `drug_class`, `indications[]`, `dosage_forms[]`, `side_effects[]`, `precautions[]` |
+| `generics.json` | `name`, `drug_class`, `indications[]`, `dosage_forms[]`, `side_effects[]`, `precautions[]`, `source_urls[]`; optional reviewed Bangla `drug_class_bn`, `indications_bn[]`, `side_effects_bn[]`, `precautions_bn[]` (each list translates every English line; written by `build_generics_bn.py`) |
 | `brands.json` | `name`, `generic`, `manufacturer`, `strength`, `dosage_form`, `price_per_unit` (BDT), optional `source_url` (price source) |
 | `interactions.json` | `generic_a`, `generic_b`, `severity` (`minor` / `moderate` / `major`), `description` |
 

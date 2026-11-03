@@ -20,5 +20,10 @@ class Generic(Base):
     side_effects: Mapped[list[str]] = mapped_column(JSON, default=list)
     precautions: Mapped[list[str]] = mapped_column(JSON, default=list)
     source_urls: Mapped[list[str]] = mapped_column(JSON, default=list)
+    # Reviewed Bangla translations; None means "not translated yet, show English".
+    drug_class_bn: Mapped[str | None] = mapped_column(String(200), nullable=True)
+    indications_bn: Mapped[list[str] | None] = mapped_column(JSON, nullable=True)
+    side_effects_bn: Mapped[list[str] | None] = mapped_column(JSON, nullable=True)
+    precautions_bn: Mapped[list[str] | None] = mapped_column(JSON, nullable=True)
 
     brands: Mapped[list["Brand"]] = relationship(back_populates="generic")

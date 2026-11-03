@@ -8,7 +8,14 @@ import re
 from decimal import Decimal
 from typing import Annotated, Literal
 
-from pydantic import AfterValidator, BaseModel, ConfigDict, Field, StringConstraints
+from pydantic import (
+    AfterValidator,
+    BaseModel,
+    ConfigDict,
+    Field,
+    StringConstraints,
+    model_validator,
+)
 
 _STRENGTH_PATTERN = re.compile(
     r"^\d+(\.\d+)? [a-z%]+(/\d+(\.\d+)? [a-z]+)?( \+ \d+(\.\d+)? [a-z%]+)*$"
@@ -114,6 +121,27 @@ class GenericSeed(_SeedRow):
     source_urls: UrlList = Field(
         default=[], description="Pages the medicine information comes from"
     )
+    # Reviewed Bangla translations, written by scripts/build_generics_bn.py. A field is either
+    # absent (shown in English) or a complete line-by-line translation of the English field.
+    drug_class_bn: NonEmptyStr | None = None
+    indications_bn: list[NonEmptyStr] | None = None
+    side_effects_bn: list[NonEmptyStr] | None = None
+    precautions_bn: list[NonEmptyStr] | None = None
+
+    @model_validator(mode="after")
+    def _bangla_matches_english(self) -> "GenericSeed":
+        for field in TRANSLATED_LIST_FIELDS:
+            bangla = getattr(self, f"{field}_bn")
+            if bangla is not None and len(bangla) != len(getattr(self, field)):
+                raise ValueError(
+                    f"{field}_bn has {len(bangla)} lines but {field} has "
+                    f"{len(getattr(self, field))}; translate every line"
+                )
+        return self
+
+
+TRANSLATED_LIST_FIELDS = ("indications", "side_effects", "precautions")
+TRANSLATED_FIELDS = ("drug_class", *TRANSLATED_LIST_FIELDS)
 
 
 class BrandSeed(_SeedRow):

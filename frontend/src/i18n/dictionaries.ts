@@ -282,6 +282,7 @@ const en = {
     checkWith: (name: string) => `Check ${name} with your other medicines`,
     sourceBefore: "Medicine information from ",
     sourceAfter: ", condensed by MedWise BD.",
+    sourceAfterTranslated: ", condensed by MedWise BD.",
     englishOnly: "",
   },
 };
@@ -537,7 +538,8 @@ const bn: Dict = {
     checkWith: (name: string) => `আপনার অন্য ওষুধের সাথে ${name} যাচাই করুন`,
     sourceBefore: "ওষুধের তথ্যের উৎস: ",
     sourceAfter: " (MedWise BD সংক্ষেপ করেছে)।",
-    englishOnly: "ব্যবহার, পার্শ্বপ্রতিক্রিয়া ও সতর্কতার বাংলা অনুবাদ পর্যালোচনাধীন, তাই এগুলো এখন ইংরেজিতে দেখানো হচ্ছে।",
+    sourceAfterTranslated: " (MedWise BD সংক্ষেপ করেছে; বাংলা অনুবাদ টিম পর্যালোচনা করেছে)।",
+    englishOnly: "কিছু অংশের বাংলা অনুবাদ এখনো পর্যালোচনাধীন, তাই সেগুলো ইংরেজিতে দেখানো হচ্ছে।",
   },
 };
 

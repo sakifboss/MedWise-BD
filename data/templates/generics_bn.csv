@@ -1,0 +1,305 @@
+﻿generic,field,line,english,bangla,approved,reviewed_by,notes
+Paracetamol,drug_class,1,Analgesic and antipyretic,ব্যথানাশক ও জ্বরনাশক,,,Draft by Claude; please check
+Paracetamol,indications,1,Headaches,মাথাব্যথা,,,Draft by Claude; please check
+Paracetamol,indications,2,Toothache,দাঁতব্যথা,,,Draft by Claude; please check
+Paracetamol,indications,3,Sore throat,গলাব্যথা,,,Draft by Claude; please check
+Paracetamol,indications,4,Joint swelling and stiffness,জয়েন্ট ফোলা ও শক্ত হয়ে যাওয়া,,,Draft by Claude; please check
+Paracetamol,indications,5,"Symptoms of a cold or flu, such as a high temperature (fever)","সর্দি-কাশি বা ফ্লুর উপসর্গ, যেমন বেশি তাপমাত্রা (জ্বর)",,,Draft by Claude; please check
+Paracetamol,side_effects,1,Side effects are rare when paracetamol is taken at the right dose,সঠিক মাত্রায় খেলে প্যারাসিটামলের পার্শ্বপ্রতিক্রিয়া বিরল,,,Draft by Claude; please check
+Paracetamol,side_effects,2,"Serious (rare): an allergic reaction (anaphylaxis), such as a swollen throat or tongue, an itchy rash or difficulty breathing","গুরুতর (বিরল): অ্যালার্জিক প্রতিক্রিয়া (অ্যানাফাইল্যাক্সিস), যেমন গলা বা জিভ ফুলে যাওয়া, চুলকানিযুক্ত র‍্যাশ বা শ্বাসকষ্ট",,,Draft by Claude; please check
+Paracetamol,side_effects,3,"Serious (rare): liver problems, such as feeling sick or yellowing of the skin or eyes (jaundice)","গুরুতর (বিরল): লিভারের সমস্যা, যেমন বমি বমি ভাব বা ত্বক বা চোখ হলুদ হয়ে যাওয়া (জন্ডিস)",,,Draft by Claude; please check
+Paracetamol,side_effects,4,"Serious (rare): a problem with blood cells, such as bruising easily and nosebleeds","গুরুতর (বিরল): রক্তকণিকার সমস্যা, যেমন সহজে কালশিটে পড়া ও নাক দিয়ে রক্ত পড়া",,,Draft by Claude; please check
+Paracetamol,precautions,1,May not be suitable if you've had an allergic reaction to paracetamol before,আগে প্যারাসিটামলে অ্যালার্জিক প্রতিক্রিয়া হয়ে থাকলে এটি উপযুক্ত নাও হতে পারে,,,Draft by Claude; please check
+Paracetamol,precautions,2,May not be suitable if you have a kidney or liver condition,কিডনি বা লিভারের রোগ থাকলে এটি উপযুক্ত নাও হতে পারে,,,Draft by Claude; please check
+Paracetamol,precautions,3,May not be suitable if you're dependent on alcohol or binge drink,অ্যালকোহলে আসক্ত হলে বা অল্প সময়ে অনেক বেশি মদ্যপান করলে এটি উপযুক্ত নাও হতে পারে,,,Draft by Claude; please check
+Paracetamol,precautions,4,"If you're pregnant, paracetamol is usually the best painkiller to use",গর্ভাবস্থায় সাধারণত প্যারাসিটামলই ব্যথার জন্য সবচেয়ে ভালো ওষুধ,,,Draft by Claude; please check
+Ibuprofen,drug_class,1,Non-steroidal anti-inflammatory drug (NSAID),নন-স্টেরয়েডাল প্রদাহনাশক ওষুধ (NSAID),,,Draft by Claude; please check
+Ibuprofen,indications,1,Headaches and migraines,মাথাব্যথা ও মাইগ্রেন,,,Draft by Claude; please check
+Ibuprofen,indications,2,Joint and muscle pain,জয়েন্ট ও মাংসপেশির ব্যথা,,,Draft by Claude; please check
+Ibuprofen,indications,3,Pain after an injury,আঘাতের পরের ব্যথা,,,Draft by Claude; please check
+Ibuprofen,indications,4,Toothache,দাঁতব্যথা,,,Draft by Claude; please check
+Ibuprofen,indications,5,Period pain,মাসিকের ব্যথা,,,Draft by Claude; please check
+Ibuprofen,side_effects,1,Indigestion and stomach aches,বদহজম ও পেটব্যথা,,,Draft by Claude; please check
+Ibuprofen,side_effects,2,Feeling sick (nausea) or being sick (vomiting),বমি বমি ভাব বা বমি,,,Draft by Claude; please check
+Ibuprofen,side_effects,3,Headaches,মাথাব্যথা,,,Draft by Claude; please check
+Ibuprofen,side_effects,4,A rash,র‍্যাশ,,,Draft by Claude; please check
+Ibuprofen,side_effects,5,Dizziness,মাথা ঘোরা,,,Draft by Claude; please check
+Ibuprofen,side_effects,6,Diarrhoea or constipation,ডায়রিয়া বা কোষ্ঠকাঠিন্য,,,Draft by Claude; please check
+Ibuprofen,side_effects,7,"Serious (rare): stomach ulcers or bleeding inside the stomach, such as vomiting blood or black, sticky poo","গুরুতর (বিরল): পাকস্থলীতে আলসার বা রক্তক্ষরণ, যেমন রক্তবমি বা কালো, আঠালো মল",,,Draft by Claude; please check
+Ibuprofen,side_effects,8,"Serious (rare): a kidney problem, such as blood in your pee or swelling in your ankles, feet or hands","গুরুতর (বিরল): কিডনির সমস্যা, যেমন প্রস্রাবে রক্ত বা গোড়ালি, পা বা হাত ফুলে যাওয়া",,,Draft by Claude; please check
+Ibuprofen,precautions,1,"May not be suitable if you've had an allergic reaction to ibuprofen, aspirin or another NSAID","আইবুপ্রোফেন, অ্যাসপিরিন বা অন্য কোনো NSAID-এ আগে অ্যালার্জিক প্রতিক্রিয়া হয়ে থাকলে এটি উপযুক্ত নাও হতে পারে",,,Draft by Claude; please check
+Ibuprofen,precautions,2,May not be suitable if you have a stomach ulcer or have had one before,পাকস্থলীতে আলসার থাকলে বা আগে হয়ে থাকলে এটি উপযুক্ত নাও হতে পারে,,,Draft by Claude; please check
+Ibuprofen,precautions,3,May not be suitable if you have asthma or allergies (such as hay fever),হাঁপানি বা অ্যালার্জি (যেমন হে ফিভার) থাকলে এটি উপযুক্ত নাও হতে পারে,,,Draft by Claude; please check
+Ibuprofen,precautions,4,"May not be suitable if you have a heart, liver or kidney condition","হার্ট, লিভার বা কিডনির রোগ থাকলে এটি উপযুক্ত নাও হতে পারে",,,Draft by Claude; please check
+Ibuprofen,precautions,5,May not be suitable if you have problems with blood clotting or have had a stroke,রক্ত জমাট বাঁধায় সমস্যা থাকলে বা আগে স্ট্রোক হয়ে থাকলে এটি উপযুক্ত নাও হতে পারে,,,Draft by Claude; please check
+Ibuprofen,precautions,6,Avoid ibuprofen during pregnancy unless a doctor or pharmacist advises it,ডাক্তার বা ফার্মাসিস্ট না বললে গর্ভাবস্থায় আইবুপ্রোফেন এড়িয়ে চলুন,,,Draft by Claude; please check
+Aspirin,drug_class,1,Antiplatelet agent (low dose),অ্যান্টিপ্লেটলেট (কম মাত্রায়),,,Draft by Claude; please check
+Aspirin,indications,1,"At a low, regular dose: to prevent blood clots and lower the chance of a heart attack or stroke",নিয়মিত কম মাত্রায়: রক্ত জমাট বাঁধা ঠেকাতে এবং হার্ট অ্যাটাক বা স্ট্রোকের ঝুঁকি কমাতে,,,Draft by Claude; please check
+Aspirin,side_effects,1,Indigestion and stomach aches,বদহজম ও পেটব্যথা,,,Draft by Claude; please check
+Aspirin,side_effects,2,"Bleeding more easily than usual (for example, a cut may take longer to stop bleeding)",স্বাভাবিকের চেয়ে সহজে রক্তপাত (যেমন কেটে গেলে রক্ত থামতে বেশি সময় লাগতে পারে),,,Draft by Claude; please check
+Aspirin,side_effects,3,"Serious (rare): stomach ulcers or bleeding inside the stomach, such as vomiting blood or black, tar-like poo","গুরুতর (বিরল): পাকস্থলীতে আলসার বা রক্তক্ষরণ, যেমন রক্তবমি বা আলকাতরার মতো কালো মল",,,Draft by Claude; please check
+Aspirin,side_effects,4,Serious (rare): shortness of breath or wheezing,গুরুতর (বিরল): শ্বাসকষ্ট বা শ্বাসের সাথে সাঁ সাঁ শব্দ,,,Draft by Claude; please check
+Aspirin,side_effects,5,Serious (rare): an allergic reaction (anaphylaxis),গুরুতর (বিরল): অ্যালার্জিক প্রতিক্রিয়া (অ্যানাফাইল্যাক্সিস),,,Draft by Claude; please check
+Aspirin,precautions,1,"May not be suitable if you've had an allergic reaction to aspirin, ibuprofen or another NSAID","অ্যাসপিরিন, আইবুপ্রোফেন বা অন্য কোনো NSAID-এ আগে অ্যালার্জিক প্রতিক্রিয়া হয়ে থাকলে এটি উপযুক্ত নাও হতে পারে",,,Draft by Claude; please check
+Aspirin,precautions,2,May not be suitable if you have a stomach ulcer or have had one before,পাকস্থলীতে আলসার থাকলে বা আগে হয়ে থাকলে এটি উপযুক্ত নাও হতে পারে,,,Draft by Claude; please check
+Aspirin,precautions,3,May not be suitable if you have asthma or heart failure,হাঁপানি বা হার্ট ফেইলিওর থাকলে এটি উপযুক্ত নাও হতে পারে,,,Draft by Claude; please check
+Aspirin,precautions,4,May not be suitable if you have a liver or kidney condition or problems with blood clotting,লিভার বা কিডনির রোগ বা রক্ত জমাট বাঁধায় সমস্যা থাকলে এটি উপযুক্ত নাও হতে পারে,,,Draft by Claude; please check
+Aspirin,precautions,5,Tell your doctor if you're pregnant or get pregnant while taking low-dose aspirin,গর্ভবতী হলে বা কম মাত্রার অ্যাসপিরিন খাওয়ার সময় গর্ভধারণ করলে ডাক্তারকে জানান,,,Draft by Claude; please check
+Omeprazole,drug_class,1,Proton pump inhibitor,প্রোটন পাম্প ইনহিবিটর (পাকস্থলীর অ্যাসিড কমায়),,,Draft by Claude; please check
+Omeprazole,indications,1,Stomach ulcers,পাকস্থলীর আলসার,,,Draft by Claude; please check
+Omeprazole,indications,2,Heartburn,বুকজ্বালা,,,Draft by Claude; please check
+Omeprazole,indications,3,Gastro-oesophageal reflux disease (GORD),গ্যাস্ট্রো-ইসোফেজিয়াল রিফ্লাক্স ডিজিজ (GORD),,,Draft by Claude; please check
+Omeprazole,indications,4,The stomach infection Helicobacter pylori (along with antibiotics),পাকস্থলীর হেলিকোব্যাক্টর পাইলোরি সংক্রমণ (অ্যান্টিবায়োটিকের সাথে),,,Draft by Claude; please check
+Omeprazole,side_effects,1,Headache,মাথাব্যথা,,,Draft by Claude; please check
+Omeprazole,side_effects,2,Stomach pain,পেটব্যথা,,,Draft by Claude; please check
+Omeprazole,side_effects,3,Feeling sick (nausea) or being sick (vomiting),বমি বমি ভাব বা বমি,,,Draft by Claude; please check
+Omeprazole,side_effects,4,Constipation or diarrhoea,কোষ্ঠকাঠিন্য বা ডায়রিয়া,,,Draft by Claude; please check
+Omeprazole,side_effects,5,Farting more than usual,স্বাভাবিকের চেয়ে বেশি বায়ু নির্গত হওয়া,,,Draft by Claude; please check
+Omeprazole,side_effects,6,"Serious (rare): a very low level of vitamin B12, causing tiredness, dizziness or muscle weakness","গুরুতর (বিরল): ভিটামিন B12 খুব কমে যাওয়া, যার ফলে ক্লান্তি, মাথা ঘোরা বা মাংসপেশির দুর্বলতা",,,Draft by Claude; please check
+Omeprazole,side_effects,7,"Serious (rare): weakened bones, which can break more easily (more likely with long-term use)",গুরুতর (বিরল): হাড় দুর্বল হয়ে সহজে ভেঙে যাওয়া (দীর্ঘদিন খেলে বেশি সম্ভাবনা),,,Draft by Claude; please check
+Omeprazole,precautions,1,May not be suitable if you've had an allergic reaction to omeprazole or another PPI,ওমিপ্রাজল বা অন্য কোনো PPI-তে আগে অ্যালার্জিক প্রতিক্রিয়া হয়ে থাকলে এটি উপযুক্ত নাও হতে পারে,,,Draft by Claude; please check
+Omeprazole,precautions,2,May not be suitable if you have a kidney or liver condition,কিডনি বা লিভারের রোগ থাকলে এটি উপযুক্ত নাও হতে পারে,,,Draft by Claude; please check
+Omeprazole,precautions,3,May not be suitable if you have osteoporosis (weakened bones),অস্টিওপোরোসিস (হাড় দুর্বল) থাকলে এটি উপযুক্ত নাও হতে পারে,,,Draft by Claude; please check
+Omeprazole,precautions,4,"You can usually take omeprazole if you're pregnant, but check with a pharmacist or doctor first","গর্ভাবস্থায় সাধারণত ওমিপ্রাজল খাওয়া যায়, তবে আগে ফার্মাসিস্ট বা ডাক্তারের সাথে কথা বলে নিন",,,Draft by Claude; please check
+Esomeprazole,drug_class,1,Proton pump inhibitor,প্রোটন পাম্প ইনহিবিটর (পাকস্থলীর অ্যাসিড কমায়),,,Draft by Claude; please check
+Esomeprazole,indications,1,"Indigestion, heartburn and acid reflux, including gastro-oesophageal reflux disease (GORD)","বদহজম, বুকজ্বালা ও অ্যাসিড রিফ্লাক্স, যার মধ্যে গ্যাস্ট্রো-ইসোফেজিয়াল রিফ্লাক্স ডিজিজ (GORD)",,,Draft by Claude; please check
+Esomeprazole,indications,2,Preventing and treating stomach ulcers,পাকস্থলীর আলসার প্রতিরোধ ও চিকিৎসা,,,Draft by Claude; please check
+Esomeprazole,side_effects,1,Headaches,মাথাব্যথা,,,Draft by Claude; please check
+Esomeprazole,side_effects,2,Feeling sick or being sick,বমি বমি ভাব বা বমি,,,Draft by Claude; please check
+Esomeprazole,side_effects,3,Diarrhoea or constipation,ডায়রিয়া বা কোষ্ঠকাঠিন্য,,,Draft by Claude; please check
+Esomeprazole,side_effects,4,Stomach pain,পেটব্যথা,,,Draft by Claude; please check
+Esomeprazole,side_effects,5,Farting (flatulence),বায়ু নির্গত হওয়া (পেট ফাঁপা),,,Draft by Claude; please check
+Esomeprazole,side_effects,6,"Serious (rare): yellow skin or eyes, pale poo or dark pee (possible liver problems)","গুরুতর (বিরল): ত্বক বা চোখ হলুদ হওয়া, ফ্যাকাশে মল বা গাঢ় রঙের প্রস্রাব (লিভারের সমস্যা হতে পারে)",,,Draft by Claude; please check
+Esomeprazole,side_effects,7,Serious (rare): diarrhoea that is severe or does not go away,গুরুতর (বিরল): তীব্র ডায়রিয়া বা যে ডায়রিয়া সারছে না,,,Draft by Claude; please check
+Esomeprazole,precautions,1,Tell your doctor if you have ever had an allergic reaction to esomeprazole or any other medicine,ইসোমিপ্রাজল বা অন্য কোনো ওষুধে কখনো অ্যালার্জিক প্রতিক্রিয়া হয়ে থাকলে ডাক্তারকে জানান,,,Draft by Claude; please check
+Esomeprazole,precautions,2,Tell your doctor if you have liver problems,লিভারের সমস্যা থাকলে ডাক্তারকে জানান,,,Draft by Claude; please check
+Esomeprazole,precautions,3,Tell your doctor if you are due to have an endoscopy,শিগগির এন্ডোস্কোপি করানোর কথা থাকলে ডাক্তারকে জানান,,,Draft by Claude; please check
+Esomeprazole,precautions,4,"Tell your doctor if you are losing weight without trying, are vomiting blood, have blood in your poo or have problems swallowing","চেষ্টা ছাড়াই ওজন কমতে থাকলে, রক্তবমি হলে, মলে রক্ত গেলে বা গিলতে সমস্যা হলে ডাক্তারকে জানান",,,Draft by Claude; please check
+Pantoprazole,drug_class,1,Proton pump inhibitor,প্রোটন পাম্প ইনহিবিটর (পাকস্থলীর অ্যাসিড কমায়),,,Draft by Claude; please check
+Pantoprazole,indications,1,"Heartburn, acid reflux and gastro-oesophageal reflux disease (GORD)","বুকজ্বালা, অ্যাসিড রিফ্লাক্স ও গ্যাস্ট্রো-ইসোফেজিয়াল রিফ্লাক্স ডিজিজ (GORD)",,,Draft by Claude; please check
+Pantoprazole,indications,2,Preventing and treating stomach ulcers,পাকস্থলীর আলসার প্রতিরোধ ও চিকিৎসা,,,Draft by Claude; please check
+Pantoprazole,side_effects,1,"Most people have no side effects; uncommon ones include headaches, diarrhoea and feeling or being sick","বেশিরভাগ মানুষের কোনো পার্শ্বপ্রতিক্রিয়া হয় না; কম দেখা যায় এমনগুলোর মধ্যে আছে মাথাব্যথা, ডায়রিয়া এবং বমি বমি ভাব বা বমি",,,Draft by Claude; please check
+Pantoprazole,side_effects,2,"Serious (rare): joint pain with a red skin rash, especially on skin exposed to the sun","গুরুতর (বিরল): জয়েন্টে ব্যথার সাথে লাল র‍্যাশ, বিশেষ করে রোদে থাকা ত্বকে",,,Draft by Claude; please check
+Pantoprazole,side_effects,3,Serious (rare): yellow skin or eyes or dark pee (possible liver problems),গুরুতর (বিরল): ত্বক বা চোখ হলুদ হওয়া বা গাঢ় রঙের প্রস্রাব (লিভারের সমস্যা হতে পারে),,,Draft by Claude; please check
+Pantoprazole,side_effects,4,Serious (rare): severe or persistent diarrhoea,গুরুতর (বিরল): তীব্র বা দীর্ঘস্থায়ী ডায়রিয়া,,,Draft by Claude; please check
+Pantoprazole,precautions,1,Tell your doctor if you have ever had an allergic reaction to pantoprazole or any other medicine,প্যান্টোপ্রাজল বা অন্য কোনো ওষুধে কখনো অ্যালার্জিক প্রতিক্রিয়া হয়ে থাকলে ডাক্তারকে জানান,,,Draft by Claude; please check
+Pantoprazole,precautions,2,Tell your doctor if you have liver problems or low levels of vitamin B12,লিভারের সমস্যা থাকলে বা ভিটামিন B12 কম থাকলে ডাক্তারকে জানান,,,Draft by Claude; please check
+Pantoprazole,precautions,3,"Tell your doctor if you are pregnant, trying to get pregnant or breastfeeding","গর্ভবতী হলে, গর্ভধারণের চেষ্টা করলে বা বুকের দুধ খাওয়ালে ডাক্তারকে জানান",,,Draft by Claude; please check
+Pantoprazole,precautions,4,Tell your doctor if you are due to have an endoscopy,শিগগির এন্ডোস্কোপি করানোর কথা থাকলে ডাক্তারকে জানান,,,Draft by Claude; please check
+Amoxicillin,drug_class,1,Penicillin antibiotic,পেনিসিলিন-জাতীয় অ্যান্টিবায়োটিক,,,Draft by Claude; please check
+Amoxicillin,indications,1,"Bacterial infections, such as chest infections (including pneumonia) and dental abscesses","ব্যাকটেরিয়াজনিত সংক্রমণ, যেমন বুকের সংক্রমণ (নিউমোনিয়াসহ) ও দাঁতের ফোড়া",,,Draft by Claude; please check
+Amoxicillin,indications,2,Ear infections and chest infections in children,শিশুদের কানের সংক্রমণ ও বুকের সংক্রমণ,,,Draft by Claude; please check
+Amoxicillin,side_effects,1,Skin rash,ত্বকে র‍্যাশ,,,Draft by Claude; please check
+Amoxicillin,side_effects,2,Feeling sick (nausea),বমি বমি ভাব,,,Draft by Claude; please check
+Amoxicillin,side_effects,3,Diarrhoea,ডায়রিয়া,,,Draft by Claude; please check
+Amoxicillin,side_effects,4,"Serious (rare): diarrhoea that contains blood or mucus, or severe diarrhoea","গুরুতর (বিরল): রক্ত বা মিউকাসযুক্ত ডায়রিয়া, বা তীব্র ডায়রিয়া",,,Draft by Claude; please check
+Amoxicillin,side_effects,5,"Serious (rare): yellow skin or eyes, pale poo and dark pee (possible liver problems)","গুরুতর (বিরল): ত্বক বা চোখ হলুদ হওয়া, ফ্যাকাশে মল ও গাঢ় রঙের প্রস্রাব (লিভারের সমস্যা হতে পারে)",,,Draft by Claude; please check
+Amoxicillin,precautions,1,Tell your doctor if you have ever had an allergic reaction to amoxicillin or penicillin,অ্যামোক্সিসিলিন বা পেনিসিলিনে কখনো অ্যালার্জিক প্রতিক্রিয়া হয়ে থাকলে ডাক্তারকে জানান,,,Draft by Claude; please check
+Amoxicillin,precautions,2,Tell your doctor if you have liver or kidney problems,লিভার বা কিডনির সমস্যা থাকলে ডাক্তারকে জানান,,,Draft by Claude; please check
+Amoxicillin,precautions,3,Tell your doctor if you have glandular fever (amoxicillin can cause a rash),গ্ল্যান্ডুলার ফিভার থাকলে ডাক্তারকে জানান (অ্যামোক্সিসিলিনে র‍্যাশ হতে পারে),,,Draft by Claude; please check
+Amoxicillin,precautions,4,Tell your doctor if you are due to have blood or urine tests or any vaccinations,রক্ত বা প্রস্রাব পরীক্ষা বা কোনো টিকা নেওয়ার কথা থাকলে ডাক্তারকে জানান,,,Draft by Claude; please check
+Azithromycin,drug_class,1,Macrolide antibiotic,ম্যাক্রোলাইড অ্যান্টিবায়োটিক,,,Draft by Claude; please check
+Azithromycin,indications,1,Chest infections such as pneumonia,"বুকের সংক্রমণ, যেমন নিউমোনিয়া",,,Draft by Claude; please check
+Azithromycin,indications,2,"Ear, nose and throat infections such as sinus infections (sinusitis)","কান, নাক ও গলার সংক্রমণ, যেমন সাইনাসের সংক্রমণ (সাইনোসাইটিস)",,,Draft by Claude; please check
+Azithromycin,indications,3,Skin infections,ত্বকের সংক্রমণ,,,Draft by Claude; please check
+Azithromycin,indications,4,Lyme disease,লাইম রোগ,,,Draft by Claude; please check
+Azithromycin,indications,5,Some sexually transmitted infections (STIs),কিছু যৌনবাহিত সংক্রমণ (STI),,,Draft by Claude; please check
+Azithromycin,side_effects,1,Feeling sick (nausea) or being sick (vomiting),বমি বমি ভাব বা বমি,,,Draft by Claude; please check
+Azithromycin,side_effects,2,Diarrhoea,ডায়রিয়া,,,Draft by Claude; please check
+Azithromycin,side_effects,3,Losing your appetite,ক্ষুধা কমে যাওয়া,,,Draft by Claude; please check
+Azithromycin,side_effects,4,Headaches,মাথাব্যথা,,,Draft by Claude; please check
+Azithromycin,side_effects,5,Feeling dizzy or tired,মাথা ঘোরা বা ক্লান্ত লাগা,,,Draft by Claude; please check
+Azithromycin,side_effects,6,Changes to your sense of taste,স্বাদের অনুভূতিতে পরিবর্তন,,,Draft by Claude; please check
+Azithromycin,side_effects,7,Serious (rare): a faster or irregular heartbeat (arrhythmia),গুরুতর (বিরল): হৃৎস্পন্দন দ্রুত বা অনিয়মিত হওয়া (অ্যারিদমিয়া),,,Draft by Claude; please check
+Azithromycin,side_effects,8,"Serious (rare): yellow skin or eyes, or pale poo with dark pee","গুরুতর (বিরল): ত্বক বা চোখ হলুদ হওয়া, বা ফ্যাকাশে মলের সাথে গাঢ় রঙের প্রস্রাব",,,Draft by Claude; please check
+Azithromycin,precautions,1,Tell your doctor if you have ever had an allergic reaction to azithromycin or any other medicine,অ্যাজিথ্রোমাইসিন বা অন্য কোনো ওষুধে কখনো অ্যালার্জিক প্রতিক্রিয়া হয়ে থাকলে ডাক্তারকে জানান,,,Draft by Claude; please check
+Azithromycin,precautions,2,Tell your doctor if you have liver or kidney problems,লিভার বা কিডনির সমস্যা থাকলে ডাক্তারকে জানান,,,Draft by Claude; please check
+Azithromycin,precautions,3,"Tell your doctor if you have heart problems, including an irregular heartbeat",অনিয়মিত হৃৎস্পন্দনসহ হার্টের কোনো সমস্যা থাকলে ডাক্তারকে জানান,,,Draft by Claude; please check
+Azithromycin,precautions,4,Tell your doctor if you have myasthenia gravis,মায়াস্থেনিয়া গ্রাভিস থাকলে ডাক্তারকে জানান,,,Draft by Claude; please check
+Cefixime,drug_class,1,Third-generation cephalosporin antibiotic,তৃতীয় প্রজন্মের সেফালোস্পোরিন অ্যান্টিবায়োটিক,,,Draft by Claude; please check
+Cefixime,indications,1,Uncomplicated urinary tract infections,জটিলতাহীন মূত্রনালির সংক্রমণ,,,Draft by Claude; please check
+Cefixime,indications,2,Middle ear infections (otitis media),মধ্যকর্ণের সংক্রমণ (ওটাইটিস মিডিয়া),,,Draft by Claude; please check
+Cefixime,indications,3,Pharyngitis and tonsillitis,ফ্যারিঞ্জাইটিস ও টনসিলাইটিস,,,Draft by Claude; please check
+Cefixime,indications,4,Acute exacerbations of chronic bronchitis,দীর্ঘমেয়াদি ব্রঙ্কাইটিস হঠাৎ বেড়ে যাওয়া,,,Draft by Claude; please check
+Cefixime,indications,5,Uncomplicated gonorrhoea,জটিলতাহীন গনোরিয়া,,,Draft by Claude; please check
+Cefixime,side_effects,1,Diarrhoea or loose stools,ডায়রিয়া বা পাতলা পায়খানা,,,Draft by Claude; please check
+Cefixime,side_effects,2,Nausea,বমি বমি ভাব,,,Draft by Claude; please check
+Cefixime,side_effects,3,Abdominal pain,পেটব্যথা,,,Draft by Claude; please check
+Cefixime,side_effects,4,Indigestion (dyspepsia),বদহজম (ডিসপেপসিয়া),,,Draft by Claude; please check
+Cefixime,side_effects,5,Flatulence,পেট ফাঁপা,,,Draft by Claude; please check
+Cefixime,side_effects,6,Serious (rare): severe allergic reactions (anaphylaxis); stop and get help if a reaction occurs,গুরুতর (বিরল): তীব্র অ্যালার্জিক প্রতিক্রিয়া (অ্যানাফাইল্যাক্সিস); প্রতিক্রিয়া হলে ওষুধ বন্ধ করে দ্রুত সাহায্য নিন,,,Draft by Claude; please check
+Cefixime,side_effects,7,"Serious (rare): Clostridioides difficile diarrhoea, which can range from mild diarrhoea to severe colitis","গুরুতর (বিরল): ক্লস্ট্রিডিওয়েডিস ডিফিসিল ডায়রিয়া, যা হালকা ডায়রিয়া থেকে গুরুতর কোলাইটিস পর্যন্ত হতে পারে",,,Draft by Claude; please check
+Cefixime,precautions,1,Do not use if you are allergic to cefixime or other cephalosporins,সেফিক্সিম বা অন্য কোনো সেফালোস্পোরিনে অ্যালার্জি থাকলে ব্যবহার করবেন না,,,Draft by Claude; please check
+Cefixime,precautions,2,Use with caution if you are allergic to penicillin (cross-allergy can occur),পেনিসিলিনে অ্যালার্জি থাকলে সাবধানে ব্যবহার করুন (এতেও অ্যালার্জি হতে পারে),,,Draft by Claude; please check
+Cefixime,precautions,3,Tell your doctor if diarrhoea develops during or after treatment,চিকিৎসার সময় বা পরে ডায়রিয়া হলে ডাক্তারকে জানান,,,Draft by Claude; please check
+Ciprofloxacin,drug_class,1,Fluoroquinolone antibiotic,ফ্লুরোকুইনোলোন অ্যান্টিবায়োটিক,,,Draft by Claude; please check
+Ciprofloxacin,indications,1,"Urinary tract infections (UTIs), such as bladder or kidney infections","মূত্রনালির সংক্রমণ (UTI), যেমন মূত্রথলি বা কিডনির সংক্রমণ",,,Draft by Claude; please check
+Ciprofloxacin,indications,2,Sexually transmitted infections (STIs),যৌনবাহিত সংক্রমণ (STI),,,Draft by Claude; please check
+Ciprofloxacin,indications,3,Ear or eye infections,কান বা চোখের সংক্রমণ,,,Draft by Claude; please check
+Ciprofloxacin,indications,4,Bone and joint infections,হাড় ও জয়েন্টের সংক্রমণ,,,Draft by Claude; please check
+Ciprofloxacin,indications,5,Infection of the prostate gland (prostatitis),প্রোস্টেট গ্রন্থির সংক্রমণ (প্রোস্টাটাইটিস),,,Draft by Claude; please check
+Ciprofloxacin,side_effects,1,Feeling sick (nausea) or being sick (vomiting),বমি বমি ভাব বা বমি,,,Draft by Claude; please check
+Ciprofloxacin,side_effects,2,Headache,মাথাব্যথা,,,Draft by Claude; please check
+Ciprofloxacin,side_effects,3,Diarrhoea,ডায়রিয়া,,,Draft by Claude; please check
+Ciprofloxacin,side_effects,4,Eye discomfort or pain,চোখে অস্বস্তি বা ব্যথা,,,Draft by Claude; please check
+Ciprofloxacin,side_effects,5,"Serious (rare): damage to tendons, causing sudden joint pain, swelling or difficulty walking","গুরুতর (বিরল): টেন্ডনের ক্ষতি, যার ফলে হঠাৎ জয়েন্টে ব্যথা, ফোলা বা হাঁটতে কষ্ট",,,Draft by Claude; please check
+Ciprofloxacin,side_effects,6,Serious (rare): numbness and tingling in the hands and feet (peripheral neuropathy),গুরুতর (বিরল): হাত-পায়ে অবশ ভাব ও ঝিনঝিন (পেরিফেরাল নিউরোপ্যাথি),,,Draft by Claude; please check
+Ciprofloxacin,side_effects,7,Serious (rare): seizures (fits) or changes to mood,গুরুতর (বিরল): খিঁচুনি বা মেজাজের পরিবর্তন,,,Draft by Claude; please check
+Ciprofloxacin,precautions,1,Tell your doctor if you've had an allergic reaction or serious side effect from ciprofloxacin or another fluoroquinolone,সিপ্রোফ্লক্সাসিন বা অন্য কোনো ফ্লুরোকুইনোলোনে আগে অ্যালার্জিক প্রতিক্রিয়া বা গুরুতর পার্শ্বপ্রতিক্রিয়া হয়ে থাকলে ডাক্তারকে জানান,,,Draft by Claude; please check
+Ciprofloxacin,precautions,2,"Tell your doctor if you have diabetes, epilepsy or another nervous system condition","ডায়াবেটিস, মৃগীরোগ বা স্নায়ুতন্ত্রের অন্য কোনো রোগ থাকলে ডাক্তারকে জানান",,,Draft by Claude; please check
+Ciprofloxacin,precautions,3,Tell your doctor if you have a heart problem or a kidney condition,হার্টের সমস্যা বা কিডনির রোগ থাকলে ডাক্তারকে জানান,,,Draft by Claude; please check
+Ciprofloxacin,precautions,4,"Tell your doctor if you have an abdominal aortic aneurysm, or a close relative has had one",পেটের মহাধমনী ফুলে যাওয়ার রোগ (অ্যাবডোমিনাল অ্যাওর্টিক অ্যানিউরিজম) থাকলে বা নিকট আত্মীয়ের হয়ে থাকলে ডাক্তারকে জানান,,,Draft by Claude; please check
+Ciprofloxacin,precautions,5,Ciprofloxacin is not usually used during pregnancy; tell your doctor if you're pregnant,গর্ভাবস্থায় সাধারণত সিপ্রোফ্লক্সাসিন ব্যবহার করা হয় না; গর্ভবতী হলে ডাক্তারকে জানান,,,Draft by Claude; please check
+Metronidazole,drug_class,1,Nitroimidazole antimicrobial,নাইট্রোইমিডাজল অ্যান্টিমাইক্রোবিয়াল,,,Draft by Claude; please check
+Metronidazole,indications,1,Skin infections,ত্বকের সংক্রমণ,,,Draft by Claude; please check
+Metronidazole,indications,2,Rosacea,রোজাসিয়া,,,Draft by Claude; please check
+Metronidazole,indications,3,"Mouth infections, including infected gums and dental abscesses","মুখের সংক্রমণ, যেমন মাড়ির সংক্রমণ ও দাঁতের ফোড়া",,,Draft by Claude; please check
+Metronidazole,indications,4,Bacterial vaginosis,ব্যাকটেরিয়াল ভ্যাজিনোসিস,,,Draft by Claude; please check
+Metronidazole,indications,5,Pelvic inflammatory disease,পেলভিক ইনফ্ল্যামেটরি ডিজিজ,,,Draft by Claude; please check
+Metronidazole,side_effects,1,Feeling or being sick (nausea or vomiting),বমি বমি ভাব বা বমি,,,Draft by Claude; please check
+Metronidazole,side_effects,2,Diarrhoea,ডায়রিয়া,,,Draft by Claude; please check
+Metronidazole,side_effects,3,A metallic taste in your mouth or a furry tongue,মুখে ধাতব স্বাদ বা জিভে সাদা আস্তর,,,Draft by Claude; please check
+Metronidazole,side_effects,4,Serious (rare): yellow skin or eyes (possible liver problems),গুরুতর (বিরল): ত্বক বা চোখ হলুদ হওয়া (লিভারের সমস্যা হতে পারে),,,Draft by Claude; please check
+Metronidazole,side_effects,5,Serious (rare): severe stomach pain that may reach through to your back (possible pancreatitis),গুরুতর (বিরল): পিঠ পর্যন্ত ছড়ানো তীব্র পেটব্যথা (প্যানক্রিয়াটাইটিস হতে পারে),,,Draft by Claude; please check
+Metronidazole,side_effects,6,Serious (rare): blurred or double vision,গুরুতর (বিরল): ঝাপসা দেখা বা একটা জিনিস দুটো দেখা,,,Draft by Claude; please check
+Metronidazole,precautions,1,Tell your doctor if you have ever had an allergic reaction to metronidazole or any other medicine,মেট্রোনিডাজল বা অন্য কোনো ওষুধে কখনো অ্যালার্জিক প্রতিক্রিয়া হয়ে থাকলে ডাক্তারকে জানান,,,Draft by Claude; please check
+Metronidazole,precautions,2,Tell your doctor if you are pregnant or breastfeeding,গর্ভবতী হলে বা বুকের দুধ খাওয়ালে ডাক্তারকে জানান,,,Draft by Claude; please check
+Metronidazole,precautions,3,Tell your doctor if you will not be able to stop drinking alcohol while using metronidazole,মেট্রোনিডাজল খাওয়ার সময় মদ্যপান বন্ধ রাখতে না পারলে ডাক্তারকে জানান,,,Draft by Claude; please check
+Metronidazole,precautions,4,"Tell your doctor if you have liver problems, a nervous system disease or are having dialysis","লিভারের সমস্যা বা স্নায়ুতন্ত্রের রোগ থাকলে, বা ডায়ালাইসিস চললে ডাক্তারকে জানান",,,Draft by Claude; please check
+Metformin,drug_class,1,Biguanide antidiabetic,বাইগুয়ানাইড (ডায়াবেটিসের ওষুধ),,,Draft by Claude; please check
+Metformin,indications,1,Type 2 diabetes (on its own or with other diabetes medicines),টাইপ ২ ডায়াবেটিস (একা বা ডায়াবেটিসের অন্য ওষুধের সাথে),,,Draft by Claude; please check
+Metformin,indications,2,Diabetes that develops during pregnancy (gestational diabetes),গর্ভাবস্থায় হওয়া ডায়াবেটিস (জেস্টেশনাল ডায়াবেটিস),,,Draft by Claude; please check
+Metformin,side_effects,1,Feeling sick (nausea) or being sick (vomiting),বমি বমি ভাব বা বমি,,,Draft by Claude; please check
+Metformin,side_effects,2,Diarrhoea,ডায়রিয়া,,,Draft by Claude; please check
+Metformin,side_effects,3,Tummy pain,পেটব্যথা,,,Draft by Claude; please check
+Metformin,side_effects,4,Loss of appetite,ক্ষুধা কমে যাওয়া,,,Draft by Claude; please check
+Metformin,side_effects,5,A change to the way things taste,খাবারের স্বাদ বদলে যাওয়া,,,Draft by Claude; please check
+Metformin,side_effects,6,"Serious (rare): vitamin B12 deficiency, which can make you feel very tired","গুরুতর (বিরল): ভিটামিন B12-এর ঘাটতি, যার ফলে খুব ক্লান্ত লাগতে পারে",,,Draft by Claude; please check
+Metformin,precautions,1,May not be suitable if you've had an allergic reaction or serious side effect from metformin,মেটফরমিনে আগে অ্যালার্জিক প্রতিক্রিয়া বা গুরুতর পার্শ্বপ্রতিক্রিয়া হয়ে থাকলে এটি উপযুক্ত নাও হতে পারে,,,Draft by Claude; please check
+Metformin,precautions,2,May not be suitable if you have liver or kidney problems,লিভার বা কিডনির সমস্যা থাকলে এটি উপযুক্ত নাও হতে পারে,,,Draft by Claude; please check
+Metformin,precautions,3,May not be suitable if you have a severe infection or heart failure,গুরুতর সংক্রমণ বা হার্ট ফেইলিওর থাকলে এটি উপযুক্ত নাও হতে পারে,,,Draft by Claude; please check
+Metformin,precautions,4,May not be suitable if you drink a lot of alcohol,বেশি মদ্যপান করলে এটি উপযুক্ত নাও হতে পারে,,,Draft by Claude; please check
+Metformin,precautions,5,Tell your doctor if you're pregnant or get pregnant while taking metformin,গর্ভবতী হলে বা মেটফরমিন খাওয়ার সময় গর্ভধারণ করলে ডাক্তারকে জানান,,,Draft by Claude; please check
+Gliclazide,drug_class,1,Sulfonylurea antidiabetic,সালফোনাইলইউরিয়া (ডায়াবেটিসের ওষুধ),,,Draft by Claude; please check
+Gliclazide,indications,1,Type 2 diabetes,টাইপ ২ ডায়াবেটিস,,,Draft by Claude; please check
+Gliclazide,side_effects,1,Stomach pain,পেটব্যথা,,,Draft by Claude; please check
+Gliclazide,side_effects,2,Diarrhoea,ডায়রিয়া,,,Draft by Claude; please check
+Gliclazide,side_effects,3,Serious (rare): an allergic reaction (anaphylaxis),গুরুতর (বিরল): অ্যালার্জিক প্রতিক্রিয়া (অ্যানাফাইল্যাক্সিস),,,Draft by Claude; please check
+Gliclazide,side_effects,4,"Serious (rare): a problem with blood cells, such as bruising easily, a sore throat and a high temperature","গুরুতর (বিরল): রক্তকণিকার সমস্যা, যেমন সহজে কালশিটে পড়া, গলাব্যথা ও বেশি জ্বর",,,Draft by Claude; please check
+Gliclazide,side_effects,5,"Serious (rare): liver problems, such as yellowing of the skin or eyes","গুরুতর (বিরল): লিভারের সমস্যা, যেমন ত্বক বা চোখ হলুদ হওয়া",,,Draft by Claude; please check
+Gliclazide,precautions,1,May not be suitable if you've had an allergic reaction or serious side effect from gliclazide or a similar medicine,গ্লিক্লাজাইড বা এ রকম কোনো ওষুধে আগে অ্যালার্জিক প্রতিক্রিয়া বা গুরুতর পার্শ্বপ্রতিক্রিয়া হয়ে থাকলে এটি উপযুক্ত নাও হতে পারে,,,Draft by Claude; please check
+Gliclazide,precautions,2,May not be suitable if you have severe kidney or liver disease,কিডনি বা লিভারের গুরুতর রোগ থাকলে এটি উপযুক্ত নাও হতে পারে,,,Draft by Claude; please check
+Gliclazide,precautions,3,May not be suitable if you have acute porphyria,অ্যাকিউট পরফাইরিয়া থাকলে এটি উপযুক্ত নাও হতে পারে,,,Draft by Claude; please check
+Gliclazide,precautions,4,Tell your doctor if you're pregnant or trying to get pregnant,গর্ভবতী হলে বা গর্ভধারণের চেষ্টা করলে ডাক্তারকে জানান,,,Draft by Claude; please check
+Amlodipine,drug_class,1,Calcium channel blocker,ক্যালসিয়াম চ্যানেল ব্লকার,,,Draft by Claude; please check
+Amlodipine,indications,1,High blood pressure (hypertension),উচ্চ রক্তচাপ (হাইপারটেনশন),,,Draft by Claude; please check
+Amlodipine,indications,2,Preventing angina attacks,অ্যানজাইনার (বুকে ব্যথা) আক্রমণ প্রতিরোধ,,,Draft by Claude; please check
+Amlodipine,side_effects,1,"Swelling in your ankles, feet and legs (oedema)",গোড়ালি ও পা ফুলে যাওয়া (ইডিমা),,,Draft by Claude; please check
+Amlodipine,side_effects,2,"Headaches, dizziness and feeling sleepy","মাথাব্যথা, মাথা ঘোরা ও ঘুম ঘুম ভাব",,,Draft by Claude; please check
+Amlodipine,side_effects,3,A fast or noticeable heartbeat (palpitations),দ্রুত বা স্পষ্ট টের পাওয়া হৃৎস্পন্দন (বুক ধড়ফড়),,,Draft by Claude; please check
+Amlodipine,side_effects,4,A red and warm face or neck (flushing),মুখ বা ঘাড় লাল ও গরম হয়ে যাওয়া (ফ্লাশিং),,,Draft by Claude; please check
+Amlodipine,side_effects,5,Tummy pain and feeling sick (nausea),পেটব্যথা ও বমি বমি ভাব,,,Draft by Claude; please check
+Amlodipine,side_effects,6,Feeling weak and tired (fatigue),দুর্বল ও ক্লান্ত লাগা,,,Draft by Claude; please check
+Amlodipine,side_effects,7,Serious (rare): an allergic reaction (anaphylaxis),গুরুতর (বিরল): অ্যালার্জিক প্রতিক্রিয়া (অ্যানাফাইল্যাক্সিস),,,Draft by Claude; please check
+Amlodipine,side_effects,8,"Serious (rare): swelling of the pancreas (acute pancreatitis), causing sudden severe tummy pain","গুরুতর (বিরল): অগ্ন্যাশয় ফুলে যাওয়া (অ্যাকিউট প্যানক্রিয়াটাইটিস), যার ফলে হঠাৎ তীব্র পেটব্যথা",,,Draft by Claude; please check
+Amlodipine,precautions,1,May not be suitable if you've had an allergic reaction or serious side effect from amlodipine or a similar medicine,অ্যামলোডিপিন বা এ রকম কোনো ওষুধে আগে অ্যালার্জিক প্রতিক্রিয়া বা গুরুতর পার্শ্বপ্রতিক্রিয়া হয়ে থাকলে এটি উপযুক্ত নাও হতে পারে,,,Draft by Claude; please check
+Amlodipine,precautions,2,May not be suitable if you have low blood pressure or heart failure,নিম্ন রক্তচাপ বা হার্ট ফেইলিওর থাকলে এটি উপযুক্ত নাও হতে পারে,,,Draft by Claude; please check
+Amlodipine,precautions,3,May not be suitable if you have had a recent heart attack or have heart valve disease,সম্প্রতি হার্ট অ্যাটাক হয়ে থাকলে বা হার্টের ভালভের রোগ থাকলে এটি উপযুক্ত নাও হতে পারে,,,Draft by Claude; please check
+Amlodipine,precautions,4,Tell your doctor if you're pregnant or get pregnant while taking amlodipine,গর্ভবতী হলে বা অ্যামলোডিপিন খাওয়ার সময় গর্ভধারণ করলে ডাক্তারকে জানান,,,Draft by Claude; please check
+Losartan,drug_class,1,Angiotensin II receptor blocker,অ্যানজিওটেনসিন II রিসেপ্টর ব্লকার (ARB),,,Draft by Claude; please check
+Losartan,indications,1,High blood pressure (hypertension),উচ্চ রক্তচাপ (হাইপারটেনশন),,,Draft by Claude; please check
+Losartan,indications,2,Heart failure,হার্ট ফেইলিওর,,,Draft by Claude; please check
+Losartan,indications,3,Kidney disease caused by type 2 diabetes,টাইপ ২ ডায়াবেটিসজনিত কিডনির রোগ,,,Draft by Claude; please check
+Losartan,side_effects,1,Dizziness,মাথা ঘোরা,,,Draft by Claude; please check
+Losartan,side_effects,2,Tiredness,ক্লান্তি,,,Draft by Claude; please check
+Losartan,side_effects,3,Headache,মাথাব্যথা,,,Draft by Claude; please check
+Losartan,side_effects,4,Tummy pain,পেটব্যথা,,,Draft by Claude; please check
+Losartan,side_effects,5,Feeling sick (nausea) or being sick (vomiting),বমি বমি ভাব বা বমি,,,Draft by Claude; please check
+Losartan,side_effects,6,"Swelling in your legs, ankles or feet (oedema)",পা বা গোড়ালি ফুলে যাওয়া (ইডিমা),,,Draft by Claude; please check
+Losartan,side_effects,7,Serious (rare): an allergic reaction (anaphylaxis),গুরুতর (বিরল): অ্যালার্জিক প্রতিক্রিয়া (অ্যানাফাইল্যাক্সিস),,,Draft by Claude; please check
+Losartan,side_effects,8,Serious (rare): a fast or irregular heartbeat,গুরুতর (বিরল): দ্রুত বা অনিয়মিত হৃৎস্পন্দন,,,Draft by Claude; please check
+Losartan,precautions,1,May not be suitable if you've had an allergic reaction to other ARB medicines,অন্য কোনো ARB ওষুধে আগে অ্যালার্জিক প্রতিক্রিয়া হয়ে থাকলে এটি উপযুক্ত নাও হতে পারে,,,Draft by Claude; please check
+Losartan,precautions,2,May not be suitable if you have severe heart failure or liver problems,গুরুতর হার্ট ফেইলিওর বা লিভারের সমস্যা থাকলে এটি উপযুক্ত নাও হতে পারে,,,Draft by Claude; please check
+Losartan,precautions,3,May not be suitable if you've had angioedema (sudden swelling of parts of the body),আগে অ্যানজিওইডিমা (শরীরের কোনো অংশ হঠাৎ ফুলে যাওয়া) হয়ে থাকলে এটি উপযুক্ত নাও হতে পারে,,,Draft by Claude; please check
+Losartan,precautions,4,Losartan is not usually used during pregnancy; tell your doctor if you're pregnant or trying to get pregnant,গর্ভাবস্থায় সাধারণত লোসার্টান ব্যবহার করা হয় না; গর্ভবতী হলে বা গর্ভধারণের চেষ্টা করলে ডাক্তারকে জানান,,,Draft by Claude; please check
+Atorvastatin,drug_class,1,HMG-CoA reductase inhibitor (statin),HMG-CoA রিডাক্টেজ ইনহিবিটর (স্ট্যাটিন),,,Draft by Claude; please check
+Atorvastatin,indications,1,High cholesterol,উচ্চ কোলেস্টেরল,,,Draft by Claude; please check
+Atorvastatin,indications,2,"Preventing angina, heart attack and stroke in people with cardiovascular disease","হৃদ্‌রোগ বা রক্তনালির রোগ আছে এমন মানুষের অ্যানজাইনা, হার্ট অ্যাটাক ও স্ট্রোক প্রতিরোধ",,,Draft by Claude; please check
+Atorvastatin,side_effects,1,Headache,মাথাব্যথা,,,Draft by Claude; please check
+Atorvastatin,side_effects,2,Dizziness,মাথা ঘোরা,,,Draft by Claude; please check
+Atorvastatin,side_effects,3,Feeling sick (nausea),বমি বমি ভাব,,,Draft by Claude; please check
+Atorvastatin,side_effects,4,"Digestive problems, such as constipation, diarrhoea or indigestion","হজমের সমস্যা, যেমন কোষ্ঠকাঠিন্য, ডায়রিয়া বা বদহজম",,,Draft by Claude; please check
+Atorvastatin,side_effects,5,Muscle aches and swollen joints,মাংসপেশিতে ব্যথা ও জয়েন্ট ফোলা,,,Draft by Claude; please check
+Atorvastatin,side_effects,6,"Blocked or runny nose, or nosebleeds","নাক বন্ধ বা নাক দিয়ে পানি পড়া, বা নাক দিয়ে রক্ত পড়া",,,Draft by Claude; please check
+Atorvastatin,side_effects,7,Sleep problems,ঘুমের সমস্যা,,,Draft by Claude; please check
+Atorvastatin,side_effects,8,"Serious (rare): muscle damage, causing cramps, severe pain and weakness","গুরুতর (বিরল): মাংসপেশির ক্ষতি, যার ফলে খিল ধরা, তীব্র ব্যথা ও দুর্বলতা",,,Draft by Claude; please check
+Atorvastatin,side_effects,9,Serious (rare): inflammation of the liver (hepatitis) or pancreas (pancreatitis),গুরুতর (বিরল): লিভারের প্রদাহ (হেপাটাইটিস) বা অগ্ন্যাশয়ের প্রদাহ (প্যানক্রিয়াটাইটিস),,,Draft by Claude; please check
+Atorvastatin,precautions,1,May not be suitable if you've had an allergic reaction or serious side effect from atorvastatin or another statin,অ্যাটোরভাস্ট্যাটিন বা অন্য কোনো স্ট্যাটিনে আগে অ্যালার্জিক প্রতিক্রিয়া বা গুরুতর পার্শ্বপ্রতিক্রিয়া হয়ে থাকলে এটি উপযুক্ত নাও হতে পারে,,,Draft by Claude; please check
+Atorvastatin,precautions,2,"May not be suitable if you have liver or kidney problems, or an underactive thyroid","লিভার বা কিডনির সমস্যা থাকলে, বা থাইরয়েড কম কাজ করলে এটি উপযুক্ত নাও হতে পারে",,,Draft by Claude; please check
+Atorvastatin,precautions,3,May not be suitable if you regularly drink a lot of alcohol,নিয়মিত বেশি মদ্যপান করলে এটি উপযুক্ত নাও হতে পারে,,,Draft by Claude; please check
+Atorvastatin,precautions,4,Atorvastatin is not recommended during pregnancy because it can affect how the baby develops,"গর্ভাবস্থায় অ্যাটোরভাস্ট্যাটিন খাওয়ার পরামর্শ দেওয়া হয় না, কারণ এটি শিশুর বৃদ্ধিতে প্রভাব ফেলতে পারে",,,Draft by Claude; please check
+Clopidogrel,drug_class,1,Antiplatelet agent (P2Y12 inhibitor),অ্যান্টিপ্লেটলেট (P2Y12 ইনহিবিটর),,,Draft by Claude; please check
+Clopidogrel,indications,1,"Preventing blood clots after a heart attack, unstable angina or a stroke or mini-stroke (TIA)","হার্ট অ্যাটাক, আনস্টেবল অ্যানজাইনা, স্ট্রোক বা মিনি-স্ট্রোকের (TIA) পরে রক্ত জমাট বাঁধা প্রতিরোধ",,,Draft by Claude; please check
+Clopidogrel,indications,2,Peripheral arterial disease,পেরিফেরাল আর্টারিয়াল ডিজিজ,,,Draft by Claude; please check
+Clopidogrel,indications,3,Atrial fibrillation,অ্যাট্রিয়াল ফিব্রিলেশন,,,Draft by Claude; please check
+Clopidogrel,indications,4,"After an operation on the heart or blood vessels, such as a coronary stent","হার্ট বা রক্তনালির অপারেশনের পরে, যেমন করোনারি স্টেন্ট বসানো",,,Draft by Claude; please check
+Clopidogrel,side_effects,1,Bleeding more easily than normal,স্বাভাবিকের চেয়ে সহজে রক্তপাত,,,Draft by Claude; please check
+Clopidogrel,side_effects,2,Diarrhoea,ডায়রিয়া,,,Draft by Claude; please check
+Clopidogrel,side_effects,3,Stomach pain,পেটব্যথা,,,Draft by Claude; please check
+Clopidogrel,side_effects,4,Indigestion or heartburn,বদহজম বা বুকজ্বালা,,,Draft by Claude; please check
+Clopidogrel,side_effects,5,"Serious (rare): blood in your pee, or black poo that looks like tar","গুরুতর (বিরল): প্রস্রাবে রক্ত, বা আলকাতরার মতো কালো মল",,,Draft by Claude; please check
+Clopidogrel,side_effects,6,Serious (rare): yellow skin or eyes (possible liver problems),গুরুতর (বিরল): ত্বক বা চোখ হলুদ হওয়া (লিভারের সমস্যা হতে পারে),,,Draft by Claude; please check
+Clopidogrel,precautions,1,Tell your doctor if you have ever had an allergic reaction to clopidogrel or any other medicine,ক্লোপিডোগ্রেল বা অন্য কোনো ওষুধে কখনো অ্যালার্জিক প্রতিক্রিয়া হয়ে থাকলে ডাক্তারকে জানান,,,Draft by Claude; please check
+Clopidogrel,precautions,2,Tell your doctor if you have ever had a stomach ulcer or bleeding in your brain,কখনো পাকস্থলীতে আলসার বা মস্তিষ্কে রক্তক্ষরণ হয়ে থাকলে ডাক্তারকে জানান,,,Draft by Claude; please check
+Clopidogrel,precautions,3,"Tell your doctor if you have a bleeding disorder, such as haemophilia",হিমোফিলিয়ার মতো রক্তক্ষরণজনিত রোগ থাকলে ডাক্তারকে জানান,,,Draft by Claude; please check
+Clopidogrel,precautions,4,Tell your doctor if you have recently had surgery or a serious injury,সম্প্রতি অপারেশন হয়ে থাকলে বা গুরুতর আঘাত পেয়ে থাকলে ডাক্তারকে জানান,,,Draft by Claude; please check
+Clopidogrel,precautions,5,"Tell your doctor if you have liver or kidney problems, or are pregnant or breastfeeding","লিভার বা কিডনির সমস্যা থাকলে, বা গর্ভবতী হলে বা বুকের দুধ খাওয়ালে ডাক্তারকে জানান",,,Draft by Claude; please check
+Warfarin,drug_class,1,Vitamin K antagonist anticoagulant,ভিটামিন K প্রতিরোধী অ্যান্টিকোয়াগুল্যান্ট (রক্ত জমাট বাঁধা কমায়),,,Draft by Claude; please check
+Warfarin,indications,1,"Treating and preventing blood clots, including deep vein thrombosis and pulmonary embolism","রক্ত জমাট বাঁধার চিকিৎসা ও প্রতিরোধ, যেমন ডিপ ভেইন থ্রম্বোসিস ও পালমোনারি এম্বোলিজম",,,Draft by Claude; please check
+Warfarin,indications,2,"Reducing the risk of blood clots, for example with atrial fibrillation or a mechanical heart valve","রক্ত জমাট বাঁধার ঝুঁকি কমানো, যেমন অ্যাট্রিয়াল ফিব্রিলেশন বা কৃত্রিম (মেকানিক্যাল) হার্ট ভালভ থাকলে",,,Draft by Claude; please check
+Warfarin,side_effects,1,The main side effect of warfarin is an increased risk of bleeding,ওয়ারফারিনের প্রধান পার্শ্বপ্রতিক্রিয়া হলো রক্তপাতের ঝুঁকি বেড়ে যাওয়া,,,Draft by Claude; please check
+Warfarin,side_effects,2,"Serious (rare): blood in your pee or poo, unexplained bruising or nosebleeds","গুরুতর (বিরল): প্রস্রাবে বা মলে রক্ত, কারণ ছাড়া কালশিটে পড়া বা নাক দিয়ে রক্ত পড়া",,,Draft by Claude; please check
+Warfarin,side_effects,3,Serious (rare): coughing up or vomiting blood,গুরুতর (বিরল): কাশির সাথে রক্ত বা রক্তবমি,,,Draft by Claude; please check
+Warfarin,side_effects,4,Serious (rare): a sudden bad headache with confusion or slurred speech (possible bleeding in the brain),গুরুতর (বিরল): হঠাৎ তীব্র মাথাব্যথার সাথে বিভ্রান্তি বা কথা জড়িয়ে যাওয়া (মস্তিষ্কে রক্তক্ষরণ হতে পারে),,,Draft by Claude; please check
+Warfarin,precautions,1,May not be suitable if you're allergic to warfarin,ওয়ারফারিনে অ্যালার্জি থাকলে এটি উপযুক্ত নাও হতে পারে,,,Draft by Claude; please check
+Warfarin,precautions,2,May not be suitable if you have liver or kidney problems or high blood pressure,লিভার বা কিডনির সমস্যা বা উচ্চ রক্তচাপ থাকলে এটি উপযুক্ত নাও হতে পারে,,,Draft by Claude; please check
+Warfarin,precautions,3,"May not be suitable if you've recently had a stroke or surgery, or are about to have surgery","সম্প্রতি স্ট্রোক বা অপারেশন হয়ে থাকলে, বা শিগগির অপারেশনের কথা থাকলে এটি উপযুক্ত নাও হতে পারে",,,Draft by Claude; please check
+Warfarin,precautions,4,"May not be suitable if you have a condition that makes you bleed more easily, such as a stomach ulcer",পাকস্থলীর আলসারের মতো সহজে রক্তপাত হয় এমন কোনো রোগ থাকলে এটি উপযুক্ত নাও হতে পারে,,,Draft by Claude; please check
+Warfarin,precautions,5,Warfarin is not usually used during pregnancy as it can affect the baby's development,"গর্ভাবস্থায় সাধারণত ওয়ারফারিন ব্যবহার করা হয় না, কারণ এটি শিশুর বৃদ্ধিতে প্রভাব ফেলতে পারে",,,Draft by Claude; please check
+Montelukast,drug_class,1,Leukotriene receptor antagonist,লিউকোট্রিন রিসেপ্টর অ্যান্টাগোনিস্ট,,,Draft by Claude; please check
+Montelukast,indications,1,Preventing the symptoms of asthma,হাঁপানির উপসর্গ প্রতিরোধ,,,Draft by Claude; please check
+Montelukast,indications,2,Exercise-induced asthma,ব্যায়ামের সময় হওয়া হাঁপানি,,,Draft by Claude; please check
+Montelukast,indications,3,"Seasonal allergies, such as sneezing and itchiness","মৌসুমি অ্যালার্জি, যেমন হাঁচি ও চুলকানি",,,Draft by Claude; please check
+Montelukast,side_effects,1,Diarrhoea,ডায়রিয়া,,,Draft by Claude; please check
+Montelukast,side_effects,2,High temperature,জ্বর,,,Draft by Claude; please check
+Montelukast,side_effects,3,Headaches,মাথাব্যথা,,,Draft by Claude; please check
+Montelukast,side_effects,4,Stomach pain,পেটব্যথা,,,Draft by Claude; please check
+Montelukast,side_effects,5,Feeling or being sick,বমি বমি ভাব বা বমি,,,Draft by Claude; please check
+Montelukast,side_effects,6,A mild rash,হালকা র‍্যাশ,,,Draft by Claude; please check
+Montelukast,side_effects,7,"Serious (rare): mood changes, such as becoming anxious, depressed or aggressive","গুরুতর (বিরল): মেজাজের পরিবর্তন, যেমন উদ্বিগ্ন, বিষণ্ণ বা আক্রমণাত্মক হয়ে পড়া",,,Draft by Claude; please check
+Montelukast,side_effects,8,Serious (rare): seeing things that are not there (hallucinations),গুরুতর (বিরল): যা নেই তা দেখা (হ্যালুসিনেশন),,,Draft by Claude; please check
+Montelukast,side_effects,9,"Serious (rare): new or worse sleep problems, such as nightmares","গুরুতর (বিরল): নতুন বা বেড়ে যাওয়া ঘুমের সমস্যা, যেমন দুঃস্বপ্ন",,,Draft by Claude; please check
+Montelukast,precautions,1,Tell your doctor if you have ever had an allergic reaction to montelukast or any other medicine,মন্টেলুকাস্ট বা অন্য কোনো ওষুধে কখনো অ্যালার্জিক প্রতিক্রিয়া হয়ে থাকলে ডাক্তারকে জানান,,,Draft by Claude; please check
+Montelukast,precautions,2,Tell your doctor if you have a rare hereditary problem of galactose intolerance,গ্যালাকটোজ সহ্য না হওয়ার বিরল বংশগত সমস্যা থাকলে ডাক্তারকে জানান,,,Draft by Claude; please check
+Montelukast,precautions,3,Do not use montelukast to treat an asthma attack; use a reliever inhaler,হাঁপানির টান উঠলে মন্টেলুকাস্ট দিয়ে চিকিৎসা করবেন না; রিলিভার ইনহেলার ব্যবহার করুন,,,Draft by Claude; please check
+Cetirizine,drug_class,1,Second-generation antihistamine,দ্বিতীয় প্রজন্মের অ্যান্টিহিস্টামিন,,,Draft by Claude; please check
+Cetirizine,indications,1,Hay fever,হে ফিভার (মৌসুমি অ্যালার্জিজনিত সর্দি),,,Draft by Claude; please check
+Cetirizine,indications,2,"Conjunctivitis (red, itchy eye)",কনজাংটিভাইটিস (চোখ লাল ও চুলকানো),,,Draft by Claude; please check
+Cetirizine,indications,3,Eczema,একজিমা,,,Draft by Claude; please check
+Cetirizine,indications,4,Hives (urticaria),আমবাত (আর্টিকেরিয়া),,,Draft by Claude; please check
+Cetirizine,indications,5,Reactions to insect bites and stings,পোকামাকড়ের কামড় ও হুলের প্রতিক্রিয়া,,,Draft by Claude; please check
+Cetirizine,indications,6,Some food allergies,কিছু খাবারের অ্যালার্জি,,,Draft by Claude; please check
+Cetirizine,side_effects,1,Feeling sleepy or tired,ঘুম ঘুম ভাব বা ক্লান্তি,,,Draft by Claude; please check
+Cetirizine,side_effects,2,Headaches,মাথাব্যথা,,,Draft by Claude; please check
+Cetirizine,side_effects,3,Dry mouth,মুখ শুকিয়ে যাওয়া,,,Draft by Claude; please check
+Cetirizine,side_effects,4,Feeling sick (nausea),বমি বমি ভাব,,,Draft by Claude; please check
+Cetirizine,side_effects,5,Feeling dizzy,মাথা ঘোরা,,,Draft by Claude; please check
+Cetirizine,side_effects,6,Diarrhoea,ডায়রিয়া,,,Draft by Claude; please check
+Cetirizine,side_effects,7,Sore throat,গলাব্যথা,,,Draft by Claude; please check
+Cetirizine,side_effects,8,Sneezing or blocked and runny nose,হাঁচি বা নাক বন্ধ ও নাক দিয়ে পানি পড়া,,,Draft by Claude; please check
+Cetirizine,side_effects,9,"Serious (rare): a serious allergic reaction (anaphylaxis), such as sudden swelling of the lips, mouth or throat","গুরুতর (বিরল): গুরুতর অ্যালার্জিক প্রতিক্রিয়া (অ্যানাফাইল্যাক্সিস), যেমন হঠাৎ ঠোঁট, মুখ বা গলা ফুলে যাওয়া",,,Draft by Claude; please check
+Cetirizine,precautions,1,Tell your doctor if you have ever had an allergic reaction to cetirizine or any other medicine,সেটিরিজিন বা অন্য কোনো ওষুধে কখনো অ্যালার্জিক প্রতিক্রিয়া হয়ে থাকলে ডাক্তারকে জানান,,,Draft by Claude; please check
+Cetirizine,precautions,2,Tell your doctor if you have kidney failure,কিডনি ফেইলিওর থাকলে ডাক্তারকে জানান,,,Draft by Claude; please check
+Cetirizine,precautions,3,Tell your doctor if you have epilepsy or are at risk of seizures,মৃগীরোগ থাকলে বা খিঁচুনির ঝুঁকি থাকলে ডাক্তারকে জানান,,,Draft by Claude; please check
+Cetirizine,precautions,4,Tell your doctor if you have difficulty peeing,প্রস্রাব করতে কষ্ট হলে ডাক্তারকে জানান,,,Draft by Claude; please check
+Cetirizine,precautions,5,Tell your doctor if you are due to have an allergy test,শিগগির অ্যালার্জি পরীক্ষা করানোর কথা থাকলে ডাক্তারকে জানান,,,Draft by Claude; please check

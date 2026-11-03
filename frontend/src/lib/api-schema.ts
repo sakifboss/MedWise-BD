@@ -241,6 +241,12 @@ export interface components {
             precautions: string[];
             /** Source Urls */
             source_urls: string[];
+            /**
+             * Translation Pending
+             * @description For lang=bn: fields still shown in English because no reviewed Bangla exists
+             * @default []
+             */
+            translation_pending: string[];
             /** Presentations */
             presentations: components["schemas"]["Presentation"][];
             /** Interactions */

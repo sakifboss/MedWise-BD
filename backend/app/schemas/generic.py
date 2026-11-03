@@ -1,6 +1,6 @@
 from typing import Literal
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class Presentation(BaseModel):
@@ -27,5 +27,9 @@ class GenericDetail(BaseModel):
     side_effects: list[str]
     precautions: list[str]
     source_urls: list[str]
+    translation_pending: list[str] = Field(
+        default=[],
+        description="For lang=bn: fields still shown in English because no reviewed Bangla exists",
+    )
     presentations: list[Presentation]
     interactions: list[InteractionSummary]

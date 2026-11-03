@@ -135,3 +135,76 @@ def test_shipped_template_has_required_columns() -> None:
     with template.open(newline="", encoding="utf-8-sig") as handle:
         header = next(csv.reader(handle))
     assert set(REQUIRED_COLUMNS) <= set(header)
+
+
+# ---------------------------------------------------------------- Bangla review sheet
+
+from scripts.build_generics_bn import apply_sheet, export_sheet  # noqa: E402
+
+
+def _sheet_rows(path: Path) -> list[dict[str, str]]:
+    with path.open(newline="", encoding="utf-8-sig") as handle:
+        return list(csv.DictReader(handle))
+
+
+def _write_rows(path: Path, rows: list[dict[str, str]]) -> None:
+    with path.open("w", newline="", encoding="utf-8-sig") as handle:
+        writer = csv.DictWriter(handle, fieldnames=list(rows[0]))
+        writer.writeheader()
+        writer.writerows(rows)
+
+
+def _approve(rows: list[dict[str, str]], generic: str, field: str, upto: int | None = None) -> None:
+    for row in rows:
+        if row["generic"] == generic and row["field"] == field:
+            if upto is None or int(row["line"]) <= upto:
+                row["bangla"], row["approved"] = f"বাংলা {row['line']}", "yes"
+
+
+def test_fully_approved_field_is_applied_and_partial_is_not(
+    tmp_path: Path, seed_copy: Path
+) -> None:
+    sheet = tmp_path / "bn.csv"
+    export_sheet(sheet, seed_copy)
+    rows = _sheet_rows(sheet)
+    _approve(rows, "Warfarin", "indications")
+    _approve(rows, "Warfarin", "side_effects", upto=1)  # only part of the list
+    _approve(rows, "Warfarin", "drug_class")
+    _write_rows(sheet, rows)
+
+    doc, errors, coverage = apply_sheet(sheet, seed_copy)
+    assert errors == []
+    warfarin = next(r for r in doc["records"] if r["name"] == "Warfarin")
+    assert warfarin["drug_class_bn"] == "বাংলা 1"
+    assert warfarin["indications_bn"] == ["বাংলা 1", "বাংলা 2"]
+    assert "side_effects_bn" not in warfarin
+    assert coverage["indications"] == (1, 20)
+
+
+def test_stale_and_empty_rows_are_reported(tmp_path: Path, seed_copy: Path) -> None:
+    sheet = tmp_path / "bn.csv"
+    export_sheet(sheet, seed_copy)
+    rows = _sheet_rows(sheet)
+    rows[0]["english"] = "Old wording"
+    rows[0]["approved"] = "yes"
+    rows[1]["approved"] = "yes"  # approved but no Bangla
+    _write_rows(sheet, rows)
+    _, errors, _ = apply_sheet(sheet, seed_copy)
+    assert any("stale" in e for e in errors)
+    assert any("Bangla column is empty" in e for e in errors)
+
+
+def test_export_keeps_existing_translations(tmp_path: Path, seed_copy: Path) -> None:
+    sheet = tmp_path / "bn.csv"
+    export_sheet(sheet, seed_copy)
+    rows = _sheet_rows(sheet)
+    rows[0]["bangla"], rows[0]["approved"] = "রাখা হয়েছে", "yes"
+    _write_rows(sheet, rows)
+    export_sheet(sheet, seed_copy)
+    assert _sheet_rows(sheet)[0]["bangla"] == "রাখা হয়েছে"
+
+
+def test_shipped_review_sheet_matches_generics() -> None:
+    sheet = SEED_DIR.parent / "templates" / "generics_bn.csv"
+    _, errors, _ = apply_sheet(sheet, SEED_DIR)
+    assert errors == []

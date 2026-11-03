@@ -119,7 +119,7 @@ export default async function GenericPage(props: PageProps<"/generics/[id]">) {
       <Section title={t.generic.compare}>
         <Presentations generic={generic} t={t} />
       </Section>
-      {t.generic.englishOnly && (
+      {t.generic.englishOnly && generic.translation_pending.length > 0 && (
         <p className="rounded-lg border bg-muted/30 px-3 py-2 text-sm text-muted-foreground">{t.generic.englishOnly}</p>
       )}
       <Section title={t.generic.usedFor}>
@@ -142,7 +142,9 @@ export default async function GenericPage(props: PageProps<"/generics/[id]">) {
               </a>
             </span>
           ))}
-          {t.generic.sourceAfter}
+          {t.lang === "bn" && generic.translation_pending.length === 0
+            ? t.generic.sourceAfterTranslated
+            : t.generic.sourceAfter}
         </p>
       )}
       <Section title={t.generic.interactions}>
