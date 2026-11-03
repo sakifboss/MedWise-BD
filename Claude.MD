@@ -112,7 +112,7 @@ live deploy -> tick the box here -> stop for the user's review before starting t
   print view with a QR code back to the page. Includes the doctor/pharmacist disclaimer.
 - [x] **6. Manufacturer transparency page.** `/manufacturers/[id]`: each approval, export and market
   data, score breakdown, every source link, and what is not known (recall data).
-- [ ] **7. Installable app (PWA).** Manifest, icons, theme colour; installs from the browser.
+- [x] **7. Installable app (PWA).** Manifest, icons, theme colour; installs from the browser.
 
 Not doing (by design): AI chat or medicine advice (breaks the safety rules), counterfeit
 detection (no reliable data), dose reminders (out of scope).

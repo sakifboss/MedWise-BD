@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#007565" />
+    <title>Offline · MedWise BD</title>
+    <style>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+        box-sizing: border-box;
+        font-family: system-ui, "Noto Sans Bengali", sans-serif;
+        color: #1f2937;
+        background: #ffffff;
+        text-align: center;
+      }
+      main { max-width: 22rem; }
+      img { width: 72px; height: 72px; border-radius: 16px; }
+      h1 { font-size: 1.25rem; margin: 16px 0 4px; }
+      p { margin: 4px 0; color: #4b5563; line-height: 1.5; }
+      hr { border: 0; border-top: 1px solid #e5e7eb; margin: 16px 0; }
+      button {
+        margin-top: 16px;
+        padding: 10px 20px;
+        border: 0;
+        border-radius: 8px;
+        background: #007565;
+        color: #ffffff;
+        font: inherit;
+        font-weight: 600;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <img src="/icons/icon-192.png" alt="" />
+      <h1>You are offline</h1>
+      <p>MedWise BD needs the internet to show current prices and rankings.</p>
+      <hr />
+      <h1 lang="bn">আপনি অফলাইনে আছেন</h1>
+      <p lang="bn">সর্বশেষ দাম ও র‍্যাঙ্কিং দেখাতে MedWise BD-র ইন্টারনেট সংযোগ দরকার।</p>
+      <button type="button" onclick="location.reload()">Try again · আবার চেষ্টা করুন</button>
+    </main>
+  </body>
+</html>

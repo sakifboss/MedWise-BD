@@ -22,6 +22,13 @@ and dosage form, ranked by manufacturer quality (80%) and price (20%), with the 
 | **Ranked alternatives** | Same generic + strength + dosage form only, scored out of 100 with human-readable reasons |
 | **Prescription scan** | Gemini reads **only** medicine names and strengths; the user confirms every match before results. Photos are never stored |
 | **Interaction checker** | Recorded interactions between any medicines, most severe first, plus a warning when two brands contain the same generic |
+| **Savings calculator** | Enter the amount on your prescription; each brand shows its monthly cost and saving. The app never suggests a dose |
+| **Prescription cost summary** | Monthly total for your brands vs the best-ranked and the cheapest brands, for every scanned medicine |
+| **Bangla and English** | One tap switches the whole app, including ranking reasons and reviewed Bangla medicine information |
+| **Voice search** | Say a medicine name in Bangla or English (browser speech recognition; no audio reaches MedWise) |
+| **Share for the pharmacist** | WhatsApp / share / print with a QR code; a whole prescription becomes a `/share` link (nothing stored) |
+| **Manufacturer pages** | Each company's regulator approvals, score breakdown, unknowns, sources and brands |
+| **Installable app** | Add to the home screen like an app; shows an offline page without internet |
 
 ## How ranking works
 

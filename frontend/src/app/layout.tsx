@@ -1,7 +1,8 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Noto_Sans_Bengali } from "next/font/google";
 
 import { SiteFooter } from "@/components/site-footer";
+import { ServiceWorkerRegistration } from "@/components/pwa";
 import { SiteHeader } from "@/components/site-header";
 import { LangProvider } from "@/i18n/client";
 import { getDict, getLang } from "@/i18n/server";
@@ -15,8 +16,15 @@ const notoBengali = Noto_Sans_Bengali({ variable: "--font-bengali", subsets: ["b
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getDict();
-  return { title: { default: t.meta.title, template: "%s · MedWise BD" }, description: t.meta.description };
+  return {
+    title: { default: t.meta.title, template: "%s · MedWise BD" },
+    description: t.meta.description,
+    applicationName: "MedWise BD",
+    appleWebApp: { capable: true, title: "MedWise BD", statusBarStyle: "default" },
+  };
 }
+
+export const viewport: Viewport = { themeColor: "#007565" };
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
   const lang = await getLang();
@@ -30,6 +38,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
           <SiteHeader />
           <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-6 sm:py-10">{children}</main>
           <SiteFooter />
+          <ServiceWorkerRegistration />
         </LangProvider>
       </body>
     </html>

@@ -8,6 +8,10 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [{ source: "/api/:path*", destination: `${API_URL}/api/:path*` }];
   },
+  async headers() {
+    // Browsers must always fetch the latest service worker, never a cached copy.
+    return [{ source: "/sw.js", headers: [{ key: "Cache-Control", value: "no-cache, no-store, must-revalidate" }] }];
+  },
 };
 
 export default nextConfig;

@@ -195,6 +195,7 @@ const en = {
     notFoundTitle: "Manufacturer not found",
     notFoundText: "We couldn’t find that manufacturer in our data.",
   },
+  pwa: { install: "Install app" },
   voice: {
     start: "Search by voice",
     stop: "Stop listening",
@@ -549,6 +550,7 @@ const bn: Dict = {
     notFoundTitle: "প্রস্তুতকারক পাওয়া যায়নি",
     notFoundText: "আমাদের ডেটায় এই প্রস্তুতকারক পাওয়া যায়নি।",
   },
+  pwa: { install: "অ্যাপ ইনস্টল করুন" },
   voice: {
     start: "কথা বলে খুঁজুন",
     stop: "শোনা বন্ধ করুন",
