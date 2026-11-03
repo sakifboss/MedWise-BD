@@ -28,6 +28,11 @@ class FoundInteraction:
     generic_b: CheckedGeneric
     severity: str
     description: str
+    description_bn: str | None = None
+
+    def text(self, lang: str) -> str:
+        """Description in the requested language, falling back to English."""
+        return (self.description_bn if lang == "bn" else None) or self.description
 
 
 @dataclass
@@ -92,9 +97,13 @@ def find_interactions(db: Session, medicines: list[CheckedGeneric]) -> list[Foun
             Interaction.generic_b_id,
             Interaction.severity,
             Interaction.description,
+            Interaction.description_bn,
         ).where(Interaction.generic_a_id.in_(by_id), Interaction.generic_b_id.in_(by_id))
     ).all()
-    found = [FoundInteraction(by_id[x], by_id[y], sev, desc) for x, y, sev, desc in rows]
+    found = [
+        FoundInteraction(by_id[x], by_id[y], sev, desc, desc_bn)
+        for x, y, sev, desc, desc_bn in rows
+    ]
     found.sort(
         key=lambda f: (
             -SEVERITIES.index(f.severity),

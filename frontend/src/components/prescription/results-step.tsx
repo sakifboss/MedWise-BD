@@ -13,16 +13,17 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useDict } from "@/i18n/client";
+import type { Lang } from "@/i18n/dictionaries";
 import { api, type AlternativesResponse, type MatchOption } from "@/lib/api";
 import { rankingHref } from "@/lib/format";
 import { parseQuantity, quantityUnit } from "@/lib/savings";
 
 type Loaded = { status: "loading" } | { status: "error" } | { status: "done"; data: AlternativesResponse };
 
-function fetchRanking(option: MatchOption): Promise<AlternativesResponse> {
+function fetchRanking(option: MatchOption, lang: Lang): Promise<AlternativesResponse> {
   return option.kind === "brand" && option.brand_id != null
-    ? api.alternatives(option.brand_id)
-    : api.genericRanking(option.generic_id, option.strength, option.dosage_form);
+    ? api.alternatives(option.brand_id, lang)
+    : api.genericRanking(option.generic_id, option.strength, option.dosage_form, lang);
 }
 
 /** Link to the full ranking; carries the quantity so its cost calculator starts filled in. */
@@ -36,13 +37,13 @@ function fullRankingHref(option: MatchOption, quantity: number | null): string {
 }
 
 /** Loads the ranking for every selected medicine once, in parallel. */
-function useRankings(selections: MatchOption[]): Record<string, Loaded> {
+function useRankings(selections: MatchOption[], lang: Lang): Record<string, Loaded> {
   const [rankings, setRankings] = useState<Record<string, Loaded>>({});
   useEffect(() => {
     let cancelled = false;
     for (const option of selections) {
       const key = optionKey(option);
-      fetchRanking(option).then(
+      fetchRanking(option, lang).then(
         (data) => !cancelled && setRankings((r) => ({ ...r, [key]: { status: "done", data } })),
         () => !cancelled && setRankings((r) => ({ ...r, [key]: { status: "error" } })),
       );
@@ -50,7 +51,7 @@ function useRankings(selections: MatchOption[]): Record<string, Loaded> {
     return () => {
       cancelled = true;
     };
-  }, [selections]);
+  }, [selections, lang]);
   return rankings;
 }
 
@@ -131,7 +132,7 @@ export function ResultsStep({
 }) {
   const t = useDict();
   const r = t.prescription.results;
-  const rankings = useRankings(selections);
+  const rankings = useRankings(selections, t.lang);
   const [drafts, setDrafts] = useState<Record<string, string>>({});
   const loadedFor = (option: MatchOption): Loaded => rankings[optionKey(option)] ?? { status: "loading" };
   const quantityFor = (option: MatchOption) =>

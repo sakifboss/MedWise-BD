@@ -10,247 +10,288 @@
       "generic_a": "Aspirin",
       "generic_b": "Ibuprofen",
       "severity": "major",
-      "description": "DDInter lists this as a major interaction. Do not take these together unless a doctor has said it is safe."
+      "description": "DDInter lists this as a major interaction. Do not take these together unless a doctor has said it is safe.",
+      "description_bn": "DDInter অনুযায়ী এটি একটি গুরুতর ইন্টারঅ্যাকশন। ডাক্তার নিরাপদ বলে না জানালে এই ওষুধগুলো একসাথে খাবেন না।"
     },
     {
       "generic_a": "Aspirin",
       "generic_b": "Warfarin",
       "severity": "major",
-      "description": "DDInter lists this as a major interaction. Do not take these together unless a doctor has said it is safe."
+      "description": "DDInter lists this as a major interaction. Do not take these together unless a doctor has said it is safe.",
+      "description_bn": "DDInter অনুযায়ী এটি একটি গুরুতর ইন্টারঅ্যাকশন। ডাক্তার নিরাপদ বলে না জানালে এই ওষুধগুলো একসাথে খাবেন না।"
     },
     {
       "generic_a": "Ciprofloxacin",
       "generic_b": "Warfarin",
       "severity": "major",
-      "description": "DDInter lists this as a major interaction. Do not take these together unless a doctor has said it is safe."
+      "description": "DDInter lists this as a major interaction. Do not take these together unless a doctor has said it is safe.",
+      "description_bn": "DDInter অনুযায়ী এটি একটি গুরুতর ইন্টারঅ্যাকশন। ডাক্তার নিরাপদ বলে না জানালে এই ওষুধগুলো একসাথে খাবেন না।"
     },
     {
       "generic_a": "Clopidogrel",
       "generic_b": "Esomeprazole",
       "severity": "major",
-      "description": "DDInter lists this as a major interaction. Do not take these together unless a doctor has said it is safe."
+      "description": "DDInter lists this as a major interaction. Do not take these together unless a doctor has said it is safe.",
+      "description_bn": "DDInter অনুযায়ী এটি একটি গুরুতর ইন্টারঅ্যাকশন। ডাক্তার নিরাপদ বলে না জানালে এই ওষুধগুলো একসাথে খাবেন না।"
     },
     {
       "generic_a": "Clopidogrel",
       "generic_b": "Omeprazole",
       "severity": "major",
-      "description": "DDInter lists this as a major interaction. Do not take these together unless a doctor has said it is safe."
+      "description": "DDInter lists this as a major interaction. Do not take these together unless a doctor has said it is safe.",
+      "description_bn": "DDInter অনুযায়ী এটি একটি গুরুতর ইন্টারঅ্যাকশন। ডাক্তার নিরাপদ বলে না জানালে এই ওষুধগুলো একসাথে খাবেন না।"
     },
     {
       "generic_a": "Clopidogrel",
       "generic_b": "Warfarin",
       "severity": "major",
-      "description": "DDInter lists this as a major interaction. Do not take these together unless a doctor has said it is safe."
+      "description": "DDInter lists this as a major interaction. Do not take these together unless a doctor has said it is safe.",
+      "description_bn": "DDInter অনুযায়ী এটি একটি গুরুতর ইন্টারঅ্যাকশন। ডাক্তার নিরাপদ বলে না জানালে এই ওষুধগুলো একসাথে খাবেন না।"
     },
     {
       "generic_a": "Ibuprofen",
       "generic_b": "Warfarin",
       "severity": "major",
-      "description": "DDInter lists this as a major interaction. Do not take these together unless a doctor has said it is safe."
+      "description": "DDInter lists this as a major interaction. Do not take these together unless a doctor has said it is safe.",
+      "description_bn": "DDInter অনুযায়ী এটি একটি গুরুতর ইন্টারঅ্যাকশন। ডাক্তার নিরাপদ বলে না জানালে এই ওষুধগুলো একসাথে খাবেন না।"
     },
     {
       "generic_a": "Metronidazole",
       "generic_b": "Warfarin",
       "severity": "major",
-      "description": "DDInter lists this as a major interaction. Do not take these together unless a doctor has said it is safe."
+      "description": "DDInter lists this as a major interaction. Do not take these together unless a doctor has said it is safe.",
+      "description_bn": "DDInter অনুযায়ী এটি একটি গুরুতর ইন্টারঅ্যাকশন। ডাক্তার নিরাপদ বলে না জানালে এই ওষুধগুলো একসাথে খাবেন না।"
     },
     {
       "generic_a": "Amlodipine",
       "generic_b": "Aspirin",
       "severity": "moderate",
-      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed.",
+      "description_bn": "DDInter অনুযায়ী এটি একটি মাঝারি ইন্টারঅ্যাকশন। একসাথে খাওয়ার আগে ডাক্তার বা ফার্মাসিস্টকে জিজ্ঞেস করুন; বাড়তি পর্যবেক্ষণ বা ডোজ বদলের দরকার হতে পারে।"
     },
     {
       "generic_a": "Amlodipine",
       "generic_b": "Ibuprofen",
       "severity": "moderate",
-      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed.",
+      "description_bn": "DDInter অনুযায়ী এটি একটি মাঝারি ইন্টারঅ্যাকশন। একসাথে খাওয়ার আগে ডাক্তার বা ফার্মাসিস্টকে জিজ্ঞেস করুন; বাড়তি পর্যবেক্ষণ বা ডোজ বদলের দরকার হতে পারে।"
     },
     {
       "generic_a": "Amoxicillin",
       "generic_b": "Warfarin",
       "severity": "moderate",
-      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed.",
+      "description_bn": "DDInter অনুযায়ী এটি একটি মাঝারি ইন্টারঅ্যাকশন। একসাথে খাওয়ার আগে ডাক্তার বা ফার্মাসিস্টকে জিজ্ঞেস করুন; বাড়তি পর্যবেক্ষণ বা ডোজ বদলের দরকার হতে পারে।"
     },
     {
       "generic_a": "Aspirin",
       "generic_b": "Ciprofloxacin",
       "severity": "moderate",
-      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed.",
+      "description_bn": "DDInter অনুযায়ী এটি একটি মাঝারি ইন্টারঅ্যাকশন। একসাথে খাওয়ার আগে ডাক্তার বা ফার্মাসিস্টকে জিজ্ঞেস করুন; বাড়তি পর্যবেক্ষণ বা ডোজ বদলের দরকার হতে পারে।"
     },
     {
       "generic_a": "Aspirin",
       "generic_b": "Clopidogrel",
       "severity": "moderate",
-      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed.",
+      "description_bn": "DDInter অনুযায়ী এটি একটি মাঝারি ইন্টারঅ্যাকশন। একসাথে খাওয়ার আগে ডাক্তার বা ফার্মাসিস্টকে জিজ্ঞেস করুন; বাড়তি পর্যবেক্ষণ বা ডোজ বদলের দরকার হতে পারে।"
     },
     {
       "generic_a": "Aspirin",
       "generic_b": "Losartan",
       "severity": "moderate",
-      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed.",
+      "description_bn": "DDInter অনুযায়ী এটি একটি মাঝারি ইন্টারঅ্যাকশন। একসাথে খাওয়ার আগে ডাক্তার বা ফার্মাসিস্টকে জিজ্ঞেস করুন; বাড়তি পর্যবেক্ষণ বা ডোজ বদলের দরকার হতে পারে।"
     },
     {
       "generic_a": "Atorvastatin",
       "generic_b": "Clopidogrel",
       "severity": "moderate",
-      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed.",
+      "description_bn": "DDInter অনুযায়ী এটি একটি মাঝারি ইন্টারঅ্যাকশন। একসাথে খাওয়ার আগে ডাক্তার বা ফার্মাসিস্টকে জিজ্ঞেস করুন; বাড়তি পর্যবেক্ষণ বা ডোজ বদলের দরকার হতে পারে।"
     },
     {
       "generic_a": "Atorvastatin",
       "generic_b": "Esomeprazole",
       "severity": "moderate",
-      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed.",
+      "description_bn": "DDInter অনুযায়ী এটি একটি মাঝারি ইন্টারঅ্যাকশন। একসাথে খাওয়ার আগে ডাক্তার বা ফার্মাসিস্টকে জিজ্ঞেস করুন; বাড়তি পর্যবেক্ষণ বা ডোজ বদলের দরকার হতে পারে।"
     },
     {
       "generic_a": "Atorvastatin",
       "generic_b": "Metronidazole",
       "severity": "moderate",
-      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed.",
+      "description_bn": "DDInter অনুযায়ী এটি একটি মাঝারি ইন্টারঅ্যাকশন। একসাথে খাওয়ার আগে ডাক্তার বা ফার্মাসিস্টকে জিজ্ঞেস করুন; বাড়তি পর্যবেক্ষণ বা ডোজ বদলের দরকার হতে পারে।"
     },
     {
       "generic_a": "Atorvastatin",
       "generic_b": "Omeprazole",
       "severity": "moderate",
-      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed.",
+      "description_bn": "DDInter অনুযায়ী এটি একটি মাঝারি ইন্টারঅ্যাকশন। একসাথে খাওয়ার আগে ডাক্তার বা ফার্মাসিস্টকে জিজ্ঞেস করুন; বাড়তি পর্যবেক্ষণ বা ডোজ বদলের দরকার হতে পারে।"
     },
     {
       "generic_a": "Atorvastatin",
       "generic_b": "Pantoprazole",
       "severity": "moderate",
-      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed.",
+      "description_bn": "DDInter অনুযায়ী এটি একটি মাঝারি ইন্টারঅ্যাকশন। একসাথে খাওয়ার আগে ডাক্তার বা ফার্মাসিস্টকে জিজ্ঞেস করুন; বাড়তি পর্যবেক্ষণ বা ডোজ বদলের দরকার হতে পারে।"
     },
     {
       "generic_a": "Azithromycin",
       "generic_b": "Warfarin",
       "severity": "moderate",
-      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed.",
+      "description_bn": "DDInter অনুযায়ী এটি একটি মাঝারি ইন্টারঅ্যাকশন। একসাথে খাওয়ার আগে ডাক্তার বা ফার্মাসিস্টকে জিজ্ঞেস করুন; বাড়তি পর্যবেক্ষণ বা ডোজ বদলের দরকার হতে পারে।"
     },
     {
       "generic_a": "Cefixime",
       "generic_b": "Warfarin",
       "severity": "moderate",
-      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed.",
+      "description_bn": "DDInter অনুযায়ী এটি একটি মাঝারি ইন্টারঅ্যাকশন। একসাথে খাওয়ার আগে ডাক্তার বা ফার্মাসিস্টকে জিজ্ঞেস করুন; বাড়তি পর্যবেক্ষণ বা ডোজ বদলের দরকার হতে পারে।"
     },
     {
       "generic_a": "Ciprofloxacin",
       "generic_b": "Ibuprofen",
       "severity": "moderate",
-      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed.",
+      "description_bn": "DDInter অনুযায়ী এটি একটি মাঝারি ইন্টারঅ্যাকশন। একসাথে খাওয়ার আগে ডাক্তার বা ফার্মাসিস্টকে জিজ্ঞেস করুন; বাড়তি পর্যবেক্ষণ বা ডোজ বদলের দরকার হতে পারে।"
     },
     {
       "generic_a": "Ciprofloxacin",
       "generic_b": "Metformin",
       "severity": "moderate",
-      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed.",
+      "description_bn": "DDInter অনুযায়ী এটি একটি মাঝারি ইন্টারঅ্যাকশন। একসাথে খাওয়ার আগে ডাক্তার বা ফার্মাসিস্টকে জিজ্ঞেস করুন; বাড়তি পর্যবেক্ষণ বা ডোজ বদলের দরকার হতে পারে।"
     },
     {
       "generic_a": "Clopidogrel",
       "generic_b": "Ibuprofen",
       "severity": "moderate",
-      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed.",
+      "description_bn": "DDInter অনুযায়ী এটি একটি মাঝারি ইন্টারঅ্যাকশন। একসাথে খাওয়ার আগে ডাক্তার বা ফার্মাসিস্টকে জিজ্ঞেস করুন; বাড়তি পর্যবেক্ষণ বা ডোজ বদলের দরকার হতে পারে।"
     },
     {
       "generic_a": "Clopidogrel",
       "generic_b": "Pantoprazole",
       "severity": "moderate",
-      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed.",
+      "description_bn": "DDInter অনুযায়ী এটি একটি মাঝারি ইন্টারঅ্যাকশন। একসাথে খাওয়ার আগে ডাক্তার বা ফার্মাসিস্টকে জিজ্ঞেস করুন; বাড়তি পর্যবেক্ষণ বা ডোজ বদলের দরকার হতে পারে।"
     },
     {
       "generic_a": "Esomeprazole",
       "generic_b": "Warfarin",
       "severity": "moderate",
-      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed.",
+      "description_bn": "DDInter অনুযায়ী এটি একটি মাঝারি ইন্টারঅ্যাকশন। একসাথে খাওয়ার আগে ডাক্তার বা ফার্মাসিস্টকে জিজ্ঞেস করুন; বাড়তি পর্যবেক্ষণ বা ডোজ বদলের দরকার হতে পারে।"
     },
     {
       "generic_a": "Ibuprofen",
       "generic_b": "Losartan",
       "severity": "moderate",
-      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed.",
+      "description_bn": "DDInter অনুযায়ী এটি একটি মাঝারি ইন্টারঅ্যাকশন। একসাথে খাওয়ার আগে ডাক্তার বা ফার্মাসিস্টকে জিজ্ঞেস করুন; বাড়তি পর্যবেক্ষণ বা ডোজ বদলের দরকার হতে পারে।"
     },
     {
       "generic_a": "Ibuprofen",
       "generic_b": "Metformin",
       "severity": "moderate",
-      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed.",
+      "description_bn": "DDInter অনুযায়ী এটি একটি মাঝারি ইন্টারঅ্যাকশন। একসাথে খাওয়ার আগে ডাক্তার বা ফার্মাসিস্টকে জিজ্ঞেস করুন; বাড়তি পর্যবেক্ষণ বা ডোজ বদলের দরকার হতে পারে।"
     },
     {
       "generic_a": "Metformin",
       "generic_b": "Warfarin",
       "severity": "moderate",
-      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed.",
+      "description_bn": "DDInter অনুযায়ী এটি একটি মাঝারি ইন্টারঅ্যাকশন। একসাথে খাওয়ার আগে ডাক্তার বা ফার্মাসিস্টকে জিজ্ঞেস করুন; বাড়তি পর্যবেক্ষণ বা ডোজ বদলের দরকার হতে পারে।"
     },
     {
       "generic_a": "Metronidazole",
       "generic_b": "Montelukast",
       "severity": "moderate",
-      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed.",
+      "description_bn": "DDInter অনুযায়ী এটি একটি মাঝারি ইন্টারঅ্যাকশন। একসাথে খাওয়ার আগে ডাক্তার বা ফার্মাসিস্টকে জিজ্ঞেস করুন; বাড়তি পর্যবেক্ষণ বা ডোজ বদলের দরকার হতে পারে।"
     },
     {
       "generic_a": "Omeprazole",
       "generic_b": "Warfarin",
       "severity": "moderate",
-      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed.",
+      "description_bn": "DDInter অনুযায়ী এটি একটি মাঝারি ইন্টারঅ্যাকশন। একসাথে খাওয়ার আগে ডাক্তার বা ফার্মাসিস্টকে জিজ্ঞেস করুন; বাড়তি পর্যবেক্ষণ বা ডোজ বদলের দরকার হতে পারে।"
     },
     {
       "generic_a": "Pantoprazole",
       "generic_b": "Warfarin",
       "severity": "moderate",
-      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed.",
+      "description_bn": "DDInter অনুযায়ী এটি একটি মাঝারি ইন্টারঅ্যাকশন। একসাথে খাওয়ার আগে ডাক্তার বা ফার্মাসিস্টকে জিজ্ঞেস করুন; বাড়তি পর্যবেক্ষণ বা ডোজ বদলের দরকার হতে পারে।"
     },
     {
       "generic_a": "Paracetamol",
       "generic_b": "Warfarin",
       "severity": "moderate",
-      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed.",
+      "description_bn": "DDInter অনুযায়ী এটি একটি মাঝারি ইন্টারঅ্যাকশন। একসাথে খাওয়ার আগে ডাক্তার বা ফার্মাসিস্টকে জিজ্ঞেস করুন; বাড়তি পর্যবেক্ষণ বা ডোজ বদলের দরকার হতে পারে।"
     },
     {
       "generic_a": "Amoxicillin",
       "generic_b": "Azithromycin",
       "severity": "minor",
-      "description": "DDInter lists this as a minor interaction. Tell your doctor or pharmacist that you take both."
+      "description": "DDInter lists this as a minor interaction. Tell your doctor or pharmacist that you take both.",
+      "description_bn": "DDInter অনুযায়ী এটি একটি সামান্য ইন্টারঅ্যাকশন। আপনি দুটিই খান, তা ডাক্তার বা ফার্মাসিস্টকে জানান।"
     },
     {
       "generic_a": "Aspirin",
       "generic_b": "Esomeprazole",
       "severity": "minor",
-      "description": "DDInter lists this as a minor interaction. Tell your doctor or pharmacist that you take both."
+      "description": "DDInter lists this as a minor interaction. Tell your doctor or pharmacist that you take both.",
+      "description_bn": "DDInter অনুযায়ী এটি একটি সামান্য ইন্টারঅ্যাকশন। আপনি দুটিই খান, তা ডাক্তার বা ফার্মাসিস্টকে জানান।"
     },
     {
       "generic_a": "Aspirin",
       "generic_b": "Omeprazole",
       "severity": "minor",
-      "description": "DDInter lists this as a minor interaction. Tell your doctor or pharmacist that you take both."
+      "description": "DDInter lists this as a minor interaction. Tell your doctor or pharmacist that you take both.",
+      "description_bn": "DDInter অনুযায়ী এটি একটি সামান্য ইন্টারঅ্যাকশন। আপনি দুটিই খান, তা ডাক্তার বা ফার্মাসিস্টকে জানান।"
     },
     {
       "generic_a": "Aspirin",
       "generic_b": "Pantoprazole",
       "severity": "minor",
-      "description": "DDInter lists this as a minor interaction. Tell your doctor or pharmacist that you take both."
+      "description": "DDInter lists this as a minor interaction. Tell your doctor or pharmacist that you take both.",
+      "description_bn": "DDInter অনুযায়ী এটি একটি সামান্য ইন্টারঅ্যাকশন। আপনি দুটিই খান, তা ডাক্তার বা ফার্মাসিস্টকে জানান।"
     },
     {
       "generic_a": "Atorvastatin",
       "generic_b": "Warfarin",
       "severity": "minor",
-      "description": "DDInter lists this as a minor interaction. Tell your doctor or pharmacist that you take both."
+      "description": "DDInter lists this as a minor interaction. Tell your doctor or pharmacist that you take both.",
+      "description_bn": "DDInter অনুযায়ী এটি একটি সামান্য ইন্টারঅ্যাকশন। আপনি দুটিই খান, তা ডাক্তার বা ফার্মাসিস্টকে জানান।"
     },
     {
       "generic_a": "Azithromycin",
       "generic_b": "Metronidazole",
       "severity": "minor",
-      "description": "DDInter lists this as a minor interaction. Tell your doctor or pharmacist that you take both."
+      "description": "DDInter lists this as a minor interaction. Tell your doctor or pharmacist that you take both.",
+      "description_bn": "DDInter অনুযায়ী এটি একটি সামান্য ইন্টারঅ্যাকশন। আপনি দুটিই খান, তা ডাক্তার বা ফার্মাসিস্টকে জানান।"
     },
     {
       "generic_a": "Ciprofloxacin",
       "generic_b": "Metronidazole",
       "severity": "minor",
-      "description": "DDInter lists this as a minor interaction. Tell your doctor or pharmacist that you take both."
+      "description": "DDInter lists this as a minor interaction. Tell your doctor or pharmacist that you take both.",
+      "description_bn": "DDInter অনুযায়ী এটি একটি সামান্য ইন্টারঅ্যাকশন। আপনি দুটিই খান, তা ডাক্তার বা ফার্মাসিস্টকে জানান।"
     },
     {
       "generic_a": "Ciprofloxacin",
       "generic_b": "Omeprazole",
       "severity": "minor",
-      "description": "DDInter lists this as a minor interaction. Tell your doctor or pharmacist that you take both."
+      "description": "DDInter lists this as a minor interaction. Tell your doctor or pharmacist that you take both.",
+      "description_bn": "DDInter অনুযায়ী এটি একটি সামান্য ইন্টারঅ্যাকশন। আপনি দুটিই খান, তা ডাক্তার বা ফার্মাসিস্টকে জানান।"
     }
   ]
 }

@@ -47,6 +47,17 @@ DESCRIPTIONS = {
     ),
 }
 
+DESCRIPTIONS_BN = {
+    "major": (
+        "DDInter অনুযায়ী এটি একটি গুরুতর ইন্টারঅ্যাকশন। ডাক্তার নিরাপদ বলে না জানালে এই ওষুধগুলো একসাথে খাবেন না।"
+    ),
+    "moderate": (
+        "DDInter অনুযায়ী এটি একটি মাঝারি ইন্টারঅ্যাকশন। একসাথে খাওয়ার আগে ডাক্তার বা "
+        "ফার্মাসিস্টকে জিজ্ঞেস করুন; বাড়তি পর্যবেক্ষণ বা ডোজ বদলের দরকার হতে পারে।"
+    ),
+    "minor": ("DDInter অনুযায়ী এটি একটি সামান্য ইন্টারঅ্যাকশন। আপনি দুটিই খান, তা ডাক্তার বা ফার্মাসিস্টকে জানান।"),
+}
+
 
 def _name_map(seed_dir: Path) -> dict[str, str]:
     doc = json.loads((seed_dir / "generics.json").read_text(encoding="utf-8"))
@@ -80,7 +91,13 @@ def extract(folder: Path, seed_dir: Path) -> tuple[list[dict], list[str], int]:
                     pairs[key] = level
 
     records = [
-        {"generic_a": a, "generic_b": b, "severity": level, "description": DESCRIPTIONS[level]}
+        {
+            "generic_a": a,
+            "generic_b": b,
+            "severity": level,
+            "description": DESCRIPTIONS[level],
+            "description_bn": DESCRIPTIONS_BN[level],
+        }
         for (a, b), level in sorted(pairs.items(), key=lambda kv: (-SEVERITY_RANK[kv[1]], kv[0]))
     ]
     missing = sorted(set(names.values()) - seen_names)

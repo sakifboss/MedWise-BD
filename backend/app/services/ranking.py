@@ -215,7 +215,7 @@ def _market_reason(m: ManufacturerFactors) -> str:
     return f"{m.market_share:g}% market share, {years} in operation"
 
 
-def build_reasons(candidate: BrandCandidate, min_price: Decimal, max_price: Decimal) -> list[str]:
+def _reasons_en(candidate: BrandCandidate, min_price: Decimal, max_price: Decimal) -> list[str]:
     m = candidate.manufacturer
     return [
         _certification_reason(m),
@@ -225,6 +225,75 @@ def build_reasons(candidate: BrandCandidate, min_price: Decimal, max_price: Deci
         _market_reason(m),
         _price_reason(candidate.price_per_unit, min_price, max_price),
     ]
+
+
+# Bangla: the same facts as the English reasons, worded for Bangla readers.
+_BN_DIGITS = str.maketrans("0123456789", "০১২৩৪৫৬৭৮৯")
+
+
+def _bn(value: object) -> str:
+    return str(value).translate(_BN_DIGITS)
+
+
+def _num_bn(value: float) -> str:
+    return _bn(f"{value:g}")
+
+
+def _reasons_bn(candidate: BrandCandidate, min_price: Decimal, max_price: Decimal) -> list[str]:
+    m = candidate.manufacturer
+    approved = [r for r in STRINGENT_REGULATORS if r in m.stringent_approvals]
+    certification = (
+        f"{', '.join(approved)}-এর অনুমোদিত প্ল্যান্ট আছে"
+        if approved
+        else "US FDA, UK MHRA, EU GMP বা TGA-র কোনো প্ল্যান্ট অনুমোদন পাওয়া যায়নি"
+    )
+
+    if m.export_countries == 0 and m.regulated_market_exports == 0:
+        export = "রপ্তানির কোনো তথ্য নেই"
+    else:
+        export = f"{_num_bn(m.export_countries)}টি দেশে রপ্তানি করে"
+        if m.regulated_market_exports:
+            export += f", এর মধ্যে {_num_bn(m.regulated_market_exports)}টি নিয়ন্ত্রিত বাজার"
+
+    if not m.recall_data_available:
+        recall = "রিকলের ইতিহাস পাওয়া যায়নি"
+    elif m.recall_count == 0:
+        recall = "কোনো রিকলের রেকর্ড নেই"
+    else:
+        recall = f"{_num_bn(m.recall_count)}টি রিকলের রেকর্ড আছে"
+
+    years = f"{_num_bn(m.years_active)} বছর ধরে চালু"
+    market = (
+        f"{years} (বাজারের অংশ জানা নেই)"
+        if m.market_share is None
+        else f"বাজারের {_num_bn(m.market_share)}% অংশ, {years}"
+    )
+
+    price = candidate.price_per_unit
+    unit = f"৳{_bn(f'{price:.2f}')}/ইউনিট"
+    if min_price == max_price:
+        price_text = f"সব বিকল্পের দাম একই ({unit})"
+    elif price == min_price:
+        price_text = f"এই গ্রুপে সবচেয়ে কম দাম ({unit})"
+    else:
+        extra = (price - min_price) / min_price * 100
+        price_text = f"{unit}, সবচেয়ে সস্তাটির চেয়ে {_bn(f'{extra:.0f}')}% বেশি"
+
+    return [
+        certification,
+        export,
+        f"কমপ্লায়েন্স স্কোর {_num_bn(m.compliance_score)}/১০০",
+        recall,
+        market,
+        price_text,
+    ]
+
+
+def build_reasons(
+    candidate: BrandCandidate, min_price: Decimal, max_price: Decimal, lang: str = "en"
+) -> list[str]:
+    builder = _reasons_bn if lang == "bn" else _reasons_en
+    return builder(candidate, min_price, max_price)
 
 
 # ---------------------------------------------------------------- ranking
@@ -238,8 +307,13 @@ def _ensure_comparable(candidates: Sequence[BrandCandidate]) -> None:
         )
 
 
-def rank_brands(candidates: Sequence[BrandCandidate], bounds: Bounds) -> list[RankedBrand]:
-    """Score and order brands, best first. Ties go to the cheaper brand, then by name."""
+def rank_brands(
+    candidates: Sequence[BrandCandidate], bounds: Bounds, lang: str = "en"
+) -> list[RankedBrand]:
+    """Score and order brands, best first. Ties go to the cheaper brand, then by name.
+
+    `lang` ("en" or "bn") only changes the wording of `reasons`, never the scores.
+    """
     if not candidates:
         return []
     _ensure_comparable(candidates)
@@ -262,7 +336,7 @@ def rank_brands(candidates: Sequence[BrandCandidate], bounds: Bounds) -> list[Ra
             quality_score=q,
             price_score=p,
             components=components,
-            reasons=build_reasons(c, min_price, max_price),
+            reasons=build_reasons(c, min_price, max_price, lang),
         )
         for index, (final, q, p, components, c) in enumerate(scored, start=1)
     ]

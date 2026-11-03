@@ -4,8 +4,11 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from app.core.db import get_db
-from app.schemas.common import Envelope
+from app.schemas.alternatives import DISCLAIMER, DISCLAIMER_BN
+from app.schemas.common import Envelope, LangQuery
 from app.schemas.interactions import (
+    NO_RECORD_NOTE,
+    NO_RECORD_NOTE_BN,
     CheckedMedicine,
     GenericRef,
     InteractionCheckRequest,
@@ -25,6 +28,7 @@ def _medicine(g: CheckedGeneric) -> CheckedMedicine:
 def check(
     body: InteractionCheckRequest,
     db: Annotated[Session, Depends(get_db)],
+    lang: LangQuery = "en",
 ) -> Envelope[InteractionCheckResponse]:
     """Recorded interactions between any of the given brands/generics, most severe first.
 
@@ -39,11 +43,13 @@ def check(
                     generic_a=GenericRef(id=i.generic_a.id, name=i.generic_a.name),
                     generic_b=GenericRef(id=i.generic_b.id, name=i.generic_b.name),
                     severity=i.severity,  # type: ignore[arg-type]
-                    description=i.description,
+                    description=i.text(lang),
                 )
                 for i in report.interactions
             ],
             duplicates=[_medicine(g) for g in report.duplicates],
             pairs_checked=report.pairs_checked,
+            note=NO_RECORD_NOTE_BN if lang == "bn" else NO_RECORD_NOTE,
+            disclaimer=DISCLAIMER_BN if lang == "bn" else DISCLAIMER,
         )
     )

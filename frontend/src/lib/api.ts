@@ -1,3 +1,5 @@
+import type { Lang } from "@/i18n/dictionaries";
+
 import type { components } from "./api-schema";
 
 type Schemas = components["schemas"];
@@ -78,18 +80,19 @@ export const api = {
     const params = new URLSearchParams({ q, limit: String(options.limit ?? 12) });
     return request<SearchResponse>(`/api/search?${params}`, { signal: options.signal });
   },
-  generic(id: number) {
-    return request<GenericDetail>(`/api/generics/${id}`);
+  /** `lang` picks the language of generated text (reasons, interaction descriptions). */
+  generic(id: number, lang: Lang = "en") {
+    return request<GenericDetail>(`/api/generics/${id}?lang=${lang}`);
   },
-  genericRanking(id: number, strength: string, dosageForm: string) {
-    const params = new URLSearchParams({ strength, dosage_form: dosageForm });
+  genericRanking(id: number, strength: string, dosageForm: string, lang: Lang = "en") {
+    const params = new URLSearchParams({ strength, dosage_form: dosageForm, lang });
     return request<AlternativesResponse>(`/api/generics/${id}/ranking?${params}`);
   },
-  alternatives(brandId: number) {
-    return request<AlternativesResponse>(`/api/alternatives/${brandId}`);
+  alternatives(brandId: number, lang: Lang = "en") {
+    return request<AlternativesResponse>(`/api/alternatives/${brandId}?lang=${lang}`);
   },
-  checkInteractions(body: InteractionCheckRequest, signal?: AbortSignal) {
-    return request<InteractionCheckResponse>("/api/interactions/check", {
+  checkInteractions(body: InteractionCheckRequest, signal?: AbortSignal, lang: Lang = "en") {
+    return request<InteractionCheckResponse>(`/api/interactions/check?lang=${lang}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),

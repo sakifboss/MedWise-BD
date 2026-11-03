@@ -131,3 +131,6 @@ class InteractionSeed(_SeedRow):
     generic_b: NonEmptyStr
     severity: Literal["minor", "moderate", "major"]
     description: Annotated[str, StringConstraints(strip_whitespace=True, min_length=10)]
+    description_bn: (
+        Annotated[str, StringConstraints(strip_whitespace=True, min_length=10)] | None
+    ) = None

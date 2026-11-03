@@ -6,7 +6,7 @@ import { BackLink } from "@/components/back-link";
 import { Disclaimer } from "@/components/disclaimer";
 import { HowRankingWorks } from "@/components/how-ranking-works";
 import { RankingList } from "@/components/ranking-list";
-import { getDict } from "@/i18n/server";
+import { getDict, getLang } from "@/i18n/server";
 import { api, isNotFound } from "@/lib/api";
 import { parseId } from "@/lib/format";
 
@@ -14,7 +14,7 @@ async function load(brandIdParam: string) {
   const brandId = parseId(brandIdParam);
   if (brandId === null) notFound();
   try {
-    return await api.alternatives(brandId);
+    return await api.alternatives(brandId, await getLang());
   } catch (error) {
     if (isNotFound(error)) notFound();
     throw error;

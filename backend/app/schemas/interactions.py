@@ -8,6 +8,9 @@ NO_RECORD_NOTE = (
     "Only interactions recorded in our data are shown. No result does not mean it is safe to "
     "combine medicines."
 )
+NO_RECORD_NOTE_BN = (
+    "শুধু আমাদের ডেটায় নথিভুক্ত ইন্টারঅ্যাকশন দেখানো হয়। কোনো ফল না আসা মানে এই নয় যে ওষুধগুলো একসাথে খাওয়া নিরাপদ।"
+)
 
 
 class InteractionCheckRequest(BaseModel):

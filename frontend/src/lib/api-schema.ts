@@ -520,7 +520,10 @@ export interface operations {
     };
     get_generic_api_generics__generic_id__get: {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description Language for generated text: en (default) or bn */
+                lang?: "en" | "bn";
+            };
             header?: never;
             path: {
                 generic_id: number;
@@ -551,7 +554,10 @@ export interface operations {
     };
     get_alternatives_api_alternatives__brand_id__get: {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description Language for generated text: en (default) or bn */
+                lang?: "en" | "bn";
+            };
             header?: never;
             path: {
                 brand_id: number;
@@ -585,6 +591,8 @@ export interface operations {
             query: {
                 strength: string;
                 dosage_form: string;
+                /** @description Language for generated text: en (default) or bn */
+                lang?: "en" | "bn";
             };
             header?: never;
             path: {
@@ -649,7 +657,10 @@ export interface operations {
     };
     check_api_interactions_check_post: {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description Language for generated text: en (default) or bn */
+                lang?: "en" | "bn";
+            };
             header?: never;
             path?: never;
             cookie?: never;

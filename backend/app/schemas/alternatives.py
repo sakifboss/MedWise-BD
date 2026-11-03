@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 
 DISCLAIMER = "Consult your doctor or pharmacist before changing any medicine."
+DISCLAIMER_BN = "কোনো ওষুধ বদলানোর আগে আপনার ডাক্তার বা ফার্মাসিস্টের পরামর্শ নিন।"
 
 
 class GenericRef(BaseModel):

@@ -124,3 +124,10 @@ def test_too_many_medicines(client: TestClient) -> None:
     response = client.post(URL, json={"generic_ids": list(range(1, 21)), "brand_ids": [1]})
     assert response.status_code == 400
     assert response.json()["error"]["code"] == "too_many_medicines"
+
+
+def test_interactions_in_bangla(client: TestClient) -> None:
+    body = {"generic_ids": [generic(client, "Warfarin"), generic(client, "Aspirin")]}
+    data = client.post(URL, json=body, params={"lang": "bn"}).json()["data"]
+    assert data["interactions"][0]["description"].startswith("DDInter অনুযায়ী এটি একটি গুরুতর")
+    assert data["note"].startswith("শুধু আমাদের ডেটায়")

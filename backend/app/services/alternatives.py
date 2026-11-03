@@ -69,16 +69,18 @@ def comparable_brands(db: Session, generic_id: int, strength: str, dosage_form: 
     return list(db.scalars(query))
 
 
-def rank_group(db: Session, generic_id: int, strength: str, dosage_form: str) -> list[RankedBrand]:
+def rank_group(
+    db: Session, generic_id: int, strength: str, dosage_form: str, lang: str = "en"
+) -> list[RankedBrand]:
     brands = comparable_brands(db, generic_id, strength, dosage_form)
     if not brands:
         return []
-    return rank_brands([to_candidate(b) for b in brands], load_bounds(db))
+    return rank_brands([to_candidate(b) for b in brands], load_bounds(db), lang)
 
 
-def find_alternatives(db: Session, brand_id: int) -> AlternativesResult | None:
+def find_alternatives(db: Session, brand_id: int, lang: str = "en") -> AlternativesResult | None:
     brand = db.get(Brand, brand_id, options=[joinedload(Brand.generic)])
     if brand is None:
         return None
-    ranked = rank_group(db, brand.generic_id, brand.strength, brand.dosage_form)
+    ranked = rank_group(db, brand.generic_id, brand.strength, brand.dosage_form, lang)
     return AlternativesResult(selected=brand, ranked=ranked)

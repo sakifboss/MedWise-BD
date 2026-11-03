@@ -253,3 +253,34 @@ def test_compliance_is_absolute_not_relative() -> None:
     # One company at 85 among companies at 100 keeps 0.85, not 0.
     m = replace(A, compliance_score=85)
     assert quality_components(m, BOUNDS).compliance == pytest.approx(0.85)
+
+
+# ---------------------------------------------------------------- Bangla reasons
+
+
+def test_bangla_reasons_carry_the_same_facts() -> None:
+    best = rank_brands(GROUP, BOUNDS, lang="bn")[0].reasons
+    assert best[0] == "US FDA, UK MHRA, EU GMP, TGA Australia-এর অনুমোদিত প্ল্যান্ট আছে"
+    assert best[1] == "১০টি দেশে রপ্তানি করে, এর মধ্যে ৪টি নিয়ন্ত্রিত বাজার"
+    assert "কমপ্লায়েন্স স্কোর ১০০/১০০" in best
+    assert "কোনো রিকলের রেকর্ড নেই" in best
+    assert "৳১০.০০/ইউনিট, সবচেয়ে সস্তাটির চেয়ে ১০০% বেশি" in best
+    worst = rank_brands(GROUP, BOUNDS, lang="bn")[-1].reasons
+    assert "রপ্তানির কোনো তথ্য নেই" in worst
+    assert "এই গ্রুপে সবচেয়ে কম দাম (৳৫.০০/ইউনিট)" in worst
+
+
+def test_bangla_never_claims_clean_recall_when_data_is_missing() -> None:
+    m = replace(A, recall_data_available=False, market_share=None)
+    reasons = rank_brands([brand(1, m, "1.00")], BOUNDS, lang="bn")[0].reasons
+    assert "রিকলের ইতিহাস পাওয়া যায়নি" in reasons
+    assert "কোনো রিকলের রেকর্ড নেই" not in reasons
+    assert "৫০ বছর ধরে চালু (বাজারের অংশ জানা নেই)" in reasons
+
+
+def test_language_does_not_change_scores() -> None:
+    en = rank_brands(GROUP, BOUNDS)
+    bn = rank_brands(GROUP, BOUNDS, lang="bn")
+    assert [(r.candidate.brand_id, r.final_score) for r in en] == [
+        (r.candidate.brand_id, r.final_score) for r in bn
+    ]

@@ -80,6 +80,22 @@
               "minimum": 1,
               "title": "Generic Id"
             }
+          },
+          {
+            "name": "lang",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "en",
+                "bn"
+              ],
+              "type": "string",
+              "description": "Language for generated text: en (default) or bn",
+              "default": "en",
+              "title": "Lang"
+            },
+            "description": "Language for generated text: en (default) or bn"
           }
         ],
         "responses": {
@@ -124,6 +140,22 @@
               "minimum": 1,
               "title": "Brand Id"
             }
+          },
+          {
+            "name": "lang",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "en",
+                "bn"
+              ],
+              "type": "string",
+              "description": "Language for generated text: en (default) or bn",
+              "default": "en",
+              "title": "Lang"
+            },
+            "description": "Language for generated text: en (default) or bn"
           }
         ],
         "responses": {
@@ -190,6 +222,22 @@
               "maxLength": 50,
               "title": "Dosage Form"
             }
+          },
+          {
+            "name": "lang",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "en",
+                "bn"
+              ],
+              "type": "string",
+              "description": "Language for generated text: en (default) or bn",
+              "default": "en",
+              "title": "Lang"
+            },
+            "description": "Language for generated text: en (default) or bn"
           }
         ],
         "responses": {
@@ -266,15 +314,33 @@
         "summary": "Check",
         "description": "Recorded interactions between any of the given brands/generics, most severe first.\n\nAlso lists generics that were chosen through more than one brand (duplicate medicine).",
         "operationId": "check_api_interactions_check_post",
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "en",
+                "bn"
+              ],
+              "type": "string",
+              "description": "Language for generated text: en (default) or bn",
+              "default": "en",
+              "title": "Lang"
+            },
+            "description": "Language for generated text: en (default) or bn"
+          }
+        ],
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/InteractionCheckRequest"
               }
             }
-          },
-          "required": true
+          }
         },
         "responses": {
           "200": {

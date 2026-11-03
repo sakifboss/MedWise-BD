@@ -299,7 +299,11 @@ def _insert_interactions(session: Session, data: SeedData, generic_ids: dict[str
         a, b = sorted((generic_ids[_key(row.generic_a)], generic_ids[_key(row.generic_b)]))
         session.add(
             Interaction(
-                generic_a_id=a, generic_b_id=b, severity=row.severity, description=row.description
+                generic_a_id=a,
+                generic_b_id=b,
+                severity=row.severity,
+                description=row.description,
+                description_bn=row.description_bn,
             )
         )
 

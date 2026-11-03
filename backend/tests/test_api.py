@@ -202,3 +202,28 @@ def test_generic_ranking_unknown_presentation(client: TestClient) -> None:
 
 def test_generic_ranking_requires_params(client: TestClient) -> None:
     _err(client.get("/api/generics/1/ranking"), 422, "validation_error")
+
+
+# ---------------------------------------------------------------- language
+
+
+def test_alternatives_in_bangla(client: TestClient) -> None:
+    brand_id = _brand_id(client, "Napa", "500 mg")
+    en = _ok(client.get(f"/api/alternatives/{brand_id}"))
+    bn = _ok(client.get(f"/api/alternatives/{brand_id}", params={"lang": "bn"}))
+    assert bn["disclaimer"] == "কোনো ওষুধ বদলানোর আগে আপনার ডাক্তার বা ফার্মাসিস্টের পরামর্শ নিন।"
+    assert all("ইউনিট" in a["reasons"][-1] for a in bn["alternatives"])
+    # Same ranking and scores in both languages; only the wording changes.
+    assert [(a["name"], a["final_score"]) for a in en["alternatives"]] == [
+        (a["name"], a["final_score"]) for a in bn["alternatives"]
+    ]
+
+
+def test_generic_interactions_in_bangla(client: TestClient) -> None:
+    generic_id = _ok(client.get("/api/search", params={"q": "Warfarin"}))["results"][0]["id"]
+    data = _ok(client.get(f"/api/generics/{generic_id}", params={"lang": "bn"}))
+    assert all(i["description"].startswith("DDInter অনুযায়ী") for i in data["interactions"])
+
+
+def test_unknown_language_is_rejected(client: TestClient) -> None:
+    _err(client.get("/api/generics/1", params={"lang": "fr"}), 422, "validation_error")

@@ -27,6 +27,7 @@ class Interaction(Base):
     )
     severity: Mapped[str] = mapped_column(String(10))
     description: Mapped[str] = mapped_column(Text)
+    description_bn: Mapped[str | None] = mapped_column(Text, nullable=True)
 
     generic_a: Mapped[Generic] = relationship(foreign_keys=[generic_a_id])
     generic_b: Mapped[Generic] = relationship(foreign_keys=[generic_b_id])

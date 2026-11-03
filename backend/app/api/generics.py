@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session, aliased
 
 from app.core.db import get_db
 from app.models import SEVERITIES, Brand, Generic, Interaction
-from app.schemas.common import Envelope
+from app.schemas.common import Envelope, LangQuery
 from app.schemas.generic import GenericDetail, InteractionSummary, Presentation
 
 router = APIRouter(tags=["generics"])
@@ -37,20 +37,31 @@ def _presentations(db: Session, generic_id: int) -> list[Presentation]:
     ]
 
 
-def _interactions(db: Session, generic_id: int) -> list[InteractionSummary]:
+def _interactions(db: Session, generic_id: int, lang: str) -> list[InteractionSummary]:
     other = aliased(Generic)
     other_id = case(
         (Interaction.generic_a_id == generic_id, Interaction.generic_b_id),
         else_=Interaction.generic_a_id,
     )
     rows = db.execute(
-        select(other.id, other.name, Interaction.severity, Interaction.description)
+        select(
+            other.id,
+            other.name,
+            Interaction.severity,
+            Interaction.description,
+            Interaction.description_bn,
+        )
         .join(other, other.id == other_id)
         .where(or_(Interaction.generic_a_id == generic_id, Interaction.generic_b_id == generic_id))
     )
     items = [
-        InteractionSummary(generic_id=i, generic_name=n, severity=s, description=d)
-        for i, n, s, d in rows
+        InteractionSummary(
+            generic_id=i,
+            generic_name=n,
+            severity=s,
+            description=(d_bn if lang == "bn" else None) or d,
+        )
+        for i, n, s, d, d_bn in rows
     ]
     items.sort(key=lambda x: (-SEVERITIES.index(x.severity), x.generic_name.casefold()))
     return items
@@ -60,6 +71,7 @@ def _interactions(db: Session, generic_id: int) -> list[InteractionSummary]:
 def get_generic(
     generic_id: Annotated[int, Path(ge=1)],
     db: Annotated[Session, Depends(get_db)],
+    lang: LangQuery = "en",
 ) -> Envelope[GenericDetail]:
     generic = db.get(Generic, generic_id)
     if generic is None:
@@ -74,6 +86,6 @@ def get_generic(
         precautions=generic.precautions,
         source_urls=generic.source_urls,
         presentations=_presentations(db, generic_id),
-        interactions=_interactions(db, generic_id),
+        interactions=_interactions(db, generic_id, lang),
     )
     return Envelope(data=detail)

@@ -13,28 +13,29 @@ type State =
   | { status: "done"; data: InteractionCheckResponse };
 
 function parseKey(key: string): [number[], number[]] {
-  const [brands, generics] = key.split("|");
+  const [brands, generics] = key.split("|"); // the third part is the language
   const ids = (part: string) => (part ? part.split(",").map(Number) : []);
   return [ids(brands), ids(generics)];
 }
 
 /** Fetches and shows interactions for the given medicines; re-checks when they change. */
 export function InteractionPanel({ brandIds, genericIds }: { brandIds: number[]; genericIds: number[] }) {
-  const i = useDict().interactions;
+  const t = useDict();
+  const i = t.interactions;
   const [result, setResult] = useState<{ key: string; state: State }>({ key: "", state: { status: "loading" } });
-  const key = `${brandIds.join(",")}|${genericIds.join(",")}`;
+  const key = `${brandIds.join(",")}|${genericIds.join(",")}|${t.lang}`;
 
   // Depend on the string key, not the arrays (which change identity every render).
   useEffect(() => {
     const [brand_ids, generic_ids] = parseKey(key);
     if (!brand_ids.length && !generic_ids.length) return;
     const controller = new AbortController();
-    api.checkInteractions({ brand_ids, generic_ids }, controller.signal).then(
+    api.checkInteractions({ brand_ids, generic_ids }, controller.signal, t.lang).then(
       (data) => setResult({ key, state: { status: "done", data } }),
       () => !controller.signal.aborted && setResult({ key, state: { status: "error" } }),
     );
     return () => controller.abort();
-  }, [key]);
+  }, [key, t.lang]);
 
   const state: State = result.key === key ? result.state : { status: "loading" };
 

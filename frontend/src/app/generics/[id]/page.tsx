@@ -7,7 +7,7 @@ import { BackLink } from "@/components/back-link";
 import { Disclaimer } from "@/components/disclaimer";
 import { SeverityBadge } from "@/components/severity-badge";
 import type { Dict } from "@/i18n/dictionaries";
-import { getDict } from "@/i18n/server";
+import { getDict, getLang } from "@/i18n/server";
 import { api, isNotFound, type GenericDetail } from "@/lib/api";
 import { capitalize, parseId, rankingHref } from "@/lib/format";
 
@@ -15,7 +15,7 @@ async function load(idParam: string) {
   const id = parseId(idParam);
   if (id === null) notFound();
   try {
-    return await api.generic(id);
+    return await api.generic(id, await getLang());
   } catch (error) {
     if (isNotFound(error)) notFound();
     throw error;
