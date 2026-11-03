@@ -5,6 +5,8 @@ import type { NextConfig } from "next";
 const API_URL = process.env.API_URL ?? "http://localhost:8000";
 
 const nextConfig: NextConfig = {
+  // Only the Docker build sets NEXT_OUTPUT (standalone server); Vercel and local builds are unchanged.
+  output: process.env.NEXT_OUTPUT === "standalone" ? "standalone" : undefined,
   async rewrites() {
     return [{ source: "/api/:path*", destination: `${API_URL}/api/:path*` }];
   },

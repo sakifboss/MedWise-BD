@@ -1,0 +1,60 @@
+# Run the whole app locally with one command:
+#   docker compose up --build
+# Then open http://localhost:3000 (API docs: http://localhost:8000/docs).
+#
+# Prescription scanning needs a Gemini key: put GEMINI_API_KEY=... in backend/.env (optional;
+# everything else works without it). The database here is a local Postgres that is refilled
+# from data/seed on every start; it never touches the production database.
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: medwise
+      POSTGRES_PASSWORD: medwise
+      POSTGRES_DB: medwise
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U medwise -d medwise"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    env_file:
+      - path: backend/.env
+        required: false
+    environment:
+      # Overrides any DATABASE_URL in backend/.env, so a production URL there is never used.
+      DATABASE_URL: postgresql+psycopg://medwise:medwise@db:5432/medwise
+      CORS_ORIGINS: http://localhost:3000
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health')"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  frontend:
+    build:
+      context: frontend
+      args:
+        API_URL: http://backend:8000
+    environment:
+      API_URL: http://backend:8000
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:3000/"]
+      interval: 5s
+      timeout: 5s
+      retries: 30

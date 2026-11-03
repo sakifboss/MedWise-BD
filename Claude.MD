@@ -85,6 +85,8 @@ Final = 100 * (0.8*Q + 0.2*P)
 - Tests: `cd backend && pytest`
 - Import data: `cd backend && python scripts/import_data.py`
 - Frontend: `cd frontend && npm run dev`
+- Everything in Docker (Postgres + backend + frontend): `docker compose up --build`, then http://localhost:3000.
+  The frontend's /api rewrite is fixed at build time, so the image gets API_URL as a build arg.
 
 ## Roadmap (approved 2026-11-03)
 Work ONE step at a time: build -> tests, ruff, lint, typecheck, build -> commit + push -> verify the

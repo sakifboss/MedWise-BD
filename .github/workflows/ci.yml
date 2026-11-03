@@ -55,3 +55,21 @@ jobs:
       - run: npm run lint
       - run: npm run typecheck
       - run: npm run build
+
+  docker:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and start the stack (Postgres, backend, frontend)
+        run: docker compose up --build --detach --wait --wait-timeout 300
+      - name: Smoke test through the frontend
+        run: |
+          curl --fail --silent http://localhost:3000/ > /dev/null
+          curl --fail --silent http://localhost:3000/api/health | grep '"database":"ok"'
+          curl --fail --silent "http://localhost:3000/api/search?q=napa" | grep '"Napa"'
+      - name: Logs on failure
+        if: failure()
+        run: docker compose logs
+      - name: Stop
+        if: always()
+        run: docker compose down

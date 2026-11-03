@@ -1,0 +1,14 @@
+# Used by the backend image (built from the repository root). Never send secrets or local state.
+**/.env
+**/.env.*
+!**/.env.example
+.git
+**/__pycache__
+**/*.py[cod]
+**/.pytest_cache
+**/.ruff_cache
+backend/.venv
+**/*.db
+**/*.sqlite3
+data/raw
+frontend

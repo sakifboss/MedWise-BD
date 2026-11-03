@@ -54,6 +54,19 @@ Browser ──► Vercel (Next.js frontend) ──/api/*──► Render (FastAP
 | [`backend/`](backend/) | Python 3.11, FastAPI, SQLAlchemy, Pydantic, rapidfuzz |
 | [`data/seed/`](data/seed/) | The only source of medicine data. See its [README](data/seed/README.md) for the format |
 
+## Run with Docker
+
+The quickest way to run everything (Postgres, backend, frontend) on your own machine:
+
+```bash
+docker compose up --build
+```
+
+Open http://localhost:3000 (API docs at http://localhost:8000/docs). The backend loads
+`data/seed` into a local Postgres on every start, so it never touches the production database.
+For prescription scanning, put `GEMINI_API_KEY=...` in `backend/.env` first (optional; everything
+else works without it). Stop with `Ctrl+C`, or `docker compose down` if started with `-d`.
+
 ## Run locally
 
 ```bash
