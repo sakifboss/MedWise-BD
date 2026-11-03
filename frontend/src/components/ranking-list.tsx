@@ -1,5 +1,6 @@
 import { MonthlyCost, SavingsCalculator } from "@/components/savings/savings-calculator";
 import { SavingsProvider } from "@/components/savings/savings-context";
+import { RankingShare } from "@/components/share/ranking-share";
 import { ScoreBar } from "@/components/score-bar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -38,7 +39,7 @@ function Summary({ data, t }: { data: AlternativesResponse; t: Dict }) {
 
 function ScoreDetails({ item, t }: { item: RankedAlternative; t: Dict }) {
   return (
-    <details className="group rounded-lg border bg-muted/30 px-3 py-2 text-sm">
+    <details className="group rounded-lg border bg-muted/30 px-3 py-2 text-sm print:hidden">
       <summary className="cursor-pointer font-medium select-none">{t.ranking.howCalculated}</summary>
       <dl className="mt-3 space-y-2">
         <div className="flex justify-between gap-2">
@@ -80,7 +81,7 @@ function hostname(url: string): string {
 function Sources({ urls, t }: { urls: string[]; t: Dict }) {
   if (urls.length === 0) return null;
   return (
-    <details className="rounded-lg border px-3 py-2 text-sm">
+    <details className="rounded-lg border px-3 py-2 text-sm print:hidden">
       <summary className="cursor-pointer font-medium select-none">
         {t.ranking.sources(urls.length)}
       </summary>
@@ -99,7 +100,7 @@ function Sources({ urls, t }: { urls: string[]; t: Dict }) {
 
 function RankedCard({ item, t }: { item: RankedAlternative; t: Dict }) {
   return (
-    <Card className={cn(item.is_selected && "ring-2 ring-primary")}>
+    <Card className={cn("break-inside-avoid", item.is_selected && "ring-2 ring-primary")}>
       <CardHeader className="flex flex-row items-start gap-3">
         <div
           aria-label={t.ranking.rank(item.rank)}
@@ -162,7 +163,24 @@ function RankedCard({ item, t }: { item: RankedAlternative; t: Dict }) {
   );
 }
 
-export async function RankingList({ data }: { data: AlternativesResponse }) {
+/** Plain-text summary for sharing: the top three brands, the user's own if lower, the disclaimer. */
+function shareText(data: AlternativesResponse, title: string, t: Dict): string {
+  const line = (a: RankedAlternative) =>
+    t.share.rankingLine(
+      t.fmt.int(a.rank),
+      a.name,
+      a.manufacturer.name,
+      t.fmt.price(a.price_per_unit),
+      t.fmt.score(a.final_score),
+    );
+  const top = data.alternatives.slice(0, 3);
+  const selected = data.alternatives.find((a) => a.is_selected);
+  const lines = [t.share.rankingIntro(title), ...top.map(line)];
+  if (selected && selected.rank > 3) lines.push(t.share.yourMedicineLine(selected.name, t.fmt.int(selected.rank)));
+  return [...lines, t.disclaimer].join("\n");
+}
+
+export async function RankingList({ data, shareTitle }: { data: AlternativesResponse; shareTitle: string }) {
   const t = await getDict();
   const selected = data.alternatives.find((a) => a.is_selected);
   const options = data.alternatives.map(({ name, rank, price_per_unit, is_selected }) => ({
@@ -174,6 +192,7 @@ export async function RankingList({ data }: { data: AlternativesResponse }) {
   return (
     <SavingsProvider dosageForm={data.dosage_form} selectedPrice={selected?.price_per_unit ?? null}>
       <section aria-label={t.ranking.listLabel} className="space-y-3">
+        <RankingShare title={shareTitle} text={shareText(data, shareTitle, t)} />
         <SavingsCalculator options={options} />
         <Summary data={data} t={t} />
         <ol className="space-y-3">

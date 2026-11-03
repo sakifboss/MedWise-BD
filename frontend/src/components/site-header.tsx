@@ -11,13 +11,13 @@ export async function SiteHeader() {
     { href: "/interactions", label: t.nav.interactions, icon: ShieldAlert },
   ];
   return (
-    <header className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/80">
+    <header className="sticky top-0 z-10 border-b print:static bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/80">
       <div className="mx-auto flex h-14 w-full max-w-3xl items-center gap-2 px-4 sm:gap-5">
         <Link href="/" className="flex shrink-0 items-center gap-2 font-semibold tracking-tight whitespace-nowrap">
           <Pill className="size-5 text-primary" aria-hidden />
           MedWise BD
         </Link>
-        <nav aria-label={t.nav.main} className="flex items-center text-sm sm:gap-4">
+        <nav aria-label={t.nav.main} className="flex items-center text-sm sm:gap-4 print:hidden">
           {nav.map(({ href, label, icon: Icon }) => (
             <Link
               key={href}

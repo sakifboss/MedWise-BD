@@ -108,7 +108,7 @@ live deploy -> tick the box here -> stop for the user's review before starting t
   English medicine text changes, run `build_generics_bn.py export`, re-review, then `apply`.
 - [x] **4. Bangla voice search.** Mic button using the browser Web Speech API (`bn-BD`, then `en`);
   hidden when the browser does not support it. Audio is not sent to our backend or stored.
-- [ ] **5. Share for the pharmacist.** Share the chosen alternatives (WhatsApp / native share) and a
+- [x] **5. Share for the pharmacist.** Share the chosen alternatives (WhatsApp / native share) and a
   print view with a QR code back to the page. Includes the doctor/pharmacist disclaimer.
 - [ ] **6. Manufacturer transparency page.** `/manufacturers/[id]`: each approval, export and market
   data, score breakdown, every source link, and what is not known (recall data).

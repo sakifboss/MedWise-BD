@@ -8,15 +8,17 @@ import { Disclaimer } from "@/components/disclaimer";
 import { InteractionPanel } from "@/components/interactions/interaction-panel";
 import { CostSummary } from "@/components/prescription/cost-summary";
 import { optionKey, optionLabel } from "@/components/prescription/types";
-import { QUANTITY_PARAM } from "@/components/savings/savings-context";
+import { ShareActions } from "@/components/share/share-actions";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useDict } from "@/i18n/client";
-import type { Lang } from "@/i18n/dictionaries";
+import type { Dict, Lang } from "@/i18n/dictionaries";
 import { api, type AlternativesResponse, type MatchOption } from "@/lib/api";
 import { rankingHref } from "@/lib/format";
-import { parseQuantity, quantityUnit } from "@/lib/savings";
+import { picks } from "@/lib/prescription-cost";
+import { parseQuantity, QUANTITY_PARAM, quantityUnit } from "@/lib/savings";
+import { shareHref, shareItem } from "@/lib/share";
 
 type Loaded = { status: "loading" } | { status: "error" } | { status: "done"; data: AlternativesResponse };
 
@@ -91,6 +93,24 @@ function Summary({ option, data }: { option: MatchOption; data: AlternativesResp
   );
 }
 
+/** Message text for sharing the whole prescription (the link to /share is added separately). */
+function prescriptionShareText(rows: { option: MatchOption; data: AlternativesResponse | null }[], t: Dict): string {
+  const lines = rows.flatMap(({ option, data }) => {
+    const p = data && picks(data);
+    return p
+      ? [
+          t.share.prescriptionLine(
+            optionLabel(option, t),
+            p.best.name,
+            p.best.manufacturer.name,
+            t.fmt.price(p.best.price_per_unit),
+          ),
+        ]
+      : [];
+  });
+  return [t.share.prescriptionIntro, ...lines, t.disclaimer].join("\n");
+}
+
 function ResultCard({ option, loaded, quantity }: {
   option: MatchOption;
   loaded: Loaded;
@@ -154,6 +174,17 @@ export function ResultsStep({
       <Disclaimer />
       {selections.length > 0 && (
         <CostSummary rows={rows} onQuantityChange={(key, raw) => setDrafts((d) => ({ ...d, [key]: raw }))} />
+      )}
+      {selections.length > 0 && (
+        <section className="space-y-2 rounded-xl border p-4 print:hidden">
+          <h3 className="font-semibold">{t.share.heading}</h3>
+          <p className="text-sm text-muted-foreground">{t.share.prescriptionCardText}</p>
+          <ShareActions
+            title={t.share.prescriptionTitle}
+            text={prescriptionShareText(rows, t)}
+            url={shareHref(selections.map((option) => shareItem(option, quantityFor(option))))}
+          />
+        </section>
       )}
       {selections.length >= 2 && (
         <section className="space-y-2 rounded-xl border p-4">

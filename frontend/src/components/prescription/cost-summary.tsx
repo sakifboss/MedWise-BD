@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useDict } from "@/i18n/client";
 import type { AlternativesResponse, MatchOption, RankedAlternative } from "@/lib/api";
+import { picks, totals } from "@/lib/prescription-cost";
 import { monthlyCost, monthlySaving, quantityUnit } from "@/lib/savings";
 import { cn } from "@/lib/utils";
 
@@ -17,36 +18,6 @@ export type CostRow = {
   draft: string;
   quantity: number | null;
 };
-
-type Picks = { current: RankedAlternative | null; best: RankedAlternative; cheapest: RankedAlternative };
-
-function picks(data: AlternativesResponse): Picks | null {
-  const [best] = data.alternatives;
-  if (!best) return null;
-  // Lowest price; on a tie the better-ranked brand (alternatives are already in rank order).
-  const cheapest = data.alternatives.reduce((a, b) => (b.price_per_unit < a.price_per_unit ? b : a));
-  return { current: data.alternatives.find((a) => a.is_selected) ?? null, best, cheapest };
-}
-
-type Totals = { current: number | null; best: number; cheapest: number; counted: number };
-
-function totals(rows: CostRow[]): Totals {
-  const result: Totals = { current: 0, best: 0, cheapest: 0, counted: 0 };
-  for (const row of rows) {
-    const p = row.data && picks(row.data);
-    if (!p || row.quantity === null || !row.data) continue;
-    const unit = quantityUnit(row.data.dosage_form);
-    result.counted += 1;
-    result.best += monthlyCost(p.best.price_per_unit, row.quantity, unit);
-    result.cheapest += monthlyCost(p.cheapest.price_per_unit, row.quantity, unit);
-    // Without a chosen brand there is no "current" cost for this medicine.
-    result.current =
-      p.current && result.current !== null
-        ? result.current + monthlyCost(p.current.price_per_unit, row.quantity, unit)
-        : null;
-  }
-  return result;
-}
 
 function Cost({ label, brand, monthly }: { label: string; brand: string | null; monthly: number | null }) {
   const t = useDict();

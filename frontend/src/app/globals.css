@@ -131,3 +131,13 @@
     @apply font-sans;
   }
 }
+/* Printing a ranking or a shared medicine list for the pharmacy. */
+@media print {
+  @page {
+    margin: 12mm;
+  }
+  body {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+}

@@ -48,7 +48,10 @@ export default async function GenericRankingPage(props: Props) {
       </header>
       <Disclaimer />
       <HowRankingWorks />
-      <RankingList data={data} />
+      <RankingList
+        data={data}
+        shareTitle={t.ranking.title(data.generic.name, data.strength, t.fmt.form(data.dosage_form))}
+      />
     </div>
   );
 }

@@ -11,6 +11,7 @@ import { Label } from "@/components/ui/label";
 import { useDict } from "@/i18n/client";
 import type { RankedAlternative } from "@/lib/api";
 import { monthlyCost, monthlySaving, parseQuantity } from "@/lib/savings";
+import { cn } from "@/lib/utils";
 
 const QUICK_PICKS = [1, 2, 3];
 
@@ -79,13 +80,13 @@ export function SavingsCalculator({ options }: { options: Option[] }) {
   }
 
   return (
-    <Card>
+    <Card className={cn("break-inside-avoid", quantity === null && "print:hidden")}>
       <CardContent className="space-y-3">
         <div className="flex items-center gap-2 font-medium">
           <Calculator aria-hidden className="size-4 text-primary" />
           {t.savings.title}
         </div>
-        <div className="space-y-2">
+        <div className="space-y-2 print:hidden">
           <Label htmlFor={inputId}>{t.savings.question(unit.form)}</Label>
           <div className="flex flex-wrap items-center gap-2">
             <Input

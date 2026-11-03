@@ -29,7 +29,7 @@ export function LanguageToggle() {
       aria-label={t.nav.switchLabel}
       title={t.nav.switchLabel}
       lang={next}
-      className="ml-auto inline-flex items-center gap-1.5 rounded-md border px-2.5 py-1 text-sm font-medium transition-colors hover:bg-muted disabled:opacity-60"
+      className="ml-auto inline-flex print:hidden items-center gap-1.5 rounded-md border px-2.5 py-1 text-sm font-medium transition-colors hover:bg-muted disabled:opacity-60"
     >
       <Languages aria-hidden className="size-4" />
       {t.nav.switchTo}

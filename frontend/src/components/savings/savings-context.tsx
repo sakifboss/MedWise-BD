@@ -3,9 +3,9 @@
 import { useSearchParams } from "next/navigation";
 import { createContext, useCallback, useContext, useMemo, useState } from "react";
 
-import { parseQuantity, quantityUnit, type QuantityUnit } from "@/lib/savings";
+import { parseQuantity, QUANTITY_PARAM, quantityUnit, type QuantityUnit } from "@/lib/savings";
 
-export const QUANTITY_PARAM = "per";
+export { QUANTITY_PARAM };
 
 type SavingsState = {
   unit: QuantityUnit;

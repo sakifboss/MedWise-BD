@@ -2,6 +2,9 @@
 
 export const DAYS_PER_MONTH = 30;
 
+/** URL query parameter that carries the quantity, e.g. ?per=2. */
+export const QUANTITY_PARAM = "per";
+
 export type QuantityUnit = {
   /** Dosage form the quantity counts (tablet, capsule, suspension). */
   form: string;

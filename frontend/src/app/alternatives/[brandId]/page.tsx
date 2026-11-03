@@ -47,7 +47,7 @@ export default async function AlternativesPage(props: PageProps<"/alternatives/[
       </header>
       <Disclaimer />
       <HowRankingWorks />
-      <RankingList data={data} />
+      <RankingList data={data} shareTitle={t.alternatives.title(`${selectedName(data)} ${data.strength}`)} />
     </div>
   );
 }
