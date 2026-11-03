@@ -6,12 +6,15 @@ import { useEffect, useState } from "react";
 
 import { Disclaimer } from "@/components/disclaimer";
 import { InteractionPanel } from "@/components/interactions/interaction-panel";
+import { CostSummary } from "@/components/prescription/cost-summary";
 import { optionKey, optionLabel } from "@/components/prescription/types";
+import { QUANTITY_PARAM } from "@/components/savings/savings-context";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { api, type AlternativesResponse, type MatchOption } from "@/lib/api";
 import { formatPrice, rankingHref } from "@/lib/format";
+import { parseQuantity, quantityUnit } from "@/lib/savings";
 
 type Loaded = { status: "loading" } | { status: "error" } | { status: "done"; data: AlternativesResponse };
 
@@ -21,10 +24,33 @@ function fetchRanking(option: MatchOption): Promise<AlternativesResponse> {
     : api.genericRanking(option.generic_id, option.strength, option.dosage_form);
 }
 
-function fullRankingHref(option: MatchOption): string {
-  return option.kind === "brand" && option.brand_id != null
-    ? `/alternatives/${option.brand_id}`
-    : rankingHref(option.generic_id, option.strength, option.dosage_form);
+/** Link to the full ranking; carries the quantity so its cost calculator starts filled in. */
+function fullRankingHref(option: MatchOption, quantity: number | null): string {
+  const href =
+    option.kind === "brand" && option.brand_id != null
+      ? `/alternatives/${option.brand_id}`
+      : rankingHref(option.generic_id, option.strength, option.dosage_form);
+  if (quantity === null) return href;
+  return `${href}${href.includes("?") ? "&" : "?"}${QUANTITY_PARAM}=${quantity}`;
+}
+
+/** Loads the ranking for every selected medicine once, in parallel. */
+function useRankings(selections: MatchOption[]): Record<string, Loaded> {
+  const [rankings, setRankings] = useState<Record<string, Loaded>>({});
+  useEffect(() => {
+    let cancelled = false;
+    for (const option of selections) {
+      const key = optionKey(option);
+      fetchRanking(option).then(
+        (data) => !cancelled && setRankings((r) => ({ ...r, [key]: { status: "done", data } })),
+        () => !cancelled && setRankings((r) => ({ ...r, [key]: { status: "error" } })),
+      );
+    }
+    return () => {
+      cancelled = true;
+    };
+  }, [selections]);
+  return rankings;
 }
 
 function Summary({ option, data }: { option: MatchOption; data: AlternativesResponse }) {
@@ -62,20 +88,11 @@ function Summary({ option, data }: { option: MatchOption; data: AlternativesResp
   );
 }
 
-function ResultCard({ option }: { option: MatchOption }) {
-  const [loaded, setLoaded] = useState<Loaded>({ status: "loading" });
-
-  useEffect(() => {
-    let cancelled = false;
-    fetchRanking(option).then(
-      (data) => !cancelled && setLoaded({ status: "done", data }),
-      () => !cancelled && setLoaded({ status: "error" }),
-    );
-    return () => {
-      cancelled = true;
-    };
-  }, [option]);
-
+function ResultCard({ option, loaded, quantity }: {
+  option: MatchOption;
+  loaded: Loaded;
+  quantity: number | null;
+}) {
   return (
     <Card>
       <CardHeader>
@@ -89,7 +106,7 @@ function ResultCard({ option }: { option: MatchOption }) {
         )}
         {loaded.status === "done" && <Summary option={option} data={loaded.data} />}
         <Link
-          href={fullRankingHref(option)}
+          href={fullRankingHref(option, quantity)}
           className="inline-flex items-center gap-1 text-sm font-medium text-primary underline-offset-4 hover:underline"
         >
           See full ranking and reasons
@@ -109,10 +126,29 @@ export function ResultsStep({
   onBack: () => void;
   onRestart: () => void;
 }) {
+  const rankings = useRankings(selections);
+  const [drafts, setDrafts] = useState<Record<string, string>>({});
+  const loadedFor = (option: MatchOption): Loaded => rankings[optionKey(option)] ?? { status: "loading" };
+  const quantityFor = (option: MatchOption) =>
+    parseQuantity(drafts[optionKey(option)] ?? null, quantityUnit(option.dosage_form));
+
+  const rows = selections.map((option) => {
+    const loaded = loadedFor(option);
+    return {
+      option,
+      data: loaded.status === "done" ? loaded.data : null,
+      draft: drafts[optionKey(option)] ?? "",
+      quantity: quantityFor(option),
+    };
+  });
+
   return (
     <div className="space-y-4">
       <h2 className="text-xl font-semibold">Your prescription</h2>
       <Disclaimer />
+      {selections.length > 0 && (
+        <CostSummary rows={rows} onQuantityChange={(key, raw) => setDrafts((d) => ({ ...d, [key]: raw }))} />
+      )}
       {selections.length >= 2 && (
         <section className="space-y-2 rounded-xl border p-4">
           <h3 className="font-semibold">Interactions between these medicines</h3>
@@ -126,7 +162,7 @@ export function ResultsStep({
       <ul className="space-y-3">
         {selections.map((option) => (
           <li key={optionKey(option)}>
-            <ResultCard option={option} />
+            <ResultCard option={option} loaded={loadedFor(option)} quantity={quantityFor(option)} />
           </li>
         ))}
       </ul>

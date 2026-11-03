@@ -96,7 +96,7 @@ live deploy -> tick the box here -> stop for the user's review before starting t
 - [x] **1. Savings calculator.** On the alternatives page the user enters how many units a day
   their prescription says; each card shows monthly cost and "Save Tk X/month" vs their medicine.
   The app never suggests a dose; the number comes only from the user.
-- [ ] **2. Prescription cost summary.** After confirming scanned medicines: monthly total for the
+- [x] **2. Prescription cost summary.** After confirming scanned medicines: monthly total for the
   current brands vs best-quality picks vs cheapest picks (same generic, strength and form only).
 - [ ] **3. Bangla and English, everywhere.** Search already accepts Bangla. Add an en/bn toggle
   (cookie) covering: all UI text (one dictionary), ranking `reasons` (backend templates per language),
