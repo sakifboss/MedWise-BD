@@ -57,13 +57,13 @@ def _item(data: dict, name: str) -> dict:
 
 
 def test_brand_with_matching_strength_is_suggested(client: TestClient, ocr: FakeOcr) -> None:
-    ocr.medicines.append(ExtractedMedicine("Pyrolin", "500mg"))
-    item = _item(_data(upload(client)), "Pyrolin")
+    ocr.medicines.append(ExtractedMedicine("Napa", "500mg"))
+    item = _item(_data(upload(client)), "Napa")
     top = item["options"][item["suggested_index"]]
     assert item["suggested_index"] == 0
     assert (top["kind"], top["name"], top["strength"], top["dosage_form"]) == (
         "brand",
-        "Pyrolin",
+        "Napa",
         "500 mg",
         "tablet",
     )
@@ -81,8 +81,8 @@ def test_generic_name_offers_presentations(client: TestClient, ocr: FakeOcr) -> 
 
 
 def test_strength_mismatch_is_not_auto_suggested(client: TestClient, ocr: FakeOcr) -> None:
-    ocr.medicines.append(ExtractedMedicine("Omezol", "40 mg"))  # only 20 mg exists
-    item = _item(_data(upload(client)), "Omezol")
+    ocr.medicines.append(ExtractedMedicine("Seclo", "40 mg"))  # only 20 mg exists
+    item = _item(_data(upload(client)), "Seclo")
     assert item["options"]
     assert item["suggested_index"] is None
     assert not any(o["strength_matches"] for o in item["options"])

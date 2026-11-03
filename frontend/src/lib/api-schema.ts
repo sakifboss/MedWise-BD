@@ -414,6 +414,8 @@ export interface components {
             manufacturer: components["schemas"]["ManufacturerSummary"];
             /** Price Per Unit */
             price_per_unit: number;
+            /** Price Source Url */
+            price_source_url: string | null;
             /** Final Score */
             final_score: number;
             /** Quality Score */

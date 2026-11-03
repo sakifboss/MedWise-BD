@@ -73,6 +73,7 @@ class BrandCandidate:
     dosage_form: str
     price_per_unit: Decimal
     manufacturer: ManufacturerFactors
+    price_source_url: str | None = None
 
 
 @dataclass(frozen=True)

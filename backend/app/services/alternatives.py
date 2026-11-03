@@ -47,6 +47,7 @@ def to_candidate(b: Brand) -> BrandCandidate:
         dosage_form=b.dosage_form,
         price_per_unit=b.price_per_unit,
         manufacturer=to_factors(b.manufacturer),
+        price_source_url=b.source_url,
     )
 
 

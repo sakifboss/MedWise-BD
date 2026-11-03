@@ -1106,6 +1106,17 @@
             "type": "number",
             "title": "Price Per Unit"
           },
+          "price_source_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Price Source Url"
+          },
           "final_score": {
             "type": "number",
             "title": "Final Score"
@@ -1140,6 +1151,7 @@
           "name",
           "manufacturer",
           "price_per_unit",
+          "price_source_url",
           "final_score",
           "quality_score",
           "price_score",

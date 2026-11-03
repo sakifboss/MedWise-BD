@@ -123,7 +123,19 @@ function RankedCard({ item }: { item: RankedAlternative }) {
               ))}
             </div>
           )}
-          <p className="mt-1 text-sm font-medium">{formatPrice(item.price_per_unit)} per unit</p>
+          <p className="mt-1 text-sm font-medium">
+            {formatPrice(item.price_per_unit)} per unit
+            {item.price_source_url && (
+              <a
+                href={item.price_source_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ml-2 text-xs font-normal text-primary underline underline-offset-2"
+              >
+                price source
+              </a>
+            )}
+          </p>
         </div>
         <div className="text-right">
           <p className="text-2xl leading-none font-semibold tabular-nums">{item.final_score.toFixed(1)}</p>

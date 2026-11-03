@@ -31,6 +31,7 @@ class RankedAlternative(BaseModel):
     name: str
     manufacturer: ManufacturerSummary
     price_per_unit: float
+    price_source_url: str | None
     final_score: float
     quality_score: float
     price_score: float

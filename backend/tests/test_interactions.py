@@ -45,19 +45,19 @@ def test_finds_interaction_between_generics(client: TestClient) -> None:
 
 
 def test_brands_are_resolved_to_generics(client: TestClient) -> None:
-    # Clotrex = clopidogrel, Omezol = omeprazole (major interaction in seed data)
+    # Lopirel = clopidogrel, Seclo = omeprazole (major interaction in seed data)
     data = check(
-        client, brand_ids=[brand(client, "Clotrex", "75 mg"), brand(client, "Omezol", "20 mg")]
+        client, brand_ids=[brand(client, "Lopirel", "75 mg"), brand(client, "Seclo", "20 mg")]
     )
     assert pairs(data) == [("Clopidogrel", "Omeprazole", "major")]
     brands = {m["generic_name"]: m["brands"] for m in data["medicines"]}
-    assert brands == {"Clopidogrel": ["Clotrex"], "Omeprazole": ["Omezol"]}
+    assert brands == {"Clopidogrel": ["Lopirel"], "Omeprazole": ["Seclo"]}
 
 
 def test_mixed_brands_and_generics_sorted_by_severity(client: TestClient) -> None:
     data = check(
         client,
-        brand_ids=[brand(client, "Cholvas", "10 mg")],  # atorvastatin
+        brand_ids=[brand(client, "Atova", "10 mg")],  # atorvastatin
         generic_ids=[
             generic(client, "Amlodipine"),
             generic(client, "Warfarin"),
@@ -89,18 +89,18 @@ def test_single_medicine_checks_no_pairs(client: TestClient) -> None:
 def test_duplicate_generic_via_two_brands(client: TestClient) -> None:
     data = check(
         client,
-        brand_ids=[brand(client, "Pyrolin", "500 mg"), brand(client, "Dimol", "500 mg")],
+        brand_ids=[brand(client, "Napa", "500 mg"), brand(client, "Ace", "500 mg")],
     )
     assert [(d["generic_name"], sorted(d["brands"])) for d in data["duplicates"]] == [
-        ("Paracetamol", ["Dimol", "Pyrolin"])
+        ("Paracetamol", ["Ace", "Napa"])
     ]
     assert len(data["medicines"]) == 1
 
 
 def test_same_brand_twice_is_not_a_duplicate(client: TestClient) -> None:
-    pyrolin_tab = brand(client, "Pyrolin", "500 mg")
-    pyrolin_syrup = brand(client, "Pyrolin", "120 mg/5 ml")
-    data = check(client, brand_ids=[pyrolin_tab, pyrolin_tab, pyrolin_syrup])
+    napa_tab = brand(client, "Napa", "500 mg")
+    napa_syrup = brand(client, "Napa", "120 mg/5 ml")
+    data = check(client, brand_ids=[napa_tab, napa_tab, napa_syrup])
     assert data["duplicates"] == []
 
 

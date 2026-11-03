@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 
 export const SAMPLE_DATA_NOTE =
-  "Brand names, prices and medicine details are sample data, not official DGDA data.";
+  "Medicine details are sample data. Prices are MRPs from Arogga (Nov 2026), not official DGDA data.";
 
 export function SampleDataBadge() {
   return (

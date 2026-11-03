@@ -1,237 +1,415 @@
 {
   "meta": {
     "dataset": "brands",
-    "source": "SAMPLE",
-    "is_sample": true,
-    "sample_fields": [
-      "price_per_unit"
-    ],
-    "note": "SAMPLE DATA for development and demo only. Not official DGDA data. All numeric values (price_per_unit) are illustrative and must not be used for real decisions."
+    "source": "Collected by the MedWise BD team; each row's source_url is the price source",
+    "is_sample": false,
+    "note": "Built from brands_template.csv on 2026-11-03."
   },
   "records": [
     {
-      "name": "Pyrolin",
-      "generic": "Paracetamol",
-      "manufacturer": "Square Pharmaceuticals PLC",
-      "strength": "500 mg",
-      "dosage_form": "tablet",
-      "price_per_unit": 1.2
-    },
-    {
-      "name": "Fevonil",
+      "name": "Napa",
       "generic": "Paracetamol",
       "manufacturer": "Beximco Pharmaceuticals Ltd",
       "strength": "500 mg",
       "dosage_form": "tablet",
-      "price_per_unit": 1.2
+      "price_per_unit": 1.2,
+      "source_url": "https://www.arogga.com/product/12474"
     },
     {
-      "name": "Tempex",
+      "name": "Ace",
       "generic": "Paracetamol",
-      "manufacturer": "Incepta Pharmaceuticals Ltd",
+      "manufacturer": "Square Pharmaceuticals PLC",
       "strength": "500 mg",
       "dosage_form": "tablet",
-      "price_per_unit": 1.1
+      "price_per_unit": 1.2,
+      "source_url": "https://www.arogga.com/product/27740"
     },
     {
-      "name": "Opamol",
+      "name": "Renova",
       "generic": "Paracetamol",
       "manufacturer": "Opsonin Pharma Ltd",
       "strength": "500 mg",
       "dosage_form": "tablet",
-      "price_per_unit": 0.9
+      "price_per_unit": 1.2,
+      "source_url": "https://www.arogga.com/product/16231"
     },
     {
-      "name": "Dimol",
+      "name": "Reset",
       "generic": "Paracetamol",
-      "manufacturer": "The ACME Laboratories Ltd",
+      "manufacturer": "Incepta Pharmaceuticals Ltd",
       "strength": "500 mg",
       "dosage_form": "tablet",
-      "price_per_unit": 0.85
+      "price_per_unit": 1.2,
+      "source_url": "https://www.arogga.com/product/16296"
     },
     {
-      "name": "Pyrolin",
+      "name": "Tamen",
       "generic": "Paracetamol",
-      "manufacturer": "Square Pharmaceuticals PLC",
-      "strength": "120 mg/5 ml",
-      "dosage_form": "suspension",
-      "price_per_unit": 40.0
+      "manufacturer": "Eskayef Pharmaceuticals Ltd",
+      "strength": "500 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 1.2,
+      "source_url": "https://www.arogga.com/product/18262"
     },
     {
-      "name": "Fevonil",
+      "name": "Xpa",
+      "generic": "Paracetamol",
+      "manufacturer": "Aristopharma Ltd",
+      "strength": "500 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 1.2,
+      "source_url": "https://www.arogga.com/product/20595"
+    },
+    {
+      "name": "Napa",
       "generic": "Paracetamol",
       "manufacturer": "Beximco Pharmaceuticals Ltd",
       "strength": "120 mg/5 ml",
       "dosage_form": "suspension",
-      "price_per_unit": 38.0
+      "price_per_unit": 35.0,
+      "source_url": "https://www.arogga.com/product/21159"
     },
     {
-      "name": "Profenix",
-      "generic": "Ibuprofen",
+      "name": "Ace Orange",
+      "generic": "Paracetamol",
       "manufacturer": "Square Pharmaceuticals PLC",
-      "strength": "400 mg",
-      "dosage_form": "tablet",
-      "price_per_unit": 2.5
+      "strength": "120 mg/5 ml",
+      "dosage_form": "suspension",
+      "price_per_unit": 35.0,
+      "source_url": "https://www.arogga.com/product/100"
     },
     {
-      "name": "Inflarex",
-      "generic": "Ibuprofen",
+      "name": "Fast",
+      "generic": "Paracetamol",
+      "manufacturer": "The ACME Laboratories Ltd",
+      "strength": "120 mg/5 ml",
+      "dosage_form": "suspension",
+      "price_per_unit": 35.0,
+      "source_url": "https://www.arogga.com/product/7306"
+    },
+    {
+      "name": "Renova",
+      "generic": "Paracetamol",
+      "manufacturer": "Opsonin Pharma Ltd",
+      "strength": "120 mg/5 ml",
+      "dosage_form": "suspension",
+      "price_per_unit": 35.0,
+      "source_url": "https://www.arogga.com/product/23719"
+    },
+    {
+      "name": "Tamen",
+      "generic": "Paracetamol",
+      "manufacturer": "Eskayef Pharmaceuticals Ltd",
+      "strength": "120 mg/5 ml",
+      "dosage_form": "suspension",
+      "price_per_unit": 35.0,
+      "source_url": "https://www.arogga.com/product/18260"
+    },
+    {
+      "name": "Reset",
+      "generic": "Paracetamol",
       "manufacturer": "Incepta Pharmaceuticals Ltd",
-      "strength": "400 mg",
-      "dosage_form": "tablet",
-      "price_per_unit": 2.4
+      "strength": "120 mg/5 ml",
+      "dosage_form": "suspension",
+      "price_per_unit": 35.0,
+      "source_url": "https://www.arogga.com/product/16294"
     },
     {
-      "name": "Ibulon",
+      "name": "Flamex",
       "generic": "Ibuprofen",
       "manufacturer": "ACI Limited",
       "strength": "400 mg",
       "dosage_form": "tablet",
-      "price_per_unit": 2.0
+      "price_per_unit": 1.43,
+      "source_url": "https://www.arogga.com/product/7743"
     },
     {
-      "name": "Aristoprofen",
+      "name": "Advel",
       "generic": "Ibuprofen",
-      "manufacturer": "Aristopharma Ltd",
+      "manufacturer": "Opsonin Pharma Ltd",
       "strength": "400 mg",
       "dosage_form": "tablet",
-      "price_per_unit": 1.8
+      "price_per_unit": 1.43,
+      "source_url": "https://www.arogga.com/product/26042"
     },
     {
-      "name": "Cardiprin",
+      "name": "Profen",
+      "generic": "Ibuprofen",
+      "manufacturer": "The ACME Laboratories Ltd",
+      "strength": "400 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 1.5,
+      "source_url": "https://www.arogga.com/product/15459"
+    },
+    {
+      "name": "Reumafen",
+      "generic": "Ibuprofen",
+      "manufacturer": "Beximco Pharmaceuticals Ltd",
+      "strength": "400 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 1.43,
+      "source_url": "https://www.arogga.com/product/16360"
+    },
+    {
+      "name": "Intaflam",
+      "generic": "Ibuprofen",
+      "manufacturer": "Incepta Pharmaceuticals Ltd",
+      "strength": "400 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 1.0,
+      "source_url": "https://www.arogga.com/product/59467"
+    },
+    {
+      "name": "Rebuprofen",
+      "generic": "Ibuprofen",
+      "manufacturer": "Renata PLC",
+      "strength": "400 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 1.45,
+      "source_url": "https://www.arogga.com/product/16034"
+    },
+    {
+      "name": "Ecosprin",
+      "generic": "Aspirin",
+      "manufacturer": "The ACME Laboratories Ltd",
+      "strength": "75 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 0.8,
+      "source_url": "https://www.arogga.com/product/6208"
+    },
+    {
+      "name": "Carva",
       "generic": "Aspirin",
       "manufacturer": "Square Pharmaceuticals PLC",
       "strength": "75 mg",
       "dosage_form": "tablet",
-      "price_per_unit": 0.8
+      "price_per_unit": 0.8,
+      "source_url": "https://www.arogga.com/product/3349"
     },
     {
-      "name": "Plateva",
-      "generic": "Aspirin",
-      "manufacturer": "Renata PLC",
-      "strength": "75 mg",
-      "dosage_form": "tablet",
-      "price_per_unit": 0.75
-    },
-    {
-      "name": "Opsoprin",
+      "name": "Solrin",
       "generic": "Aspirin",
       "manufacturer": "Opsonin Pharma Ltd",
       "strength": "75 mg",
       "dosage_form": "tablet",
-      "price_per_unit": 0.5
+      "price_per_unit": 0.8,
+      "source_url": "https://www.arogga.com/product/17768"
     },
     {
-      "name": "Omezol",
+      "name": "Seclo",
       "generic": "Omeprazole",
       "manufacturer": "Square Pharmaceuticals PLC",
       "strength": "20 mg",
       "dosage_form": "capsule",
-      "price_per_unit": 6.0
+      "price_per_unit": 6.0,
+      "source_url": "https://www.arogga.com/product/17160"
     },
     {
-      "name": "Gastrocap",
+      "name": "Losectil",
       "generic": "Omeprazole",
       "manufacturer": "Eskayef Pharmaceuticals Ltd",
       "strength": "20 mg",
       "dosage_form": "capsule",
-      "price_per_unit": 5.5
+      "price_per_unit": 5.0,
+      "source_url": "https://www.arogga.com/product/10891"
     },
     {
-      "name": "Acidex",
+      "name": "Xeldrin",
       "generic": "Omeprazole",
-      "manufacturer": "Beximco Pharmaceuticals Ltd",
+      "manufacturer": "ACI Limited",
       "strength": "20 mg",
       "dosage_form": "capsule",
-      "price_per_unit": 5.5
+      "price_per_unit": 6.0,
+      "source_url": "https://www.arogga.com/product/20366"
     },
     {
-      "name": "Ulsecap",
-      "generic": "Omeprazole",
-      "manufacturer": "Healthcare Pharmaceuticals Ltd",
-      "strength": "20 mg",
-      "dosage_form": "capsule",
-      "price_per_unit": 5.0
-    },
-    {
-      "name": "Omidil",
+      "name": "PPI",
       "generic": "Omeprazole",
       "manufacturer": "The ACME Laboratories Ltd",
       "strength": "20 mg",
       "dosage_form": "capsule",
-      "price_per_unit": 4.0
+      "price_per_unit": 5.0,
+      "source_url": "https://www.arogga.com/product/15183"
     },
     {
-      "name": "Esoprex",
-      "generic": "Esomeprazole",
-      "manufacturer": "Square Pharmaceuticals PLC",
+      "name": "Omep",
+      "generic": "Omeprazole",
+      "manufacturer": "Aristopharma Ltd",
       "strength": "20 mg",
-      "dosage_form": "tablet",
-      "price_per_unit": 7.0
+      "dosage_form": "capsule",
+      "price_per_unit": 6.0,
+      "source_url": "https://www.arogga.com/product/13646"
     },
     {
-      "name": "Nexocid",
+      "name": "Proceptin",
+      "generic": "Omeprazole",
+      "manufacturer": "Beximco Pharmaceuticals Ltd",
+      "strength": "20 mg",
+      "dosage_form": "capsule",
+      "price_per_unit": 5.0,
+      "source_url": "https://www.arogga.com/product/15442"
+    },
+    {
+      "name": "Maxpro",
       "generic": "Esomeprazole",
       "manufacturer": "Renata PLC",
       "strength": "20 mg",
       "dosage_form": "tablet",
-      "price_per_unit": 7.0
+      "price_per_unit": 7.0,
+      "source_url": "https://www.arogga.com/product/11270"
     },
     {
-      "name": "Gastrosafe",
+      "name": "Nexum MUPS",
+      "generic": "Esomeprazole",
+      "manufacturer": "Square Pharmaceuticals PLC",
+      "strength": "20 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 10.0,
+      "source_url": "https://www.arogga.com/product/12930"
+    },
+    {
+      "name": "Exium Mups",
+      "generic": "Esomeprazole",
+      "manufacturer": "Radiant Pharmaceuticals Ltd",
+      "strength": "20 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 11.0,
+      "source_url": "https://www.arogga.com/product/7152"
+    },
+    {
+      "name": "Remmo",
+      "generic": "Esomeprazole",
+      "manufacturer": "Beximco Pharmaceuticals Ltd",
+      "strength": "20 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 10.0,
+      "source_url": "https://www.arogga.com/product/28476"
+    },
+    {
+      "name": "Othera",
+      "generic": "Esomeprazole",
+      "manufacturer": "ACI Limited",
+      "strength": "20 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 11.0,
+      "source_url": "https://www.arogga.com/product/31304"
+    },
+    {
+      "name": "Sergel MUPS",
       "generic": "Esomeprazole",
       "manufacturer": "Healthcare Pharmaceuticals Ltd",
       "strength": "20 mg",
       "dosage_form": "tablet",
-      "price_per_unit": 7.0
+      "price_per_unit": 11.0,
+      "source_url": "https://www.arogga.com/product/31978"
     },
     {
-      "name": "Esoprex",
-      "generic": "Esomeprazole",
-      "manufacturer": "Square Pharmaceuticals PLC",
-      "strength": "40 mg",
-      "dosage_form": "tablet",
-      "price_per_unit": 11.0
-    },
-    {
-      "name": "Nexocid",
+      "name": "Maxpro",
       "generic": "Esomeprazole",
       "manufacturer": "Renata PLC",
       "strength": "40 mg",
       "dosage_form": "tablet",
-      "price_per_unit": 11.0
+      "price_per_unit": 9.0,
+      "source_url": "https://www.arogga.com/product/11271"
     },
     {
-      "name": "Pantorex",
+      "name": "Exium Mups",
+      "generic": "Esomeprazole",
+      "manufacturer": "Radiant Pharmaceuticals Ltd",
+      "strength": "40 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 16.5,
+      "source_url": "https://www.arogga.com/product/39342"
+    },
+    {
+      "name": "Othera",
+      "generic": "Esomeprazole",
+      "manufacturer": "ACI Limited",
+      "strength": "40 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 17.0,
+      "source_url": "https://www.arogga.com/product/31303"
+    },
+    {
+      "name": "Nexum MUPS",
+      "generic": "Esomeprazole",
+      "manufacturer": "Square Pharmaceuticals PLC",
+      "strength": "40 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 14.0,
+      "source_url": "https://www.arogga.com/product/12931"
+    },
+    {
+      "name": "Remmo",
+      "generic": "Esomeprazole",
+      "manufacturer": "Beximco Pharmaceuticals Ltd",
+      "strength": "40 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 14.0,
+      "source_url": "https://www.arogga.com/product/28505"
+    },
+    {
+      "name": "Sergel Mups",
+      "generic": "Esomeprazole",
+      "manufacturer": "Healthcare Pharmaceuticals Ltd",
+      "strength": "40 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 15.0,
+      "source_url": "https://www.arogga.com/product/55444"
+    },
+    {
+      "name": "Pantonix",
       "generic": "Pantoprazole",
       "manufacturer": "Incepta Pharmaceuticals Ltd",
       "strength": "40 mg",
       "dosage_form": "tablet",
-      "price_per_unit": 8.0
+      "price_per_unit": 10.0,
+      "source_url": "https://www.arogga.com/product/14500"
     },
     {
-      "name": "Pantocid",
+      "name": "Pantobex",
+      "generic": "Pantoprazole",
+      "manufacturer": "Beximco Pharmaceuticals Ltd",
+      "strength": "40 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 7.0,
+      "source_url": "https://www.arogga.com/product/14481"
+    },
+    {
+      "name": "Trupan",
       "generic": "Pantoprazole",
       "manufacturer": "Square Pharmaceuticals PLC",
       "strength": "40 mg",
       "dosage_form": "tablet",
-      "price_per_unit": 8.0
+      "price_per_unit": 10.0,
+      "source_url": "https://www.arogga.com/product/19272"
     },
     {
-      "name": "Panzol",
+      "name": "Pregel",
       "generic": "Pantoprazole",
-      "manufacturer": "Eskayef Pharmaceuticals Ltd",
+      "manufacturer": "Healthcare Pharmaceuticals Ltd",
       "strength": "40 mg",
       "dosage_form": "tablet",
-      "price_per_unit": 7.5
+      "price_per_unit": 7.0,
+      "source_url": "https://www.arogga.com/product/15303"
     },
     {
-      "name": "Aristopan",
+      "name": "Pantid",
       "generic": "Pantoprazole",
-      "manufacturer": "Aristopharma Ltd",
+      "manufacturer": "Opsonin Pharma Ltd",
       "strength": "40 mg",
       "dosage_form": "tablet",
-      "price_per_unit": 6.0
+      "price_per_unit": 9.0,
+      "source_url": "https://www.arogga.com/product/14474"
+    },
+    {
+      "name": "Pantogut",
+      "generic": "Pantoprazole",
+      "manufacturer": "Popular Pharmaceuticals PLC",
+      "strength": "40 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 7.0,
+      "source_url": "https://www.arogga.com/product/14495"
     },
     {
       "name": "Moxacil",
@@ -239,31 +417,53 @@
       "manufacturer": "Square Pharmaceuticals PLC",
       "strength": "500 mg",
       "dosage_form": "capsule",
-      "price_per_unit": 7.0
+      "price_per_unit": 7.5,
+      "source_url": "https://www.arogga.com/product/12145"
     },
     {
-      "name": "Amoxibex",
+      "name": "Tycil",
       "generic": "Amoxicillin",
       "manufacturer": "Beximco Pharmaceuticals Ltd",
       "strength": "500 mg",
       "dosage_form": "capsule",
-      "price_per_unit": 6.5
+      "price_per_unit": 7.5,
+      "source_url": "https://www.arogga.com/product/19329"
     },
     {
-      "name": "Amoxin",
+      "name": "Sk Mox",
       "generic": "Amoxicillin",
-      "manufacturer": "ACI Limited",
+      "manufacturer": "Eskayef Pharmaceuticals Ltd",
       "strength": "500 mg",
       "dosage_form": "capsule",
-      "price_per_unit": 6.0
+      "price_per_unit": 7.5,
+      "source_url": "https://www.arogga.com/product/17663"
     },
     {
-      "name": "Opsomox",
+      "name": "Moxilin",
+      "generic": "Amoxicillin",
+      "manufacturer": "The ACME Laboratories Ltd",
+      "strength": "500 mg",
+      "dosage_form": "capsule",
+      "price_per_unit": 7.5,
+      "source_url": "https://www.arogga.com/product/12190"
+    },
+    {
+      "name": "Moxin",
       "generic": "Amoxicillin",
       "manufacturer": "Opsonin Pharma Ltd",
       "strength": "500 mg",
       "dosage_form": "capsule",
-      "price_per_unit": 5.0
+      "price_per_unit": 7.5,
+      "source_url": "https://www.arogga.com/product/12202"
+    },
+    {
+      "name": "Avlomox",
+      "generic": "Amoxicillin",
+      "manufacturer": "ACI Limited",
+      "strength": "500 mg",
+      "dosage_form": "capsule",
+      "price_per_unit": 7.5,
+      "source_url": "https://www.arogga.com/product/1900"
     },
     {
       "name": "Moxacil",
@@ -271,423 +471,818 @@
       "manufacturer": "Square Pharmaceuticals PLC",
       "strength": "125 mg/5 ml",
       "dosage_form": "suspension",
-      "price_per_unit": 75.0
+      "price_per_unit": 70.0,
+      "source_url": "https://www.arogga.com/product/12148"
     },
     {
-      "name": "Amoxibex",
+      "name": "Tycil",
       "generic": "Amoxicillin",
       "manufacturer": "Beximco Pharmaceuticals Ltd",
       "strength": "125 mg/5 ml",
       "dosage_form": "suspension",
-      "price_per_unit": 70.0
+      "price_per_unit": 70.0,
+      "source_url": "https://www.arogga.com/product/19326"
     },
     {
-      "name": "Zithrox",
-      "generic": "Azithromycin",
-      "manufacturer": "Square Pharmaceuticals PLC",
-      "strength": "500 mg",
-      "dosage_form": "tablet",
-      "price_per_unit": 40.0
-    },
-    {
-      "name": "Azimed",
-      "generic": "Azithromycin",
-      "manufacturer": "Beximco Pharmaceuticals Ltd",
-      "strength": "500 mg",
-      "dosage_form": "tablet",
-      "price_per_unit": 40.0
-    },
-    {
-      "name": "Azicin",
-      "generic": "Azithromycin",
-      "manufacturer": "Incepta Pharmaceuticals Ltd",
-      "strength": "500 mg",
-      "dosage_form": "tablet",
-      "price_per_unit": 38.0
-    },
-    {
-      "name": "Azidil",
-      "generic": "Azithromycin",
+      "name": "Moxilin",
+      "generic": "Amoxicillin",
       "manufacturer": "The ACME Laboratories Ltd",
-      "strength": "500 mg",
-      "dosage_form": "tablet",
-      "price_per_unit": 30.0
+      "strength": "125 mg/5 ml",
+      "dosage_form": "suspension",
+      "price_per_unit": 70.0,
+      "source_url": "https://www.arogga.com/product/12194"
     },
     {
-      "name": "Cefitrex",
-      "generic": "Cefixime",
-      "manufacturer": "Square Pharmaceuticals PLC",
-      "strength": "200 mg",
-      "dosage_form": "capsule",
-      "price_per_unit": 35.0
-    },
-    {
-      "name": "Fixocef",
-      "generic": "Cefixime",
-      "manufacturer": "Incepta Pharmaceuticals Ltd",
-      "strength": "200 mg",
-      "dosage_form": "capsule",
-      "price_per_unit": 35.0
-    },
-    {
-      "name": "Cefiren",
-      "generic": "Cefixime",
-      "manufacturer": "Renata PLC",
-      "strength": "200 mg",
-      "dosage_form": "capsule",
-      "price_per_unit": 34.0
-    },
-    {
-      "name": "Aristocef",
-      "generic": "Cefixime",
-      "manufacturer": "Aristopharma Ltd",
-      "strength": "200 mg",
-      "dosage_form": "capsule",
-      "price_per_unit": 28.0
-    },
-    {
-      "name": "Ciprox",
-      "generic": "Ciprofloxacin",
-      "manufacturer": "Square Pharmaceuticals PLC",
-      "strength": "500 mg",
-      "dosage_form": "tablet",
-      "price_per_unit": 15.0
-    },
-    {
-      "name": "Ciprobex",
-      "generic": "Ciprofloxacin",
-      "manufacturer": "Beximco Pharmaceuticals Ltd",
-      "strength": "500 mg",
-      "dosage_form": "tablet",
-      "price_per_unit": 15.0
-    },
-    {
-      "name": "Quinocip",
-      "generic": "Ciprofloxacin",
-      "manufacturer": "ACI Limited",
-      "strength": "500 mg",
-      "dosage_form": "tablet",
-      "price_per_unit": 13.0
-    },
-    {
-      "name": "Opsocip",
-      "generic": "Ciprofloxacin",
+      "name": "Moxin",
+      "generic": "Amoxicillin",
       "manufacturer": "Opsonin Pharma Ltd",
-      "strength": "500 mg",
-      "dosage_form": "tablet",
-      "price_per_unit": 12.0
+      "strength": "125 mg/5 ml",
+      "dosage_form": "suspension",
+      "price_per_unit": 70.0,
+      "source_url": "https://www.arogga.com/product/12206"
     },
     {
-      "name": "Metrodaz",
+      "name": "Sk Mox",
+      "generic": "Amoxicillin",
+      "manufacturer": "Eskayef Pharmaceuticals Ltd",
+      "strength": "125 mg/5 ml",
+      "dosage_form": "suspension",
+      "price_per_unit": 70.0,
+      "source_url": "https://www.arogga.com/product/17665"
+    },
+    {
+      "name": "Aristomox",
+      "generic": "Amoxicillin",
+      "manufacturer": "Aristopharma Ltd",
+      "strength": "125 mg/5 ml",
+      "dosage_form": "suspension",
+      "price_per_unit": 70.0,
+      "source_url": "https://www.arogga.com/product/1503"
+    },
+    {
+      "name": "Zimax",
+      "generic": "Azithromycin",
+      "manufacturer": "Square Pharmaceuticals PLC",
+      "strength": "500 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 40.0,
+      "source_url": "https://www.arogga.com/product/20833"
+    },
+    {
+      "name": "Azithrocin",
+      "generic": "Azithromycin",
+      "manufacturer": "Beximco Pharmaceuticals Ltd",
+      "strength": "500 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 35.0,
+      "source_url": "https://www.arogga.com/product/2100"
+    },
+    {
+      "name": "Rozith",
+      "generic": "Azithromycin",
+      "manufacturer": "Healthcare Pharmaceuticals Ltd",
+      "strength": "500 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 50.0,
+      "source_url": "https://www.arogga.com/product/16818"
+    },
+    {
+      "name": "Zithrin",
+      "generic": "Azithromycin",
+      "manufacturer": "Renata PLC",
+      "strength": "500 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 40.0,
+      "source_url": "https://www.arogga.com/product/20918"
+    },
+    {
+      "name": "Acos",
+      "generic": "Azithromycin",
+      "manufacturer": "Radiant Pharmaceuticals Ltd",
+      "strength": "500 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 55.17,
+      "source_url": "https://www.arogga.com/product/20567"
+    },
+    {
+      "name": "Tridosil",
+      "generic": "Azithromycin",
+      "manufacturer": "Incepta Pharmaceuticals Ltd",
+      "strength": "500 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 35.0,
+      "source_url": "https://www.arogga.com/product/19122"
+    },
+    {
+      "name": "Cef-3",
+      "generic": "Cefixime",
+      "manufacturer": "Square Pharmaceuticals PLC",
+      "strength": "200 mg",
+      "dosage_form": "capsule",
+      "price_per_unit": 45.0,
+      "source_url": "https://www.arogga.com/product/25105"
+    },
+    {
+      "name": "Orcef",
+      "generic": "Cefixime",
+      "manufacturer": "Renata PLC",
+      "strength": "200 mg",
+      "dosage_form": "capsule",
+      "price_per_unit": 35.0,
+      "source_url": "https://www.arogga.com/product/13962"
+    },
+    {
+      "name": "Denvar",
+      "generic": "Cefixime",
+      "manufacturer": "Healthcare Pharmaceuticals Ltd",
+      "strength": "200 mg",
+      "dosage_form": "capsule",
+      "price_per_unit": 40.0,
+      "source_url": "https://www.arogga.com/product/5164"
+    },
+    {
+      "name": "Emixef",
+      "generic": "Cefixime",
+      "manufacturer": "Incepta Pharmaceuticals Ltd",
+      "strength": "200 mg",
+      "dosage_form": "capsule",
+      "price_per_unit": 35.0,
+      "source_url": "https://www.arogga.com/product/6448"
+    },
+    {
+      "name": "Ceftid",
+      "generic": "Cefixime",
+      "manufacturer": "Opsonin Pharma Ltd",
+      "strength": "200 mg",
+      "dosage_form": "capsule",
+      "price_per_unit": 40.0,
+      "source_url": "https://www.arogga.com/product/3653"
+    },
+    {
+      "name": "Rofixim",
+      "generic": "Cefixime",
+      "manufacturer": "Radiant Pharmaceuticals Ltd",
+      "strength": "200 mg",
+      "dosage_form": "capsule",
+      "price_per_unit": 52.0,
+      "source_url": "https://www.arogga.com/product/16618"
+    },
+    {
+      "name": "Ciprocin",
+      "generic": "Ciprofloxacin",
+      "manufacturer": "Square Pharmaceuticals PLC",
+      "strength": "500 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 15.05,
+      "source_url": "https://www.arogga.com/product/4050"
+    },
+    {
+      "name": "Neofloxin",
+      "generic": "Ciprofloxacin",
+      "manufacturer": "Beximco Pharmaceuticals Ltd",
+      "strength": "500 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 15.0,
+      "source_url": "https://www.arogga.com/product/12717"
+    },
+    {
+      "name": "Cipro A",
+      "generic": "Ciprofloxacin",
+      "manufacturer": "The ACME Laboratories Ltd",
+      "strength": "500 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 16.5,
+      "source_url": "https://www.arogga.com/product/4033"
+    },
+    {
+      "name": "Quinox",
+      "generic": "Ciprofloxacin",
+      "manufacturer": "Eskayef Pharmaceuticals Ltd",
+      "strength": "500 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 15.0,
+      "source_url": "https://www.arogga.com/product/15795"
+    },
+    {
+      "name": "Beuflox",
+      "generic": "Ciprofloxacin",
+      "manufacturer": "Incepta Pharmaceuticals Ltd",
+      "strength": "500 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 15.0,
+      "source_url": "https://www.arogga.com/product/2531"
+    },
+    {
+      "name": "Rocipro",
+      "generic": "Ciprofloxacin",
+      "manufacturer": "Healthcare Pharmaceuticals Ltd",
+      "strength": "500 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 15.0,
+      "source_url": "https://www.arogga.com/product/16596"
+    },
+    {
+      "name": "Amodis",
       "generic": "Metronidazole",
       "manufacturer": "Square Pharmaceuticals PLC",
       "strength": "400 mg",
       "dosage_form": "tablet",
-      "price_per_unit": 2.0
+      "price_per_unit": 1.7,
+      "source_url": "https://www.arogga.com/product/24683"
     },
     {
-      "name": "Metrozen",
+      "name": "Filmet",
       "generic": "Metronidazole",
-      "manufacturer": "ACI Limited",
+      "manufacturer": "Beximco Pharmaceuticals Ltd",
       "strength": "400 mg",
       "dosage_form": "tablet",
-      "price_per_unit": 1.8
+      "price_per_unit": 1.7,
+      "source_url": "https://www.arogga.com/product/7637"
     },
     {
-      "name": "Protozol",
+      "name": "Metryl",
       "generic": "Metronidazole",
-      "manufacturer": "Healthcare Pharmaceuticals Ltd",
+      "manufacturer": "Opsonin Pharma Ltd",
       "strength": "400 mg",
       "dosage_form": "tablet",
-      "price_per_unit": 1.8
+      "price_per_unit": 1.7,
+      "source_url": "https://www.arogga.com/product/11722"
     },
     {
-      "name": "Metridil",
+      "name": "Dirozyl",
       "generic": "Metronidazole",
       "manufacturer": "The ACME Laboratories Ltd",
       "strength": "400 mg",
       "dosage_form": "tablet",
-      "price_per_unit": 1.5
+      "price_per_unit": 1.7,
+      "source_url": "https://www.arogga.com/product/5729"
     },
     {
-      "name": "Metglu",
+      "name": "Metco",
+      "generic": "Metronidazole",
+      "manufacturer": "Eskayef Pharmaceuticals Ltd",
+      "strength": "400 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 1.7,
+      "source_url": "https://www.arogga.com/product/11597"
+    },
+    {
+      "name": "Amotrex",
+      "generic": "Metronidazole",
+      "manufacturer": "ACI Limited",
+      "strength": "400 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 1.7,
+      "source_url": "https://www.arogga.com/product/25221"
+    },
+    {
+      "name": "Comet",
       "generic": "Metformin",
       "manufacturer": "Square Pharmaceuticals PLC",
       "strength": "500 mg",
       "dosage_form": "tablet",
-      "price_per_unit": 4.0
+      "price_per_unit": 5.0,
+      "source_url": "https://www.arogga.com/product/4540"
     },
     {
-      "name": "Diabetrol",
+      "name": "Informet",
+      "generic": "Metformin",
+      "manufacturer": "Beximco Pharmaceuticals Ltd",
+      "strength": "500 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 3.0,
+      "source_url": "https://www.arogga.com/product/9482"
+    },
+    {
+      "name": "Nobesit",
       "generic": "Metformin",
       "manufacturer": "Incepta Pharmaceuticals Ltd",
       "strength": "500 mg",
       "dosage_form": "tablet",
-      "price_per_unit": 4.0
+      "price_per_unit": 4.0,
+      "source_url": "https://www.arogga.com/product/13113"
     },
     {
-      "name": "Metforex",
+      "name": "Bigmet",
       "generic": "Metformin",
       "manufacturer": "Renata PLC",
       "strength": "500 mg",
       "dosage_form": "tablet",
-      "price_per_unit": 3.8
+      "price_per_unit": 4.0,
+      "source_url": "https://www.arogga.com/product/2576"
     },
     {
-      "name": "Formet",
+      "name": "Radimet",
+      "generic": "Metformin",
+      "manufacturer": "Radiant Pharmaceuticals Ltd",
+      "strength": "500 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 4.0,
+      "source_url": "https://www.arogga.com/product/15875"
+    },
+    {
+      "name": "Glucomet",
       "generic": "Metformin",
       "manufacturer": "Aristopharma Ltd",
       "strength": "500 mg",
       "dosage_form": "tablet",
-      "price_per_unit": 3.0
+      "price_per_unit": 4.0,
+      "source_url": "https://www.arogga.com/product/8822"
     },
     {
-      "name": "Metglu",
+      "name": "Comet",
       "generic": "Metformin",
       "manufacturer": "Square Pharmaceuticals PLC",
       "strength": "850 mg",
       "dosage_form": "tablet",
-      "price_per_unit": 5.5
+      "price_per_unit": 6.02,
+      "source_url": "https://www.arogga.com/product/4541"
     },
     {
-      "name": "Diabetrol",
+      "name": "Informet",
+      "generic": "Metformin",
+      "manufacturer": "Beximco Pharmaceuticals Ltd",
+      "strength": "850 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 4.5,
+      "source_url": "https://www.arogga.com/product/9483"
+    },
+    {
+      "name": "Nobesit",
       "generic": "Metformin",
       "manufacturer": "Incepta Pharmaceuticals Ltd",
       "strength": "850 mg",
       "dosage_form": "tablet",
-      "price_per_unit": 5.5
+      "price_per_unit": 6.0,
+      "source_url": "https://www.arogga.com/product/13114"
     },
     {
-      "name": "Glicaron",
+      "name": "Bigmet",
+      "generic": "Metformin",
+      "manufacturer": "Renata PLC",
+      "strength": "850 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 6.0,
+      "source_url": "https://www.arogga.com/product/26778"
+    },
+    {
+      "name": "Glucomet",
+      "generic": "Metformin",
+      "manufacturer": "Aristopharma Ltd",
+      "strength": "850 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 6.0,
+      "source_url": "https://www.arogga.com/product/8825"
+    },
+    {
+      "name": "Radimet",
+      "generic": "Metformin",
+      "manufacturer": "Radiant Pharmaceuticals Ltd",
+      "strength": "850 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 6.0,
+      "source_url": "https://www.arogga.com/product/15876"
+    },
+    {
+      "name": "Comprid",
       "generic": "Gliclazide",
       "manufacturer": "Square Pharmaceuticals PLC",
       "strength": "80 mg",
       "dosage_form": "tablet",
-      "price_per_unit": 8.0
+      "price_per_unit": 8.0,
+      "source_url": "https://www.arogga.com/product/4560"
     },
     {
-      "name": "Diazide",
+      "name": "Consucon",
+      "generic": "Gliclazide",
+      "manufacturer": "Incepta Pharmaceuticals Ltd",
+      "strength": "80 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 8.0,
+      "source_url": "https://www.arogga.com/product/4592"
+    },
+    {
+      "name": "Glucozid",
+      "generic": "Gliclazide",
+      "manufacturer": "Aristopharma Ltd",
+      "strength": "80 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 8.0,
+      "source_url": "https://www.arogga.com/product/8842"
+    },
+    {
+      "name": "Diapro",
+      "generic": "Gliclazide",
+      "manufacturer": "Beximco Pharmaceuticals Ltd",
+      "strength": "80 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 7.0,
+      "source_url": "https://www.arogga.com/product/5484"
+    },
+    {
+      "name": "Glikazid",
       "generic": "Gliclazide",
       "manufacturer": "Eskayef Pharmaceuticals Ltd",
       "strength": "80 mg",
       "dosage_form": "tablet",
-      "price_per_unit": 7.5
+      "price_per_unit": 8.0,
+      "source_url": "https://www.arogga.com/product/8754"
     },
     {
-      "name": "Glizen",
+      "name": "Glizid",
       "generic": "Gliclazide",
       "manufacturer": "Opsonin Pharma Ltd",
       "strength": "80 mg",
       "dosage_form": "tablet",
-      "price_per_unit": 6.0
+      "price_per_unit": 8.0,
+      "source_url": "https://www.arogga.com/product/8793"
+    },
+    {
+      "name": "Amdocal",
+      "generic": "Amlodipine",
+      "manufacturer": "Beximco Pharmaceuticals Ltd",
+      "strength": "5 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 5.49,
+      "source_url": "https://www.arogga.com/product/26205"
+    },
+    {
+      "name": "Camlodin",
+      "generic": "Amlodipine",
+      "manufacturer": "Square Pharmaceuticals PLC",
+      "strength": "5 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 5.02,
+      "source_url": "https://www.arogga.com/product/3147"
+    },
+    {
+      "name": "Amlopin",
+      "generic": "Amlodipine",
+      "manufacturer": "The ACME Laboratories Ltd",
+      "strength": "5 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 5.0,
+      "source_url": "https://www.arogga.com/product/23482"
+    },
+    {
+      "name": "Amlotab",
+      "generic": "Amlodipine",
+      "manufacturer": "Incepta Pharmaceuticals Ltd",
+      "strength": "5 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 5.0,
+      "source_url": "https://www.arogga.com/product/23713"
     },
     {
       "name": "Amlovas",
       "generic": "Amlodipine",
-      "manufacturer": "Square Pharmaceuticals PLC",
+      "manufacturer": "Popular Pharmaceuticals PLC",
       "strength": "5 mg",
       "dosage_form": "tablet",
-      "price_per_unit": 6.0
+      "price_per_unit": 5.0,
+      "source_url": "https://www.arogga.com/product/23827"
     },
     {
-      "name": "Amlocard",
+      "name": "Lodipin",
       "generic": "Amlodipine",
-      "manufacturer": "Beximco Pharmaceuticals Ltd",
+      "manufacturer": "Aristopharma Ltd",
       "strength": "5 mg",
       "dosage_form": "tablet",
-      "price_per_unit": 6.0
+      "price_per_unit": 4.5,
+      "source_url": "https://www.arogga.com/product/10740"
     },
     {
-      "name": "Vasodip",
-      "generic": "Amlodipine",
-      "manufacturer": "Healthcare Pharmaceuticals Ltd",
-      "strength": "5 mg",
-      "dosage_form": "tablet",
-      "price_per_unit": 5.5
-    },
-    {
-      "name": "Amlodil",
-      "generic": "Amlodipine",
-      "manufacturer": "The ACME Laboratories Ltd",
-      "strength": "5 mg",
-      "dosage_form": "tablet",
-      "price_per_unit": 4.5
-    },
-    {
-      "name": "Losarex",
-      "generic": "Losartan",
-      "manufacturer": "Square Pharmaceuticals PLC",
-      "strength": "50 mg",
-      "dosage_form": "tablet",
-      "price_per_unit": 10.0
-    },
-    {
-      "name": "Angiotan",
+      "name": "Osartil",
       "generic": "Losartan",
       "manufacturer": "Incepta Pharmaceuticals Ltd",
       "strength": "50 mg",
       "dosage_form": "tablet",
-      "price_per_unit": 10.0
+      "price_per_unit": 10.0,
+      "source_url": "https://www.arogga.com/product/14115"
     },
     {
-      "name": "Cardotan",
+      "name": "Angilock",
+      "generic": "Losartan",
+      "manufacturer": "Square Pharmaceuticals PLC",
+      "strength": "50 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 10.0,
+      "source_url": "https://www.arogga.com/product/1159"
+    },
+    {
+      "name": "Losart",
+      "generic": "Losartan",
+      "manufacturer": "The ACME Laboratories Ltd",
+      "strength": "50 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 10.0,
+      "source_url": "https://www.arogga.com/product/10880"
+    },
+    {
+      "name": "Ostan",
       "generic": "Losartan",
       "manufacturer": "Renata PLC",
       "strength": "50 mg",
       "dosage_form": "tablet",
-      "price_per_unit": 9.5
+      "price_per_unit": 10.0,
+      "source_url": "https://www.arogga.com/product/14144"
     },
     {
-      "name": "Aristotan",
+      "name": "Cardon",
       "generic": "Losartan",
-      "manufacturer": "Aristopharma Ltd",
+      "manufacturer": "Eskayef Pharmaceuticals Ltd",
       "strength": "50 mg",
       "dosage_form": "tablet",
-      "price_per_unit": 8.0
+      "price_per_unit": 10.0,
+      "source_url": "https://www.arogga.com/product/3295"
     },
     {
-      "name": "Cholvas",
+      "name": "Larb",
+      "generic": "Losartan",
+      "manufacturer": "Opsonin Pharma Ltd",
+      "strength": "50 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 10.0,
+      "source_url": "https://www.arogga.com/product/10223"
+    },
+    {
+      "name": "Atova",
       "generic": "Atorvastatin",
-      "manufacturer": "Square Pharmaceuticals PLC",
+      "manufacturer": "Beximco Pharmaceuticals Ltd",
       "strength": "10 mg",
       "dosage_form": "tablet",
-      "price_per_unit": 12.0
+      "price_per_unit": 12.0,
+      "source_url": "https://www.arogga.com/product/1800"
     },
     {
-      "name": "Atorin",
+      "name": "Tiginor",
       "generic": "Atorvastatin",
       "manufacturer": "Incepta Pharmaceuticals Ltd",
       "strength": "10 mg",
       "dosage_form": "tablet",
-      "price_per_unit": 12.0
+      "price_per_unit": 11.5,
+      "source_url": "https://www.arogga.com/product/18713"
     },
     {
-      "name": "Statova",
+      "name": "Anzitor",
+      "generic": "Atorvastatin",
+      "manufacturer": "Square Pharmaceuticals PLC",
+      "strength": "10 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 12.0,
+      "source_url": "https://www.arogga.com/product/1313"
+    },
+    {
+      "name": "Avas",
+      "generic": "Atorvastatin",
+      "manufacturer": "Opsonin Pharma Ltd",
+      "strength": "10 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 12.0,
+      "source_url": "https://www.arogga.com/product/1858"
+    },
+    {
+      "name": "Taven",
+      "generic": "Atorvastatin",
+      "manufacturer": "Renata PLC",
+      "strength": "10 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 12.0,
+      "source_url": "https://www.arogga.com/product/18323"
+    },
+    {
+      "name": "Lipicon",
       "generic": "Atorvastatin",
       "manufacturer": "Eskayef Pharmaceuticals Ltd",
       "strength": "10 mg",
       "dosage_form": "tablet",
-      "price_per_unit": 11.0
+      "price_per_unit": 12.0,
+      "source_url": "https://www.arogga.com/product/10622"
     },
     {
-      "name": "Cholvas",
+      "name": "Atova",
       "generic": "Atorvastatin",
-      "manufacturer": "Square Pharmaceuticals PLC",
+      "manufacturer": "Beximco Pharmaceuticals Ltd",
       "strength": "20 mg",
       "dosage_form": "tablet",
-      "price_per_unit": 20.0
+      "price_per_unit": 20.0,
+      "source_url": "https://www.arogga.com/product/1801"
     },
     {
-      "name": "Atorin",
+      "name": "Tiginor",
       "generic": "Atorvastatin",
       "manufacturer": "Incepta Pharmaceuticals Ltd",
       "strength": "20 mg",
       "dosage_form": "tablet",
-      "price_per_unit": 19.0
+      "price_per_unit": 20.0,
+      "source_url": "https://www.arogga.com/product/18714"
     },
     {
-      "name": "Clopivas",
-      "generic": "Clopidogrel",
+      "name": "Anzitor",
+      "generic": "Atorvastatin",
       "manufacturer": "Square Pharmaceuticals PLC",
-      "strength": "75 mg",
+      "strength": "20 mg",
       "dosage_form": "tablet",
-      "price_per_unit": 12.0
+      "price_per_unit": 20.0,
+      "source_url": "https://www.arogga.com/product/1314"
     },
     {
-      "name": "Clotrex",
+      "name": "Avas",
+      "generic": "Atorvastatin",
+      "manufacturer": "Opsonin Pharma Ltd",
+      "strength": "20 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 20.0,
+      "source_url": "https://www.arogga.com/product/1859"
+    },
+    {
+      "name": "Taven",
+      "generic": "Atorvastatin",
+      "manufacturer": "Renata PLC",
+      "strength": "20 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 20.0,
+      "source_url": "https://www.arogga.com/product/18324"
+    },
+    {
+      "name": "Xelpid",
+      "generic": "Atorvastatin",
+      "manufacturer": "Healthcare Pharmaceuticals Ltd",
+      "strength": "20 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 18.0,
+      "source_url": "https://www.arogga.com/product/20386"
+    },
+    {
+      "name": "Lopirel",
       "generic": "Clopidogrel",
-      "manufacturer": "Beximco Pharmaceuticals Ltd",
+      "manufacturer": "Incepta Pharmaceuticals Ltd",
       "strength": "75 mg",
       "dosage_form": "tablet",
-      "price_per_unit": 12.0
+      "price_per_unit": 12.0,
+      "source_url": "https://www.arogga.com/product/10795"
     },
     {
       "name": "Anclog",
       "generic": "Clopidogrel",
-      "manufacturer": "Healthcare Pharmaceuticals Ltd",
+      "manufacturer": "Square Pharmaceuticals PLC",
       "strength": "75 mg",
       "dosage_form": "tablet",
-      "price_per_unit": 11.0
+      "price_per_unit": 12.03,
+      "source_url": "https://www.arogga.com/product/1114"
     },
     {
-      "name": "Warfex",
-      "generic": "Warfarin",
-      "manufacturer": "Square Pharmaceuticals PLC",
-      "strength": "5 mg",
+      "name": "Clocard",
+      "generic": "Clopidogrel",
+      "manufacturer": "Aristopharma Ltd",
+      "strength": "75 mg",
       "dosage_form": "tablet",
-      "price_per_unit": 6.0
+      "price_per_unit": 11.0,
+      "source_url": "https://www.arogga.com/product/4313"
     },
     {
-      "name": "Coumarex",
-      "generic": "Warfarin",
+      "name": "Noclog",
+      "generic": "Clopidogrel",
+      "manufacturer": "Eskayef Pharmaceuticals Ltd",
+      "strength": "75 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 12.0,
+      "source_url": "https://www.arogga.com/product/13123"
+    },
+    {
+      "name": "Plagrin",
+      "generic": "Clopidogrel",
       "manufacturer": "Renata PLC",
+      "strength": "75 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 12.0,
+      "source_url": "https://www.arogga.com/product/15044"
+    },
+    {
+      "name": "Odrel",
+      "generic": "Clopidogrel",
+      "manufacturer": "Beximco Pharmaceuticals Ltd",
+      "strength": "75 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 12.0,
+      "source_url": "https://www.arogga.com/product/13498"
+    },
+    {
+      "name": "Warin",
+      "generic": "Warfarin",
+      "manufacturer": "Incepta Pharmaceuticals Ltd",
       "strength": "5 mg",
       "dosage_form": "tablet",
-      "price_per_unit": 5.5
+      "price_per_unit": 3.0,
+      "source_url": "https://www.arogga.com/product/20241"
     },
     {
-      "name": "Montiva",
-      "generic": "Montelukast",
-      "manufacturer": "Square Pharmaceuticals PLC",
-      "strength": "10 mg",
-      "dosage_form": "tablet",
-      "price_per_unit": 16.0
-    },
-    {
-      "name": "Lukast",
-      "generic": "Montelukast",
-      "manufacturer": "Beximco Pharmaceuticals Ltd",
-      "strength": "10 mg",
-      "dosage_form": "tablet",
-      "price_per_unit": 16.0
-    },
-    {
-      "name": "Asmalex",
-      "generic": "Montelukast",
-      "manufacturer": "Incepta Pharmaceuticals Ltd",
-      "strength": "10 mg",
-      "dosage_form": "tablet",
-      "price_per_unit": 15.0
-    },
-    {
-      "name": "Montidil",
+      "name": "Monas",
       "generic": "Montelukast",
       "manufacturer": "The ACME Laboratories Ltd",
       "strength": "10 mg",
       "dosage_form": "tablet",
-      "price_per_unit": 12.0
+      "price_per_unit": 17.5,
+      "source_url": "https://www.arogga.com/product/12014"
     },
     {
-      "name": "Allercet",
+      "name": "Lumona",
+      "generic": "Montelukast",
+      "manufacturer": "Eskayef Pharmaceuticals Ltd",
+      "strength": "10 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 12.0,
+      "source_url": "https://www.arogga.com/product/11028"
+    },
+    {
+      "name": "Montair",
+      "generic": "Montelukast",
+      "manufacturer": "Incepta Pharmaceuticals Ltd",
+      "strength": "10 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 17.5,
+      "source_url": "https://www.arogga.com/product/25963"
+    },
+    {
+      "name": "Montene",
+      "generic": "Montelukast",
+      "manufacturer": "Square Pharmaceuticals PLC",
+      "strength": "10 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 17.5,
+      "source_url": "https://www.arogga.com/product/12070"
+    },
+    {
+      "name": "Trilock",
+      "generic": "Montelukast",
+      "manufacturer": "Opsonin Pharma Ltd",
+      "strength": "10 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 17.0,
+      "source_url": "https://www.arogga.com/product/19148"
+    },
+    {
+      "name": "Xyflo",
+      "generic": "Montelukast",
+      "manufacturer": "Radiant Pharmaceuticals Ltd",
+      "strength": "10 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 17.0,
+      "source_url": "https://www.arogga.com/product/20626"
+    },
+    {
+      "name": "Alatrol",
       "generic": "Cetirizine",
       "manufacturer": "Square Pharmaceuticals PLC",
       "strength": "10 mg",
       "dosage_form": "tablet",
-      "price_per_unit": 3.0
+      "price_per_unit": 3.0,
+      "source_url": "https://www.arogga.com/product/23040"
     },
     {
-      "name": "Cetirex",
+      "name": "Atrizin",
       "generic": "Cetirizine",
-      "manufacturer": "ACI Limited",
+      "manufacturer": "Beximco Pharmaceuticals Ltd",
       "strength": "10 mg",
       "dosage_form": "tablet",
-      "price_per_unit": 2.5
+      "price_per_unit": 3.0,
+      "source_url": "https://www.arogga.com/product/1817"
     },
     {
-      "name": "Histacet",
-      "generic": "Cetirizine",
-      "manufacturer": "Opsonin Pharma Ltd",
-      "strength": "10 mg",
-      "dosage_form": "tablet",
-      "price_per_unit": 2.0
-    },
-    {
-      "name": "Aristocet",
+      "name": "Rhinil",
       "generic": "Cetirizine",
       "manufacturer": "Aristopharma Ltd",
       "strength": "10 mg",
       "dosage_form": "tablet",
-      "price_per_unit": 2.0
+      "price_per_unit": 3.0,
+      "source_url": "https://www.arogga.com/product/16407"
+    },
+    {
+      "name": "Acitrin",
+      "generic": "Cetirizine",
+      "manufacturer": "ACI Limited",
+      "strength": "10 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 3.0,
+      "source_url": "https://www.arogga.com/product/21226"
+    },
+    {
+      "name": "Citin",
+      "generic": "Cetirizine",
+      "manufacturer": "Opsonin Pharma Ltd",
+      "strength": "10 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 3.0,
+      "source_url": "https://www.arogga.com/product/4137"
+    },
+    {
+      "name": "Cetizin",
+      "generic": "Cetirizine",
+      "manufacturer": "The ACME Laboratories Ltd",
+      "strength": "10 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 3.0,
+      "source_url": "https://www.arogga.com/product/3870"
     }
   ]
 }

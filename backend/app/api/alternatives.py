@@ -33,6 +33,7 @@ def _to_schema(item: RankedBrand, selected_id: int | None) -> RankedAlternative:
             source_urls=list(m.source_urls),
         ),
         price_per_unit=float(c.price_per_unit),
+        price_source_url=c.price_source_url,
         final_score=round(item.final_score, 1),
         quality_score=round(item.quality_score, 3),
         price_score=round(item.price_score, 3),
