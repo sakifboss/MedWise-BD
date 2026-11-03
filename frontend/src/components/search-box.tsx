@@ -7,6 +7,8 @@ import { useEffect, useId, useRef, useState } from "react";
 
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import type { Dict } from "@/i18n/dictionaries";
+import { useDict } from "@/i18n/client";
 import { api, type SearchResponse, type SearchResult } from "@/lib/api";
 import { cn } from "@/lib/utils";
 
@@ -23,6 +25,7 @@ function resultHref(result: SearchResult): string {
 }
 
 export function SearchBox() {
+  const t = useDict();
   const router = useRouter();
   const listId = useId();
   const [query, setQuery] = useState("");
@@ -96,7 +99,7 @@ export function SearchBox() {
     <div className="space-y-3">
       <div className="relative">
         <label htmlFor={`${listId}-input`} className="sr-only">
-          Search for a medicine
+          {t.search.label}
         </label>
         <Search
           aria-hidden
@@ -115,12 +118,12 @@ export function SearchBox() {
           value={query}
           onChange={(event) => onChange(event.target.value)}
           onKeyDown={onKeyDown}
-          placeholder="Brand or generic name, e.g. Pyrolin"
+          placeholder={t.search.placeholder}
           className="h-12 rounded-xl pr-10 pl-11 text-base shadow-sm"
         />
         {state.status === "loading" && (
           <Loader2
-            aria-label="Searching"
+            aria-label={t.search.searching}
             className="absolute top-1/2 right-3.5 size-5 -translate-y-1/2 animate-spin text-muted-foreground"
           />
         )}
@@ -128,17 +131,16 @@ export function SearchBox() {
 
       <div aria-live="polite" className="text-sm text-muted-foreground">
         {state.status === "error" && (
-          <p className="text-destructive">Search is unavailable right now. Please try again.</p>
+          <p className="text-destructive">{t.search.error}</p>
         )}
         {state.status === "done" && results.length === 0 && (
-          <p>
-            No medicines found for “{state.response.query}”. Check the spelling or try the generic
-            name.
-          </p>
+          <p>{t.search.noResults(state.response.query)}</p>
         )}
         {showTransliteration && results.length > 0 && (
           <p>
-            Showing results for “<span className="font-medium text-foreground">{response.interpreted_as}</span>”
+            {t.search.showingBefore}
+            <span className="font-medium text-foreground">{response.interpreted_as}</span>
+            {t.search.showingAfter}
           </p>
         )}
       </div>
@@ -147,7 +149,7 @@ export function SearchBox() {
         <ul
           id={listId}
           role="listbox"
-          aria-label="Search results"
+          aria-label={t.search.resultsLabel}
           className="divide-y overflow-hidden rounded-xl border bg-card shadow-sm"
         >
           {results.map((result, index) => (
@@ -164,7 +166,7 @@ export function SearchBox() {
                   index === active && "bg-muted/60",
                 )}
               >
-                <ResultText result={result} />
+                <ResultText result={result} t={t} />
                 <ChevronRight aria-hidden className="ml-auto size-4 shrink-0 text-muted-foreground" />
               </Link>
             </li>
@@ -175,15 +177,15 @@ export function SearchBox() {
   );
 }
 
-function ResultText({ result }: { result: SearchResult }) {
+function ResultText({ result, t }: { result: SearchResult; t: Dict }) {
   if (result.type === "generic") {
     return (
       <div className="min-w-0">
         <div className="flex items-center gap-2">
           <span className="font-medium">{result.name}</span>
-          <Badge variant="secondary">Generic</Badge>
+          <Badge variant="secondary">{t.search.generic}</Badge>
         </div>
-        <p className="text-sm text-muted-foreground">All brands, uses and interactions</p>
+        <p className="text-sm text-muted-foreground">{t.search.genericHint}</p>
       </div>
     );
   }
@@ -192,7 +194,7 @@ function ResultText({ result }: { result: SearchResult }) {
       <p className="font-medium">
         {result.name}{" "}
         <span className="font-normal text-muted-foreground">
-          {result.strength} {result.dosage_form}
+          {result.strength} {result.dosage_form && t.fmt.form(result.dosage_form)}
         </span>
       </p>
       <p className="truncate text-sm text-muted-foreground">

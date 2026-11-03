@@ -12,8 +12,9 @@ import { QUANTITY_PARAM } from "@/components/savings/savings-context";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useDict } from "@/i18n/client";
 import { api, type AlternativesResponse, type MatchOption } from "@/lib/api";
-import { formatPrice, rankingHref } from "@/lib/format";
+import { rankingHref } from "@/lib/format";
 import { parseQuantity, quantityUnit } from "@/lib/savings";
 
 type Loaded = { status: "loading" } | { status: "error" } | { status: "done"; data: AlternativesResponse };
@@ -54,6 +55,8 @@ function useRankings(selections: MatchOption[]): Record<string, Loaded> {
 }
 
 function Summary({ option, data }: { option: MatchOption; data: AlternativesResponse }) {
+  const t = useDict();
+  const r = t.prescription.results;
   const best = data.alternatives[0];
   const mine = data.alternatives.find((a) => a.is_selected);
   const total = data.alternatives.length;
@@ -61,8 +64,8 @@ function Summary({ option, data }: { option: MatchOption; data: AlternativesResp
   if (mine && mine.rank === 1) {
     return (
       <p className="text-sm">
-        <strong className="font-medium">{mine.name}</strong> is already the top-ranked of {total}{" "}
-        {total === 1 ? "brand" : "brands"} (score {mine.final_score.toFixed(1)}).
+        <strong className="font-medium">{mine.name}</strong>{" "}
+        {r.alreadyTop(mine.name, total, t.fmt.score(mine.final_score))}
       </p>
     );
   }
@@ -70,18 +73,17 @@ function Summary({ option, data }: { option: MatchOption; data: AlternativesResp
     <div className="space-y-2 text-sm">
       {mine && (
         <p className="text-muted-foreground">
-          {mine.name} ranks #{mine.rank} of {total} (score {mine.final_score.toFixed(1)}).
+          {r.ranksOf(mine.name, mine.rank, total, t.fmt.score(mine.final_score))}
         </p>
       )}
       {!mine && option.kind === "generic" && (
-        <p className="text-muted-foreground">{total} brands compared.</p>
+        <p className="text-muted-foreground">{t.ranking.compared(total)}</p>
       )}
       <div className="flex items-start gap-2 rounded-lg bg-primary/5 p-3">
         <Trophy aria-hidden className="mt-0.5 size-4 shrink-0 text-primary" />
         <p>
-          Top-ranked: <strong className="font-medium">{best.name}</strong> by{" "}
-          {best.manufacturer.name} · score {best.final_score.toFixed(1)} ·{" "}
-          {formatPrice(best.price_per_unit)}/unit
+          {r.topRanked} <strong className="font-medium">{best.name}</strong>
+          {r.topDetail(best.manufacturer.name, t.fmt.score(best.final_score), t.fmt.price(best.price_per_unit))}
         </p>
       </div>
     </div>
@@ -93,23 +95,24 @@ function ResultCard({ option, loaded, quantity }: {
   loaded: Loaded;
   quantity: number | null;
 }) {
+  const t = useDict();
   return (
     <Card>
       <CardHeader>
-        <h3 className="font-semibold">{optionLabel(option)}</h3>
+        <h3 className="font-semibold">{optionLabel(option, t)}</h3>
         <p className="text-sm text-muted-foreground">{option.generic_name}</p>
       </CardHeader>
       <CardContent className="space-y-3">
         {loaded.status === "loading" && <Skeleton className="h-16 w-full" />}
         {loaded.status === "error" && (
-          <p className="text-sm text-destructive">Couldn’t load alternatives for this medicine.</p>
+          <p className="text-sm text-destructive">{t.prescription.results.loadError}</p>
         )}
         {loaded.status === "done" && <Summary option={option} data={loaded.data} />}
         <Link
           href={fullRankingHref(option, quantity)}
           className="inline-flex items-center gap-1 text-sm font-medium text-primary underline-offset-4 hover:underline"
         >
-          See full ranking and reasons
+          {t.prescription.results.fullRanking}
           <ChevronRight aria-hidden className="size-4" />
         </Link>
       </CardContent>
@@ -126,6 +129,8 @@ export function ResultsStep({
   onBack: () => void;
   onRestart: () => void;
 }) {
+  const t = useDict();
+  const r = t.prescription.results;
   const rankings = useRankings(selections);
   const [drafts, setDrafts] = useState<Record<string, string>>({});
   const loadedFor = (option: MatchOption): Loaded => rankings[optionKey(option)] ?? { status: "loading" };
@@ -144,21 +149,21 @@ export function ResultsStep({
 
   return (
     <div className="space-y-4">
-      <h2 className="text-xl font-semibold">Your prescription</h2>
+      <h2 className="text-xl font-semibold">{r.heading}</h2>
       <Disclaimer />
       {selections.length > 0 && (
         <CostSummary rows={rows} onQuantityChange={(key, raw) => setDrafts((d) => ({ ...d, [key]: raw }))} />
       )}
       {selections.length >= 2 && (
         <section className="space-y-2 rounded-xl border p-4">
-          <h3 className="font-semibold">Interactions between these medicines</h3>
+          <h3 className="font-semibold">{r.interactions}</h3>
           <InteractionPanel
             brandIds={selections.filter((o) => o.kind === "brand").map((o) => o.brand_id!)}
             genericIds={selections.filter((o) => o.kind === "generic").map((o) => o.generic_id)}
           />
         </section>
       )}
-      <h3 className="pt-2 text-lg font-semibold">Alternatives</h3>
+      <h3 className="pt-2 text-lg font-semibold">{r.alternatives}</h3>
       <ul className="space-y-3">
         {selections.map((option) => (
           <li key={optionKey(option)}>
@@ -168,10 +173,10 @@ export function ResultsStep({
       </ul>
       <div className="flex gap-2">
         <Button variant="ghost" onClick={onBack}>
-          Edit medicines
+          {r.edit}
         </Button>
         <Button variant="outline" onClick={onRestart}>
-          Scan another prescription
+          {r.another}
         </Button>
       </div>
     </div>

@@ -1,11 +1,3 @@
-export function formatPrice(value: number): string {
-  return `Tk ${value.toFixed(2)}`;
-}
-
-export function formatPriceRange(min: number, max: number): string {
-  return min === max ? formatPrice(min) : `${formatPrice(min)} – ${formatPrice(max)}`;
-}
-
 export function capitalize(text: string): string {
   return text.charAt(0).toUpperCase() + text.slice(1);
 }

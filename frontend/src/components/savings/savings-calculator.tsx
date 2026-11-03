@@ -8,36 +8,39 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useDict } from "@/i18n/client";
 import type { RankedAlternative } from "@/lib/api";
-import { formatTaka, monthlyCost, monthlySaving, parseQuantity } from "@/lib/savings";
+import { monthlyCost, monthlySaving, parseQuantity } from "@/lib/savings";
 
 const QUICK_PICKS = [1, 2, 3];
 
 type Option = Pick<RankedAlternative, "name" | "rank" | "price_per_unit" | "is_selected">;
 
 function SavingLine({ label, option, current }: { label: string; option: Option; current: number }) {
+  const t = useDict();
   const { quantity, unit } = useSavings();
   const monthly = monthlyCost(option.price_per_unit, quantity ?? 0, unit);
   const saving = monthlySaving(current, monthly);
   return (
     <p>
-      {label}, <strong className="font-medium">{option.name}</strong> (rank {option.rank}):{" "}
-      {formatTaka(monthly)} a month
+      {label}, <strong className="font-medium">{option.name}</strong> {t.savings.rank(t.fmt.int(option.rank))}:{" "}
+      {t.savings.perMonth(t.fmt.taka(monthly))}
       {saving >= 1 && (
         <>
           {" "}
           –{" "}
           <strong className="font-medium text-emerald-700">
-            save {formatTaka(saving)} a month ({formatTaka(saving * 12)} a year)
+            {t.savings.save(t.fmt.taka(saving), t.fmt.taka(saving * 12))}
           </strong>
         </>
       )}
-      {saving <= -1 && <> – {formatTaka(-saving)} more a month</>}
+      {saving <= -1 && <> – {t.savings.more(t.fmt.taka(-saving))}</>}
     </p>
   );
 }
 
 function Results({ options }: { options: Option[] }) {
+  const t = useDict();
   const { quantity, unit, selectedPrice } = useSavings();
   if (quantity === null || options.length === 0) return null;
 
@@ -45,11 +48,7 @@ function Results({ options }: { options: Option[] }) {
   if (selectedPrice === null) {
     const min = Math.min(...costs);
     const max = Math.max(...costs);
-    return (
-      <p className="text-sm">
-        Monthly cost: {min === max ? formatTaka(min) : `${formatTaka(min)} to ${formatTaka(max)}`}
-      </p>
-    );
+    return <p className="text-sm">{t.savings.range(t.fmt.taka(min), t.fmt.taka(max))}</p>;
   }
 
   const current = monthlyCost(selectedPrice, quantity, unit);
@@ -58,17 +57,18 @@ function Results({ options }: { options: Option[] }) {
   return (
     <div className="space-y-1 text-sm">
       <p>
-        Your medicine: <strong className="font-medium">{formatTaka(current)} a month</strong>
+        {t.savings.yourMedicine} <strong className="font-medium">{t.savings.perMonth(t.fmt.taka(current))}</strong>
       </p>
-      {best && !best.is_selected && <SavingLine label="Best ranked" option={best} current={current} />}
+      {best && !best.is_selected && <SavingLine label={t.savings.best} option={best} current={current} />}
       {cheapest.price_per_unit < selectedPrice && cheapest !== best && (
-        <SavingLine label="Cheapest" option={cheapest} current={current} />
+        <SavingLine label={t.savings.cheapest} option={cheapest} current={current} />
       )}
     </div>
   );
 }
 
 export function SavingsCalculator({ options }: { options: Option[] }) {
+  const t = useDict();
   const { unit, quantity, setQuantity } = useSavings();
   const [draft, setDraft] = useState(quantity === null ? "" : String(quantity));
   const inputId = useId();
@@ -83,10 +83,10 @@ export function SavingsCalculator({ options }: { options: Option[] }) {
       <CardContent className="space-y-3">
         <div className="flex items-center gap-2 font-medium">
           <Calculator aria-hidden className="size-4 text-primary" />
-          Monthly cost calculator
+          {t.savings.title}
         </div>
         <div className="space-y-2">
-          <Label htmlFor={inputId}>How many {unit.label} does your prescription say?</Label>
+          <Label htmlFor={inputId}>{t.savings.question(unit.form)}</Label>
           <div className="flex flex-wrap items-center gap-2">
             <Input
               id={inputId}
@@ -97,7 +97,7 @@ export function SavingsCalculator({ options }: { options: Option[] }) {
               step={unit.step}
               value={draft}
               onChange={(e) => update(e.target.value)}
-              placeholder="e.g. 2"
+              placeholder={t.savings.placeholder}
               className="w-24"
             />
             {QUICK_PICKS.map((n) => (
@@ -108,13 +108,11 @@ export function SavingsCalculator({ options }: { options: Option[] }) {
                 variant={quantity === n ? "default" : "outline"}
                 onClick={() => update(String(n))}
               >
-                {n}
+                {t.fmt.int(n)}
               </Button>
             ))}
           </div>
-          <p className="text-xs text-muted-foreground">
-            Use the number on your prescription. MedWise BD does not suggest doses.
-          </p>
+          <p className="text-xs text-muted-foreground">{t.savings.noDoseNote}</p>
         </div>
         <Results options={options} />
       </CardContent>
@@ -124,27 +122,29 @@ export function SavingsCalculator({ options }: { options: Option[] }) {
 
 /** Monthly cost line inside a ranked card; empty until the user enters a quantity. */
 export function MonthlyCost({ price, isSelected }: { price: number; isSelected: boolean }) {
+  const t = useDict();
   const { quantity, unit, selectedPrice } = useSavings();
   if (quantity === null) return null;
 
   const monthly = monthlyCost(price, quantity, unit);
   let comparison: React.ReactNode = null;
   if (isSelected) {
-    comparison = <span className="text-muted-foreground">your current cost</span>;
+    comparison = <span className="text-muted-foreground">{t.savings.current}</span>;
   } else if (selectedPrice !== null) {
     const saving = monthlySaving(monthlyCost(selectedPrice, quantity, unit), monthly);
     comparison =
       saving >= 1 ? (
-        <span className="font-medium text-emerald-700">save {formatTaka(saving)} a month</span>
+        <span className="font-medium text-emerald-700">{t.savings.saveShort(t.fmt.taka(saving))}</span>
       ) : saving <= -1 ? (
-        <span className="text-muted-foreground">{formatTaka(-saving)} more a month</span>
+        <span className="text-muted-foreground">{t.savings.more(t.fmt.taka(-saving))}</span>
       ) : (
-        <span className="text-muted-foreground">same cost</span>
+        <span className="text-muted-foreground">{t.savings.same}</span>
       );
   }
   return (
     <p className="text-sm">
-      {formatTaka(monthly)} a month{comparison && <> · {comparison}</>}
+      {t.savings.perMonth(t.fmt.taka(monthly))}
+      {comparison && <> · {comparison}</>}
     </p>
   );
 }

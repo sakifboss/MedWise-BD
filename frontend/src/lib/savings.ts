@@ -3,8 +3,8 @@
 export const DAYS_PER_MONTH = 30;
 
 export type QuantityUnit = {
-  /** What the user enters, e.g. "tablets a day". */
-  label: string;
+  /** Dosage form the quantity counts (tablet, capsule, suspension). */
+  form: string;
   /** How many entered quantities make up one month. */
   perMonth: number;
   step: number;
@@ -14,9 +14,9 @@ export type QuantityUnit = {
 /** Suspensions are priced per bottle, so the user enters bottles a month. */
 export function quantityUnit(dosageForm: string): QuantityUnit {
   if (dosageForm === "suspension") {
-    return { label: "bottles a month", perMonth: 1, step: 1, max: 20 };
+    return { form: dosageForm, perMonth: 1, step: 1, max: 20 };
   }
-  return { label: `${dosageForm}s a day`, perMonth: DAYS_PER_MONTH, step: 0.5, max: 24 };
+  return { form: dosageForm, perMonth: DAYS_PER_MONTH, step: 0.5, max: 24 };
 }
 
 /** Returns the quantity if it is a usable positive number for this unit, else null. */
@@ -34,8 +34,4 @@ export function monthlyCost(pricePerUnit: number, quantity: number, unit: Quanti
 /** Positive when the alternative is cheaper than the current medicine. */
 export function monthlySaving(currentMonthly: number, alternativeMonthly: number): number {
   return currentMonthly - alternativeMonthly;
-}
-
-export function formatTaka(value: number): string {
-  return `Tk ${Math.round(value).toLocaleString("en-US")}`;
 }

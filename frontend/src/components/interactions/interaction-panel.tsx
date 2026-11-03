@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 import { InteractionResults } from "@/components/interactions/interaction-results";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useDict } from "@/i18n/client";
 import { api, type InteractionCheckResponse } from "@/lib/api";
 
 type State =
@@ -19,6 +20,7 @@ function parseKey(key: string): [number[], number[]] {
 
 /** Fetches and shows interactions for the given medicines; re-checks when they change. */
 export function InteractionPanel({ brandIds, genericIds }: { brandIds: number[]; genericIds: number[] }) {
+  const i = useDict().interactions;
   const [result, setResult] = useState<{ key: string; state: State }>({ key: "", state: { status: "loading" } });
   const key = `${brandIds.join(",")}|${genericIds.join(",")}`;
 
@@ -38,14 +40,14 @@ export function InteractionPanel({ brandIds, genericIds }: { brandIds: number[];
 
   if (state.status === "loading") {
     return (
-      <div aria-busy aria-label="Checking interactions" className="space-y-2">
+      <div aria-busy aria-label={i.checking} className="space-y-2">
         <Skeleton className="h-5 w-2/3" />
         <Skeleton className="h-16 w-full" />
       </div>
     );
   }
   if (state.status === "error") {
-    return <p className="text-sm text-destructive">Couldn’t check interactions right now. Please try again.</p>;
+    return <p className="text-sm text-destructive">{i.error}</p>;
   }
   return <InteractionResults data={state.data} />;
 }

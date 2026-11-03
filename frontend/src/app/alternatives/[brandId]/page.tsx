@@ -6,6 +6,7 @@ import { BackLink } from "@/components/back-link";
 import { Disclaimer } from "@/components/disclaimer";
 import { HowRankingWorks } from "@/components/how-ranking-works";
 import { RankingList } from "@/components/ranking-list";
+import { getDict } from "@/i18n/server";
 import { api, isNotFound } from "@/lib/api";
 import { parseId } from "@/lib/format";
 
@@ -25,28 +26,26 @@ function selectedName(data: Awaited<ReturnType<typeof load>>): string {
 }
 
 export async function generateMetadata(props: PageProps<"/alternatives/[brandId]">): Promise<Metadata> {
-  const data = await load((await props.params).brandId);
-  return { title: `Alternatives to ${selectedName(data)} ${data.strength}` };
+  const [data, t] = await Promise.all([load((await props.params).brandId), getDict()]);
+  return { title: t.alternatives.title(`${selectedName(data)} ${data.strength}`) };
 }
 
 export default async function AlternativesPage(props: PageProps<"/alternatives/[brandId]">) {
-  const data = await load((await props.params).brandId);
+  const [data, t] = await Promise.all([load((await props.params).brandId), getDict()]);
 
   return (
     <div className="space-y-6">
-      <BackLink href="/">New search</BackLink>
+      <BackLink href="/">{t.back.newSearch}</BackLink>
       <header className="space-y-1">
-        <h1 className="text-2xl font-semibold tracking-tight">
-          Alternatives to {selectedName(data)}
-        </h1>
+        <h1 className="text-2xl font-semibold tracking-tight">{t.alternatives.title(selectedName(data))}</h1>
         <p className="text-muted-foreground">
           <Link href={`/generics/${data.generic.id}`} className="font-medium text-primary underline-offset-4 hover:underline">
             {data.generic.name}
           </Link>{" "}
-          {data.strength} {data.dosage_form}
+          {data.strength} {t.fmt.form(data.dosage_form)}
         </p>
       </header>
-      <Disclaimer text={data.disclaimer} />
+      <Disclaimer />
       <HowRankingWorks />
       <RankingList data={data} />
     </div>

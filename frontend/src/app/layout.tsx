@@ -3,6 +3,8 @@ import { Geist, Geist_Mono, Noto_Sans_Bengali } from "next/font/google";
 
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { LangProvider } from "@/i18n/client";
+import { getDict, getLang } from "@/i18n/server";
 
 import "./globals.css";
 
@@ -11,25 +13,24 @@ const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"]
 // Renders Bangla search input and names on devices without a Bangla font.
 const notoBengali = Noto_Sans_Bengali({ variable: "--font-bengali", subsets: ["bengali"] });
 
-export const metadata: Metadata = {
-  title: {
-    default: "MedWise BD — quality-first medicine alternatives",
-    template: "%s · MedWise BD",
-  },
-  description:
-    "Find same-generic, same-strength medicine alternatives in Bangladesh, ranked by manufacturer quality and price.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getDict();
+  return { title: { default: t.meta.title, template: "%s · MedWise BD" }, description: t.meta.description };
+}
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const lang = await getLang();
   return (
     <html
-      lang="en"
+      lang={lang}
       className={`${geistSans.variable} ${geistMono.variable} ${notoBengali.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
-        <SiteHeader />
-        <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-6 sm:py-10">{children}</main>
-        <SiteFooter />
+        <LangProvider lang={lang}>
+          <SiteHeader />
+          <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-6 sm:py-10">{children}</main>
+          <SiteFooter />
+        </LangProvider>
       </body>
     </html>
   );

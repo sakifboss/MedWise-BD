@@ -1,3 +1,4 @@
+import type { Dict } from "@/i18n/dictionaries";
 import type { MatchOption } from "@/lib/api";
 
 export const NONE = "none";
@@ -11,8 +12,8 @@ export type DraftItem = {
   choice: string;
 };
 
-export function optionLabel(option: MatchOption): string {
-  return `${option.name} ${option.strength} ${option.dosage_form}`;
+export function optionLabel(option: MatchOption, t: Dict): string {
+  return `${option.name} ${option.strength} ${t.fmt.form(option.dosage_form)}`;
 }
 
 export function optionKey(option: MatchOption): string {

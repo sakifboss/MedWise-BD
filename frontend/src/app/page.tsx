@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { HowRankingWorks } from "@/components/how-ranking-works";
 import { SearchBox } from "@/components/search-box";
+import { getDict } from "@/i18n/server";
 
 function FeatureLink({
   href,
@@ -32,41 +33,39 @@ function FeatureLink({
   );
 }
 
-export default function HomePage() {
+export default async function HomePage() {
+  const t = await getDict();
   return (
     <div className="space-y-8">
       <section className="space-y-3 pt-2 sm:pt-6">
         <h1 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-          Find a trusted alternative to your medicine
+          {t.home.title}
         </h1>
-        <p className="text-muted-foreground text-pretty">
-          Search a brand or generic name to see every brand with the same medicine, strength and
-          form, ranked by manufacturer quality and price.
-        </p>
+        <p className="text-muted-foreground text-pretty">{t.home.intro}</p>
       </section>
 
       <SearchBox />
       <p className="-mt-5 text-xs text-muted-foreground">
-        You can type in English or Bangla, e.g. <span lang="bn">সেফিক্সিম</span>.
+        {t.home.typeHint} <span lang="bn">সেফিক্সিম</span>.
       </p>
 
       <div className="space-y-3">
         <FeatureLink
           href="/prescription"
           icon={Camera}
-          title="Have a prescription?"
-          text="Take a photo and we’ll find alternatives for every medicine on it."
+          title={t.home.scanTitle}
+          text={t.home.scanText}
         />
         <FeatureLink
           href="/interactions"
           icon={ShieldAlert}
-          title="Taking more than one medicine?"
-          text="Check them together for recorded interactions."
+          title={t.home.interactionsTitle}
+          text={t.home.interactionsText}
         />
       </div>
 
       <section className="space-y-2 rounded-xl border bg-muted/30 p-4">
-        <h2 className="text-sm font-semibold">How the ranking works</h2>
+        <h2 className="text-sm font-semibold">{t.home.howTitle}</h2>
         <HowRankingWorks />
       </section>
     </div>

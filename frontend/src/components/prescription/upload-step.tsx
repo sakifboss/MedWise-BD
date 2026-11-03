@@ -5,6 +5,7 @@ import { useId } from "react";
 
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { buttonVariants } from "@/components/ui/button";
+import { useDict } from "@/i18n/client";
 import { cn } from "@/lib/utils";
 
 export function UploadStep({
@@ -15,6 +16,7 @@ export function UploadStep({
   error: string | null;
 }) {
   const inputId = useId();
+  const { upload } = useDict().prescription;
 
   return (
     <div className="space-y-5">
@@ -25,8 +27,8 @@ export function UploadStep({
         <span className="flex size-12 items-center justify-center rounded-full bg-primary/10 text-primary">
           <Camera aria-hidden className="size-6" />
         </span>
-        <span className="font-medium">Take or choose a photo of the prescription</span>
-        <span className="text-sm text-muted-foreground">JPEG, PNG, WebP or HEIC</span>
+        <span className="font-medium">{upload.prompt}</span>
+        <span className="text-sm text-muted-foreground">{upload.formats}</span>
         <input
           id={inputId}
           type="file"
@@ -41,7 +43,7 @@ export function UploadStep({
         />
         <span aria-hidden className={cn(buttonVariants({ variant: "outline" }), "mt-1")}>
           <ImageUp />
-          Choose photo
+          {upload.choose}
         </span>
       </label>
 
@@ -55,15 +57,9 @@ export function UploadStep({
         <ShieldCheck aria-hidden className="mt-0.5 size-5 shrink-0 text-primary" />
         <div className="space-y-2 text-muted-foreground">
           <p>
-            <strong className="font-medium text-foreground">Only medicine names and strengths are read.</strong>{" "}
-            We never generate doses or medical advice, and you confirm every medicine before seeing
-            results.
+            <strong className="font-medium text-foreground">{upload.readOnly}</strong> {upload.readOnlyMore}
           </p>
-          <p>
-            Your photo is sent to Google Gemini to read the text and is not stored by MedWise. Google
-            may use images sent through its free API tier to improve its services, so avoid photos
-            showing details you don’t want shared.
-          </p>
+          <p>{upload.privacy}</p>
         </div>
       </div>
     </div>

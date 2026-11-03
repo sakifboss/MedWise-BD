@@ -5,6 +5,7 @@ import { BackLink } from "@/components/back-link";
 import { Disclaimer } from "@/components/disclaimer";
 import { HowRankingWorks } from "@/components/how-ranking-works";
 import { RankingList } from "@/components/ranking-list";
+import { getDict } from "@/i18n/server";
 import { api, isNotFound } from "@/lib/api";
 import { parseId } from "@/lib/format";
 
@@ -29,23 +30,23 @@ async function load(props: Props) {
 }
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
-  const data = await load(props);
-  return { title: `${data.generic.name} ${data.strength} ${data.dosage_form} brands ranked` };
+  const [data, t] = await Promise.all([load(props), getDict()]);
+  return { title: t.ranking.title(data.generic.name, data.strength, t.fmt.form(data.dosage_form)) };
 }
 
 export default async function GenericRankingPage(props: Props) {
-  const data = await load(props);
+  const [data, t] = await Promise.all([load(props), getDict()]);
 
   return (
     <div className="space-y-6">
       <BackLink href={`/generics/${data.generic.id}`}>{data.generic.name}</BackLink>
       <header className="space-y-1">
         <h1 className="text-2xl font-semibold tracking-tight">
-          {data.generic.name} {data.strength} {data.dosage_form}
+          {data.generic.name} {data.strength} {t.fmt.form(data.dosage_form)}
         </h1>
-        <p className="text-muted-foreground">All brands, ranked</p>
+        <p className="text-muted-foreground">{t.ranking.subtitle}</p>
       </header>
-      <Disclaimer text={data.disclaimer} />
+      <Disclaimer />
       <HowRankingWorks />
       <RankingList data={data} />
     </div>

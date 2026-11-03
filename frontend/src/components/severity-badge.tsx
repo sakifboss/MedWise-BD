@@ -1,6 +1,8 @@
+"use client";
+
 import { Badge } from "@/components/ui/badge";
+import { useDict } from "@/i18n/client";
 import type { Severity } from "@/lib/api";
-import { capitalize } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
 const STYLES: Record<Severity, string> = {
@@ -10,9 +12,10 @@ const STYLES: Record<Severity, string> = {
 };
 
 export function SeverityBadge({ severity }: { severity: Severity }) {
+  const t = useDict();
   return (
     <Badge variant="outline" className={cn(STYLES[severity])}>
-      {capitalize(severity)}
+      {t.severity[severity]}
     </Badge>
   );
 }

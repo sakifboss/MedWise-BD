@@ -6,8 +6,10 @@ import { notFound } from "next/navigation";
 import { BackLink } from "@/components/back-link";
 import { Disclaimer } from "@/components/disclaimer";
 import { SeverityBadge } from "@/components/severity-badge";
+import type { Dict } from "@/i18n/dictionaries";
+import { getDict } from "@/i18n/server";
 import { api, isNotFound, type GenericDetail } from "@/lib/api";
-import { capitalize, formatPriceRange, parseId, rankingHref } from "@/lib/format";
+import { capitalize, parseId, rankingHref } from "@/lib/format";
 
 async function load(idParam: string) {
   const id = parseId(idParam);
@@ -21,8 +23,8 @@ async function load(idParam: string) {
 }
 
 export async function generateMetadata(props: PageProps<"/generics/[id]">): Promise<Metadata> {
-  const generic = await load((await props.params).id);
-  return { title: generic.name, description: `${generic.name} (${generic.drug_class}): brands, uses and interactions.` };
+  const [generic, t] = await Promise.all([load((await props.params).id), getDict()]);
+  return { title: generic.name, description: t.generic.metaDescription(generic.name, generic.drug_class) };
 }
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
@@ -45,9 +47,9 @@ function BulletList({ items, empty }: { items: string[]; empty: string }) {
   );
 }
 
-function Presentations({ generic }: { generic: GenericDetail }) {
+function Presentations({ generic, t }: { generic: GenericDetail; t: Dict }) {
   if (!generic.presentations.length) {
-    return <p className="text-sm text-muted-foreground">No brands of this medicine are in our data yet.</p>;
+    return <p className="text-sm text-muted-foreground">{t.generic.noBrands}</p>;
   }
   return (
     <ul className="divide-y overflow-hidden rounded-xl border bg-card">
@@ -59,15 +61,15 @@ function Presentations({ generic }: { generic: GenericDetail }) {
           >
             <div className="min-w-0">
               <p className="font-medium">
-                {p.strength} {p.dosage_form}
+                {p.strength} {t.fmt.form(p.dosage_form)}
               </p>
               <p className="text-sm text-muted-foreground">
-                {p.brand_count} {p.brand_count === 1 ? "brand" : "brands"} ·{" "}
-                {formatPriceRange(p.min_price, p.max_price)} per unit
+                {t.generic.brandCount(p.brand_count)} ·{" "}
+                {t.generic.perUnit(t.fmt.priceRange(p.min_price, p.max_price))}
               </p>
             </div>
             <span className="ml-auto flex shrink-0 items-center gap-1 text-sm font-medium text-primary">
-              Compare
+              {t.generic.compareAction}
               <ChevronRight aria-hidden className="size-4" />
             </span>
           </Link>
@@ -77,9 +79,9 @@ function Presentations({ generic }: { generic: GenericDetail }) {
   );
 }
 
-function Interactions({ generic }: { generic: GenericDetail }) {
+function Interactions({ generic, t }: { generic: GenericDetail; t: Dict }) {
   if (!generic.interactions.length) {
-    return <p className="text-sm text-muted-foreground">No interactions are recorded in our data.</p>;
+    return <p className="text-sm text-muted-foreground">{t.generic.noInteractions}</p>;
   }
   return (
     <ul className="space-y-3">
@@ -102,33 +104,36 @@ function Interactions({ generic }: { generic: GenericDetail }) {
 }
 
 export default async function GenericPage(props: PageProps<"/generics/[id]">) {
-  const generic = await load((await props.params).id);
+  const [generic, t] = await Promise.all([load((await props.params).id), getDict()]);
 
   return (
     <div className="space-y-8">
       <div className="space-y-4">
-        <BackLink href="/">New search</BackLink>
+        <BackLink href="/">{t.back.newSearch}</BackLink>
         <header className="space-y-1">
           <h1 className="text-2xl font-semibold tracking-tight">{generic.name}</h1>
           <p className="text-muted-foreground">{capitalize(generic.drug_class)}</p>
         </header>
       </div>
 
-      <Section title="Compare brands">
-        <Presentations generic={generic} />
+      <Section title={t.generic.compare}>
+        <Presentations generic={generic} t={t} />
       </Section>
-      <Section title="Used for">
-        <BulletList items={generic.indications} empty="Not recorded." />
+      {t.generic.englishOnly && (
+        <p className="rounded-lg border bg-muted/30 px-3 py-2 text-sm text-muted-foreground">{t.generic.englishOnly}</p>
+      )}
+      <Section title={t.generic.usedFor}>
+        <BulletList items={generic.indications} empty={t.generic.notRecorded} />
       </Section>
-      <Section title="Possible side effects">
-        <BulletList items={generic.side_effects} empty="Not recorded." />
+      <Section title={t.generic.sideEffects}>
+        <BulletList items={generic.side_effects} empty={t.generic.notRecorded} />
       </Section>
-      <Section title="Precautions">
-        <BulletList items={generic.precautions} empty="Not recorded." />
+      <Section title={t.generic.precautions}>
+        <BulletList items={generic.precautions} empty={t.generic.notRecorded} />
       </Section>
       {generic.source_urls.length > 0 && (
         <p className="text-xs text-muted-foreground">
-          Medicine information from{" "}
+          {t.generic.sourceBefore}
           {generic.source_urls.map((url, i) => (
             <span key={url}>
               {i > 0 && ", "}
@@ -137,16 +142,16 @@ export default async function GenericPage(props: PageProps<"/generics/[id]">) {
               </a>
             </span>
           ))}
-          , condensed by MedWise BD.
+          {t.generic.sourceAfter}
         </p>
       )}
-      <Section title="Interactions">
-        <Interactions generic={generic} />
+      <Section title={t.generic.interactions}>
+        <Interactions generic={generic} t={t} />
         <Link
           href={`/interactions?g=${generic.id}`}
           className="inline-flex items-center gap-1 text-sm font-medium text-primary underline-offset-4 hover:underline"
         >
-          Check {generic.name} with your other medicines
+          {t.generic.checkWith(generic.name)}
           <ChevronRight aria-hidden className="size-4" />
         </Link>
       </Section>

@@ -4,6 +4,7 @@ import { Search } from "lucide-react";
 import { useRef, useState } from "react";
 
 import { Input } from "@/components/ui/input";
+import { useDict } from "@/i18n/client";
 import { api, type MatchOption, type SearchResult } from "@/lib/api";
 
 const DEBOUNCE_MS = 250;
@@ -32,6 +33,7 @@ export function MedicineSearch({
   label: string;
   onPick: (option: MatchOption) => void;
 }) {
+  const t = useDict();
   const [query, setQuery] = useState("");
   const [options, setOptions] = useState<MatchOption[]>([]);
   const [message, setMessage] = useState<string | null>(null);
@@ -51,9 +53,9 @@ export function MedicineSearch({
         const response = await api.search(q, { limit: 8 });
         const found = response.results.map(toOption).filter((o): o is MatchOption => o !== null);
         setOptions(found);
-        setMessage(found.length ? null : "No brands found. Try another spelling.");
+        setMessage(found.length ? null : t.prescription.medicineSearch.noBrands);
       } catch {
-        setMessage("Search is unavailable right now.");
+        setMessage(t.prescription.medicineSearch.unavailable);
       }
     }, DEBOUNCE_MS);
   }
@@ -68,7 +70,7 @@ export function MedicineSearch({
         <Input
           type="search"
           aria-label={label}
-          placeholder="Type a brand name"
+          placeholder={t.prescription.medicineSearch.placeholder}
           autoComplete="off"
           value={query}
           onChange={(event) => onChange(event.target.value)}
@@ -91,7 +93,7 @@ export function MedicineSearch({
               >
                 <span className="font-medium">{option.name}</span>{" "}
                 <span className="text-muted-foreground">
-                  {option.strength} {option.dosage_form} · {option.manufacturer}
+                  {option.strength} {t.fmt.form(option.dosage_form)} · {option.manufacturer}
                 </span>
               </button>
             </li>

@@ -6,6 +6,7 @@ import { useRef, useState } from "react";
 import { InteractionPanel } from "@/components/interactions/interaction-panel";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { useDict } from "@/i18n/client";
 import { api, type SearchResult } from "@/lib/api";
 
 export type PickedMedicine = { kind: "brand" | "generic"; id: number; label: string; detail: string };
@@ -13,9 +14,9 @@ export type PickedMedicine = { kind: "brand" | "generic"; id: number; label: str
 const DEBOUNCE_MS = 200;
 const MAX_MEDICINES = 20;
 
-function toPicked(result: SearchResult): PickedMedicine {
+function toPicked(result: SearchResult, genericLabel: string): PickedMedicine {
   return result.type === "generic"
-    ? { kind: "generic", id: result.id, label: result.name, detail: "Generic" }
+    ? { kind: "generic", id: result.id, label: result.name, detail: genericLabel }
     : {
         kind: "brand",
         id: result.id,
@@ -29,6 +30,7 @@ function pickedKey(m: PickedMedicine): string {
 }
 
 export function InteractionChecker({ initial }: { initial: PickedMedicine[] }) {
+  const i = useDict().interactions;
   const [picked, setPicked] = useState<PickedMedicine[]>(initial);
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<PickedMedicine[]>([]);
@@ -47,10 +49,10 @@ export function InteractionChecker({ initial }: { initial: PickedMedicine[] }) {
     timer.current = setTimeout(async () => {
       try {
         const response = await api.search(q, { limit: 8 });
-        setResults(response.results.map(toPicked));
-        setMessage(response.results.length ? null : "No medicines found. Try another spelling.");
+        setResults(response.results.map((r) => toPicked(r, i.generic)));
+        setMessage(response.results.length ? null : i.noResults);
       } catch {
-        setMessage("Search is unavailable right now.");
+        setMessage(i.unavailable);
       }
     }, DEBOUNCE_MS);
   }
@@ -77,8 +79,8 @@ export function InteractionChecker({ initial }: { initial: PickedMedicine[] }) {
           />
           <Input
             type="search"
-            aria-label="Add a medicine"
-            placeholder={full ? `Up to ${MAX_MEDICINES} medicines` : "Brand or generic name"}
+            aria-label={i.addLabel}
+            placeholder={full ? i.full(MAX_MEDICINES) : i.placeholder}
             disabled={full}
             autoComplete="off"
             value={query}
@@ -105,7 +107,7 @@ export function InteractionChecker({ initial }: { initial: PickedMedicine[] }) {
         )}
 
         {picked.length > 0 && (
-          <ul aria-label="Medicines to check" className="flex flex-wrap gap-2">
+          <ul aria-label={i.picked} className="flex flex-wrap gap-2">
             {picked.map((m) => (
               <li key={pickedKey(m)}>
                 <Badge variant="secondary" className="h-8 gap-1.5 pr-1 pl-3 text-sm">
@@ -113,7 +115,7 @@ export function InteractionChecker({ initial }: { initial: PickedMedicine[] }) {
                   <button
                     type="button"
                     onClick={() => setPicked(picked.filter((p) => pickedKey(p) !== pickedKey(m)))}
-                    aria-label={`Remove ${m.label}`}
+                    aria-label={i.remove(m.label)}
                     className="rounded-full p-1 hover:bg-foreground/10"
                   >
                     <X aria-hidden className="size-3.5" />
@@ -126,9 +128,9 @@ export function InteractionChecker({ initial }: { initial: PickedMedicine[] }) {
       </section>
 
       <section aria-live="polite" className="space-y-2">
-        <h2 className="text-lg font-semibold">Results</h2>
+        <h2 className="text-lg font-semibold">{i.results}</h2>
         {picked.length === 0 ? (
-          <p className="text-sm text-muted-foreground">Add two or more medicines to check them together.</p>
+          <p className="text-sm text-muted-foreground">{i.addTwoOrMore}</p>
         ) : (
           <InteractionPanel brandIds={brandIds} genericIds={genericIds} />
         )}

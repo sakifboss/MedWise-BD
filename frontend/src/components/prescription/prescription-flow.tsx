@@ -7,6 +7,7 @@ import { ConfirmStep } from "@/components/prescription/confirm-step";
 import { ResultsStep } from "@/components/prescription/results-step";
 import { NONE, optionKey, type DraftItem } from "@/components/prescription/types";
 import { UploadStep } from "@/components/prescription/upload-step";
+import { useDict } from "@/i18n/client";
 import { api, ApiError, type MatchOption, type PrescriptionItem } from "@/lib/api";
 import { prepareImage } from "@/lib/image";
 
@@ -15,14 +16,6 @@ type Step =
   | { kind: "reading" }
   | { kind: "confirm" }
   | { kind: "results"; selections: MatchOption[] };
-
-const ERROR_MESSAGES: Record<string, string> = {
-  unsupported_file: "That file isn’t a supported image. Please upload a JPEG, PNG, WebP or HEIC photo.",
-  file_too_large: "That photo is too large. Please try a smaller photo.",
-  ocr_busy: "Many prescriptions are being read right now. Please try again in a minute.",
-  ocr_unavailable: "Prescription reading is unavailable right now. You can still search by name.",
-  ocr_failed: "We couldn’t read that photo. Try a clearer, well-lit photo of the prescription.",
-};
 
 function toDraft(item: PrescriptionItem, index: number): DraftItem {
   return {
@@ -48,6 +41,7 @@ function selectedOptions(items: DraftItem[]): MatchOption[] {
 }
 
 export function PrescriptionFlow() {
+  const t = useDict();
   const [step, setStepState] = useState<Step>({ kind: "upload", error: null });
   const [items, setItems] = useState<DraftItem[]>([]);
 
@@ -66,8 +60,8 @@ export function PrescriptionFlow() {
     } catch (error) {
       const message =
         error instanceof ApiError
-          ? (ERROR_MESSAGES[error.code] ?? error.message)
-          : "Something went wrong. Please try again.";
+          ? (t.prescription.errors[error.code] ?? error.message)
+          : t.prescription.unknownError;
       setStep({ kind: "upload", error: message });
     }
   }
@@ -84,8 +78,8 @@ export function PrescriptionFlow() {
       return (
         <div role="status" className="flex flex-col items-center gap-3 py-16 text-center">
           <Loader2 aria-hidden className="size-8 animate-spin text-primary" />
-          <p className="font-medium">Reading your prescription…</p>
-          <p className="text-sm text-muted-foreground">This usually takes 5–15 seconds.</p>
+          <p className="font-medium">{t.prescription.reading}</p>
+          <p className="text-sm text-muted-foreground">{t.prescription.readingTime}</p>
         </div>
       );
     case "confirm":

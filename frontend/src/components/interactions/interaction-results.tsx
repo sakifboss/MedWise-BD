@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { SeverityBadge } from "@/components/severity-badge";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { useDict } from "@/i18n/client";
 import type { FoundInteraction, InteractionCheckResponse, Severity } from "@/lib/api";
 import { cn } from "@/lib/utils";
 
@@ -15,20 +16,19 @@ const CARD_STYLES: Record<Severity, string> = {
 };
 
 function Summary({ data }: { data: InteractionCheckResponse }) {
+  const t = useDict();
   const counts = SEVERITY_ORDER.map((s) => [s, data.interactions.filter((i) => i.severity === s).length] as const)
     .filter(([, n]) => n > 0);
   const total = data.interactions.length;
   return (
     <div className="flex flex-wrap items-center gap-2">
       <p className="font-medium">
-        {total === 0
-          ? "No interactions recorded between these medicines"
-          : `${total} ${total === 1 ? "interaction" : "interactions"} found`}
+        {total === 0 ? t.interactions.noneRecorded : t.interactions.found(total)}
       </p>
       {counts.map(([severity, n]) => (
         <span key={severity} className="inline-flex items-center gap-1 text-sm">
           <SeverityBadge severity={severity} />
-          <span className="tabular-nums text-muted-foreground">×{n}</span>
+          <span className="tabular-nums text-muted-foreground">×{t.fmt.int(n)}</span>
         </span>
       ))}
     </div>
@@ -57,27 +57,26 @@ function InteractionCard({ interaction }: { interaction: FoundInteraction }) {
 }
 
 export function InteractionResults({ data }: { data: InteractionCheckResponse }) {
+  const copy = useDict().interactions;
   return (
     <div className="space-y-3">
       {data.duplicates.map((d) => (
         <Alert key={d.generic_id} className="border-amber-300 bg-amber-50 text-amber-950">
           <Copy aria-hidden />
-          <AlertTitle>Same medicine more than once</AlertTitle>
-          <AlertDescription className="text-amber-900">
-            {d.brands.join(" and ")} both contain {d.generic_name}.
-          </AlertDescription>
+          <AlertTitle>{copy.duplicateTitle}</AlertTitle>
+          <AlertDescription className="text-amber-900">{copy.duplicateText(d.brands, d.generic_name)}</AlertDescription>
         </Alert>
       ))}
 
       {data.medicines.length < 2 ? (
-        <p className="text-sm text-muted-foreground">Add at least two different medicines to check interactions.</p>
+        <p className="text-sm text-muted-foreground">{copy.addAtLeastTwo}</p>
       ) : (
         <>
           <Summary data={data} />
           {data.interactions.length > 0 && (
             <ul className="space-y-2">
-              {data.interactions.map((i) => (
-                <InteractionCard key={`${i.generic_a.id}-${i.generic_b.id}`} interaction={i} />
+              {data.interactions.map((x) => (
+                <InteractionCard key={`${x.generic_a.id}-${x.generic_b.id}`} interaction={x} />
               ))}
             </ul>
           )}
@@ -87,10 +86,10 @@ export function InteractionResults({ data }: { data: InteractionCheckResponse })
             ) : (
               <ShieldQuestion aria-hidden className="size-4 shrink-0" />
             )}
-            {data.note}
+            {copy.note}
           </p>
           <p className="text-xs text-muted-foreground">
-            Interaction data:{" "}
+            {copy.credit}{" "}
             <a
               href="https://ddinter.scbdd.com"
               target="_blank"
