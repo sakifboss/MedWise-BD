@@ -177,6 +177,10 @@ def _plural(count: float, word: str, plural: str | None = None) -> str:
 def _export_reason(m: ManufacturerFactors) -> str:
     if m.export_countries == 0 and m.regulated_market_exports == 0:
         return "No export record"
+    if m.export_countries == 0:
+        # Regulated markets are known but the total number of countries is not.
+        markets = _plural(m.regulated_market_exports, "regulated market")
+        return f"Exports to {markets} (total country count not available)"
     text = f"Exports to {_plural(m.export_countries, 'country', 'countries')}"
     if m.regulated_market_exports:
         text += f", including {_plural(m.regulated_market_exports, 'regulated market')}"
@@ -250,6 +254,9 @@ def _reasons_bn(candidate: BrandCandidate, min_price: Decimal, max_price: Decima
 
     if m.export_countries == 0 and m.regulated_market_exports == 0:
         export = "রপ্তানির কোনো তথ্য নেই"
+    elif m.export_countries == 0:
+        markets = _num_bn(m.regulated_market_exports)
+        export = f"{markets}টি নিয়ন্ত্রিত বাজারে রপ্তানি করে (মোট দেশের সংখ্যা জানা নেই)"
     else:
         export = f"{_num_bn(m.export_countries)}টি দেশে রপ্তানি করে"
         if m.regulated_market_exports:

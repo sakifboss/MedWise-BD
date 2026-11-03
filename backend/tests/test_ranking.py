@@ -284,3 +284,12 @@ def test_language_does_not_change_scores() -> None:
     assert [(r.candidate.brand_id, r.final_score) for r in en] == [
         (r.candidate.brand_id, r.final_score) for r in bn
     ]
+
+
+def test_known_regulated_markets_without_country_count() -> None:
+    m = replace(C, export_countries=0, regulated_market_exports=2)
+    en = rank_brands([brand(1, m, "1.00")], BOUNDS)[0].reasons
+    bn = rank_brands([brand(1, m, "1.00")], BOUNDS, lang="bn")[0].reasons
+    assert "Exports to 2 regulated markets (total country count not available)" in en
+    assert not any("0 countries" in r for r in en)
+    assert "২টি নিয়ন্ত্রিত বাজারে রপ্তানি করে (মোট দেশের সংখ্যা জানা নেই)" in bn
