@@ -26,5 +26,6 @@ class GenericDetail(BaseModel):
     dosage_forms: list[str]
     side_effects: list[str]
     precautions: list[str]
+    source_urls: list[str]
     presentations: list[Presentation]
     interactions: list[InteractionSummary]

@@ -6,7 +6,8 @@ The **only** data source for the database. Load with `cd backend && python scrip
 > **Manufacturer and quality files are real, sourced data** (collected 2026-11-03; see each
 > record's `source_urls` and each file's `meta.note`). `brands.json` holds real brands and
 > MRPs from Arogga (each row's `source_url`), built from `data/templates/brands_template.csv`.
-> `interactions.json` comes from DDInter (CC BY-NC-SA 4.0). `generics.json` is still SAMPLE data. See the main README, "Collecting real data".
+> `interactions.json` comes from DDInter (CC BY-NC-SA 4.0). `generics.json` text is condensed from
+> NHS medicine pages (cefixime: US FDA label on DailyMed); each record lists its `source_urls`. See the main README, "Collecting real data".
 
 To switch to official data, replace these files with new ones using the same format. No code changes are needed.
 

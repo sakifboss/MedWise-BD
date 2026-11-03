@@ -1,339 +1,459 @@
 {
   "meta": {
     "dataset": "generics",
-    "source": "SAMPLE",
-    "is_sample": true,
-    "sample_fields": [],
-    "note": "SAMPLE DATA for development and demo only. Not official DGDA data. All numeric values (none) are illustrative and must not be used for real decisions."
+    "source": "NHS website medicine pages (nhs.uk); Cefixime from its US FDA label on DailyMed. Each record lists its source_urls.",
+    "is_sample": false,
+    "note": "Condensed from the cited pages on 2026-11-03, keeping the source's wording. drug_class and dosage_forms are set by the MedWise BD team. Not medical advice."
   },
   "records": [
     {
       "name": "Paracetamol",
       "drug_class": "Analgesic and antipyretic",
       "indications": [
-        "Fever",
-        "Mild to moderate pain",
-        "Headache",
-        "Toothache"
+        "Headaches",
+        "Toothache",
+        "Sore throat",
+        "Joint swelling and stiffness",
+        "Symptoms of a cold or flu, such as a high temperature (fever)"
       ],
       "dosage_forms": [
         "tablet",
         "suspension"
       ],
       "side_effects": [
-        "Rarely skin rash",
-        "Liver damage in overdose"
+        "Side effects are rare when paracetamol is taken at the right dose",
+        "Serious (rare): an allergic reaction (anaphylaxis), such as a swollen throat or tongue, an itchy rash or difficulty breathing",
+        "Serious (rare): liver problems, such as feeling sick or yellowing of the skin or eyes (jaundice)",
+        "Serious (rare): a problem with blood cells, such as bruising easily and nosebleeds"
       ],
       "precautions": [
-        "Do not exceed the maximum daily dose",
-        "Use caution in liver disease or regular alcohol use",
-        "Avoid taking with other paracetamol-containing products"
+        "May not be suitable if you've had an allergic reaction to paracetamol before",
+        "May not be suitable if you have a kidney or liver condition",
+        "May not be suitable if you're dependent on alcohol or binge drink",
+        "If you're pregnant, paracetamol is usually the best painkiller to use"
+      ],
+      "source_urls": [
+        "https://www.nhs.uk/medicines/paracetamol-for-adults/"
       ]
     },
     {
       "name": "Ibuprofen",
       "drug_class": "Non-steroidal anti-inflammatory drug (NSAID)",
       "indications": [
-        "Pain",
-        "Fever",
-        "Inflammation",
-        "Dysmenorrhoea"
+        "Headaches and migraines",
+        "Joint and muscle pain",
+        "Pain after an injury",
+        "Toothache",
+        "Period pain"
       ],
       "dosage_forms": [
         "tablet"
       ],
       "side_effects": [
-        "Stomach upset",
-        "Heartburn",
-        "Nausea",
-        "Gastrointestinal bleeding"
+        "Indigestion and stomach aches",
+        "Feeling sick (nausea) or being sick (vomiting)",
+        "Headaches",
+        "A rash",
+        "Dizziness",
+        "Diarrhoea or constipation",
+        "Serious (rare): stomach ulcers or bleeding inside the stomach, such as vomiting blood or black, sticky poo",
+        "Serious (rare): a kidney problem, such as blood in your pee or swelling in your ankles, feet or hands"
       ],
       "precautions": [
-        "Take with food",
-        "Use caution with peptic ulcer, kidney disease or heart failure",
-        "Avoid in late pregnancy"
+        "May not be suitable if you've had an allergic reaction to ibuprofen, aspirin or another NSAID",
+        "May not be suitable if you have a stomach ulcer or have had one before",
+        "May not be suitable if you have asthma or allergies (such as hay fever)",
+        "May not be suitable if you have a heart, liver or kidney condition",
+        "May not be suitable if you have problems with blood clotting or have had a stroke",
+        "Avoid ibuprofen during pregnancy unless a doctor or pharmacist advises it"
+      ],
+      "source_urls": [
+        "https://www.nhs.uk/medicines/ibuprofen-for-adults/"
       ]
     },
     {
       "name": "Aspirin",
       "drug_class": "Antiplatelet agent (low dose)",
       "indications": [
-        "Prevention of heart attack and stroke",
-        "Secondary prevention after cardiovascular events"
+        "At a low, regular dose: to prevent blood clots and lower the chance of a heart attack or stroke"
       ],
       "dosage_forms": [
         "tablet"
       ],
       "side_effects": [
-        "Stomach irritation",
-        "Increased bleeding tendency",
-        "Gastrointestinal bleeding"
+        "Indigestion and stomach aches",
+        "Bleeding more easily than usual (for example, a cut may take longer to stop bleeding)",
+        "Serious (rare): stomach ulcers or bleeding inside the stomach, such as vomiting blood or black, tar-like poo",
+        "Serious (rare): shortness of breath or wheezing",
+        "Serious (rare): an allergic reaction (anaphylaxis)"
       ],
       "precautions": [
-        "Not for children under 16",
-        "Use caution with peptic ulcer or bleeding disorders",
-        "Inform doctor before surgery"
+        "May not be suitable if you've had an allergic reaction to aspirin, ibuprofen or another NSAID",
+        "May not be suitable if you have a stomach ulcer or have had one before",
+        "May not be suitable if you have asthma or heart failure",
+        "May not be suitable if you have a liver or kidney condition or problems with blood clotting",
+        "Tell your doctor if you're pregnant or get pregnant while taking low-dose aspirin"
+      ],
+      "source_urls": [
+        "https://www.nhs.uk/medicines/low-dose-aspirin/"
       ]
     },
     {
       "name": "Omeprazole",
       "drug_class": "Proton pump inhibitor",
       "indications": [
-        "Gastro-oesophageal reflux disease",
-        "Peptic ulcer",
-        "Helicobacter pylori eradication (with antibiotics)"
+        "Stomach ulcers",
+        "Heartburn",
+        "Gastro-oesophageal reflux disease (GORD)",
+        "The stomach infection Helicobacter pylori (along with antibiotics)"
       ],
       "dosage_forms": [
         "capsule"
       ],
       "side_effects": [
         "Headache",
-        "Diarrhoea",
-        "Abdominal pain",
-        "Nausea"
+        "Stomach pain",
+        "Feeling sick (nausea) or being sick (vomiting)",
+        "Constipation or diarrhoea",
+        "Farting more than usual",
+        "Serious (rare): a very low level of vitamin B12, causing tiredness, dizziness or muscle weakness",
+        "Serious (rare): weakened bones, which can break more easily (more likely with long-term use)"
       ],
       "precautions": [
-        "Long-term use may lower magnesium and vitamin B12",
-        "May reduce the effect of clopidogrel"
+        "May not be suitable if you've had an allergic reaction to omeprazole or another PPI",
+        "May not be suitable if you have a kidney or liver condition",
+        "May not be suitable if you have osteoporosis (weakened bones)",
+        "You can usually take omeprazole if you're pregnant, but check with a pharmacist or doctor first"
+      ],
+      "source_urls": [
+        "https://www.nhs.uk/medicines/omeprazole/"
       ]
     },
     {
       "name": "Esomeprazole",
       "drug_class": "Proton pump inhibitor",
       "indications": [
-        "Gastro-oesophageal reflux disease",
-        "Peptic ulcer",
-        "NSAID-associated ulcer prevention"
+        "Indigestion, heartburn and acid reflux, including gastro-oesophageal reflux disease (GORD)",
+        "Preventing and treating stomach ulcers"
       ],
       "dosage_forms": [
         "tablet"
       ],
       "side_effects": [
-        "Headache",
-        "Diarrhoea",
-        "Abdominal pain",
-        "Flatulence"
+        "Headaches",
+        "Feeling sick or being sick",
+        "Diarrhoea or constipation",
+        "Stomach pain",
+        "Farting (flatulence)",
+        "Serious (rare): yellow skin or eyes, pale poo or dark pee (possible liver problems)",
+        "Serious (rare): diarrhoea that is severe or does not go away"
       ],
       "precautions": [
-        "Long-term use may lower magnesium and vitamin B12",
-        "Use the lowest effective dose"
+        "Tell your doctor if you have ever had an allergic reaction to esomeprazole or any other medicine",
+        "Tell your doctor if you have liver problems",
+        "Tell your doctor if you are due to have an endoscopy",
+        "Tell your doctor if you are losing weight without trying, are vomiting blood, have blood in your poo or have problems swallowing"
+      ],
+      "source_urls": [
+        "https://www.nhs.uk/medicines/esomeprazole/"
       ]
     },
     {
       "name": "Pantoprazole",
       "drug_class": "Proton pump inhibitor",
       "indications": [
-        "Gastro-oesophageal reflux disease",
-        "Peptic ulcer",
-        "Zollinger-Ellison syndrome"
+        "Heartburn, acid reflux and gastro-oesophageal reflux disease (GORD)",
+        "Preventing and treating stomach ulcers"
       ],
       "dosage_forms": [
         "tablet"
       ],
       "side_effects": [
-        "Headache",
-        "Diarrhoea",
-        "Nausea"
+        "Most people have no side effects; uncommon ones include headaches, diarrhoea and feeling or being sick",
+        "Serious (rare): joint pain with a red skin rash, especially on skin exposed to the sun",
+        "Serious (rare): yellow skin or eyes or dark pee (possible liver problems)",
+        "Serious (rare): severe or persistent diarrhoea"
       ],
       "precautions": [
-        "Long-term use may lower magnesium and vitamin B12"
+        "Tell your doctor if you have ever had an allergic reaction to pantoprazole or any other medicine",
+        "Tell your doctor if you have liver problems or low levels of vitamin B12",
+        "Tell your doctor if you are pregnant, trying to get pregnant or breastfeeding",
+        "Tell your doctor if you are due to have an endoscopy"
+      ],
+      "source_urls": [
+        "https://www.nhs.uk/medicines/pantoprazole/"
       ]
     },
     {
       "name": "Amoxicillin",
       "drug_class": "Penicillin antibiotic",
       "indications": [
-        "Respiratory tract infections",
-        "Ear infections",
-        "Urinary tract infections",
-        "Dental infections"
+        "Bacterial infections, such as chest infections (including pneumonia) and dental abscesses",
+        "Ear infections and chest infections in children"
       ],
       "dosage_forms": [
         "capsule",
         "suspension"
       ],
       "side_effects": [
-        "Diarrhoea",
-        "Nausea",
         "Skin rash",
-        "Allergic reactions"
+        "Feeling sick (nausea)",
+        "Diarrhoea",
+        "Serious (rare): diarrhoea that contains blood or mucus, or severe diarrhoea",
+        "Serious (rare): yellow skin or eyes, pale poo and dark pee (possible liver problems)"
       ],
       "precautions": [
-        "Do not use if allergic to penicillin",
-        "Complete the full course"
+        "Tell your doctor if you have ever had an allergic reaction to amoxicillin or penicillin",
+        "Tell your doctor if you have liver or kidney problems",
+        "Tell your doctor if you have glandular fever (amoxicillin can cause a rash)",
+        "Tell your doctor if you are due to have blood or urine tests or any vaccinations"
+      ],
+      "source_urls": [
+        "https://www.nhs.uk/medicines/amoxicillin/"
       ]
     },
     {
       "name": "Azithromycin",
       "drug_class": "Macrolide antibiotic",
       "indications": [
-        "Respiratory tract infections",
+        "Chest infections such as pneumonia",
+        "Ear, nose and throat infections such as sinus infections (sinusitis)",
         "Skin infections",
-        "Typhoid fever",
-        "Sexually transmitted infections"
+        "Lyme disease",
+        "Some sexually transmitted infections (STIs)"
       ],
       "dosage_forms": [
         "tablet"
       ],
       "side_effects": [
+        "Feeling sick (nausea) or being sick (vomiting)",
         "Diarrhoea",
-        "Nausea",
-        "Abdominal pain"
+        "Losing your appetite",
+        "Headaches",
+        "Feeling dizzy or tired",
+        "Changes to your sense of taste",
+        "Serious (rare): a faster or irregular heartbeat (arrhythmia)",
+        "Serious (rare): yellow skin or eyes, or pale poo with dark pee"
       ],
       "precautions": [
-        "Use caution with heart rhythm problems (QT prolongation)",
-        "Use caution in liver disease",
-        "Complete the full course"
+        "Tell your doctor if you have ever had an allergic reaction to azithromycin or any other medicine",
+        "Tell your doctor if you have liver or kidney problems",
+        "Tell your doctor if you have heart problems, including an irregular heartbeat",
+        "Tell your doctor if you have myasthenia gravis"
+      ],
+      "source_urls": [
+        "https://www.nhs.uk/medicines/azithromycin/"
       ]
     },
     {
       "name": "Cefixime",
       "drug_class": "Third-generation cephalosporin antibiotic",
       "indications": [
-        "Urinary tract infections",
-        "Typhoid fever",
-        "Respiratory tract infections",
-        "Gonorrhoea"
+        "Uncomplicated urinary tract infections",
+        "Middle ear infections (otitis media)",
+        "Pharyngitis and tonsillitis",
+        "Acute exacerbations of chronic bronchitis",
+        "Uncomplicated gonorrhoea"
       ],
       "dosage_forms": [
         "capsule"
       ],
       "side_effects": [
-        "Diarrhoea",
+        "Diarrhoea or loose stools",
+        "Nausea",
         "Abdominal pain",
-        "Nausea"
+        "Indigestion (dyspepsia)",
+        "Flatulence",
+        "Serious (rare): severe allergic reactions (anaphylaxis); stop and get help if a reaction occurs",
+        "Serious (rare): Clostridioides difficile diarrhoea, which can range from mild diarrhoea to severe colitis"
       ],
       "precautions": [
-        "Use caution with penicillin allergy",
-        "Dose adjustment in kidney disease",
-        "Complete the full course"
+        "Do not use if you are allergic to cefixime or other cephalosporins",
+        "Use with caution if you are allergic to penicillin (cross-allergy can occur)",
+        "Tell your doctor if diarrhoea develops during or after treatment"
+      ],
+      "source_urls": [
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=068e6edd-a5fe-40d8-8dcf-ac82b78dced4"
       ]
     },
     {
       "name": "Ciprofloxacin",
       "drug_class": "Fluoroquinolone antibiotic",
       "indications": [
-        "Urinary tract infections",
-        "Gastrointestinal infections",
-        "Bone and joint infections"
+        "Urinary tract infections (UTIs), such as bladder or kidney infections",
+        "Sexually transmitted infections (STIs)",
+        "Ear or eye infections",
+        "Bone and joint infections",
+        "Infection of the prostate gland (prostatitis)"
       ],
       "dosage_forms": [
         "tablet"
       ],
       "side_effects": [
-        "Nausea",
+        "Feeling sick (nausea) or being sick (vomiting)",
+        "Headache",
         "Diarrhoea",
-        "Dizziness",
-        "Tendon pain"
+        "Eye discomfort or pain",
+        "Serious (rare): damage to tendons, causing sudden joint pain, swelling or difficulty walking",
+        "Serious (rare): numbness and tingling in the hands and feet (peripheral neuropathy)",
+        "Serious (rare): seizures (fits) or changes to mood"
       ],
       "precautions": [
-        "Risk of tendon rupture",
-        "Avoid taking with antacids, iron or dairy at the same time",
-        "Not routinely used in children"
+        "Tell your doctor if you've had an allergic reaction or serious side effect from ciprofloxacin or another fluoroquinolone",
+        "Tell your doctor if you have diabetes, epilepsy or another nervous system condition",
+        "Tell your doctor if you have a heart problem or a kidney condition",
+        "Tell your doctor if you have an abdominal aortic aneurysm, or a close relative has had one",
+        "Ciprofloxacin is not usually used during pregnancy; tell your doctor if you're pregnant"
+      ],
+      "source_urls": [
+        "https://www.nhs.uk/medicines/ciprofloxacin/"
       ]
     },
     {
       "name": "Metronidazole",
       "drug_class": "Nitroimidazole antimicrobial",
       "indications": [
-        "Amoebic dysentery",
-        "Giardiasis",
-        "Anaerobic bacterial infections",
-        "Bacterial vaginosis"
+        "Skin infections",
+        "Rosacea",
+        "Mouth infections, including infected gums and dental abscesses",
+        "Bacterial vaginosis",
+        "Pelvic inflammatory disease"
       ],
       "dosage_forms": [
         "tablet"
       ],
       "side_effects": [
-        "Metallic taste",
-        "Nausea",
-        "Headache",
-        "Dark urine"
+        "Feeling or being sick (nausea or vomiting)",
+        "Diarrhoea",
+        "A metallic taste in your mouth or a furry tongue",
+        "Serious (rare): yellow skin or eyes (possible liver problems)",
+        "Serious (rare): severe stomach pain that may reach through to your back (possible pancreatitis)",
+        "Serious (rare): blurred or double vision"
       ],
       "precautions": [
-        "Avoid alcohol during treatment and for 48 hours after",
-        "Use caution in liver disease"
+        "Tell your doctor if you have ever had an allergic reaction to metronidazole or any other medicine",
+        "Tell your doctor if you are pregnant or breastfeeding",
+        "Tell your doctor if you will not be able to stop drinking alcohol while using metronidazole",
+        "Tell your doctor if you have liver problems, a nervous system disease or are having dialysis"
+      ],
+      "source_urls": [
+        "https://www.nhs.uk/medicines/metronidazole/"
       ]
     },
     {
       "name": "Metformin",
       "drug_class": "Biguanide antidiabetic",
       "indications": [
-        "Type 2 diabetes mellitus"
+        "Type 2 diabetes (on its own or with other diabetes medicines)",
+        "Diabetes that develops during pregnancy (gestational diabetes)"
       ],
       "dosage_forms": [
         "tablet"
       ],
       "side_effects": [
-        "Nausea",
+        "Feeling sick (nausea) or being sick (vomiting)",
         "Diarrhoea",
-        "Abdominal discomfort",
-        "Metallic taste"
+        "Tummy pain",
+        "Loss of appetite",
+        "A change to the way things taste",
+        "Serious (rare): vitamin B12 deficiency, which can make you feel very tired"
       ],
       "precautions": [
-        "Take with meals",
-        "Not for use in severe kidney disease",
-        "Stop before iodinated contrast procedures if advised"
+        "May not be suitable if you've had an allergic reaction or serious side effect from metformin",
+        "May not be suitable if you have liver or kidney problems",
+        "May not be suitable if you have a severe infection or heart failure",
+        "May not be suitable if you drink a lot of alcohol",
+        "Tell your doctor if you're pregnant or get pregnant while taking metformin"
+      ],
+      "source_urls": [
+        "https://www.nhs.uk/medicines/metformin/"
       ]
     },
     {
       "name": "Gliclazide",
       "drug_class": "Sulfonylurea antidiabetic",
       "indications": [
-        "Type 2 diabetes mellitus"
+        "Type 2 diabetes"
       ],
       "dosage_forms": [
         "tablet"
       ],
       "side_effects": [
-        "Low blood sugar",
-        "Weight gain",
-        "Stomach upset"
+        "Stomach pain",
+        "Diarrhoea",
+        "Serious (rare): an allergic reaction (anaphylaxis)",
+        "Serious (rare): a problem with blood cells, such as bruising easily, a sore throat and a high temperature",
+        "Serious (rare): liver problems, such as yellowing of the skin or eyes"
       ],
       "precautions": [
-        "Do not skip meals",
-        "Use caution in elderly and kidney or liver disease"
+        "May not be suitable if you've had an allergic reaction or serious side effect from gliclazide or a similar medicine",
+        "May not be suitable if you have severe kidney or liver disease",
+        "May not be suitable if you have acute porphyria",
+        "Tell your doctor if you're pregnant or trying to get pregnant"
+      ],
+      "source_urls": [
+        "https://www.nhs.uk/medicines/gliclazide/"
       ]
     },
     {
       "name": "Amlodipine",
       "drug_class": "Calcium channel blocker",
       "indications": [
-        "Hypertension",
-        "Angina"
+        "High blood pressure (hypertension)",
+        "Preventing angina attacks"
       ],
       "dosage_forms": [
         "tablet"
       ],
       "side_effects": [
-        "Ankle swelling",
-        "Flushing",
-        "Headache",
-        "Dizziness"
+        "Swelling in your ankles, feet and legs (oedema)",
+        "Headaches, dizziness and feeling sleepy",
+        "A fast or noticeable heartbeat (palpitations)",
+        "A red and warm face or neck (flushing)",
+        "Tummy pain and feeling sick (nausea)",
+        "Feeling weak and tired (fatigue)",
+        "Serious (rare): an allergic reaction (anaphylaxis)",
+        "Serious (rare): swelling of the pancreas (acute pancreatitis), causing sudden severe tummy pain"
       ],
       "precautions": [
-        "Use caution in severe liver disease",
-        "Do not stop suddenly without advice"
+        "May not be suitable if you've had an allergic reaction or serious side effect from amlodipine or a similar medicine",
+        "May not be suitable if you have low blood pressure or heart failure",
+        "May not be suitable if you have had a recent heart attack or have heart valve disease",
+        "Tell your doctor if you're pregnant or get pregnant while taking amlodipine"
+      ],
+      "source_urls": [
+        "https://www.nhs.uk/medicines/amlodipine/"
       ]
     },
     {
       "name": "Losartan",
       "drug_class": "Angiotensin II receptor blocker",
       "indications": [
-        "Hypertension",
-        "Diabetic kidney disease"
+        "High blood pressure (hypertension)",
+        "Heart failure",
+        "Kidney disease caused by type 2 diabetes"
       ],
       "dosage_forms": [
         "tablet"
       ],
       "side_effects": [
         "Dizziness",
-        "High potassium",
-        "Tiredness"
+        "Tiredness",
+        "Headache",
+        "Tummy pain",
+        "Feeling sick (nausea) or being sick (vomiting)",
+        "Swelling in your legs, ankles or feet (oedema)",
+        "Serious (rare): an allergic reaction (anaphylaxis)",
+        "Serious (rare): a fast or irregular heartbeat"
       ],
       "precautions": [
-        "Do not use in pregnancy",
-        "Kidney function and potassium should be monitored"
+        "May not be suitable if you've had an allergic reaction to other ARB medicines",
+        "May not be suitable if you have severe heart failure or liver problems",
+        "May not be suitable if you've had angioedema (sudden swelling of parts of the body)",
+        "Losartan is not usually used during pregnancy; tell your doctor if you're pregnant or trying to get pregnant"
+      ],
+      "source_urls": [
+        "https://www.nhs.uk/medicines/losartan/"
       ]
     },
     {
@@ -341,103 +461,155 @@
       "drug_class": "HMG-CoA reductase inhibitor (statin)",
       "indications": [
         "High cholesterol",
-        "Prevention of cardiovascular disease"
+        "Preventing angina, heart attack and stroke in people with cardiovascular disease"
       ],
       "dosage_forms": [
         "tablet"
       ],
       "side_effects": [
-        "Muscle pain",
         "Headache",
-        "Digestive upset"
+        "Dizziness",
+        "Feeling sick (nausea)",
+        "Digestive problems, such as constipation, diarrhoea or indigestion",
+        "Muscle aches and swollen joints",
+        "Blocked or runny nose, or nosebleeds",
+        "Sleep problems",
+        "Serious (rare): muscle damage, causing cramps, severe pain and weakness",
+        "Serious (rare): inflammation of the liver (hepatitis) or pancreas (pancreatitis)"
       ],
       "precautions": [
-        "Report unexplained muscle pain or weakness",
-        "Do not use in pregnancy",
-        "Use caution in liver disease"
+        "May not be suitable if you've had an allergic reaction or serious side effect from atorvastatin or another statin",
+        "May not be suitable if you have liver or kidney problems, or an underactive thyroid",
+        "May not be suitable if you regularly drink a lot of alcohol",
+        "Atorvastatin is not recommended during pregnancy because it can affect how the baby develops"
+      ],
+      "source_urls": [
+        "https://www.nhs.uk/medicines/atorvastatin/"
       ]
     },
     {
       "name": "Clopidogrel",
       "drug_class": "Antiplatelet agent (P2Y12 inhibitor)",
       "indications": [
-        "Prevention of heart attack and stroke",
-        "After coronary stent placement"
+        "Preventing blood clots after a heart attack, unstable angina or a stroke or mini-stroke (TIA)",
+        "Peripheral arterial disease",
+        "Atrial fibrillation",
+        "After an operation on the heart or blood vessels, such as a coronary stent"
       ],
       "dosage_forms": [
         "tablet"
       ],
       "side_effects": [
-        "Bleeding",
-        "Bruising",
-        "Stomach upset"
+        "Bleeding more easily than normal",
+        "Diarrhoea",
+        "Stomach pain",
+        "Indigestion or heartburn",
+        "Serious (rare): blood in your pee, or black poo that looks like tar",
+        "Serious (rare): yellow skin or eyes (possible liver problems)"
       ],
       "precautions": [
-        "Inform doctor before surgery or dental work",
-        "Do not stop without advice after a stent"
+        "Tell your doctor if you have ever had an allergic reaction to clopidogrel or any other medicine",
+        "Tell your doctor if you have ever had a stomach ulcer or bleeding in your brain",
+        "Tell your doctor if you have a bleeding disorder, such as haemophilia",
+        "Tell your doctor if you have recently had surgery or a serious injury",
+        "Tell your doctor if you have liver or kidney problems, or are pregnant or breastfeeding"
+      ],
+      "source_urls": [
+        "https://www.nhs.uk/medicines/clopidogrel/"
       ]
     },
     {
       "name": "Warfarin",
       "drug_class": "Vitamin K antagonist anticoagulant",
       "indications": [
-        "Prevention of blood clots",
-        "Atrial fibrillation",
-        "Deep vein thrombosis",
-        "Pulmonary embolism"
+        "Treating and preventing blood clots, including deep vein thrombosis and pulmonary embolism",
+        "Reducing the risk of blood clots, for example with atrial fibrillation or a mechanical heart valve"
       ],
       "dosage_forms": [
         "tablet"
       ],
       "side_effects": [
-        "Bleeding",
-        "Bruising"
+        "The main side effect of warfarin is an increased risk of bleeding",
+        "Serious (rare): blood in your pee or poo, unexplained bruising or nosebleeds",
+        "Serious (rare): coughing up or vomiting blood",
+        "Serious (rare): a sudden bad headache with confusion or slurred speech (possible bleeding in the brain)"
       ],
       "precautions": [
-        "Needs regular INR monitoring",
-        "Many medicine and food interactions",
-        "Do not use in pregnancy"
+        "May not be suitable if you're allergic to warfarin",
+        "May not be suitable if you have liver or kidney problems or high blood pressure",
+        "May not be suitable if you've recently had a stroke or surgery, or are about to have surgery",
+        "May not be suitable if you have a condition that makes you bleed more easily, such as a stomach ulcer",
+        "Warfarin is not usually used during pregnancy as it can affect the baby's development"
+      ],
+      "source_urls": [
+        "https://www.nhs.uk/medicines/warfarin/"
       ]
     },
     {
       "name": "Montelukast",
       "drug_class": "Leukotriene receptor antagonist",
       "indications": [
-        "Asthma (maintenance)",
-        "Allergic rhinitis"
+        "Preventing the symptoms of asthma",
+        "Exercise-induced asthma",
+        "Seasonal allergies, such as sneezing and itchiness"
       ],
       "dosage_forms": [
         "tablet"
       ],
       "side_effects": [
-        "Headache",
-        "Abdominal pain",
-        "Mood or sleep changes"
+        "Diarrhoea",
+        "High temperature",
+        "Headaches",
+        "Stomach pain",
+        "Feeling or being sick",
+        "A mild rash",
+        "Serious (rare): mood changes, such as becoming anxious, depressed or aggressive",
+        "Serious (rare): seeing things that are not there (hallucinations)",
+        "Serious (rare): new or worse sleep problems, such as nightmares"
       ],
       "precautions": [
-        "Not for relief of an acute asthma attack",
-        "Report mood or behaviour changes"
+        "Tell your doctor if you have ever had an allergic reaction to montelukast or any other medicine",
+        "Tell your doctor if you have a rare hereditary problem of galactose intolerance",
+        "Do not use montelukast to treat an asthma attack; use a reliever inhaler"
+      ],
+      "source_urls": [
+        "https://www.nhs.uk/medicines/montelukast/"
       ]
     },
     {
       "name": "Cetirizine",
       "drug_class": "Second-generation antihistamine",
       "indications": [
-        "Allergic rhinitis",
-        "Urticaria",
-        "Itching"
+        "Hay fever",
+        "Conjunctivitis (red, itchy eye)",
+        "Eczema",
+        "Hives (urticaria)",
+        "Reactions to insect bites and stings",
+        "Some food allergies"
       ],
       "dosage_forms": [
         "tablet"
       ],
       "side_effects": [
-        "Drowsiness",
+        "Feeling sleepy or tired",
+        "Headaches",
         "Dry mouth",
-        "Headache"
+        "Feeling sick (nausea)",
+        "Feeling dizzy",
+        "Diarrhoea",
+        "Sore throat",
+        "Sneezing or blocked and runny nose",
+        "Serious (rare): a serious allergic reaction (anaphylaxis), such as sudden swelling of the lips, mouth or throat"
       ],
       "precautions": [
-        "May cause drowsiness; use caution when driving",
-        "Dose adjustment in kidney disease"
+        "Tell your doctor if you have ever had an allergic reaction to cetirizine or any other medicine",
+        "Tell your doctor if you have kidney failure",
+        "Tell your doctor if you have epilepsy or are at risk of seizures",
+        "Tell your doctor if you have difficulty peeing",
+        "Tell your doctor if you are due to have an allergy test"
+      ],
+      "source_urls": [
+        "https://www.nhs.uk/medicines/cetirizine/"
       ]
     }
   ]

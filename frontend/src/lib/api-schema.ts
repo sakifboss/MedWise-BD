@@ -239,6 +239,8 @@ export interface components {
             side_effects: string[];
             /** Precautions */
             precautions: string[];
+            /** Source Urls */
+            source_urls: string[];
             /** Presentations */
             presentations: components["schemas"]["Presentation"][];
             /** Interactions */

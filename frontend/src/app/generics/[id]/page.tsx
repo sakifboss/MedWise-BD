@@ -126,6 +126,20 @@ export default async function GenericPage(props: PageProps<"/generics/[id]">) {
       <Section title="Precautions">
         <BulletList items={generic.precautions} empty="Not recorded." />
       </Section>
+      {generic.source_urls.length > 0 && (
+        <p className="text-xs text-muted-foreground">
+          Medicine information from{" "}
+          {generic.source_urls.map((url, i) => (
+            <span key={url}>
+              {i > 0 && ", "}
+              <a href={url} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">
+                {new URL(url).hostname.replace(/^www\./, "")}
+              </a>
+            </span>
+          ))}
+          , condensed by MedWise BD.
+        </p>
+      )}
       <Section title="Interactions">
         <Interactions generic={generic} />
         <Link

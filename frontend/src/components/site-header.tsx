@@ -1,8 +1,6 @@
 import { Camera, Pill, ShieldAlert } from "lucide-react";
 import Link from "next/link";
 
-import { SampleDataBadge } from "@/components/sample-data-badge";
-
 const NAV = [
   { href: "/prescription", label: "Scan", icon: Camera },
   { href: "/interactions", label: "Interactions", icon: ShieldAlert },
@@ -30,9 +28,6 @@ export function SiteHeader() {
             </Link>
           ))}
         </nav>
-        <div className="ml-auto">
-          <SampleDataBadge />
-        </div>
       </div>
     </header>
   );

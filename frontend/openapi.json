@@ -647,6 +647,13 @@
             "type": "array",
             "title": "Precautions"
           },
+          "source_urls": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Source Urls"
+          },
           "presentations": {
             "items": {
               "$ref": "#/components/schemas/Presentation"
@@ -671,6 +678,7 @@
           "dosage_forms",
           "side_effects",
           "precautions",
+          "source_urls",
           "presentations",
           "interactions"
         ],

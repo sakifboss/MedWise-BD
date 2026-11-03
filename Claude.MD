@@ -4,9 +4,9 @@ Quality-first generic medicine recommender for Bangladesh.
 Input: a brand name or prescription photo. Output: same-generic, same-strength
 alternatives ranked by manufacturer quality (80%) and price (20%), with a reason for each rank.
 
-This is a competition MVP (deadline 2026-11-05). Manufacturer quality, brands, prices (Arogga MRP)
-and interactions (DDInter) are real and sourced; only generics.json is still SAMPLE (Roadmap step 0).
-Official DGDA data can replace any file later.
+This is a competition MVP (deadline 2026-11-05). All seed data is real and sourced: manufacturer
+quality (regulator/company pages), brands and prices (Arogga MRP), medicine information (NHS, FDA
+label for cefixime) and interactions (DDInter). Official DGDA data can replace any file later.
 
 ## Stack
 - frontend/: Next.js (App Router, TypeScript), Tailwind CSS, shadcn/ui
@@ -48,7 +48,7 @@ medwise-bd/
 
 ## Data model
 - manufacturers(id, name, stringent_approvals, export_countries, export_country_count, regulated_market_exports, compliance_score, recall_count, recall_data_available, market_share|null, years_active, source_urls)
-- generics(id, name, drug_class, indications, dosage_forms, side_effects, precautions)
+- generics(id, name, drug_class, indications, dosage_forms, side_effects, precautions, source_urls)
 - brands(id, name, generic_id, manufacturer_id, strength, dosage_form, price_per_unit, source_url)
 - interactions(id, generic_a_id, generic_b_id, severity[minor|moderate|major], description)
 
@@ -90,7 +90,7 @@ Final = 100 * (0.8*Q + 0.2*P)
 Work ONE step at a time: build -> tests, ruff, lint, typecheck, build -> commit + push -> verify the
 live deploy -> tick the box here -> stop for the user's review before starting the next step.
 
-- [ ] **0. Real generics.json.** Replace sample indications, side effects and precautions with
+- [x] **0. Real generics.json.** Replace sample indications, side effects and precautions with
   sourced text (public drug labels); add source links per generic, shown on the generic page.
   When no dataset is sample, the "Sample data" tag goes away.
 - [ ] **1. Savings calculator.** On the alternatives page the user enters how many units a day

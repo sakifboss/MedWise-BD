@@ -72,6 +72,7 @@ def get_generic(
         dosage_forms=generic.dosage_forms,
         side_effects=generic.side_effects,
         precautions=generic.precautions,
+        source_urls=generic.source_urls,
         presentations=_presentations(db, generic_id),
         interactions=_interactions(db, generic_id),
     )

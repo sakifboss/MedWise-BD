@@ -111,6 +111,9 @@ class GenericSeed(_SeedRow):
     dosage_forms: Annotated[list[DosageFormStr], Field(min_length=1)]
     side_effects: TextList = []
     precautions: TextList = []
+    source_urls: UrlList = Field(
+        default=[], description="Pages the medicine information comes from"
+    )
 
 
 class BrandSeed(_SeedRow):

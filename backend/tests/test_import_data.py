@@ -50,6 +50,8 @@ def test_shipped_seed_data_is_valid() -> None:
     # Manufacturer quality data is real (sourced), not sample.
     assert "manufacturers" not in result.sample_datasets
     assert "quality_factors" not in result.sample_datasets
+    # No dataset is sample any more.
+    assert result.sample_datasets == []
 
 
 def test_import_writes_all_rows(data_dir: Path, engine: Engine) -> None:
@@ -184,6 +186,13 @@ def test_unknown_regulator_is_rejected(data_dir: Path) -> None:
 
 def test_source_urls_must_be_links(data_dir: Path) -> None:
     _edit(data_dir, "quality_factors", lambda rows: rows[0].update(source_urls=["company site"]))
+    result = run_import(data_dir, engine=None, dry_run=True)
+    assert not result.ok
+    assert any("source_urls" in e for e in result.errors)
+
+
+def test_generic_source_urls_must_be_links(data_dir: Path) -> None:
+    _edit(data_dir, "generics", lambda rows: rows[0].update(source_urls=["NHS"]))
     result = run_import(data_dir, engine=None, dry_run=True)
     assert not result.ok
     assert any("source_urls" in e for e in result.errors)

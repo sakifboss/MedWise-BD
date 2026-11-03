@@ -83,6 +83,7 @@ def test_generic_detail(client: TestClient) -> None:
     data = _ok(client.get(f"/api/generics/{generic_id}"))
     assert data["name"] == "Warfarin"
     assert data["indications"]
+    assert data["source_urls"] == ["https://www.nhs.uk/medicines/warfarin/"]
     assert data["presentations"] == [
         {
             "strength": "5 mg",

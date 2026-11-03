@@ -19,5 +19,6 @@ class Generic(Base):
     dosage_forms: Mapped[list[str]] = mapped_column(JSON, default=list)
     side_effects: Mapped[list[str]] = mapped_column(JSON, default=list)
     precautions: Mapped[list[str]] = mapped_column(JSON, default=list)
+    source_urls: Mapped[list[str]] = mapped_column(JSON, default=list)
 
     brands: Mapped[list["Brand"]] = relationship(back_populates="generic")

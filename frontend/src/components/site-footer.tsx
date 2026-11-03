@@ -1,4 +1,7 @@
-import { SAMPLE_DATA_NOTE } from "@/components/sample-data-badge";
+const DATA_SOURCES_NOTE =
+  "Data: manufacturer quality from public regulator and company sources; prices are Arogga MRPs " +
+  "(Nov 2026); medicine information from the NHS website and US FDA labels; interactions from " +
+  "DDInter. Not official DGDA data.";
 
 export function SiteFooter() {
   return (
@@ -7,7 +10,7 @@ export function SiteFooter() {
         <p>
           MedWise BD compares medicines using its own database. It does not give medical advice.
         </p>
-        <p>{SAMPLE_DATA_NOTE}</p>
+        <p>{DATA_SOURCES_NOTE}</p>
       </div>
     </footer>
   );

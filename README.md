@@ -10,7 +10,8 @@ and dosage form, ranked by manufacturer quality (80%) and price (20%), with the 
 > **Data status.** Manufacturer quality data (stringent-regulator plant approvals, exports,
 > market share) is **real and sourced**: every manufacturer lists its `source_urls`. Brands and
 > prices are real MRPs from Arogga (checked 2026-11-03, each brand links its product page) and
-> interactions come from DDInter. Medicine details (`generics.json`) are still **sample data**. MedWise BD does not give medical
+> interactions come from DDInter. Medicine information (uses, side effects, precautions) is
+> condensed from the NHS website, and from the US FDA label for cefixime; each generic links its source. MedWise BD does not give medical
 > advice. Consult your doctor or pharmacist before changing any medicine.
 
 ## Features
