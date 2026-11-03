@@ -1,3 +1,5 @@
+import { MonthlyCost, SavingsCalculator } from "@/components/savings/savings-calculator";
+import { SavingsProvider } from "@/components/savings/savings-context";
 import { ScoreBar } from "@/components/score-bar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -136,6 +138,7 @@ function RankedCard({ item }: { item: RankedAlternative }) {
               </a>
             )}
           </p>
+          <MonthlyCost price={item.price_per_unit} isSelected={item.is_selected} />
         </div>
         <div className="text-right">
           <p className="text-2xl leading-none font-semibold tabular-nums">{item.final_score.toFixed(1)}</p>
@@ -160,16 +163,26 @@ function RankedCard({ item }: { item: RankedAlternative }) {
 }
 
 export function RankingList({ data }: { data: AlternativesResponse }) {
+  const selected = data.alternatives.find((a) => a.is_selected);
+  const options = data.alternatives.map(({ name, rank, price_per_unit, is_selected }) => ({
+    name,
+    rank,
+    price_per_unit,
+    is_selected,
+  }));
   return (
-    <section aria-label="Ranked brands" className="space-y-3">
-      <Summary data={data} />
-      <ol className="space-y-3">
-        {data.alternatives.map((item) => (
-          <li key={item.brand_id}>
-            <RankedCard item={item} />
-          </li>
-        ))}
-      </ol>
-    </section>
+    <SavingsProvider dosageForm={data.dosage_form} selectedPrice={selected?.price_per_unit ?? null}>
+      <section aria-label="Ranked brands" className="space-y-3">
+        <SavingsCalculator options={options} />
+        <Summary data={data} />
+        <ol className="space-y-3">
+          {data.alternatives.map((item) => (
+            <li key={item.brand_id}>
+              <RankedCard item={item} />
+            </li>
+          ))}
+        </ol>
+      </section>
+    </SavingsProvider>
   );
 }

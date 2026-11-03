@@ -93,13 +93,17 @@ live deploy -> tick the box here -> stop for the user's review before starting t
 - [x] **0. Real generics.json.** Replace sample indications, side effects and precautions with
   sourced text (public drug labels); add source links per generic, shown on the generic page.
   When no dataset is sample, the "Sample data" tag goes away.
-- [ ] **1. Savings calculator.** On the alternatives page the user enters how many units a day
+- [x] **1. Savings calculator.** On the alternatives page the user enters how many units a day
   their prescription says; each card shows monthly cost and "Save Tk X/month" vs their medicine.
   The app never suggests a dose; the number comes only from the user.
 - [ ] **2. Prescription cost summary.** After confirming scanned medicines: monthly total for the
   current brands vs best-quality picks vs cheapest picks (same generic, strength and form only).
-- [ ] **3. Bangla UI toggle.** All UI text in one en/bn dictionary, language kept in a cookie,
-  server components stay server-rendered. Medicine data from the DB is not translated.
+- [ ] **3. Bangla and English, everywhere.** Search already accepts Bangla. Add an en/bn toggle
+  (cookie) covering: all UI text (one dictionary), ranking `reasons` (backend templates per language),
+  and medicine information (`*_bn` fields in generics.json, entered through the seed import like all
+  data). Bangla medicine text is a translation drafted by Claude and approved line by line by a
+  Bangla-speaking team member; the page says it is translated and links the English source.
+  Brand and manufacturer names stay as printed on packs.
 - [ ] **4. Bangla voice search.** Mic button using the browser Web Speech API (`bn-BD`, then `en`);
   hidden when the browser does not support it. Audio is not sent to our backend or stored.
 - [ ] **5. Share for the pharmacist.** Share the chosen alternatives (WhatsApp / native share) and a
