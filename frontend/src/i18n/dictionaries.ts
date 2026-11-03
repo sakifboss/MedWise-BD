@@ -103,6 +103,15 @@ const en = {
     generic: "Generic",
     genericHint: "All brands, uses and interactions",
   },
+  voice: {
+    start: "Search by voice",
+    stop: "Stop listening",
+    listening:
+      "Listening… say a medicine name. Your browser turns speech into text; MedWise never receives the audio.",
+    denied: "Microphone access is blocked. Allow it in your browser settings to search by voice.",
+    noSpeech: "Didn’t hear anything. Tap the mic and say the medicine name.",
+    failed: "Voice search isn’t working right now. Please type the name instead.",
+  },
   alternatives: {
     title: (name: string) => `Alternatives to ${name}`,
   },
@@ -358,6 +367,15 @@ const bn: Dict = {
     resultsLabel: "খোঁজার ফলাফল",
     generic: "জেনেরিক",
     genericHint: "সব ব্র্যান্ড, ব্যবহার ও ইন্টারঅ্যাকশন",
+  },
+  voice: {
+    start: "কথা বলে খুঁজুন",
+    stop: "শোনা বন্ধ করুন",
+    listening:
+      "শুনছি… ওষুধের নাম বলুন। আপনার ব্রাউজার কথাকে লেখায় রূপান্তর করে; MedWise কোনো অডিও পায় না।",
+    denied: "মাইক্রোফোন ব্যবহারের অনুমতি বন্ধ আছে। কথা বলে খুঁজতে ব্রাউজারের সেটিংসে অনুমতি দিন।",
+    noSpeech: "কিছু শোনা যায়নি। মাইকে চাপ দিয়ে ওষুধের নাম বলুন।",
+    failed: "এই মুহূর্তে কথা বলে খোঁজা যাচ্ছে না। নামটি লিখে খুঁজুন।",
   },
   alternatives: {
     title: (name: string) => `${name}-এর বিকল্প`,

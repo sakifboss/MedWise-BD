@@ -7,6 +7,7 @@ import { useEffect, useId, useRef, useState } from "react";
 
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { VoiceSearchButton } from "@/components/voice-search-button";
 import type { Dict } from "@/i18n/dictionaries";
 import { useDict } from "@/i18n/client";
 import { api, type SearchResponse, type SearchResult } from "@/lib/api";
@@ -31,6 +32,7 @@ export function SearchBox() {
   const [query, setQuery] = useState("");
   const [state, setState] = useState<State>({ status: "idle" });
   const [active, setActive] = useState(-1);
+  const [voiceMessage, setVoiceMessage] = useState<string | null>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const inflight = useRef<AbortController | undefined>(undefined);
 
@@ -119,17 +121,23 @@ export function SearchBox() {
           onChange={(event) => onChange(event.target.value)}
           onKeyDown={onKeyDown}
           placeholder={t.search.placeholder}
-          className="h-12 rounded-xl pr-10 pl-11 text-base shadow-sm"
+          className="h-12 rounded-xl pr-20 pl-11 text-base shadow-sm"
         />
         {state.status === "loading" && (
           <Loader2
             aria-label={t.search.searching}
-            className="absolute top-1/2 right-3.5 size-5 -translate-y-1/2 animate-spin text-muted-foreground"
+            className="absolute top-1/2 right-12 size-5 -translate-y-1/2 animate-spin text-muted-foreground"
           />
         )}
+        <VoiceSearchButton
+          onTranscript={(text) => onChange(text)}
+          onMessage={setVoiceMessage}
+          className="absolute top-1/2 right-1.5 -translate-y-1/2"
+        />
       </div>
 
       <div aria-live="polite" className="text-sm text-muted-foreground">
+        {voiceMessage && <p>{voiceMessage}</p>}
         {state.status === "error" && (
           <p className="text-destructive">{t.search.error}</p>
         )}

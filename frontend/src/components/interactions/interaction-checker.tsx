@@ -6,6 +6,7 @@ import { useRef, useState } from "react";
 import { InteractionPanel } from "@/components/interactions/interaction-panel";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { VoiceSearchButton } from "@/components/voice-search-button";
 import { useDict } from "@/i18n/client";
 import { api, type SearchResult } from "@/lib/api";
 
@@ -85,8 +86,15 @@ export function InteractionChecker({ initial }: { initial: PickedMedicine[] }) {
             autoComplete="off"
             value={query}
             onChange={(event) => onChange(event.target.value)}
-            className="h-12 rounded-xl pl-11 text-base"
+            className="h-12 rounded-xl pr-12 pl-11 text-base"
           />
+          {!full && (
+            <VoiceSearchButton
+              onTranscript={(text) => onChange(text)}
+              onMessage={setMessage}
+              className="absolute top-1/2 right-1.5 -translate-y-1/2"
+            />
+          )}
         </div>
         {message && <p className="text-sm text-muted-foreground">{message}</p>}
         {results.length > 0 && (
