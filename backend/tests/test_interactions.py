@@ -66,7 +66,8 @@ def test_mixed_brands_and_generics_sorted_by_severity(client: TestClient) -> Non
     )
     assert pairs(data) == [
         ("Metronidazole", "Warfarin", "major"),
-        ("Amlodipine", "Atorvastatin", "minor"),
+        ("Atorvastatin", "Metronidazole", "moderate"),
+        ("Atorvastatin", "Warfarin", "minor"),
     ]
     assert data["pairs_checked"] == 6  # 4 medicines
 

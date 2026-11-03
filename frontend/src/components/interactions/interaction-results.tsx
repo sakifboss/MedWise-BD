@@ -89,6 +89,18 @@ export function InteractionResults({ data }: { data: InteractionCheckResponse })
             )}
             {data.note}
           </p>
+          <p className="text-xs text-muted-foreground">
+            Interaction data:{" "}
+            <a
+              href="https://ddinter.scbdd.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline underline-offset-2"
+            >
+              DDInter
+            </a>{" "}
+            (CC BY-NC-SA 4.0).
+          </p>
         </>
       )}
     </div>

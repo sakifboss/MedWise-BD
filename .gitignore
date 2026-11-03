@@ -20,3 +20,6 @@ node_modules/
 .DS_Store
 Thumbs.db
 .vscode/
+
+# Raw downloads (e.g. DDInter); only the extracted seed files are committed
+data/raw/

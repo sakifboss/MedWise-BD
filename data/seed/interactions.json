@@ -1,103 +1,256 @@
 {
   "meta": {
     "dataset": "interactions",
-    "source": "SAMPLE",
-    "is_sample": true,
-    "sample_fields": [
-      "severity"
-    ],
-    "note": "SAMPLE DATA for development and demo only. Not official DGDA data. All numeric values (severity) are illustrative and must not be used for real decisions."
+    "source": "DDInter (https://ddinter.scbdd.com), CC BY-NC-SA 4.0",
+    "is_sample": false,
+    "note": "Severity levels from DDInter. Descriptions are generic per severity level."
   },
   "records": [
     {
-      "generic_a": "Warfarin",
-      "generic_b": "Aspirin",
-      "severity": "major",
-      "description": "Taking both greatly increases the risk of serious bleeding."
-    },
-    {
-      "generic_a": "Warfarin",
+      "generic_a": "Aspirin",
       "generic_b": "Ibuprofen",
       "severity": "major",
-      "description": "NSAIDs increase bleeding risk and may irritate the stomach lining while on warfarin."
+      "description": "DDInter lists this as a major interaction. Do not take these together unless a doctor has said it is safe."
     },
     {
-      "generic_a": "Warfarin",
-      "generic_b": "Ciprofloxacin",
+      "generic_a": "Aspirin",
+      "generic_b": "Warfarin",
       "severity": "major",
-      "description": "Ciprofloxacin can raise warfarin levels and INR, increasing bleeding risk."
+      "description": "DDInter lists this as a major interaction. Do not take these together unless a doctor has said it is safe."
     },
     {
-      "generic_a": "Warfarin",
-      "generic_b": "Metronidazole",
+      "generic_a": "Ciprofloxacin",
+      "generic_b": "Warfarin",
       "severity": "major",
-      "description": "Metronidazole strongly increases the effect of warfarin; INR can rise sharply."
+      "description": "DDInter lists this as a major interaction. Do not take these together unless a doctor has said it is safe."
     },
     {
-      "generic_a": "Warfarin",
-      "generic_b": "Azithromycin",
-      "severity": "moderate",
-      "description": "Azithromycin may increase INR in some patients; closer INR monitoring may be needed."
-    },
-    {
-      "generic_a": "Warfarin",
-      "generic_b": "Paracetamol",
-      "severity": "moderate",
-      "description": "Regular or high-dose paracetamol can raise INR; occasional use is generally considered lower risk."
+      "generic_a": "Clopidogrel",
+      "generic_b": "Esomeprazole",
+      "severity": "major",
+      "description": "DDInter lists this as a major interaction. Do not take these together unless a doctor has said it is safe."
     },
     {
       "generic_a": "Clopidogrel",
       "generic_b": "Omeprazole",
       "severity": "major",
-      "description": "Omeprazole can reduce activation of clopidogrel and lower its antiplatelet effect."
+      "description": "DDInter lists this as a major interaction. Do not take these together unless a doctor has said it is safe."
     },
     {
       "generic_a": "Clopidogrel",
-      "generic_b": "Esomeprazole",
-      "severity": "moderate",
-      "description": "Esomeprazole may reduce the antiplatelet effect of clopidogrel."
+      "generic_b": "Warfarin",
+      "severity": "major",
+      "description": "DDInter lists this as a major interaction. Do not take these together unless a doctor has said it is safe."
     },
     {
-      "generic_a": "Clopidogrel",
-      "generic_b": "Aspirin",
-      "severity": "moderate",
-      "description": "Combined antiplatelet therapy increases bleeding risk; often prescribed together on purpose under supervision."
+      "generic_a": "Ibuprofen",
+      "generic_b": "Warfarin",
+      "severity": "major",
+      "description": "DDInter lists this as a major interaction. Do not take these together unless a doctor has said it is safe."
     },
     {
-      "generic_a": "Aspirin",
-      "generic_b": "Ibuprofen",
-      "severity": "moderate",
-      "description": "Ibuprofen may reduce the heart-protective effect of low-dose aspirin and adds to stomach bleeding risk."
-    },
-    {
-      "generic_a": "Losartan",
-      "generic_b": "Ibuprofen",
-      "severity": "moderate",
-      "description": "NSAIDs can reduce the blood-pressure-lowering effect of losartan and may affect kidney function."
-    },
-    {
-      "generic_a": "Metformin",
-      "generic_b": "Ciprofloxacin",
-      "severity": "moderate",
-      "description": "Ciprofloxacin can cause unpredictable changes in blood sugar in people taking diabetes medicines."
-    },
-    {
-      "generic_a": "Gliclazide",
-      "generic_b": "Ciprofloxacin",
-      "severity": "moderate",
-      "description": "Ciprofloxacin may increase the blood-sugar-lowering effect of gliclazide, risking hypoglycaemia."
-    },
-    {
-      "generic_a": "Atorvastatin",
-      "generic_b": "Azithromycin",
-      "severity": "minor",
-      "description": "Rare reports of muscle problems when combined; report unexplained muscle pain."
+      "generic_a": "Metronidazole",
+      "generic_b": "Warfarin",
+      "severity": "major",
+      "description": "DDInter lists this as a major interaction. Do not take these together unless a doctor has said it is safe."
     },
     {
       "generic_a": "Amlodipine",
-      "generic_b": "Atorvastatin",
+      "generic_b": "Aspirin",
+      "severity": "moderate",
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+    },
+    {
+      "generic_a": "Amlodipine",
+      "generic_b": "Ibuprofen",
+      "severity": "moderate",
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+    },
+    {
+      "generic_a": "Amoxicillin",
+      "generic_b": "Warfarin",
+      "severity": "moderate",
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+    },
+    {
+      "generic_a": "Aspirin",
+      "generic_b": "Ciprofloxacin",
+      "severity": "moderate",
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+    },
+    {
+      "generic_a": "Aspirin",
+      "generic_b": "Clopidogrel",
+      "severity": "moderate",
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+    },
+    {
+      "generic_a": "Aspirin",
+      "generic_b": "Losartan",
+      "severity": "moderate",
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+    },
+    {
+      "generic_a": "Atorvastatin",
+      "generic_b": "Clopidogrel",
+      "severity": "moderate",
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+    },
+    {
+      "generic_a": "Atorvastatin",
+      "generic_b": "Esomeprazole",
+      "severity": "moderate",
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+    },
+    {
+      "generic_a": "Atorvastatin",
+      "generic_b": "Metronidazole",
+      "severity": "moderate",
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+    },
+    {
+      "generic_a": "Atorvastatin",
+      "generic_b": "Omeprazole",
+      "severity": "moderate",
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+    },
+    {
+      "generic_a": "Atorvastatin",
+      "generic_b": "Pantoprazole",
+      "severity": "moderate",
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+    },
+    {
+      "generic_a": "Azithromycin",
+      "generic_b": "Warfarin",
+      "severity": "moderate",
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+    },
+    {
+      "generic_a": "Cefixime",
+      "generic_b": "Warfarin",
+      "severity": "moderate",
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+    },
+    {
+      "generic_a": "Ciprofloxacin",
+      "generic_b": "Ibuprofen",
+      "severity": "moderate",
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+    },
+    {
+      "generic_a": "Ciprofloxacin",
+      "generic_b": "Metformin",
+      "severity": "moderate",
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+    },
+    {
+      "generic_a": "Clopidogrel",
+      "generic_b": "Ibuprofen",
+      "severity": "moderate",
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+    },
+    {
+      "generic_a": "Clopidogrel",
+      "generic_b": "Pantoprazole",
+      "severity": "moderate",
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+    },
+    {
+      "generic_a": "Esomeprazole",
+      "generic_b": "Warfarin",
+      "severity": "moderate",
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+    },
+    {
+      "generic_a": "Ibuprofen",
+      "generic_b": "Losartan",
+      "severity": "moderate",
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+    },
+    {
+      "generic_a": "Ibuprofen",
+      "generic_b": "Metformin",
+      "severity": "moderate",
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+    },
+    {
+      "generic_a": "Metformin",
+      "generic_b": "Warfarin",
+      "severity": "moderate",
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+    },
+    {
+      "generic_a": "Metronidazole",
+      "generic_b": "Montelukast",
+      "severity": "moderate",
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+    },
+    {
+      "generic_a": "Omeprazole",
+      "generic_b": "Warfarin",
+      "severity": "moderate",
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+    },
+    {
+      "generic_a": "Pantoprazole",
+      "generic_b": "Warfarin",
+      "severity": "moderate",
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+    },
+    {
+      "generic_a": "Paracetamol",
+      "generic_b": "Warfarin",
+      "severity": "moderate",
+      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed."
+    },
+    {
+      "generic_a": "Amoxicillin",
+      "generic_b": "Azithromycin",
       "severity": "minor",
-      "description": "Amlodipine may slightly increase atorvastatin levels; usually not clinically significant."
+      "description": "DDInter lists this as a minor interaction. Tell your doctor or pharmacist that you take both."
+    },
+    {
+      "generic_a": "Aspirin",
+      "generic_b": "Esomeprazole",
+      "severity": "minor",
+      "description": "DDInter lists this as a minor interaction. Tell your doctor or pharmacist that you take both."
+    },
+    {
+      "generic_a": "Aspirin",
+      "generic_b": "Omeprazole",
+      "severity": "minor",
+      "description": "DDInter lists this as a minor interaction. Tell your doctor or pharmacist that you take both."
+    },
+    {
+      "generic_a": "Aspirin",
+      "generic_b": "Pantoprazole",
+      "severity": "minor",
+      "description": "DDInter lists this as a minor interaction. Tell your doctor or pharmacist that you take both."
+    },
+    {
+      "generic_a": "Atorvastatin",
+      "generic_b": "Warfarin",
+      "severity": "minor",
+      "description": "DDInter lists this as a minor interaction. Tell your doctor or pharmacist that you take both."
+    },
+    {
+      "generic_a": "Azithromycin",
+      "generic_b": "Metronidazole",
+      "severity": "minor",
+      "description": "DDInter lists this as a minor interaction. Tell your doctor or pharmacist that you take both."
+    },
+    {
+      "generic_a": "Ciprofloxacin",
+      "generic_b": "Metronidazole",
+      "severity": "minor",
+      "description": "DDInter lists this as a minor interaction. Tell your doctor or pharmacist that you take both."
+    },
+    {
+      "generic_a": "Ciprofloxacin",
+      "generic_b": "Omeprazole",
+      "severity": "minor",
+      "description": "DDInter lists this as a minor interaction. Tell your doctor or pharmacist that you take both."
     }
   ]
 }

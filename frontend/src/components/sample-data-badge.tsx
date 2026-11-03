@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 
 export const SAMPLE_DATA_NOTE =
-  "Prices, quality values and interactions are sample data, not official DGDA data.";
+  "Brand names, prices and medicine details are sample data, not official DGDA data.";
 
 export function SampleDataBadge() {
   return (

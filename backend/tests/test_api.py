@@ -93,7 +93,7 @@ def test_generic_detail(client: TestClient) -> None:
         }
     ]
     severities = [i["severity"] for i in data["interactions"]]
-    assert len(severities) == 6
+    assert len(severities) == 14
     assert severities == sorted(severities, key=["major", "moderate", "minor"].index)
     assert "Warfarin" not in {i["generic_name"] for i in data["interactions"]}
 
@@ -103,7 +103,17 @@ def test_generic_interactions_found_from_either_side(client: TestClient) -> None
     names = {
         i["generic_name"] for i in _ok(client.get(f"/api/generics/{generic_id}"))["interactions"]
     }
-    assert names == {"Warfarin", "Clopidogrel", "Ibuprofen"}
+    assert names == {
+        "Amlodipine",
+        "Ciprofloxacin",
+        "Clopidogrel",
+        "Esomeprazole",
+        "Ibuprofen",
+        "Losartan",
+        "Omeprazole",
+        "Pantoprazole",
+        "Warfarin",
+    }
 
 
 def test_generic_not_found(client: TestClient) -> None:
