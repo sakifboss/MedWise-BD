@@ -98,15 +98,14 @@ live deploy -> tick the box here -> stop for the user's review before starting t
   The app never suggests a dose; the number comes only from the user.
 - [x] **2. Prescription cost summary.** After confirming scanned medicines: monthly total for the
   current brands vs best-quality picks vs cheapest picks (same generic, strength and form only).
-- [ ] **3. Bangla and English, everywhere.** Search already accepts Bangla. Add an en/bn toggle
+- [x] **3. Bangla and English, everywhere.** Search already accepts Bangla. Add an en/bn toggle
   (cookie) covering: all UI text (one dictionary), ranking `reasons` (backend templates per language),
   and medicine information (`*_bn` fields in generics.json, entered through the seed import like all
   data). Bangla medicine text is a translation drafted by Claude and approved line by line by a
   Bangla-speaking team member; the page says it is translated and links the English source.
   Brand and manufacturer names stay as printed on packs.
-  Status: UI (3a) and reasons/interactions (3b) done. Medicine text (3c) is built: drafts are in
-  data/templates/generics_bn.csv, waiting for the team's review (`approved` column), then
-  `build_generics_bn.py apply`. Tick this box when the review is applied.
+  Done 2026-11-04: all 304 lines of generics_bn.csv approved by the team and applied. When
+  English medicine text changes, run `build_generics_bn.py export`, re-review, then `apply`.
 - [ ] **4. Bangla voice search.** Mic button using the browser Web Speech API (`bn-BD`, then `en`);
   hidden when the browser does not support it. Audio is not sent to our backend or stored.
 - [ ] **5. Share for the pharmacist.** Share the chosen alternatives (WhatsApp / native share) and a
