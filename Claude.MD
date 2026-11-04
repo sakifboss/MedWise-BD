@@ -132,7 +132,7 @@ git history, non-root Docker images, Next.js patched to 16.4.2.
   `frontend/src/proxy.ts`, plus frame-ancestors/X-Frame-Options, nosniff, Referrer-Policy,
   Permissions-Policy (microphone for voice search only), no X-Powered-By. Backend: nosniff,
   frame denial and a locked-down CSP on API responses (not on /docs).
-- [ ] **S2. Only our frontend may call the prescription endpoint.** The Next proxy adds a secret
+- [x] **S2. Only our frontend may call the prescription endpoint.** The Next proxy adds a secret
   header (`FRONTEND_SHARED_SECRET`, set on Vercel and Render) to /api/prescription; the backend
   rejects OCR requests without it, so nobody can drain the Gemini quota by calling Render directly.
 - [ ] **S3. Rate limits on search and interactions,** generous for people, blocking floods.

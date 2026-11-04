@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 from app.core.config import get_settings
 from app.core.db import get_db
 from app.core.errors import AppError
+from app.core.frontend_auth import require_frontend
 from app.core.rate_limit import RateLimiter, client_key
 from app.schemas.common import Envelope
 from app.schemas.prescription import MatchOptionOut, PrescriptionItem, PrescriptionResponse
@@ -75,7 +76,8 @@ def _to_item(match: PrescriptionMatch) -> PrescriptionItem:
 @router.post(
     "/prescription",
     response_model=Envelope[PrescriptionResponse],
-    dependencies=[Depends(enforce_rate_limit)],
+    # The frontend check runs first, so direct calls never count against the rate limits.
+    dependencies=[Depends(require_frontend), Depends(enforce_rate_limit)],
 )
 def read_prescription(
     image: Annotated[UploadFile, File(description="Photo of the prescription")],

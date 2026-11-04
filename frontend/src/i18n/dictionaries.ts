@@ -288,6 +288,7 @@ const en = {
       ocr_busy: "Many prescriptions are being read right now. Please try again in a minute.",
       ocr_unavailable: "Prescription reading is unavailable right now. You can still search by name.",
       ocr_failed: "We couldn’t read that photo. Try a clearer, well-lit photo of the prescription.",
+      forbidden: "Prescription reading is unavailable right now. You can still search by name.",
     } as Record<string, string>,
     unknownError: "Something went wrong. Please try again.",
     upload: {
@@ -645,6 +646,7 @@ const bn: Dict = {
       ocr_busy: "এখন অনেক প্রেসক্রিপশন পড়া হচ্ছে। এক মিনিট পর আবার চেষ্টা করুন।",
       ocr_unavailable: "এই মুহূর্তে প্রেসক্রিপশন পড়া যাচ্ছে না। আপনি নাম দিয়ে খুঁজতে পারেন।",
       ocr_failed: "ছবিটি পড়া যায়নি। আরও পরিষ্কার, ভালো আলোতে তোলা ছবি দিন।",
+      forbidden: "এই মুহূর্তে প্রেসক্রিপশন পড়া যাচ্ছে না। আপনি নাম দিয়ে খুঁজতে পারেন।",
     },
     unknownError: "কিছু একটা সমস্যা হয়েছে। আবার চেষ্টা করুন।",
     upload: {

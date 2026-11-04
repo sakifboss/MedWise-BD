@@ -175,3 +175,55 @@ def test_upload_is_not_written_to_disk(
 )
 def test_detect_image_type(data: bytes, expected: str | None) -> None:
     assert detect_image_type(data) == expected
+
+
+# ---------------------------------------------------------------- only our frontend may call OCR
+
+SECRET = "s3cret-value-for-tests"
+
+
+@pytest.fixture
+def locked(monkeypatch: pytest.MonkeyPatch) -> None:
+    from app.core.config import get_settings
+
+    monkeypatch.setattr(get_settings(), "frontend_shared_secret", SECRET)
+
+
+def _upload_with(client: TestClient, header: str | None):
+    headers = {"X-MedWise-Frontend": header} if header is not None else {}
+    return client.post(
+        "/api/prescription", files={"image": ("rx.jpg", JPEG, "image/jpeg")}, headers=headers
+    )
+
+
+@pytest.mark.parametrize("header", [None, "", "wrong", SECRET + "x"])
+def test_direct_calls_without_the_secret_are_rejected(
+    client: TestClient, ocr: FakeOcr, locked: None, header: str | None
+) -> None:
+    response = _upload_with(client, header)
+    assert response.status_code == 403
+    assert response.json()["error"]["code"] == "forbidden"
+    assert ocr.calls == []  # Gemini is never reached
+
+
+def test_rejected_calls_do_not_use_up_the_rate_limits(
+    client: TestClient, ocr: FakeOcr, locked: None
+) -> None:
+    from app.api.prescription import global_limiter, per_client_limiter
+
+    for _ in range(25):
+        assert _upload_with(client, "wrong").status_code == 403
+    assert not per_client_limiter._hits and not global_limiter._hits
+    assert _upload_with(client, SECRET).status_code == 200
+
+
+def test_frontend_with_the_secret_is_served(client: TestClient, ocr: FakeOcr, locked: None) -> None:
+    ocr.medicines.append(ExtractedMedicine("Napa", "500mg"))
+    response = _upload_with(client, SECRET)
+    assert response.status_code == 200
+    assert len(ocr.calls) == 1
+    assert client.get("/api/health").json()["data"]["frontend_secret"] == "set"
+
+
+def test_no_secret_configured_keeps_working(client: TestClient, ocr: FakeOcr) -> None:
+    assert _upload_with(client, None).status_code == 200

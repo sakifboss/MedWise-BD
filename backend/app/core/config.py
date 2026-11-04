@@ -29,9 +29,12 @@ class Settings(BaseSettings):
     prescription_limit_per_hour: int = 10
     prescription_limit_per_day: int = 300
     cors_origins: str = "http://localhost:3000"
+    # Shared with the frontend (same value on Vercel and Render). When set, prescription uploads
+    # must carry it, so only our website can spend the Gemini quota. Empty: no check (local dev).
+    frontend_shared_secret: str = ""
     seed_dir: Path = REPO_DIR / "data" / "seed"
 
-    @field_validator("gemini_api_key")
+    @field_validator("gemini_api_key", "frontend_shared_secret")
     @classmethod
     def _clean_key(cls, key: str) -> str:
         """Drop whitespace/quotes that sneak in when pasting into hosting dashboards."""

@@ -30,6 +30,8 @@ services:
       # Overrides any DATABASE_URL in backend/.env, so a production URL there is never used.
       DATABASE_URL: postgresql+psycopg://medwise:medwise@db:5432/medwise
       CORS_ORIGINS: http://localhost:3000
+      # Only the frontend container (same value below) may call prescription reading.
+      FRONTEND_SHARED_SECRET: ${FRONTEND_SHARED_SECRET:-local-docker-secret}
     depends_on:
       db:
         condition: service_healthy
@@ -48,6 +50,7 @@ services:
         API_URL: http://backend:8000
     environment:
       API_URL: http://backend:8000
+      FRONTEND_SHARED_SECRET: ${FRONTEND_SHARED_SECRET:-local-docker-secret}
     depends_on:
       backend:
         condition: service_healthy

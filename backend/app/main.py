@@ -68,7 +68,15 @@ def create_app() -> FastAPI:
     @app.get("/api/health", response_model=Envelope[dict[str, str]], tags=["health"])
     def health(db: Annotated[Session, Depends(get_db)]) -> Envelope[dict[str, str]]:
         db.execute(text("SELECT 1"))
-        return Envelope(data={"status": "ok", "database": "ok", "version": settings.version})
+        return Envelope(
+            data={
+                "status": "ok",
+                "database": "ok",
+                "version": settings.version,
+                # Whether OCR is locked to our frontend (never the secret itself).
+                "frontend_secret": "set" if settings.frontend_shared_secret else "not set",
+            }
+        )
 
     return app
 

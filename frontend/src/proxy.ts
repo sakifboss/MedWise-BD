@@ -28,7 +28,24 @@ function contentSecurityPolicy(nonce: string, https: boolean): string {
   ].join("; ");
 }
 
+/** Must match backend/app/core/frontend_auth.py. */
+const FRONTEND_SECRET_HEADER = "x-medwise-frontend";
+
+/**
+ * Prescription uploads go to the backend through the /api rewrite. Add the shared secret here, on
+ * the server, so the backend can tell our website from direct calls; the browser never sees it.
+ */
+function withFrontendSecret(request: NextRequest): NextResponse {
+  const headers = new Headers(request.headers);
+  headers.delete(FRONTEND_SECRET_HEADER); // never pass on a value the client sent
+  const secret = process.env.FRONTEND_SHARED_SECRET?.trim();
+  if (secret) headers.set(FRONTEND_SECRET_HEADER, secret);
+  return NextResponse.next({ request: { headers } });
+}
+
 export function proxy(request: NextRequest) {
+  if (request.nextUrl.pathname === "/api/prescription") return withFrontendSecret(request);
+
   const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
   const csp = contentSecurityPolicy(nonce, request.nextUrl.protocol === "https:");
 
@@ -43,6 +60,7 @@ export function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
+    "/api/prescription",
     {
       // Pages only: not the API (proxied to the backend), build assets, icons, the service worker,
       // the manifest or the static offline page.
