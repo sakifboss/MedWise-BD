@@ -1,9 +1,36 @@
-fastapi>=0.115
-httpx>=0.27
-uvicorn[standard]>=0.30
-sqlalchemy>=2.0
-pydantic>=2.7
-pydantic-settings>=2.3
-psycopg[binary]>=3.2
-rapidfuzz>=3.9
-python-multipart>=0.0.9
+# Exact versions, so Render, Docker and CI install the same code that the tests ran against.
+# Every package is listed, including the ones pulled in by others; `pip check` in CI proves the
+# list is complete and consistent. To upgrade: change a version here, then run the tests.
+
+# --- Used directly by the app
+fastapi==0.141.1
+uvicorn[standard]==0.53.0
+sqlalchemy==2.1.0
+pydantic==2.13.5
+pydantic-settings==2.15.0
+psycopg[binary]==3.3.6
+rapidfuzz==3.14.6
+python-multipart==0.0.32
+httpx==0.28.1
+
+# --- Needed by the packages above
+annotated-doc==0.0.5
+annotated-types==0.8.0
+anyio==4.15.1
+certifi==2026.7.22
+click==8.5.0
+h11==0.16.0
+httpcore==1.0.9
+httptools==0.8.0
+idna==3.20
+psycopg-binary==3.3.6 ; implementation_name != 'pypy'
+pydantic-core==2.46.5
+python-dotenv==1.2.3
+pyyaml==6.0.3
+starlette==1.7.0
+typing-extensions==4.16.0
+typing-inspection==0.4.4
+tzdata==2026.4 ; sys_platform == 'win32'
+uvloop==0.23.0 ; platform_python_implementation != 'PyPy' and sys_platform != 'cygwin' and sys_platform != 'win32'
+watchfiles==1.3.0
+websockets==17.1

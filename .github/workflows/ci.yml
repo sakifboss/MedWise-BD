@@ -27,7 +27,10 @@ jobs:
           python-version-file: .python-version
           cache: pip
           cache-dependency-path: backend/requirements*.txt
-      - run: pip install -r requirements-dev.txt
+      # Only the listed packages, at the listed versions: if a pin is missing or clashes,
+      # pip check fails here instead of Render quietly installing something else.
+      - name: Install pinned dependencies
+        run: pip install --no-deps -r requirements-dev.txt && pip check
       - run: ruff check .
       - run: ruff format --check .
       - name: Validate seed data

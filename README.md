@@ -94,6 +94,11 @@ cd frontend && npm run lint && npm run typecheck && npm run build
 
 GitHub Actions runs all of these on every push, with the backend tests on both SQLite and Postgres.
 
+Backend dependencies are pinned to exact versions in `backend/requirements.txt` (runtime) and
+`requirements-dev.txt` (pytest, ruff), including the packages they pull in. Render, Docker and CI
+therefore install the same code. CI installs with `--no-deps` and runs `pip check`, so a missing or
+clashing pin fails the build. To upgrade, change the version, run the tests and push.
+
 ## Replacing sample data with official data
 
 Put new files with the same format in `data/seed/` and push. No code changes are needed.

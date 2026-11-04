@@ -10,7 +10,8 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 # Same layout as the repo, so app/core/config.py finds data/seed without changes.
 WORKDIR /app/backend
 COPY backend/requirements.txt .
-RUN pip install -r requirements.txt
+# Exact pins (see requirements.txt); --no-deps + pip check means nothing unlisted gets in.
+RUN pip install --no-deps -r requirements.txt && pip check
 
 COPY backend/ .
 COPY data/seed/ /app/data/seed/
