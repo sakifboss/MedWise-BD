@@ -118,3 +118,28 @@ live deploy -> tick the box here -> stop for the user's review before starting t
 
 Not doing (by design): AI chat or medicine advice (breaks the safety rules), counterfeit
 detection (no reliable data), dose reminders (out of scope).
+
+## Security hardening (approved 2026-11-04)
+Same workflow as the roadmap: one step at a time; tests, ruff, lint, typecheck, build; for anything
+that touches the frontend, rerun the browser test suites (a too-strict CSP breaks pages silently);
+commit + push -> verify live -> tick the box -> stop for the user's review.
+
+Already in place: HTTPS + HSTS (Vercel), CORS closed to other origins, uploads checked by file
+bytes and size and never stored, OCR rate limits (per client + global daily cap), no secrets in
+git history, non-root Docker images, Next.js patched to 16.4.2.
+
+- [ ] **S1. Security headers.** Frontend: nonce-based Content-Security-Policy set per request in
+  `frontend/src/proxy.ts`, plus frame-ancestors/X-Frame-Options, nosniff, Referrer-Policy,
+  Permissions-Policy (microphone for voice search only), no X-Powered-By. Backend: nosniff,
+  frame denial and a locked-down CSP on API responses (not on /docs).
+- [ ] **S2. Only our frontend may call the prescription endpoint.** The Next proxy adds a secret
+  header (`FRONTEND_SHARED_SECRET`, set on Vercel and Render) to /api/prescription; the backend
+  rejects OCR requests without it, so nobody can drain the Gemini quota by calling Render directly.
+- [ ] **S3. Rate limits on search and interactions,** generous for people, blocking floods.
+- [ ] **S4. Pin backend dependencies** (exact versions installed by Render, Docker and CI).
+- [ ] **S5. Dependency watch:** Dependabot (npm, pip, GitHub Actions, Docker) and audits in CI;
+  move the `shadcn` CLI to devDependencies (not needed at runtime).
+
+Owner-only (user's accounts): restrict the Gemini key to the Generative Language API and set a
+budget alert; 2FA on GitHub, Vercel, Render and Neon; rotate the Neon password if it was ever
+shared; turn on Dependabot alerts in the GitHub repo settings.
