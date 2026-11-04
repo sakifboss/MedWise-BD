@@ -95,18 +95,17 @@ function Summary({ option, data }: { option: MatchOption; data: AlternativesResp
 
 /** Message text for sharing the whole prescription (the link to /share is added separately). */
 function prescriptionShareText(rows: { option: MatchOption; data: AlternativesResponse | null }[], t: Dict): string {
-  const lines = rows.flatMap(({ option, data }) => {
+  // A medicine whose ranking has not loaded yet is still listed (the link has the full details).
+  const lines = rows.map(({ option, data }) => {
     const p = data && picks(data);
     return p
-      ? [
-          t.share.prescriptionLine(
-            optionLabel(option, t),
-            p.best.name,
-            p.best.manufacturer.name,
-            t.fmt.price(p.best.price_per_unit),
-          ),
-        ]
-      : [];
+      ? t.share.prescriptionLine(
+          optionLabel(option, t),
+          p.best.name,
+          p.best.manufacturer.name,
+          t.fmt.price(p.best.price_per_unit),
+        )
+      : `• ${optionLabel(option, t)}`;
   });
   return [t.share.prescriptionIntro, ...lines, t.disclaimer].join("\n");
 }
