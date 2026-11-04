@@ -139,8 +139,11 @@ git history, non-root Docker images, Next.js patched to 16.4.2.
 - [x] **S4. Pin backend dependencies** (exact versions installed by Render, Docker and CI).
   Every package, including transitive ones, is pinned with `==`; CI and Docker install with
   `--no-deps` + `pip check`, so the list must stay complete.
-- [ ] **S5. Dependency watch:** Dependabot (npm, pip, GitHub Actions, Docker) and audits in CI;
+- [x] **S5. Dependency watch:** Dependabot (npm, pip, GitHub Actions, Docker) and audits in CI;
   move the `shadcn` CLI to devDependencies (not needed at runtime).
+  `.github/workflows/audit.yml` (push + daily): pip-audit on the pins; `npm audit --omit=dev`
+  must be clean, the full tree may have nothing high. Remaining moderates are in eslint and the
+  shadcn CLI only (dev tools, npm's only "fix" is a downgrade).
 
 Owner-only (user's accounts): restrict the Gemini key to the Generative Language API and set a
 budget alert; 2FA on GitHub, Vercel, Render and Neon; rotate the Neon password if it was ever

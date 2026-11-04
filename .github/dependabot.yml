@@ -1,0 +1,40 @@
+# Weekly update PRs. CI (tests, lint, build, Docker) must pass before one is merged.
+# Minor and patch updates come grouped in one PR per ecosystem; major versions come one by one.
+# Security fixes are opened as soon as an advisory appears, whatever the schedule.
+version: 2
+updates:
+  - package-ecosystem: pip
+    directory: /backend
+    schedule: { interval: weekly, day: monday }
+    groups:
+      backend:
+        update-types: [minor, patch]
+
+  - package-ecosystem: npm
+    directory: /frontend
+    schedule: { interval: weekly, day: monday }
+    groups:
+      frontend:
+        update-types: [minor, patch]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule: { interval: weekly, day: monday }
+
+  - package-ecosystem: docker
+    directories: [/backend, /frontend]
+    schedule: { interval: weekly, day: monday }
+    ignore:
+      # Stay on Python 3.11 (same as Render and CI) and Node 20 (same as CI); patch updates only.
+      - dependency-name: python
+        update-types: [version-update:semver-major, version-update:semver-minor]
+      - dependency-name: node
+        update-types: [version-update:semver-major]
+
+  - package-ecosystem: docker-compose
+    directory: /
+    schedule: { interval: weekly, day: monday }
+    ignore:
+      # Postgres major upgrades need a data migration; Neon runs 16.
+      - dependency-name: postgres
+        update-types: [version-update:semver-major]

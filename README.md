@@ -99,6 +99,11 @@ Backend dependencies are pinned to exact versions in `backend/requirements.txt` 
 therefore install the same code. CI installs with `--no-deps` and runs `pip check`, so a missing or
 clashing pin fails the build. To upgrade, change the version, run the tests and push.
 
+Dependabot opens weekly update PRs (pip, npm, GitHub Actions, Docker images) and security
+fixes as soon as an advisory appears. The Audit workflow runs `pip-audit` and `npm audit` on every
+push and daily: anything that ships to the browser or server must be clean, and the build-only
+tools (eslint, shadcn CLI, openapi-typescript) may not have high or critical issues.
+
 ## Replacing sample data with official data
 
 Put new files with the same format in `data/seed/` and push. No code changes are needed.
