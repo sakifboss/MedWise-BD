@@ -128,7 +128,7 @@ Already in place: HTTPS + HSTS (Vercel), CORS closed to other origins, uploads c
 bytes and size and never stored, OCR rate limits (per client + global daily cap), no secrets in
 git history, non-root Docker images, Next.js patched to 16.4.2.
 
-- [ ] **S1. Security headers.** Frontend: nonce-based Content-Security-Policy set per request in
+- [x] **S1. Security headers.** Frontend: nonce-based Content-Security-Policy set per request in
   `frontend/src/proxy.ts`, plus frame-ancestors/X-Frame-Options, nosniff, Referrer-Policy,
   Permissions-Policy (microphone for voice search only), no X-Powered-By. Backend: nosniff,
   frame denial and a locked-down CSP on API responses (not on /docs).

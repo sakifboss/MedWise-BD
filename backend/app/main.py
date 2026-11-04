@@ -13,6 +13,7 @@ from app.api import alternatives, generics, interactions, manufacturers, prescri
 from app.core.config import get_settings
 from app.core.db import get_db
 from app.core.errors import AppError
+from app.core.security_headers import add_security_headers
 from app.schemas.common import Envelope, ErrorBody
 
 logger = logging.getLogger(__name__)
@@ -59,6 +60,7 @@ def create_app() -> FastAPI:
     app.add_exception_handler(StarletteHTTPException, _http_error)  # type: ignore[arg-type]
     app.add_exception_handler(RequestValidationError, _validation_error)  # type: ignore[arg-type]
     app.add_exception_handler(Exception, _unhandled_error)
+    add_security_headers(app)
 
     for module in (search, generics, alternatives, manufacturers, prescription, interactions):
         app.include_router(module.router, prefix="/api")
