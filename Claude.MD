@@ -145,6 +145,19 @@ git history, non-root Docker images, Next.js patched to 16.4.2.
   must be clean, the full tree may have nothing high. Remaining moderates are in eslint and the
   shadcn CLI only (dev tools, npm's only "fix" is a downgrade).
 
+## Dependency updates (Dependabot PRs, started 2026-11-04)
+One step at a time, same workflow: CI + Audit green, browser suites for anything the app ships,
+merge -> verify live -> tick -> stop for review. Revert with `git revert` if live breaks.
+
+- [x] **D1. GitHub Actions** (#1 setup-python 7, #2 checkout 7, #6 setup-node 7): CI-only, merged.
+- [x] **D2. Declined majors closed** (#4 TypeScript 7, #5 eslint 10, #7 @types/node 26), with
+  ignore rules in `.github/dependabot.yml` so they do not come back.
+- [ ] **D3. Frontend group** (#3: React 19.3, Next 16.4.3, lucide, base-ui, cn 0.5).
+- [ ] **D4. Backend group** (#9: fastapi 0.162 and 16 more; fastapi now needs opentelemetry-api,
+  which must be pinned too, or `pip check` fails).
+- [ ] **D5. Python 3.11.17** (#8) in Docker, CI (`.python-version`) and Render (`PYTHON_VERSION`)
+  together.
+
 Owner-only (user's accounts): restrict the Gemini key to the Generative Language API and set a
 budget alert; 2FA on GitHub, Vercel, Render and Neon; rotate the Neon password if it was ever
 shared; turn on Dependabot alerts in the GitHub repo settings.

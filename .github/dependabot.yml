@@ -16,6 +16,15 @@ updates:
     groups:
       frontend:
         update-types: [minor, patch]
+    ignore:
+      # Major versions we have decided not to take yet (PRs #4, #5, #7):
+      # TypeScript 7 breaks the build; eslint-config-next 16 targets eslint 9; the app runs on Node 20.
+      - dependency-name: typescript
+        update-types: [version-update:semver-major]
+      - dependency-name: eslint
+        update-types: [version-update:semver-major]
+      - dependency-name: "@types/node"
+        update-types: [version-update:semver-major]
 
   - package-ecosystem: github-actions
     directory: /
