@@ -5,7 +5,7 @@ import { useRef, useState } from "react";
 
 import { Input } from "@/components/ui/input";
 import { useDict } from "@/i18n/client";
-import { api, type MatchOption, type SearchResult } from "@/lib/api";
+import { api, isRateLimited, type MatchOption, type SearchResult } from "@/lib/api";
 
 const DEBOUNCE_MS = 250;
 
@@ -54,8 +54,8 @@ export function MedicineSearch({
         const found = response.results.map(toOption).filter((o): o is MatchOption => o !== null);
         setOptions(found);
         setMessage(found.length ? null : t.prescription.medicineSearch.noBrands);
-      } catch {
-        setMessage(t.prescription.medicineSearch.unavailable);
+      } catch (error) {
+        setMessage(isRateLimited(error) ? t.tooMany : t.prescription.medicineSearch.unavailable);
       }
     }, DEBOUNCE_MS);
   }

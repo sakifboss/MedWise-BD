@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { VoiceSearchButton } from "@/components/voice-search-button";
 import { useDict } from "@/i18n/client";
-import { api, type SearchResult } from "@/lib/api";
+import { api, isRateLimited, type SearchResult } from "@/lib/api";
 
 export type PickedMedicine = { kind: "brand" | "generic"; id: number; label: string; detail: string };
 
@@ -31,7 +31,8 @@ function pickedKey(m: PickedMedicine): string {
 }
 
 export function InteractionChecker({ initial }: { initial: PickedMedicine[] }) {
-  const i = useDict().interactions;
+  const t = useDict();
+  const i = t.interactions;
   const [picked, setPicked] = useState<PickedMedicine[]>(initial);
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<PickedMedicine[]>([]);
@@ -52,8 +53,8 @@ export function InteractionChecker({ initial }: { initial: PickedMedicine[] }) {
         const response = await api.search(q, { limit: 8 });
         setResults(response.results.map((r) => toPicked(r, i.generic)));
         setMessage(response.results.length ? null : i.noResults);
-      } catch {
-        setMessage(i.unavailable);
+      } catch (error) {
+        setMessage(isRateLimited(error) ? t.tooMany : i.unavailable);
       }
     }, DEBOUNCE_MS);
   }

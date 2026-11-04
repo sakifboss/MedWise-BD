@@ -59,6 +59,7 @@ const en = {
       "DDInter. Not official DGDA data.",
   },
   disclaimer: "Consult your doctor or pharmacist before changing any medicine.",
+  tooMany: "Too many requests in a short time. Please wait a minute and try again.",
   back: { newSearch: "New search", byName: "Search by name instead", home: "Home" },
   notFound: {
     title: "Medicine not found",
@@ -416,6 +417,7 @@ const bn: Dict = {
       "এটি DGDA-র সরকারি ডেটা নয়।",
   },
   disclaimer: "কোনো ওষুধ বদলানোর আগে আপনার ডাক্তার বা ফার্মাসিস্টের পরামর্শ নিন।",
+  tooMany: "অল্প সময়ে অনেক বেশি অনুরোধ হয়েছে। এক মিনিট অপেক্ষা করে আবার চেষ্টা করুন।",
   back: { newSearch: "নতুন খোঁজ", byName: "নাম দিয়ে খুঁজুন", home: "হোম" },
   notFound: {
     title: "ওষুধটি পাওয়া যায়নি",

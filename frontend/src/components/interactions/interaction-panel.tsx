@@ -5,11 +5,11 @@ import { useEffect, useState } from "react";
 import { InteractionResults } from "@/components/interactions/interaction-results";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useDict } from "@/i18n/client";
-import { api, type InteractionCheckResponse } from "@/lib/api";
+import { api, isRateLimited, type InteractionCheckResponse } from "@/lib/api";
 
 type State =
   | { status: "loading" }
-  | { status: "error" }
+  | { status: "error"; rateLimited: boolean }
   | { status: "done"; data: InteractionCheckResponse };
 
 function parseKey(key: string): [number[], number[]] {
@@ -32,7 +32,9 @@ export function InteractionPanel({ brandIds, genericIds }: { brandIds: number[];
     const controller = new AbortController();
     api.checkInteractions({ brand_ids, generic_ids }, controller.signal, t.lang).then(
       (data) => setResult({ key, state: { status: "done", data } }),
-      () => !controller.signal.aborted && setResult({ key, state: { status: "error" } }),
+      (error) =>
+        !controller.signal.aborted &&
+        setResult({ key, state: { status: "error", rateLimited: isRateLimited(error) } }),
     );
     return () => controller.abort();
   }, [key, t.lang]);
@@ -48,7 +50,7 @@ export function InteractionPanel({ brandIds, genericIds }: { brandIds: number[];
     );
   }
   if (state.status === "error") {
-    return <p className="text-sm text-destructive">{i.error}</p>;
+    return <p className="text-sm text-destructive">{state.rateLimited ? t.tooMany : i.error}</p>;
   }
   return <InteractionResults data={state.data} />;
 }

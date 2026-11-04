@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { VoiceSearchButton } from "@/components/voice-search-button";
 import type { Dict } from "@/i18n/dictionaries";
 import { useDict } from "@/i18n/client";
-import { api, type SearchResponse, type SearchResult } from "@/lib/api";
+import { api, isRateLimited, type SearchResponse, type SearchResult } from "@/lib/api";
 import { cn } from "@/lib/utils";
 
 const DEBOUNCE_MS = 200;
@@ -19,7 +19,7 @@ type State =
   | { status: "idle" }
   | { status: "loading"; previous?: SearchResponse }
   | { status: "done"; response: SearchResponse }
-  | { status: "error" };
+  | { status: "error"; rateLimited: boolean };
 
 function resultHref(result: SearchResult): string {
   return result.type === "generic" ? `/generics/${result.id}` : `/alternatives/${result.id}`;
@@ -53,7 +53,7 @@ export function SearchBox() {
       setState({ status: "done", response });
       setActive(-1);
     } catch (error) {
-      if (!controller.signal.aborted) setState({ status: "error" });
+      if (!controller.signal.aborted) setState({ status: "error", rateLimited: isRateLimited(error) });
       if (!(error instanceof DOMException)) console.error(error);
     }
   }
@@ -139,7 +139,7 @@ export function SearchBox() {
       <div aria-live="polite" className="text-sm text-muted-foreground">
         {voiceMessage && <p>{voiceMessage}</p>}
         {state.status === "error" && (
-          <p className="text-destructive">{t.search.error}</p>
+          <p className="text-destructive">{state.rateLimited ? t.tooMany : t.search.error}</p>
         )}
         {state.status === "done" && results.length === 0 && (
           <p>{t.search.noResults(state.response.query)}</p>

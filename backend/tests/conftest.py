@@ -53,7 +53,9 @@ def no_real_gemini(monkeypatch: pytest.MonkeyPatch) -> None:
 @pytest.fixture(autouse=True)
 def reset_rate_limits() -> None:
     """Rate limiters are module-level; start every test with a clean slate."""
-    from app.api import prescription
+    from app.api import interactions, prescription, search
 
     prescription.per_client_limiter.reset()
     prescription.global_limiter.reset()
+    search.search_limiter.reset()
+    interactions.interactions_limiter.reset()

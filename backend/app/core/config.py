@@ -28,6 +28,9 @@ class Settings(BaseSettings):
     # Protects the Gemini quota: per client per hour, and for everyone per day.
     prescription_limit_per_hour: int = 10
     prescription_limit_per_day: int = 300
+    # Per client per minute; far above what a person typing or clicking needs.
+    search_limit_per_minute: int = 120
+    interactions_limit_per_minute: int = 60
     cors_origins: str = "http://localhost:3000"
     # Shared with the frontend (same value on Vercel and Render). When set, prescription uploads
     # must carry it, so only our website can spend the Gemini quota. Empty: no check (local dev).

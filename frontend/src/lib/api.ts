@@ -39,6 +39,11 @@ export class ApiError extends Error {
   }
 }
 
+/** True when the server asked us to slow down (HTTP 429). */
+export function isRateLimited(error: unknown): boolean {
+  return error instanceof ApiError && error.status === 429;
+}
+
 export function isNotFound(error: unknown): boolean {
   return error instanceof ApiError && error.status === 404;
 }

@@ -135,7 +135,7 @@ git history, non-root Docker images, Next.js patched to 16.4.2.
 - [x] **S2. Only our frontend may call the prescription endpoint.** The Next proxy adds a secret
   header (`FRONTEND_SHARED_SECRET`, set on Vercel and Render) to /api/prescription; the backend
   rejects OCR requests without it, so nobody can drain the Gemini quota by calling Render directly.
-- [ ] **S3. Rate limits on search and interactions,** generous for people, blocking floods.
+- [x] **S3. Rate limits on search and interactions,** generous for people, blocking floods.
 - [ ] **S4. Pin backend dependencies** (exact versions installed by Render, Docker and CI).
 - [ ] **S5. Dependency watch:** Dependabot (npm, pip, GitHub Actions, Docker) and audits in CI;
   move the `shadcn` CLI to devDependencies (not needed at runtime).

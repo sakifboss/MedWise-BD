@@ -11,6 +11,9 @@ from collections.abc import Callable
 
 from fastapi import Request
 
+from app.core.errors import AppError
+from app.core.frontend_auth import came_from_frontend
+
 
 class RateLimiter:
     def __init__(
@@ -40,14 +43,26 @@ class RateLimiter:
 
 
 def client_key(request: Request) -> str:
-    """Best-effort client identity.
+    """Client identity for rate limits.
 
-    Requests reach us through proxies (Vercel's rewrite, Render's load balancer), which put
-    the original client first in X-Forwarded-For. A client can spoof that header, so the
-    per-client limit is a courtesy; the global daily limit is the hard protection.
+    Our frontend's requests reach us through Vercel, which overwrites X-Forwarded-For with the
+    real client address, so its first entry is trustworthy for them (they carry the shared
+    secret). Anyone else could put any address there, so for other requests only the last entry,
+    added by our own hosting proxy, is used.
     """
-    forwarded = request.headers.get("x-forwarded-for", "")
-    first = forwarded.split(",")[0].strip()
-    if first:
-        return first
+    hops = [h.strip() for h in request.headers.get("x-forwarded-for", "").split(",") if h.strip()]
+    if hops:
+        return hops[0] if came_from_frontend(request) else hops[-1]
     return request.client.host if request.client else "unknown"
+
+
+def per_client_limit(limiter: RateLimiter) -> Callable[[Request], None]:
+    """FastAPI dependency that answers 429 once a client goes over `limiter`."""
+
+    def dependency(request: Request) -> None:
+        if not limiter.allow(client_key(request)):
+            raise AppError(
+                429, "rate_limited", "Too many requests in a short time. Please wait a minute."
+            )
+
+    return dependency
