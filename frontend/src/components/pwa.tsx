@@ -1,7 +1,7 @@
 "use client";
 
 import { Download } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useSyncExternalStore } from "react";
 
 import { Button } from "@/components/ui/button";
 import { useDict } from "@/i18n/client";
@@ -19,29 +19,36 @@ export function ServiceWorkerRegistration() {
 
 type InstallPromptEvent = Event & { prompt: () => Promise<void>; userChoice: Promise<{ outcome: string }> };
 
+// The browser can offer installation before React has rendered the footer, so the offer is caught
+// as soon as this module loads and kept here until the button reads it.
+let installPrompt: InstallPromptEvent | null = null;
+const listeners = new Set<() => void>();
+
+function setInstallPrompt(value: InstallPromptEvent | null) {
+  installPrompt = value;
+  listeners.forEach((notify) => notify());
+}
+
+if (typeof window !== "undefined") {
+  window.addEventListener("beforeinstallprompt", (event) => {
+    event.preventDefault(); // keep the browser's own banner from popping up; we offer a button instead
+    setInstallPrompt(event as InstallPromptEvent);
+  });
+  window.addEventListener("appinstalled", () => setInstallPrompt(null));
+}
+
+function subscribe(notify: () => void) {
+  listeners.add(notify);
+  return () => listeners.delete(notify);
+}
+
 /**
  * "Install app" button. Shown only when the browser offers installation (Chrome, Edge, Samsung
  * Internet on Android) and the app is not already installed.
  */
 export function InstallAppButton() {
   const t = useDict();
-  const [prompt, setPrompt] = useState<InstallPromptEvent | null>(null);
-
-  useEffect(() => {
-    function onPrompt(event: Event) {
-      event.preventDefault(); // keep the browser's own banner from popping up; we offer a button instead
-      setPrompt(event as InstallPromptEvent);
-    }
-    function onInstalled() {
-      setPrompt(null);
-    }
-    window.addEventListener("beforeinstallprompt", onPrompt);
-    window.addEventListener("appinstalled", onInstalled);
-    return () => {
-      window.removeEventListener("beforeinstallprompt", onPrompt);
-      window.removeEventListener("appinstalled", onInstalled);
-    };
-  }, []);
+  const prompt = useSyncExternalStore(subscribe, () => installPrompt, () => null);
 
   if (!prompt) return null;
 
@@ -49,7 +56,7 @@ export function InstallAppButton() {
     if (!prompt) return;
     await prompt.prompt();
     await prompt.userChoice;
-    setPrompt(null); // the event can only be used once
+    setInstallPrompt(null); // the event can only be used once
   }
 
   return (
