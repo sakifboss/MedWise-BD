@@ -1,6 +1,6 @@
 # MedWise BD backend. Build from the repository root (it needs data/seed):
 #   docker build -f backend/Dockerfile .
-FROM python:3.11.9-slim
+FROM python:3.11.17-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
