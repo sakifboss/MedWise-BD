@@ -158,8 +158,9 @@ merge -> verify live -> tick -> stop for review. Revert with `git revert` if liv
 - [x] **D4. Backend group** (#9/#10: fastapi 0.162 and 17 more; fastapi now needs opentelemetry-api,
   which must be pinned too, or `pip check` fails). Applied on main with that pin; 199 tests,
   pip-audit, live smoke test and browser suites passed.
-- [ ] **D5. Python 3.11.17** (#8) in Docker, CI (`.python-version`) and Render (`PYTHON_VERSION`)
-  together.
+- [x] **D5. Python 3.11.17** (#8) in Docker, CI (`.python-version`) and Render (`PYTHON_VERSION`)
+  together. Done in 3ea17b4; the owner set PYTHON_VERSION=3.11.17 on Render. Render's env var
+  wins over `.python-version`, so change both when upgrading Python.
 
 Owner-only (user's accounts): restrict the Gemini key to the Generative Language API and set a
 budget alert; 2FA on GitHub, Vercel, Render and Neon; rotate the Neon password if it was ever
