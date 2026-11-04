@@ -42,17 +42,30 @@ class RateLimiter:
             self._hits.clear()
 
 
-def client_key(request: Request) -> str:
-    """Client identity for rate limits.
+# Set by the hosting layer itself; clients cannot forge them (checked on the live site: Vercel
+# replaces a forged value, Cloudflare in front of Render rejects requests that send one).
+VERCEL_CLIENT_IP = "x-vercel-forwarded-for"  # on requests our frontend proxies to us
+CLOUDFLARE_CLIENT_IP = "cf-connecting-ip"  # on every request that reaches Render
 
-    Our frontend's requests reach us through Vercel, which overwrites X-Forwarded-For with the
-    real client address, so its first entry is trustworthy for them (they carry the shared
-    secret). Anyone else could put any address there, so for other requests only the last entry,
-    added by our own hosting proxy, is used.
+
+def _first(value: str | None) -> str | None:
+    first = (value or "").split(",")[0].strip()
+    return first or None
+
+
+def client_key(request: Request) -> str:
+    """Client address for rate limits, taken only from headers a client cannot forge.
+
+    X-Forwarded-For is not used in production: anyone can put any address in it, and Vercel
+    passes a client's value through to us. It is only the fallback for local runs (dev server,
+    Docker, tests), where neither Vercel nor Cloudflare is in front.
     """
-    hops = [h.strip() for h in request.headers.get("x-forwarded-for", "").split(",") if h.strip()]
-    if hops:
-        return hops[0] if came_from_frontend(request) else hops[-1]
+    trusted = (
+        request.headers.get(VERCEL_CLIENT_IP) if came_from_frontend(request) else None
+    ) or request.headers.get(CLOUDFLARE_CLIENT_IP)
+    address = _first(trusted) or _first(request.headers.get("x-forwarded-for"))
+    if address:
+        return address
     return request.client.host if request.client else "unknown"
 
 

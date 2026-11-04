@@ -65,19 +65,6 @@ def create_app() -> FastAPI:
     for module in (search, generics, alternatives, manufacturers, prescription, interactions):
         app.include_router(module.router, prefix="/api")
 
-    @app.get("/api/_debug/client", include_in_schema=False)  # TEMPORARY: removed after checking
-    def debug_client(request: Request) -> dict[str, str | None]:
-        names = (
-            "x-forwarded-for",
-            "cf-connecting-ip",
-            "true-client-ip",
-            "x-real-ip",
-            "x-vercel-forwarded-for",
-        )
-        info: dict[str, str | None] = {n: request.headers.get(n) for n in names}
-        info["peer"] = request.client.host if request.client else None
-        return info
-
     @app.get("/api/health", response_model=Envelope[dict[str, str]], tags=["health"])
     def health(db: Annotated[Session, Depends(get_db)]) -> Envelope[dict[str, str]]:
         db.execute(text("SELECT 1"))
