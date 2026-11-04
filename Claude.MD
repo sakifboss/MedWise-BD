@@ -152,7 +152,9 @@ merge -> verify live -> tick -> stop for review. Revert with `git revert` if liv
 - [x] **D1. GitHub Actions** (#1 setup-python 7, #2 checkout 7, #6 setup-node 7): CI-only, merged.
 - [x] **D2. Declined majors closed** (#4 TypeScript 7, #5 eslint 10, #7 @types/node 26), with
   ignore rules in `.github/dependabot.yml` so they do not come back.
-- [ ] **D3. Frontend group** (#3: React 19.3, Next 16.4.3, lucide, base-ui, cn 0.5).
+- [x] **D3. Frontend group** (#3: React 19.3, Next 16.4.3, lucide, base-ui, cn 0.5).
+  cn 0.5 gives identical output to 0.4 on every class string in the app; all browser suites
+  passed on the PR build and live.
 - [ ] **D4. Backend group** (#9: fastapi 0.162 and 16 more; fastapi now needs opentelemetry-api,
   which must be pinned too, or `pip check` fails).
 - [ ] **D5. Python 3.11.17** (#8) in Docker, CI (`.python-version`) and Render (`PYTHON_VERSION`)
@@ -161,3 +163,4 @@ merge -> verify live -> tick -> stop for review. Revert with `git revert` if liv
 Owner-only (user's accounts): restrict the Gemini key to the Generative Language API and set a
 budget alert; 2FA on GitHub, Vercel, Render and Neon; rotate the Neon password if it was ever
 shared; turn on Dependabot alerts in the GitHub repo settings.
+Done by the owner 2026-11-04.
