@@ -155,8 +155,9 @@ merge -> verify live -> tick -> stop for review. Revert with `git revert` if liv
 - [x] **D3. Frontend group** (#3: React 19.3, Next 16.4.3, lucide, base-ui, cn 0.5).
   cn 0.5 gives identical output to 0.4 on every class string in the app; all browser suites
   passed on the PR build and live.
-- [ ] **D4. Backend group** (#9: fastapi 0.162 and 16 more; fastapi now needs opentelemetry-api,
-  which must be pinned too, or `pip check` fails).
+- [x] **D4. Backend group** (#9/#10: fastapi 0.162 and 17 more; fastapi now needs opentelemetry-api,
+  which must be pinned too, or `pip check` fails). Applied on main with that pin; 199 tests,
+  pip-audit, live smoke test and browser suites passed.
 - [ ] **D5. Python 3.11.17** (#8) in Docker, CI (`.python-version`) and Render (`PYTHON_VERSION`)
   together.
 
