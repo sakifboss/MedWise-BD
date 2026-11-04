@@ -161,7 +161,7 @@ to add rows for the new text; changed rows are flagged as stale instead of being
 | Service | Settings |
 |---|---|
 | **Neon** | Postgres database (Singapore region) |
-| **Render** (web service) | Build: `pip install -r backend/requirements.txt && python backend/scripts/import_data.py` · Start: `cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT` · Env: `DATABASE_URL`, `GEMINI_API_KEY`, `FRONTEND_SHARED_SECRET`, `PYTHON_VERSION=3.11.9` · Health check: `/api/health` |
+| **Render** (web service) | Build: `pip install -r backend/requirements.txt && python backend/scripts/import_data.py` · Start: `cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT` · Env: `DATABASE_URL`, `GEMINI_API_KEY`, `FRONTEND_SHARED_SECRET`, `PYTHON_VERSION=3.11.17` (same as `.python-version` and the Dockerfile) · Health check: `/api/health` |
 | **Vercel** | Root directory `frontend` · Env: `API_URL=https://medwise-bd.onrender.com`, `FRONTEND_SHARED_SECRET` |
 
 `FRONTEND_SHARED_SECRET` must be the same long random value on Vercel and Render. The frontend adds

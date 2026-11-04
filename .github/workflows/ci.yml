@@ -7,7 +7,7 @@ on:
 
 jobs:
   backend:
-    runs-on: ubuntu-24.04  # Python 3.11.9 (same as Render) has no build for 26.04
+    runs-on: ubuntu-24.04  # Python from .python-version (same as Render and the Docker image)
     defaults:
       run:
         working-directory: backend
