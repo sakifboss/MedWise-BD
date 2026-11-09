@@ -194,7 +194,7 @@ Rules for every step:
   their top pick (both Esomeprazole groups, Pantoprazole, both Metformin groups, Gliclazide,
   Atorvastatin 10 mg).
 
-- [ ] **P2. Same-price banner.**
+- [x] **P2. Same-price banner.**
   When every brand in a compared group (same generic, strength and dosage form) has the same price
   per unit, the ranking page and the alternatives page show one banner above the list:
   en "All these brands cost the same (Tk X per unit). The top-ranked one costs nothing extra."
@@ -203,6 +203,9 @@ Rules for every step:
   Prefer computing it from data the page already has; add an API field only if needed.
   Today 7 of 25 groups qualify (e.g. Paracetamol 500 mg, Losartan 50 mg, Cetirizine 10 mg).
   Tests: unit test for the all-equal check; check one equal-price and one mixed-price page.
+  Done 2026-11-10 (f035cf6): 8 of 25 groups qualify (also Amoxicillin 125 mg/5 ml, Aspirin 75 mg,
+  Metronidazole 400 mg, Paracetamol 120 mg/5 ml, Amoxicillin 500 mg); Warfarin 5 mg has one brand.
+  Helper src/lib/same-price.ts (Vitest); verified live on all 25 ranking pages in en and bn.
 
 - [ ] **P3. OCR accuracy evaluation.**
   Goal: a measured accuracy number for the competition document and video.
