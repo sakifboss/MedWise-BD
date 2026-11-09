@@ -223,6 +223,8 @@ const en = {
     approvals: "Plant approvals",
     perUnit: (price: string) => `${price} per unit`,
     priceSource: "price source",
+    samePrice: (price: string) =>
+      `All these brands cost the same (${price} per unit). The top-ranked one costs nothing extra.`,
     outOf100: "out of 100",
     howCalculated: "How this score was calculated",
     qualityWeight: "Quality (80% weight)",
@@ -581,6 +583,8 @@ const bn: Dict = {
     approvals: "প্ল্যান্ট অনুমোদন",
     perUnit: (price: string) => `প্রতি ইউনিট ${price}`,
     priceSource: "দামের উৎস",
+    samePrice: (price: string) =>
+      `এই সবগুলো ব্র্যান্ডের দাম একই (প্রতি ইউনিট ${price})। তালিকার প্রথমটি নিতে কোনো বাড়তি খরচ নেই।`,
     outOf100: "১০০-র মধ্যে",
     howCalculated: "এই নম্বর কীভাবে হিসাব করা হলো",
     qualityWeight: "মান (৮০% গুরুত্ব)",

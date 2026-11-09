@@ -1,14 +1,17 @@
+import { Equal } from "lucide-react";
 import Link from "next/link";
 
 import { MonthlyCost, SavingsCalculator } from "@/components/savings/savings-calculator";
 import { SavingsProvider } from "@/components/savings/savings-context";
 import { RankingShare } from "@/components/share/ranking-share";
 import { ScoreBar } from "@/components/score-bar";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import type { Dict } from "@/i18n/dictionaries";
 import { getDict } from "@/i18n/server";
 import type { AlternativesResponse, RankedAlternative } from "@/lib/api";
+import { samePrice } from "@/lib/same-price";
 import { cn } from "@/lib/utils";
 
 const BREAKDOWN: { key: keyof RankedAlternative["quality_breakdown"]; inverted?: boolean }[] = [
@@ -21,6 +24,18 @@ const BREAKDOWN: { key: keyof RankedAlternative["quality_breakdown"]; inverted?:
 
 function pct(value: number): number {
   return Math.round(value * 100);
+}
+
+/** Shown when every brand in the group costs the same, so the top-ranked one costs nothing extra. */
+function SamePriceBanner({ data, t }: { data: AlternativesResponse; t: Dict }) {
+  const price = samePrice(data.alternatives);
+  if (price === null) return null;
+  return (
+    <Alert data-testid="same-price-banner">
+      <Equal aria-hidden />
+      <AlertDescription className="text-foreground">{t.ranking.samePrice(t.fmt.price(price))}</AlertDescription>
+    </Alert>
+  );
 }
 
 function Summary({ data, t }: { data: AlternativesResponse; t: Dict }) {
@@ -201,6 +216,7 @@ export async function RankingList({ data, shareTitle }: { data: AlternativesResp
       <section aria-label={t.ranking.listLabel} className="space-y-3">
         <RankingShare title={shareTitle} text={shareText(data, shareTitle, t)} />
         <SavingsCalculator options={options} />
+        <SamePriceBanner data={data} t={t} />
         <Summary data={data} t={t} />
         <ol className="space-y-3">
           {data.alternatives.map((item) => (
