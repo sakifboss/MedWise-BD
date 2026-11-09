@@ -58,7 +58,7 @@ Q = 0.30*C + 0.25*E + 0.20*R + 0.15*(1-H) + 0.10*M
   C = approved stringent regulators / 4 (US FDA, UK MHRA, EU GMP, TGA Australia; plant-level)
   E = export footprint, R = compliance_score / 100 (absolute), H = normalised recall history,
   M = market trust (unknown market share counts as 0)
-P = 1 - (price - min_price) / (max_price - min_price)   (P = 1 if all prices equal)
+P = min_price / price   (1 for the cheapest brand, and 1 when all prices are equal; twice the price = 0.5)
 Final = 100 * (0.8*Q + 0.2*P)
 - Only compare brands with the SAME generic, SAME strength, SAME dosage form.
 - Weights live in one config dict, not scattered.

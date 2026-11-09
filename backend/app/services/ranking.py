@@ -1,7 +1,7 @@
 """Quality-first ranking of interchangeable brands (formula from CLAUDE.md).
 
     Q     = 0.30*C + 0.25*E + 0.20*R + 0.15*(1-H) + 0.10*M
-    P     = 1 - (price - min_price) / (max_price - min_price)    (P = 1 if all prices equal)
+    P     = min_price / price      (1 for the cheapest brand, and 1 when all prices are equal)
     Final = 100 * (0.8*Q + 0.2*P)
 
 C = certification: share of the four stringent regulators (US FDA, UK MHRA, EU GMP,
@@ -11,8 +11,9 @@ H = normalised recall history, M = market trust.
 
 Export, recall and market factors are min-max normalised across ALL manufacturers, so
 a manufacturer's Q is stable no matter which brands are being compared. Price is
-normalised within the compared group, as the formula specifies. An unknown market
-share counts as 0. This module is pure (no database access).
+scored against the cheapest brand in the compared group: twice the cheapest price scores
+0.5, so a small price gap stays a small difference. An unknown market share counts as 0.
+This module is pure (no database access).
 """
 
 from collections.abc import Iterable, Sequence
@@ -156,10 +157,11 @@ def quality_score(c: QualityComponents) -> float:
     )
 
 
-def price_score(price: float, min_price: float, max_price: float) -> float:
-    if max_price == min_price:
-        return 1.0
-    return 1 - (price - min_price) / (max_price - min_price)
+def price_score(price: float, min_price: float) -> float:
+    """Cheapest price in the group / this price: 1.0 for the cheapest (and when all are equal)."""
+    if price <= 0 or min_price <= 0:
+        raise ValueError("prices must be positive")
+    return min_price / price
 
 
 def final_score(quality: float, price: float) -> float:
@@ -331,7 +333,7 @@ def rank_brands(
     for c in candidates:
         components = quality_components(c.manufacturer, bounds)
         q = quality_score(components)
-        p = price_score(float(c.price_per_unit), float(min_price), float(max_price))
+        p = price_score(float(c.price_per_unit), float(min_price))
         scored.append((final_score(q, p), q, p, components, c))
     scored.sort(key=lambda s: (-s[0], s[4].price_per_unit, s[4].name.casefold()))
 

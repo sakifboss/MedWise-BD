@@ -34,12 +34,13 @@ and dosage form, ranked by manufacturer quality (80%) and price (20%), with the 
 
 ```
 Q     = 0.30·Certification + 0.25·Exports + 0.20·Compliance + 0.15·(1 − Recall history) + 0.10·Market trust
-P     = 1 − (price − min) / (max − min)          (1 when all prices are equal)
+P     = cheapest price / price                    (1 for the cheapest; twice the price scores 0.5)
 Score = 100 · (0.8·Q + 0.2·P)
 ```
 
-Quality factors are normalised across all manufacturers; price is normalised within the compared
-group. All weights live in one place: [`backend/app/services/ranking.py`](backend/app/services/ranking.py).
+Quality factors are normalised across all manufacturers. Price is compared with the cheapest brand
+in the same group, so a brand that costs a little more loses only a little: Tk 6 against a
+cheapest Tk 5 still scores 0.83 on price. All weights live in one place: [`backend/app/services/ranking.py`](backend/app/services/ranking.py).
 
 ## Architecture
 

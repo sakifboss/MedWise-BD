@@ -118,13 +118,26 @@ def test_recall_history_lowers_quality() -> None:
     assert quality_score(quality_components(recalled, BOUNDS)) == pytest.approx(1.0 - 0.15)
 
 
-@pytest.mark.parametrize(("price", "expected"), [(5.0, 1.0), (10.0, 0.0), (7.5, 0.5)])
-def test_price_score(price: float, expected: float) -> None:
-    assert price_score(price, 5.0, 10.0) == pytest.approx(expected)
+@pytest.mark.parametrize(
+    ("price", "expected"), [(5.0, 1.0), (10.0, 0.5), (7.5, 2 / 3), (6.0, 5 / 6)]
+)
+def test_price_score_is_cheapest_over_price(price: float, expected: float) -> None:
+    assert price_score(price, 5.0) == pytest.approx(expected)
 
 
 def test_price_score_is_one_when_all_prices_equal() -> None:
-    assert price_score(8.0, 8.0, 8.0) == 1.0
+    assert price_score(8.0, 8.0) == 1.0
+
+
+def test_small_price_gap_is_a_small_difference() -> None:
+    # The old min-max score gave the dearer of Tk 5.00 / Tk 5.05 a price score of 0.
+    assert price_score(5.05, 5.0) == pytest.approx(0.990, abs=1e-3)
+
+
+@pytest.mark.parametrize(("price", "min_price"), [(0.0, 0.0), (5.0, 0.0), (-1.0, -2.0)])
+def test_price_score_rejects_non_positive_prices(price: float, min_price: float) -> None:
+    with pytest.raises(ValueError):
+        price_score(price, min_price)
 
 
 def test_final_score() -> None:
@@ -140,8 +153,11 @@ def test_rank_brands_hand_example() -> None:
     ranked = rank_brands(GROUP, BOUNDS)
     assert [r.candidate.brand_id for r in ranked] == [1, 3, 2]
     assert [r.rank for r in ranked] == [1, 2, 3]
-    assert [r.final_score for r in ranked] == pytest.approx([80.0, 50.0, 20.0])
-    assert [r.price_score for r in ranked] == pytest.approx([0.0, 0.5, 1.0])
+    # A: Q 1.0, Tk 10 -> P = 5/10 = 0.5   -> 100 * (0.8 * 1.0 + 0.2 * 0.5)   = 90.0
+    # C: Q 0.5, Tk 7.5 -> P = 5/7.5 = 2/3 -> 100 * (0.8 * 0.5 + 0.2 * 2/3)   = 53.3
+    # B: Q 0.0, Tk 5 -> P = 1 (cheapest)  -> 100 * (0.8 * 0.0 + 0.2 * 1.0)   = 20.0
+    assert [r.final_score for r in ranked] == pytest.approx([90.0, 160 / 3, 20.0])
+    assert [r.price_score for r in ranked] == pytest.approx([0.5, 2 / 3, 1.0])
 
 
 def test_quality_outweighs_price() -> None:
