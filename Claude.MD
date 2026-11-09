@@ -183,13 +183,16 @@ Rules for every step:
 - When behaviour changes, update README.md, this file and the "How ranking works" text.
 - Never hard-code counts (generics, brands, interactions) in UI text; read them from the data.
 
-- [ ] **P1. Price score = min_price / price.**
+- [x] **P1. Price score = min_price / price.**
   In backend/app/services/ranking.py replace the min-max price score with
   P = min_price / price (1.0 for the cheapest brand, and 1.0 when all prices are equal).
   Update the module docstring, the formula in this file, and test_ranking.py (price_score cases and
   the hand-worked A/B/C example). Real-data check after import, Omeprazole 20 mg capsule:
   Losectil 88.5, Seclo 87.5, Proceptin 83.2 (Seclo moves from 3rd to 2nd). In Esomeprazole 20 mg
   the top pick changes from Maxpro to Nexum MUPS; this is expected (quality first).
+  Done 2026-11-10 (9632211): verified live in en and bn. 13 of 25 groups changed order and 7 changed
+  their top pick (both Esomeprazole groups, Pantoprazole, both Metformin groups, Gliclazide,
+  Atorvastatin 10 mg).
 
 - [ ] **P2. Same-price banner.**
   When every brand in a compared group (same generic, strength and dosage form) has the same price
