@@ -116,8 +116,9 @@ live deploy -> tick the box here -> stop for the user's review before starting t
   data, score breakdown, every source link, and what is not known (recall data).
 - [x] **7. Installable app (PWA).** Manifest, icons, theme colour; installs from the browser.
 
-Not doing (by design): AI chat or medicine advice (breaks the safety rules), counterfeit
-detection (no reliable data), dose reminders (out of scope).
+Not doing (by design): AI diagnosis or medicine suggestions, AI chat about medicines, dose advice,
+counterfeit detection (no reliable data). The P10 symptom guide is allowed only because it never
+names a disease or a medicine.
 
 ## Security hardening (approved 2026-11-04)
 Same workflow as the roadmap: one step at a time; tests, ruff, lint, typecheck, build; for anything
@@ -166,3 +167,241 @@ Owner-only (user's accounts): restrict the Gemini key to the Generative Language
 budget alert; 2FA on GitHub, Vercel, Render and Neon; rotate the Neon password if it was ever
 shared; turn on Dependabot alerts in the GitHub repo settings.
 Done by the owner 2026-11-04.
+
+## Roadmap phase 2 (approved 2026-11-09)
+Same workflow as the roadmap above, one step at a time: plan first and wait for the user's OK ->
+build -> tests, ruff, lint, typecheck, build (and the browser test suites for frontend changes) ->
+commit + push -> verify the live deploy -> tick the box here -> stop for the user's review.
+
+Rules for every step:
+- Every user-facing string exists in en and bn (dictionaries.ts; bn must match the shape of en).
+  Bangla drafts below are suggestions; keep the app's existing wording style.
+- No medical advice, ever: the app never suggests a dose, a different generic, or a medicine for a
+  symptom. It only shows facts from cited sources.
+- Medicine data enters the database only through data/seed/*.json and import_data.py.
+  The P5 request log is the only exception, and it never becomes medicine data.
+- When behaviour changes, update README.md, this file and the "How ranking works" text.
+- Never hard-code counts (generics, brands, interactions) in UI text; read them from the data.
+
+- [ ] **P1. Price score = min_price / price.**
+  In backend/app/services/ranking.py replace the min-max price score with
+  P = min_price / price (1.0 for the cheapest brand, and 1.0 when all prices are equal).
+  Update the module docstring, the formula in this file, and test_ranking.py (price_score cases and
+  the hand-worked A/B/C example). Real-data check after import, Omeprazole 20 mg capsule:
+  Losectil 88.5, Seclo 87.5, Proceptin 83.2 (Seclo moves from 3rd to 2nd). In Esomeprazole 20 mg
+  the top pick changes from Maxpro to Nexum MUPS; this is expected (quality first).
+
+- [ ] **P2. Same-price banner.**
+  When every brand in a compared group (same generic, strength and dosage form) has the same price
+  per unit, the ranking page and the alternatives page show one banner above the list:
+  en "All these brands cost the same (Tk X per unit). The top-ranked one costs nothing extra."
+  bn "এই সবগুলো ব্র্যান্ডের দাম একই (প্রতি ইউনিট ৳X)। তালিকার প্রথমটি নিতে কোনো বাড়তি খরচ নেই।"
+  Use the app's existing price/number formatting. Hide it when the group has only one brand.
+  Prefer computing it from data the page already has; add an API field only if needed.
+  Today 7 of 25 groups qualify (e.g. Paracetamol 500 mg, Losartan 50 mg, Cetirizine 10 mg).
+  Tests: unit test for the all-equal check; check one equal-price and one mixed-price page.
+
+- [ ] **P3. OCR accuracy evaluation.**
+  Goal: a measured accuracy number for the competition document and video.
+  Add backend/scripts/eval_ocr.py and data/eval/README.md (how to add images, how to run).
+  Input: data/eval/prescriptions/<name>.jpg|png|webp, each with <name>.json ground truth:
+  {"medicines": [{"name": "Seclo", "strength": "20 mg"}, ...]} = what a careful human reads on the
+  prescription (name as written; strength when written, else null).
+  Privacy: data/eval/prescriptions/ and data/eval/cache/ are gitignored (real prescriptions hold
+  personal data). Only data/eval/README.md and data/eval/results.md are committed, and results.md
+  contains no patient or doctor names, only file ids and medicine names.
+  Run: the real GeminiExtractor (needs GEMINI_API_KEY), then match_prescription against a
+  temporary SQLite database loaded from data/seed with run_import. Cache each image's raw
+  extraction in data/eval/cache/ so re-runs do not call Gemini again; --refresh forces a new call.
+  Wait between calls to stay inside free-tier limits.
+  Metrics:
+  1. Reading: an extracted medicine is correct when its name matches a ground-truth name
+     (rapidfuzz ratio >= 85 after lowercasing; configurable) and, when both have a strength, the
+     strengths are equal after normalize_strength. Report recall (correct / ground truth) and
+     precision (correct / extracted).
+  2. Matching: of the ground-truth medicines that exist in our catalog, how many the app matched
+     to the right generic + strength.
+  Print per-image misses and totals; write data/eval/results.md with date, image count, models
+  used and totals. Unit tests for the scoring code with fake extractions (no network).
+
+- [ ] **P4. "How to take" from the label.**
+  Add optional how_to_take (list of short lines) and how_to_take_bn per record in generics.json,
+  through schema, model, import, API and the generic page (section "How to take" /
+  "কীভাবে খাবেন", with the source link under it). Content: only what the generic's existing
+  source_urls (NHS page or FDA label) say about timing with meals, milk/dairy, alcohol, or other
+  things to take apart from it. Keep the source's wording. If the source says nothing, leave the
+  field empty and hide the section. Never write our own advice, doses or durations.
+  Draft English for all generics by reading the cited pages. Bangla goes through the existing
+  review sheet: extend build_generics_bn.py so export/apply include the new field; the team
+  approves every line before apply.
+
+- [ ] **P5. "Request this medicine".**
+  When search finds nothing, and when a scanned medicine cannot be matched, show
+  en "We cover N medicines so far." + button "Request this medicine"; after the click
+  en "Thanks — this helps us choose what to add next."
+  bn "এখন পর্যন্ত আমরা Nটি ওষুধ কভার করি।" / "এই ওষুধটি যোগ করার অনুরোধ করুন" /
+  "ধন্যবাদ — পরে কোন ওষুধ যোগ করব, তা ঠিক করতে এটি কাজে লাগবে।" (N comes from the data.)
+  Backend: POST /api/requests {query, source: "search" | "prescription"} stores only the trimmed
+  query (max 80 chars), the source and the date (day only). No IP, no user agent, no cookie, no
+  user id. Rate-limit per client with the existing RateLimiter (about 10 per hour). Call it the
+  same way the frontend already calls search; keep the CSP and security headers working.
+  IMPORTANT: import_data.py drops and recreates all tables on every deploy. The requests table
+  must survive that: give it its own SQLAlchemy MetaData/Base (or make the import drop only the
+  seed tables), and add a test that run_import leaves existing request rows untouched.
+  Read-out: backend/scripts/top_requests.py prints the 30 most requested queries with counts
+  (run locally with DATABASE_URL). No public endpoint lists requests.
+
+- [ ] **P6. Offline mode for saved pages.**
+  Today frontend/public/sw.js only shows offline.html and never caches data, on purpose, so prices
+  stay fresh. Change it, keeping freshness first:
+  - Network-first for GET page navigations and the Next.js data requests those pages make. On a
+    200 response, save a copy. When the network fails, serve the saved copy; if none, offline.html.
+  - Pages served from the cache show a banner: en "You're offline. Showing data saved on <date>.
+    Prices may have changed." bn "আপনি অফলাইনে আছেন। <date>-এ সংরক্ষিত তথ্য দেখানো হচ্ছে।
+    দাম বদলে থাকতে পারে।"
+  - A "Save all medicines for offline use" button (home page or footer) that pre-fetches every
+    generic page and every ranking page, with a done message. Search needs internet: when offline,
+    say so and list the saved medicines instead.
+  - Never cache POST requests, /api/prescription, the request log, or non-200 responses.
+    Cap the cache (about 100 entries, oldest out) and bump the cache name.
+  - Make sure cached pages still work with the nonce-based CSP.
+  Update the comment at the top of sw.js and the README.
+  Test in Chrome DevTools offline mode: a saved ranking page loads with the banner; an unsaved page
+  shows offline.html; back online, fresh data loads.
+
+- [ ] **P7. Eight more generics (data step).**
+  Add: Fexofenadine, Ketotifen, Domperidone, Famotidine, Levocetirizine, Rosuvastatin, Bisoprolol,
+  Vildagliptin. For each, use the strength and dosage form with the most brands on Arogga.
+  Warfarin 5 mg has only one brand: add brands, or drop the group if no second brand is found.
+  1. Generic records: same rules as roadmap step 0 (sourced text, source_urls, keep the source's
+     wording). Sources in order: NHS medicine page, then the US FDA label on DailyMed, then the EMA
+     product information (e.g. vildagliptin has no FDA label). Fill how_to_take as in P4.
+  2. Bangla: through the review sheet; the team approves before apply.
+  3. Brands and prices: add the new groups to data/templates/brands_template.csv for the team to
+     fill (Arogga MRP + page link, only the 13 manufacturers in manufacturers.json), then run
+     build_brands_from_csv.py and fix any reported rows.
+  4. Interactions: re-run extract_ddinter.py with the DDInter CSVs in data/raw/ddinter/; extend
+     DDINTER_ALIASES if DDInter spells a name differently; report generics it could not find.
+  5. import_data.py --dry-run must pass. Update every count in README.md and this file.
+
+## Phase 3 — features as pull requests (approved 2026-11-09)
+All Roadmap phase 2 rules apply (en + bn for every string, no medical advice, data only through
+seed files and import_data.py, no hard-coded counts, docs updated when behaviour changes).
+
+PR workflow for every step:
+1. `git switch main && git pull`, then create `feat/pN-<short-name>`.
+2. Plan first and wait for the user's OK. The plan lists files, data, tests, privacy and safety.
+3. Small, focused commits. Run tests, ruff, lint, typecheck, build, and the browser test suites.
+4. Push the branch and open a PR with `gh pr create`. If gh is missing or not logged in, push and
+   give the user the compare link plus the PR title and body to paste.
+5. PR body: what and why; each new screen described in en and bn; how to test (Vercel preview for
+   frontend-only PRs; `docker compose up` for PRs with backend changes, because previews use the
+   production API); privacy (what is stored, where, for how long); safety (how it obeys the
+   no-medical-advice rule); what is not done. Tick this step's box in the PR's last commit.
+6. Never merge. Wait for green CI and the user's review. After the user merges, verify the live
+   deploy and report.
+
+- [ ] **P8. My Medicines (on this device only).**
+  Frontend-only. New page /my-medicines ("My Medicines" / "আমার ওষুধ"), linked in the header.
+  Storage: on the device only, through one module (frontend/src/lib/my-medicines.ts) with a
+  versioned format; every read/write in try/catch; the page still works, with a message, when
+  storage is unavailable. Nothing about the list is sent to our backend; the page only calls the
+  existing public ranking and interaction APIs.
+  Saved item: brand id, brand name, generic, strength, dosage form, optional units per day (entered
+  by the user, same rule as the savings calculator), optional reminder times, date added. No photos,
+  no names of people, no conditions.
+  Saving: "Save to My Medicines" on the alternatives page (the user's own brand and each card) and
+  "Save all to My Medicines" on prescription results. Saving the same brand twice updates it.
+  For each saved medicine show: its current rank in its group; the top-ranked brand if different,
+  with the price difference per 30 units (per month when units per day is set, using the existing
+  savings helpers); "Same price, higher-ranked option" when prices are equal. Always add
+  "Ask your doctor or pharmacist before changing." Never say "switch".
+  Interaction check across all saved medicines with the existing interaction API, major first,
+  with the DDInter credit.
+  Reminders: the user enters times per medicine; the app never suggests times. "Add to calendar"
+  downloads one .ics file made on the device, with daily repeating events (RRULE:FREQ=DAILY) in
+  floating local time. Option "Hide medicine names in the calendar" (title becomes
+  "Medicine reminder" / "ওষুধের রিমাইন্ডার").
+  Backup: "Download my list" (JSON), "Import list" (validated), "Delete all" (with confirm).
+  Privacy note on the page: en "Saved only on this phone. MedWise BD never receives this list."
+  bn "শুধু এই ফোনে সংরক্ষিত। MedWise BD এই তালিকা কখনো পায় না।"
+  No login in this PR. Tests: keep logic in pure helpers (storage format and migration, .ics
+  text, rank comparison) and unit-test them; if the frontend has no unit test runner, add Vitest
+  as a dev dependency for lib/ helpers only.
+
+- [ ] **P9. Sylhet pharmacy finder (real locations, no stock claims).**
+  Data first, then stop for the user:
+  1. backend/scripts/fetch_osm_pharmacies.py queries the Overpass API for amenity=pharmacy (nodes
+     and ways; ways use their centre) inside Sylhet city (confirm the bounding box in the plan,
+     roughly 24.86,91.82 to 24.95,91.93), plus place=suburb/neighbourhood nodes for area names.
+     It writes data/seed/pharmacies.json: name, name_bn if present, lat, lon, address and phone
+     if present, osm_type, osm_id; meta: source "OpenStreetMap contributors", licence ODbL,
+     fetched date. Report how many pharmacies, how many have a name, how many have a phone. STOP.
+  2. If there are fewer than about 30 named pharmacies, propose a team survey: rows in
+     data/templates/pharmacies_template.csv recorded on site with a phone's GPS (never copied
+     from Google Maps), with surveyor and date. Survey rows are real places the team visited.
+  Partners: fields is_partner and partner_since. A phone number from the survey is shown only
+  for partners who agreed. Consent forms stay with the team and never enter the repo.
+  Backend: seed schema, model and import with validation (coordinates inside the Sylhet box, no
+  duplicates by osm id, or by name within 20 m). GET /api/pharmacies?city=sylhet returns the
+  whole list (it is small), rate-limited like search.
+  Frontend: on the alternatives and ranking pages, "Find pharmacies near me (Sylhet)" /
+  "কাছের ফার্মেসি খুঁজুন (সিলেট)". It asks for browser location; distances are computed in the
+  browser and the location never leaves the device. If location is denied or outside Sylhet,
+  the user picks an area from the list. Show the nearest 10: name, distance, "MedWise partner"
+  badge, "Call" (tel:) when a phone is allowed, and "Directions" (opens a maps link).
+  Always show: en "We don't know which medicines each shop has. Call before you go."
+  bn "কোন দোকানে কোন ওষুধ আছে তা আমরা জানি না। যাওয়ার আগে ফোন করে নিন।"
+  Outside Sylhet: "We cover Sylhet city for now." / "আপাতত শুধু সিলেট শহর।"
+  No embedded map in this PR (the CSP stays unchanged). Attribution "© OpenStreetMap contributors"
+  linking to openstreetmap.org/copyright under the list and in the footer sources.
+  Tests: import validation, API, distance sorting.
+
+- [ ] **P10. Symptom guide (no diagnosis, no medicines).**
+  Page /symptoms ("Symptom guide" / "লক্ষণ গাইড"). The top of the page says: en "This guide does
+  not diagnose or suggest medicines. It helps you get the right care." bn "এই গাইড রোগ নির্ণয় বা
+  ওষুধের পরামর্শ দেয় না। সঠিক চিকিৎসা পেতে সাহায্য করে।"
+  Step 1, always first, no AI: an emergency checklist from data/seed/red_flags.json (text en/bn,
+  group, source_url). Content only from NHS pages that say to call 999 or go to A&E (for example
+  heart attack, stroke, sepsis, anaphylaxis, severe breathing difficulty, seizure); keep the
+  source's wording; Bangla through the review sheet. If any item is ticked, show a full-screen
+  message: en "Call 999 now or go to the nearest hospital emergency department." bn "এখনই ৯৯৯-এ
+  কল করুন অথবা নিকটতম হাসপাতালের জরুরি বিভাগে যান।" with tap-to-call 999. The flow stops there.
+  Step 2: the user describes the problem in free text (Bangla, Banglish or English) and fills:
+  since when, how bad (mild / moderate / severe), age group (child / adult / older adult),
+  pregnant (yes / no / not applicable).
+  AI: POST /api/symptom-guide calls Gemini with the same client setup and model fallback as
+  ocr.py. The model receives only the user's text and fields and must return JSON matching a
+  strict Pydantic schema, extra keys forbidden:
+  {"specialty": <id from data/seed/specialties.json>, "red_flag_suspected": bool,
+   "note": {"main_problem": str (max 120), "duration": str (max 60),
+            "other_symptoms": [str (max 60), at most 8]}}
+  The system prompt says: do not diagnose; do not name any disease or medicine; choose a specialty
+  only from the list; set red_flag_suspected to true when unsure.
+  Server-side checks after the model answers:
+  - Invalid JSON, extra keys or an unknown specialty: use the fallback (general medicine
+    specialist, note built from the user's own fields without AI).
+  - Any note text that contains a medicine or generic name from our catalog (reuse search), a dose
+    pattern (mg, ml, tablet, capsule, times a day), or a word from a configurable diagnosis-word
+    list: drop the AI note and use the fallback note.
+  - red_flag_suspected true: show the emergency screen. The model can add a warning; it can never
+    remove one.
+  - Child age group always maps to paediatrics; pregnant "yes" always maps to obstetrics and
+    gynaecology.
+  specialties.json: id, name en/bn, what it covers en/bn (general medicine, paediatrics,
+  obstetrics and gynaecology, dermatology, ENT, eye, orthopaedics, cardiology, neurology,
+  psychiatry, dental). The team reviews the list, ideally with a doctor.
+  Step 3 result: the specialty ("A <specialty> doctor is usually the right place to start. If you
+  are unsure, start with a general medicine specialist."), the doctor note (the user can edit it
+  before sharing), an option to include the user's saved My Medicines list, and share/print with
+  the existing share components. Label: "Written from your answers. Not a diagnosis." /
+  "আপনার উত্তর থেকে লেখা। এটি রোগ নির্ণয় নয়।"
+  Privacy: before sending, say the text goes to Google's Gemini service to be processed. We never
+  store or log the text (no request-body logging). Protect the endpoint like /api/prescription:
+  the frontend shared-secret header and per-client plus global daily rate limits.
+  Evaluation: data/eval/symptoms.json with about 40 invented test descriptions (en, bn, Banglish;
+  no real patients) with the expected specialty and red-flag flag; backend/scripts/eval_symptoms.py
+  reports specialty accuracy and red-flag recall. Red-flag recall must be 100% before the PR is
+  ready; commit data/eval/symptoms_results.md.
+  Tests: schema rejection (extra keys, unknown specialty), medicine name and dose pattern in the
+  note, red-flag override, child and pregnancy rules, rate limit, shared-secret header.
