@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "gen:api": "openapi-typescript openapi.json -o src/lib/api-schema.ts",
-    "typecheck": "next typegen && tsc --noEmit"
+    "typecheck": "next typegen && tsc --noEmit",
+    "test": "vitest run"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",
@@ -32,6 +33,7 @@
     "openapi-typescript": "^7.13.0",
     "shadcn": "^4.23.0",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^4.1.12"
   }
 }
