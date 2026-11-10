@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { MonthlyCost, SavingsCalculator } from "@/components/savings/savings-calculator";
 import { SavingsProvider } from "@/components/savings/savings-context";
+import { SaveToMyMedicines } from "@/components/my-medicines/save-buttons";
 import { RankingShare } from "@/components/share/ranking-share";
 import { ScoreBar } from "@/components/score-bar";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -115,7 +116,7 @@ function Sources({ urls, t }: { urls: string[]; t: Dict }) {
   );
 }
 
-function RankedCard({ item, t }: { item: RankedAlternative; t: Dict }) {
+function RankedCard({ item, data, t }: { item: RankedAlternative; data: AlternativesResponse; t: Dict }) {
   return (
     <Card className={cn("break-inside-avoid", item.is_selected && "ring-2 ring-primary")}>
       <CardHeader className="flex flex-row items-start gap-3">
@@ -162,6 +163,12 @@ function RankedCard({ item, t }: { item: RankedAlternative; t: Dict }) {
             )}
           </p>
           <MonthlyCost price={item.price_per_unit} isSelected={item.is_selected} />
+          <div className="mt-2">
+            <SaveToMyMedicines
+              data={{ generic: data.generic, strength: data.strength, dosage_form: data.dosage_form }}
+              brand={{ brand_id: item.brand_id, name: item.name }}
+            />
+          </div>
         </div>
         <div className="text-right">
           <p className="text-2xl leading-none font-semibold tabular-nums">{t.fmt.score(item.final_score)}</p>
@@ -221,7 +228,7 @@ export async function RankingList({ data, shareTitle }: { data: AlternativesResp
         <ol className="space-y-3">
           {data.alternatives.map((item) => (
             <li key={item.brand_id}>
-              <RankedCard item={item} t={t} />
+              <RankedCard item={item} data={data} t={t} />
             </li>
           ))}
         </ol>
