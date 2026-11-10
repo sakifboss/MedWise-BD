@@ -250,7 +250,7 @@ Rules for every step:
   review sheet: extend build_generics_bn.py so export/apply include the new field; the team
   approves every line before apply.
 
-- [ ] **P5. "Request this medicine".**
+- [x] **P5. "Request this medicine".**
   When search finds nothing, and when a scanned medicine cannot be matched, show
   en "We cover N medicines so far." + button "Request this medicine"; after the click
   en "Thanks — this helps us choose what to add next."
@@ -265,6 +265,9 @@ Rules for every step:
   seed tables), and add a test that run_import leaves existing request rows untouched.
   Read-out: backend/scripts/top_requests.py prints the 30 most requested queries with counts
   (run locally with DATABASE_URL). No public endpoint lists requests.
+  Done 2026-11-10: table medicine_requests on RequestsBase (own metadata); also GET /api/stats
+  for catalog counts; frontend-only, 10/hour per client and 1000/day overall. Verified live:
+  a 'Fexo' request sent through the site survived the redeploy of 1487f27 (top_requests.py).
 
 - [ ] **P6. Offline mode for saved pages.**
   Today frontend/public/sw.js only shows offline.html and never caches data, on purpose, so prices
