@@ -37,6 +37,39 @@ export function nearest(pharmacies: PharmacyItem[], from: Point, count = NEAREST
     .slice(0, count);
 }
 
+// An address that is only the city name tells nobody where the shop is.
+const CITY_ONLY = /^(sylhet|সিলেট)$/i;
+
+/** True when an address is empty or only says "Sylhet" / "সিলেট" (any case, trailing punctuation incl. "।"). */
+export function isCityOnly(address: string | null | undefined): boolean {
+  const cleaned = (address ?? "").trim().replace(/[\s.,;।]+$/u, "");
+  return cleaned === "" || CITY_ONLY.test(cleaned);
+}
+
+/** The area (from sylhet_areas.json) closest to a point; null when there are no areas. */
+export function closestArea(point: Point, areas: AreaItem[]): AreaItem | null {
+  let best: AreaItem | null = null;
+  let bestMetres = Infinity;
+  for (const area of areas) {
+    const m = distanceMetres(point, area);
+    if (m < bestMetres) [best, bestMetres] = [area, m];
+  }
+  return best;
+}
+
+/**
+ * Where a pharmacy is, in words: its street address when it has a real one, otherwise the
+ * closest named area, worked out from its coordinates.
+ */
+export function placeOf(
+  pharmacy: Pick<PharmacyItem, "address" | "lat" | "lon">,
+  areas: AreaItem[],
+): { address: string } | { near: AreaItem } | null {
+  if (!isCityOnly(pharmacy.address)) return { address: pharmacy.address!.trim() };
+  const area = closestArea(pharmacy, areas);
+  return area ? { near: area } : null;
+}
+
 /** A distance rounded for people: whole tens of metres below 1 km, else km with one decimal. */
 export function roundDistance(metres: number): { value: number; unit: "m" | "km" } {
   const tens = Math.max(10, Math.round(metres / 10) * 10);

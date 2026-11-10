@@ -3,12 +3,16 @@ import { describe, expect, it } from "vitest";
 import { DICTIONARIES } from "@/i18n/dictionaries";
 
 import {
+  closestArea,
   directionsHref,
   distanceMetres,
   insideBox,
+  isCityOnly,
   nearest,
+  placeOf,
   roundDistance,
   telHref,
+  type AreaItem,
   type Bbox,
   type PharmacyItem,
 } from "./pharmacies";
@@ -88,5 +92,42 @@ describe("formatting", () => {
     const href = directionsHref({ lat: 24.8967, lon: 91.871 });
     expect(href).toBe("https://www.google.com/maps/dir/?api=1&destination=24.896700,91.871000");
     expect(href).not.toContain("origin");
+  });
+});
+
+describe("where a pharmacy is", () => {
+  const areas: AreaItem[] = [
+    { id: 1, name: "Zindabazar", name_bn: "জিন্দাবাজার", lat: 24.8967, lon: 91.871 },
+    { id: 2, name: "Ambarkhana", name_bn: "আম্বরখানা", lat: 24.9058, lon: 91.8708 },
+  ];
+  const at = (address: string | null, lat = 24.8971, lon = 91.8705) => ({ address, lat, lon });
+
+  it("treats an empty or city-only address as no address, in any case, en or bn", () => {
+    for (const a of [null, "", "  ", "Sylhet", "sylhet", "SYLHET.", " Sylhet, ", "সিলেট", "সিলেট।"]) {
+      expect(isCityOnly(a), JSON.stringify(a)).toBe(true);
+    }
+    expect(isCityOnly("Shahjalal Uposhahar Main Road")).toBe(false);
+    expect(isCityOnly("Sylhet Road, Ambarkhana")).toBe(false);
+  });
+
+  it("shows the closest area instead of a city-only or missing address", () => {
+    expect(placeOf(at("Sylhet"), areas)).toEqual({ near: areas[0] });
+    expect(placeOf(at(null, 24.9050, 91.8710), areas)).toEqual({ near: areas[1] });
+    expect(placeOf(at("সিলেট"), areas)).toEqual({ near: areas[0] });
+  });
+
+  it("keeps a real street address as it is", () => {
+    expect(placeOf(at("বন্দর বাজার সড়ক"), areas)).toEqual({ address: "বন্দর বাজার সড়ক" });
+    expect(placeOf(at(" Shahjalal Uposhahar Main Road "), areas)).toEqual({ address: "Shahjalal Uposhahar Main Road" });
+  });
+
+  it("has nothing to say without areas", () => {
+    expect(closestArea({ lat: 24.9, lon: 91.87 }, [])).toBeNull();
+    expect(placeOf(at(null), [])).toBeNull();
+  });
+
+  it("says 'Near <area>' in English and Bangla", () => {
+    expect(DICTIONARIES.en.pharmacies.near("Zindabazar")).toBe("Near Zindabazar");
+    expect(DICTIONARIES.bn.pharmacies.near("জিন্দাবাজার")).toBe("জিন্দাবাজার-এর কাছে");
   });
 });
