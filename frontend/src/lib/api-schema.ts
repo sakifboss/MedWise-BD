@@ -164,6 +164,40 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/requests": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Request Medicine */
+        post: operations["request_medicine_api_requests_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/stats": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Catalog Stats */
+        get: operations["catalog_stats_api_stats_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/health": {
         parameters: {
             query?: never;
@@ -210,6 +244,17 @@ export interface components {
              */
             image: string;
         };
+        /** CatalogStats */
+        CatalogStats: {
+            /** Generics */
+            generics: number;
+            /** Brands */
+            brands: number;
+            /** Manufacturers */
+            manufacturers: number;
+            /** Interactions */
+            interactions: number;
+        };
         /** CheckedMedicine */
         CheckedMedicine: {
             /** Generic Id */
@@ -222,6 +267,11 @@ export interface components {
         /** Envelope[AlternativesResponse] */
         Envelope_AlternativesResponse_: {
             data?: components["schemas"]["AlternativesResponse"] | null;
+            error?: components["schemas"]["ErrorBody"] | null;
+        };
+        /** Envelope[CatalogStats] */
+        Envelope_CatalogStats_: {
+            data?: components["schemas"]["CatalogStats"] | null;
             error?: components["schemas"]["ErrorBody"] | null;
         };
         /** Envelope[GenericDetail] */
@@ -237,6 +287,11 @@ export interface components {
         /** Envelope[ManufacturerDetail] */
         Envelope_ManufacturerDetail_: {
             data?: components["schemas"]["ManufacturerDetail"] | null;
+            error?: components["schemas"]["ErrorBody"] | null;
+        };
+        /** Envelope[MedicineRequestSaved] */
+        Envelope_MedicineRequestSaved_: {
+            data?: components["schemas"]["MedicineRequestSaved"] | null;
             error?: components["schemas"]["ErrorBody"] | null;
         };
         /** Envelope[PrescriptionResponse] */
@@ -522,6 +577,27 @@ export interface components {
             score: number;
             /** Strength Matches */
             strength_matches: boolean;
+        };
+        /** MedicineRequestIn */
+        MedicineRequestIn: {
+            /**
+             * Query
+             * @description What the person searched for
+             */
+            query: string;
+            /**
+             * Source
+             * @enum {string}
+             */
+            source: "search" | "prescription";
+        };
+        /** MedicineRequestSaved */
+        MedicineRequestSaved: {
+            /**
+             * Saved
+             * @default true
+             */
+            saved: boolean;
         };
         /** PrescriptionItem */
         PrescriptionItem: {
@@ -906,6 +982,59 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    request_medicine_api_requests_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MedicineRequestIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Envelope_MedicineRequestSaved_"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    catalog_stats_api_stats_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Envelope_CatalogStats_"];
                 };
             };
         };

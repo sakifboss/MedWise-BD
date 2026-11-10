@@ -108,6 +108,15 @@ const en = {
     generic: "Generic",
     genericHint: "All brands, uses and interactions",
   },
+  request: {
+    covered: (n: string) => `We cover ${n} medicines so far.`,
+    button: "Request this medicine",
+    sending: "Sending",
+    thanks: "Thanks — this helps us choose what to add next.",
+    onlyName: "Only the medicine name is saved.",
+    failed: "The request could not be sent. Please try again.",
+    enough: "We have enough requests from this device for now. Thank you!",
+  },
   share: {
     heading: "Share with your pharmacist",
     share: "Share",
@@ -467,6 +476,15 @@ const bn: Dict = {
     resultsLabel: "খোঁজার ফলাফল",
     generic: "জেনেরিক",
     genericHint: "সব ব্র্যান্ড, ব্যবহার ও ইন্টারঅ্যাকশন",
+  },
+  request: {
+    covered: (n: string) => `এখন পর্যন্ত আমরা ${n}টি ওষুধ কভার করি।`,
+    button: "এই ওষুধটি যোগ করার অনুরোধ করুন",
+    sending: "পাঠানো হচ্ছে",
+    thanks: "ধন্যবাদ — পরে কোন ওষুধ যোগ করব, তা ঠিক করতে এটি কাজে লাগবে।",
+    onlyName: "শুধু ওষুধের নাম সংরক্ষণ করা হয়।",
+    failed: "অনুরোধ পাঠানো যায়নি। আবার চেষ্টা করুন।",
+    enough: "এই ডিভাইস থেকে আপাতত যথেষ্ট অনুরোধ পেয়েছি। ধন্যবাদ!",
   },
   share: {
     heading: "ফার্মাসিস্টের সাথে শেয়ার করুন",

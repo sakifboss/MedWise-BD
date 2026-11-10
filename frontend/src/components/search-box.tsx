@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
 
+import { RequestMedicine } from "@/components/request-medicine";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { VoiceSearchButton } from "@/components/voice-search-button";
@@ -142,7 +143,10 @@ export function SearchBox() {
           <p className="text-destructive">{state.rateLimited ? t.tooMany : t.search.error}</p>
         )}
         {state.status === "done" && results.length === 0 && (
-          <p>{t.search.noResults(state.response.query)}</p>
+          <div className="space-y-2">
+            <p>{t.search.noResults(state.response.query)}</p>
+            <RequestMedicine key={state.response.query} query={state.response.query} source="search" />
+          </div>
         )}
         {showTransliteration && results.length > 0 && (
           <p>

@@ -22,6 +22,8 @@ export type CheckedMedicine = Schemas["CheckedMedicine"];
 export type ManufacturerListItem = Schemas["ManufacturerListItem"];
 export type ManufacturerDetail = Schemas["ManufacturerDetail"];
 export type FactorKey = Schemas["FactorDetail"]["key"];
+export type CatalogStats = Schemas["CatalogStats"];
+export type RequestSource = Schemas["MedicineRequestIn"]["source"];
 
 type Envelope<T> = {
   data?: T | null;
@@ -111,6 +113,17 @@ export const api = {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
       signal,
+    });
+  },
+  stats() {
+    return request<CatalogStats>("/api/stats");
+  },
+  /** "Request this medicine": only the text and where it came from are sent (and stored). */
+  requestMedicine(query: string, source: RequestSource) {
+    return request<Schemas["MedicineRequestSaved"]>("/api/requests", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ query, source }),
     });
   },
   readPrescription(image: Blob, filename: string) {

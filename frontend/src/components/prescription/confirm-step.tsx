@@ -5,6 +5,7 @@ import { useState } from "react";
 
 import { MedicineSearch } from "@/components/prescription/medicine-search";
 import { NONE, optionKey, optionLabel, type DraftItem } from "@/components/prescription/types";
+import { RequestMedicine } from "@/components/request-medicine";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -103,7 +104,10 @@ function ItemCard({
             </RadioGroup>
           </>
         ) : (
-          <p className="text-sm text-muted-foreground">{c.notFound}</p>
+          <div className="space-y-2">
+            <p className="text-sm text-muted-foreground">{c.notFound}</p>
+            <RequestMedicine key={item.extractedName} query={item.extractedName} source="prescription" />
+          </div>
         )}
 
         {searching ? (

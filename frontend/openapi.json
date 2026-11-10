@@ -432,6 +432,68 @@
         }
       }
     },
+    "/api/requests": {
+      "post": {
+        "tags": [
+          "requests"
+        ],
+        "summary": "Request Medicine",
+        "operationId": "request_medicine_api_requests_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MedicineRequestIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_MedicineRequestSaved_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/stats": {
+      "get": {
+        "tags": [
+          "stats"
+        ],
+        "summary": "Catalog Stats",
+        "operationId": "catalog_stats_api_stats_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_CatalogStats_"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/health": {
       "get": {
         "tags": [
@@ -518,6 +580,34 @@
         ],
         "title": "Body_read_prescription_api_prescription_post"
       },
+      "CatalogStats": {
+        "properties": {
+          "generics": {
+            "type": "integer",
+            "title": "Generics"
+          },
+          "brands": {
+            "type": "integer",
+            "title": "Brands"
+          },
+          "manufacturers": {
+            "type": "integer",
+            "title": "Manufacturers"
+          },
+          "interactions": {
+            "type": "integer",
+            "title": "Interactions"
+          }
+        },
+        "type": "object",
+        "required": [
+          "generics",
+          "brands",
+          "manufacturers",
+          "interactions"
+        ],
+        "title": "CatalogStats"
+      },
       "CheckedMedicine": {
         "properties": {
           "generic_id": {
@@ -569,6 +659,32 @@
         },
         "type": "object",
         "title": "Envelope[AlternativesResponse]"
+      },
+      "Envelope_CatalogStats_": {
+        "properties": {
+          "data": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CatalogStats"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorBody"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "Envelope[CatalogStats]"
       },
       "Envelope_GenericDetail_": {
         "properties": {
@@ -647,6 +763,32 @@
         },
         "type": "object",
         "title": "Envelope[ManufacturerDetail]"
+      },
+      "Envelope_MedicineRequestSaved_": {
+        "properties": {
+          "data": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MedicineRequestSaved"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorBody"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "Envelope[MedicineRequestSaved]"
       },
       "Envelope_PrescriptionResponse_": {
         "properties": {
@@ -1426,6 +1568,43 @@
           "strength_matches"
         ],
         "title": "MatchOptionOut"
+      },
+      "MedicineRequestIn": {
+        "properties": {
+          "query": {
+            "type": "string",
+            "maxLength": 500,
+            "minLength": 1,
+            "title": "Query",
+            "description": "What the person searched for"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "search",
+              "prescription"
+            ],
+            "title": "Source"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "query",
+          "source"
+        ],
+        "title": "MedicineRequestIn"
+      },
+      "MedicineRequestSaved": {
+        "properties": {
+          "saved": {
+            "type": "boolean",
+            "title": "Saved",
+            "default": true
+          }
+        },
+        "type": "object",
+        "title": "MedicineRequestSaved"
       },
       "PrescriptionItem": {
         "properties": {
