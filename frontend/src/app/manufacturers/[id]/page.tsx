@@ -116,11 +116,11 @@ export default async function ManufacturerPage(props: PageProps<"/manufacturers/
             return (
               <li
                 key={regulator}
-                className={ok ? "rounded-lg border border-emerald-300 bg-emerald-50 p-3" : "rounded-lg border p-3"}
+                className={ok ? "rounded-lg border border-emerald-300 bg-emerald-50 p-3 dark:border-emerald-800 dark:bg-emerald-950" : "rounded-lg border p-3"}
               >
                 <p className="flex items-center gap-1.5 font-medium">
                   {ok ? (
-                    <CircleCheck aria-hidden className="size-4 text-emerald-700" />
+                    <CircleCheck aria-hidden className="size-4 text-emerald-700 dark:text-emerald-300" />
                   ) : (
                     <CircleX aria-hidden className="size-4 text-muted-foreground" />
                   )}

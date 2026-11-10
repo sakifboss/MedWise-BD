@@ -6,7 +6,8 @@ import { SiteFooter } from "@/components/site-footer";
 import { ServiceWorkerRegistration } from "@/components/pwa";
 import { SiteHeader } from "@/components/site-header";
 import { LangProvider } from "@/i18n/client";
-import { getDict, getLang } from "@/i18n/server";
+import { getDict, getLang, getTheme } from "@/i18n/server";
+import { themeColorFor } from "@/lib/theme";
 
 import "./globals.css";
 
@@ -25,13 +26,16 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export const viewport: Viewport = { themeColor: "#007565" };
+export async function generateViewport(): Promise<Viewport> {
+  return { themeColor: themeColorFor(await getTheme()) };
+}
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
-  const lang = await getLang();
+  const [lang, theme] = await Promise.all([getLang(), getTheme()]);
   return (
     <html
       lang={lang}
+      data-theme={theme}
       className={`${geistSans.variable} ${geistMono.variable} ${notoBengali.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">

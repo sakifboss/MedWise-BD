@@ -80,7 +80,7 @@ function SavingNote({ current, other }: { current: number | null; other: number 
   const saving = monthlySaving(current, other);
   if (Math.abs(saving) < 1) return <p className="text-muted-foreground">{t.costSummary.sameAsNow}</p>;
   return saving > 0 ? (
-    <p className="font-medium text-emerald-700">{t.costSummary.save(t.fmt.taka(saving), t.fmt.taka(saving * 12))}</p>
+    <p className="font-medium text-emerald-700 dark:text-emerald-300">{t.costSummary.save(t.fmt.taka(saving), t.fmt.taka(saving * 12))}</p>
   ) : (
     <p className="text-muted-foreground">{t.costSummary.more(t.fmt.taka(-saving))}</p>
   );

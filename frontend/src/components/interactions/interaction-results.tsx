@@ -10,8 +10,8 @@ import { cn } from "@/lib/utils";
 const SEVERITY_ORDER: Severity[] = ["major", "moderate", "minor"];
 
 const CARD_STYLES: Record<Severity, string> = {
-  major: "border-red-300 bg-red-50/60",
-  moderate: "border-amber-300 bg-amber-50/60",
+  major: "border-red-300 bg-red-50/60 dark:border-red-800 dark:bg-red-950/40",
+  moderate: "border-amber-300 bg-amber-50/60 dark:border-amber-700 dark:bg-amber-950/40",
   minor: "border-border",
 };
 
@@ -61,10 +61,10 @@ export function InteractionResults({ data }: { data: InteractionCheckResponse })
   return (
     <div className="space-y-3">
       {data.duplicates.map((d) => (
-        <Alert key={d.generic_id} className="border-amber-300 bg-amber-50 text-amber-950">
+        <Alert key={d.generic_id} className="border-amber-300 bg-amber-50 text-amber-950 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-100">
           <Copy aria-hidden />
           <AlertTitle>{copy.duplicateTitle}</AlertTitle>
-          <AlertDescription className="text-amber-900">{copy.duplicateText(d.brands, d.generic_name)}</AlertDescription>
+          <AlertDescription className="text-amber-900 dark:text-amber-200">{copy.duplicateText(d.brands, d.generic_name)}</AlertDescription>
         </Alert>
       ))}
 

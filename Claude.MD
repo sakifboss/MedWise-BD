@@ -489,12 +489,16 @@ requests a day for that model, so it takes two days. Adding more medicines is on
   Never "in stock"; no quantities, shop prices, orders or reservations; non-partner shops get no
   medicine claims. A partner can be removed with a data change only.
 
-- [ ] **Q2. Light / dark theme.** A theme button in the header: System (default) / Light / Dark,
+- [x] **Q2. Light / dark theme.** A theme button in the header: System (default) / Light / Dark,
   remembered in a cookie (like the language), rendered on the server so there is no flash and no
   inline script (the nonce CSP stays as it is). System follows prefers-color-scheme through CSS.
   Check every page and component in both themes (contrast of badges, score bars, severity colours,
   the red emergency screen, QR code, charts), keep print always light, and set the PWA theme
   colour per theme. Browser tests for both themes and all three choices.
+  Done 2026-11-11 (PR): cookie `theme` (system | light | dark), <html data-theme> from the server;
+  the `dark` Tailwind variant and the dark tokens apply on screen only (print stays light).
+  Text contrast measured on 10 pages: WCAG AA in both themes (light muted text darkened to 0.52).
+  Header labels from md (768 px), logo text hidden below 460 px; no sideways scroll 320-1024 px.
 
 Approved by the owner 2026-11-10 ("Q2 ok", with Q3, Q4 and Q5), built in this order, one PR each:
 
