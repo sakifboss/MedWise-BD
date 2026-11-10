@@ -241,3 +241,37 @@ class AreaSeed(_SeedRow):
     def _check(self) -> "AreaSeed":
         _inside_sylhet(self.lat, self.lon)
         return self
+
+
+# ---------------------------------------------------------------- symptom guide (P10)
+
+# Group titles are UI text (dictionaries.ts); the items under them are NHS wording.
+RedFlagGroup = Literal[
+    "chest",
+    "breathing",
+    "face_arm_speech",
+    "swelling_fainting",
+    "seizure",
+    "child_under_5",
+    "age_5_and_over",
+]
+# Rules in the symptom guide depend on these; the import refuses a list without them.
+REQUIRED_SPECIALTIES = ("general_medicine", "paediatrics", "obstetrics_gynaecology")
+OptionalText = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1)] | None
+
+
+class RedFlagSeed(_SeedRow):
+    id: Annotated[str, StringConstraints(pattern=r"^[a-z0-9_]+-\d+$")]
+    group: RedFlagGroup
+    text: NonEmptyStr
+    text_bn: OptionalText = None
+    # Only NHS pages that say to call 999 or go to A&E.
+    source_url: Annotated[str, StringConstraints(pattern=r"^https://www\.nhs\.uk/\S+$")]
+
+
+class SpecialtySeed(_SeedRow):
+    id: Annotated[str, StringConstraints(pattern=r"^[a-z_]+$")]
+    name: NonEmptyStr
+    name_bn: OptionalText = None
+    covers: NonEmptyStr
+    covers_bn: OptionalText = None

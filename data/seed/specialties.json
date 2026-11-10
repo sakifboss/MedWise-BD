@@ -1,0 +1,87 @@
+{
+  "meta": {
+    "dataset": "specialties",
+    "source": "MedWise BD (written by the team; to be reviewed with a doctor)",
+    "is_sample": false,
+    "note": "Specialties the symptom guide can point to. 'covers' is described by body part or area only, never by disease. Bangla goes through data/templates/symptoms_bn.csv. general_medicine is the fallback and must stay."
+  },
+  "records": [
+    {
+      "id": "general_medicine",
+      "name": "General medicine specialist",
+      "name_bn": null,
+      "covers": "Adults with problems that do not clearly belong to one part of the body, or more than one. A good place to start when you are unsure.",
+      "covers_bn": null
+    },
+    {
+      "id": "paediatrics",
+      "name": "Children's doctor (paediatrics)",
+      "name_bn": null,
+      "covers": "Babies, children and teenagers.",
+      "covers_bn": null
+    },
+    {
+      "id": "obstetrics_gynaecology",
+      "name": "Obstetrics and gynaecology",
+      "name_bn": null,
+      "covers": "Pregnancy, periods, and the womb, ovaries and other female reproductive organs.",
+      "covers_bn": null
+    },
+    {
+      "id": "dermatology",
+      "name": "Skin specialist (dermatology)",
+      "name_bn": null,
+      "covers": "Skin, hair and nails.",
+      "covers_bn": null
+    },
+    {
+      "id": "ent",
+      "name": "Ear, nose and throat (ENT)",
+      "name_bn": null,
+      "covers": "Ears and hearing, nose, sinuses, throat and voice.",
+      "covers_bn": null
+    },
+    {
+      "id": "eye",
+      "name": "Eye specialist (ophthalmology)",
+      "name_bn": null,
+      "covers": "Eyes and eyesight.",
+      "covers_bn": null
+    },
+    {
+      "id": "orthopaedics",
+      "name": "Bones and joints (orthopaedics)",
+      "name_bn": null,
+      "covers": "Bones, joints, muscles and the back, and injuries from falls or accidents.",
+      "covers_bn": null
+    },
+    {
+      "id": "cardiology",
+      "name": "Heart specialist (cardiology)",
+      "name_bn": null,
+      "covers": "The heart, heartbeat and blood circulation.",
+      "covers_bn": null
+    },
+    {
+      "id": "neurology",
+      "name": "Brain and nerves (neurology)",
+      "name_bn": null,
+      "covers": "The brain, spine and nerves, including headaches, numbness, weakness and fits.",
+      "covers_bn": null
+    },
+    {
+      "id": "psychiatry",
+      "name": "Mental health (psychiatry)",
+      "name_bn": null,
+      "covers": "Mood, worry, sleep, thoughts and behaviour.",
+      "covers_bn": null
+    },
+    {
+      "id": "dental",
+      "name": "Dentist",
+      "name_bn": null,
+      "covers": "Teeth, gums and mouth.",
+      "covers_bn": null
+    }
+  ]
+}

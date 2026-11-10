@@ -1,0 +1,221 @@
+{
+  "meta": {
+    "dataset": "red_flags",
+    "source": "NHS website (nhs.uk): 'Immediate action required: Call 999' boxes and the stroke symptoms list",
+    "is_sample": false,
+    "fetched": "2026-11-10",
+    "note": "Each text is copied from the linked NHS page (checked by script). Items that name a disease are left out on purpose: the symptom guide never names a disease. Group titles are UI text. Bangla goes through data/templates/symptoms_bn.csv."
+  },
+  "records": [
+    {
+      "id": "chest-1",
+      "group": "chest",
+      "text": "you get sudden pain or discomfort in your chest that does not go away – the pain can feel like squeezing or pressure inside your chest, burning or indigestion",
+      "text_bn": null,
+      "source_url": "https://www.nhs.uk/conditions/chest-pain/"
+    },
+    {
+      "id": "chest-2",
+      "group": "chest",
+      "text": "you get pain that spreads to your left or right arm, or your neck, jaw, stomach or back",
+      "text_bn": null,
+      "source_url": "https://www.nhs.uk/conditions/chest-pain/"
+    },
+    {
+      "id": "chest-3",
+      "group": "chest",
+      "text": "you have chest pain and you feel sweaty, sick, light headed or short of breath",
+      "text_bn": null,
+      "source_url": "https://www.nhs.uk/conditions/chest-pain/"
+    },
+    {
+      "id": "breathing-1",
+      "group": "breathing",
+      "text": "you have severe difficulty breathing – you’re gasping, choking or not able to get words out",
+      "text_bn": null,
+      "source_url": "https://www.nhs.uk/conditions/shortness-of-breath/"
+    },
+    {
+      "id": "breathing-2",
+      "group": "breathing",
+      "text": "your lips or skin are turning very pale, blue or grey – on brown or black skin, this may be easier to see on the palms of the hands",
+      "text_bn": null,
+      "source_url": "https://www.nhs.uk/conditions/shortness-of-breath/"
+    },
+    {
+      "id": "breathing-3",
+      "group": "breathing",
+      "text": "you feel suddenly confused",
+      "text_bn": null,
+      "source_url": "https://www.nhs.uk/conditions/shortness-of-breath/"
+    },
+    {
+      "id": "face_arm_speech-1",
+      "group": "face_arm_speech",
+      "text": "face weakness – one side of your face may droop (fall) and it might be hard to smile",
+      "text_bn": null,
+      "source_url": "https://www.nhs.uk/conditions/stroke/symptoms/"
+    },
+    {
+      "id": "face_arm_speech-2",
+      "group": "face_arm_speech",
+      "text": "arm weakness – you may not be able to fully lift both arms and keep them there because of weakness or numbness in 1 arm",
+      "text_bn": null,
+      "source_url": "https://www.nhs.uk/conditions/stroke/symptoms/"
+    },
+    {
+      "id": "face_arm_speech-3",
+      "group": "face_arm_speech",
+      "text": "speech problems – you may slur your words or sound confused",
+      "text_bn": null,
+      "source_url": "https://www.nhs.uk/conditions/stroke/symptoms/"
+    },
+    {
+      "id": "swelling_fainting-1",
+      "group": "swelling_fainting",
+      "text": "your lips, mouth, throat or tongue suddenly become swollen",
+      "text_bn": null,
+      "source_url": "https://www.nhs.uk/conditions/anaphylaxis/"
+    },
+    {
+      "id": "swelling_fainting-2",
+      "group": "swelling_fainting",
+      "text": "your throat feels tight or you're struggling to swallow",
+      "text_bn": null,
+      "source_url": "https://www.nhs.uk/conditions/anaphylaxis/"
+    },
+    {
+      "id": "swelling_fainting-3",
+      "group": "swelling_fainting",
+      "text": "someone faints and cannot be woken up",
+      "text_bn": null,
+      "source_url": "https://www.nhs.uk/conditions/anaphylaxis/"
+    },
+    {
+      "id": "seizure-1",
+      "group": "seizure",
+      "text": "it's the first time it's happened",
+      "text_bn": null,
+      "source_url": "https://www.nhs.uk/conditions/epilepsy/"
+    },
+    {
+      "id": "seizure-2",
+      "group": "seizure",
+      "text": "it lasts longer than is usual for them, or longer than 5 minutes if you do not know how long their seizures usually last",
+      "text_bn": null,
+      "source_url": "https://www.nhs.uk/conditions/epilepsy/"
+    },
+    {
+      "id": "seizure-3",
+      "group": "seizure",
+      "text": "they do not recover as usual afterwards, or they have another seizure without recovering between seizures",
+      "text_bn": null,
+      "source_url": "https://www.nhs.uk/conditions/epilepsy/"
+    },
+    {
+      "id": "seizure-4",
+      "group": "seizure",
+      "text": "they've now had 3 or more seizures in 24 hours",
+      "text_bn": null,
+      "source_url": "https://www.nhs.uk/conditions/epilepsy/"
+    },
+    {
+      "id": "child_under_5-1",
+      "group": "child_under_5",
+      "text": "is breathing very fast or having difficulty breathing – they may make grunting noises or their tummy may be sucking under their ribcage when they breathe",
+      "text_bn": null,
+      "source_url": "https://www.nhs.uk/conditions/sepsis/"
+    },
+    {
+      "id": "child_under_5-2",
+      "group": "child_under_5",
+      "text": "has blue, grey, pale or blotchy skin, lips or tongue – on black or brown skin, this may be easier to see on the palms of the hands or soles of the feet",
+      "text_bn": null,
+      "source_url": "https://www.nhs.uk/conditions/sepsis/"
+    },
+    {
+      "id": "child_under_5-3",
+      "group": "child_under_5",
+      "text": "has a rash that does not fade when you press it",
+      "text_bn": null,
+      "source_url": "https://www.nhs.uk/conditions/sepsis/"
+    },
+    {
+      "id": "child_under_5-4",
+      "group": "child_under_5",
+      "text": "has a very high temperature – 38C or more in babies under 3 months old, or 39C or more in babies 3 to 6 months old",
+      "text_bn": null,
+      "source_url": "https://www.nhs.uk/conditions/sepsis/"
+    },
+    {
+      "id": "child_under_5-5",
+      "group": "child_under_5",
+      "text": "has a very low temperature – less than 36C, or feels cold to the touch or is shivery",
+      "text_bn": null,
+      "source_url": "https://www.nhs.uk/conditions/sepsis/"
+    },
+    {
+      "id": "child_under_5-6",
+      "group": "child_under_5",
+      "text": "has a weak, high-pitched or continuous cry",
+      "text_bn": null,
+      "source_url": "https://www.nhs.uk/conditions/sepsis/"
+    },
+    {
+      "id": "child_under_5-7",
+      "group": "child_under_5",
+      "text": "is not responding like they normally do, is not feeding, is difficult to wake or is more sleepy than usual",
+      "text_bn": null,
+      "source_url": "https://www.nhs.uk/conditions/sepsis/"
+    },
+    {
+      "id": "child_under_5-8",
+      "group": "child_under_5",
+      "text": "has not had a pee for the last 12 hours",
+      "text_bn": null,
+      "source_url": "https://www.nhs.uk/conditions/sepsis/"
+    },
+    {
+      "id": "child_under_5-9",
+      "group": "child_under_5",
+      "text": "is limp, floppy or not responding like they normally do - their head may fall to the side, backwards or forwards, or they may find it difficult to lift their head or focus on your face",
+      "text_bn": null,
+      "source_url": "https://www.nhs.uk/conditions/shortness-of-breath/"
+    },
+    {
+      "id": "age_5_and_over-1",
+      "group": "age_5_and_over",
+      "text": "is breathing very fast",
+      "text_bn": null,
+      "source_url": "https://www.nhs.uk/conditions/sepsis/"
+    },
+    {
+      "id": "age_5_and_over-2",
+      "group": "age_5_and_over",
+      "text": "is confused, has slurred speech, or is not making sense",
+      "text_bn": null,
+      "source_url": "https://www.nhs.uk/conditions/sepsis/"
+    },
+    {
+      "id": "age_5_and_over-3",
+      "group": "age_5_and_over",
+      "text": "has blue, pale or blotchy skin – on black or brown skin, this may be easier to see on the palms of the hands or soles of the feet",
+      "text_bn": null,
+      "source_url": "https://www.nhs.uk/conditions/sepsis/"
+    },
+    {
+      "id": "age_5_and_over-4",
+      "group": "age_5_and_over",
+      "text": "has a very high or very low temperature, feels hot or cold to the touch, or is shivery",
+      "text_bn": null,
+      "source_url": "https://www.nhs.uk/conditions/sepsis/"
+    },
+    {
+      "id": "age_5_and_over-5",
+      "group": "age_5_and_over",
+      "text": "has a rash that does not fade when you press it",
+      "text_bn": null,
+      "source_url": "https://www.nhs.uk/conditions/sepsis/"
+    }
+  ]
+}

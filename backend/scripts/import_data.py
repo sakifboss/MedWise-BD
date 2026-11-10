@@ -27,8 +27,18 @@ from sqlalchemy.orm import Session  # noqa: E402
 
 from app.core.config import get_settings  # noqa: E402
 from app.core.db import Base, RequestsBase, make_engine  # noqa: E402
-from app.models import Area, Brand, Generic, Interaction, Manufacturer, Pharmacy  # noqa: E402
+from app.models import (  # noqa: E402
+    Area,
+    Brand,
+    Generic,
+    Interaction,
+    Manufacturer,
+    Pharmacy,
+    RedFlag,
+    Specialty,
+)
 from app.schemas.seed import (  # noqa: E402
+    REQUIRED_SPECIALTIES,
     AreaSeed,
     BrandSeed,
     GenericSeed,
@@ -36,7 +46,9 @@ from app.schemas.seed import (  # noqa: E402
     ManufacturerSeed,
     PharmacySeed,
     QualityFactorSeed,
+    RedFlagSeed,
     SeedMeta,
+    SpecialtySeed,
 )
 
 RowT = TypeVar("RowT", bound=BaseModel)
@@ -49,6 +61,8 @@ SEED_SCHEMAS: dict[str, type[BaseModel]] = {
     "interactions": InteractionSeed,
     "pharmacies": PharmacySeed,
     "sylhet_areas": AreaSeed,
+    "red_flags": RedFlagSeed,
+    "specialties": SpecialtySeed,
 }
 
 # Two pharmacies with the same name closer than this are one shop entered twice.
@@ -64,6 +78,8 @@ class SeedData:
     interactions: list[InteractionSeed] = field(default_factory=list)
     pharmacies: list[PharmacySeed] = field(default_factory=list)
     sylhet_areas: list[AreaSeed] = field(default_factory=list)
+    red_flags: list[RedFlagSeed] = field(default_factory=list)
+    specialties: list[SpecialtySeed] = field(default_factory=list)
     sample_datasets: list[str] = field(default_factory=list)
 
 
@@ -269,6 +285,29 @@ def _check_pharmacies(data: SeedData, errors: list[str]) -> None:
         by_name.setdefault(name, []).append((index, row))
 
 
+def _check_unique_ids(file: str, ids: list[str], errors: list[str]) -> None:
+    seen: set[str] = set()
+    for index, key in enumerate(ids):
+        if key in seen:
+            errors.append(f"{file}[{index}] '{key}': duplicate id")
+        seen.add(key)
+
+
+def _check_symptom_guide(data: SeedData, errors: list[str]) -> None:
+    _check_unique_ids("red_flags.json", [r.id for r in data.red_flags], errors)
+    _check_unique_ids("specialties.json", [s.id for s in data.specialties], errors)
+    texts: set[str] = set()
+    for index, row in enumerate(data.red_flags):
+        if (row.group, row.text) in texts:
+            errors.append(f"red_flags.json[{index}] '{row.id}': same text twice in '{row.group}'")
+        texts.add((row.group, row.text))
+    if data.specialties:
+        known = {s.id for s in data.specialties}
+        for required in REQUIRED_SPECIALTIES:
+            if required not in known:
+                errors.append(f"specialties.json: '{required}' is required by the symptom guide")
+
+
 def check_references(data: SeedData, errors: list[str]) -> None:
     _check_unique_names("manufacturers.json", [m.name for m in data.manufacturers], errors)
     _check_unique_names("generics.json", [g.name for g in data.generics], errors)
@@ -277,13 +316,14 @@ def check_references(data: SeedData, errors: list[str]) -> None:
     _check_interactions(data, errors)
     _check_pharmacies(data, errors)
     _check_unique_names("sylhet_areas.json", [a.name for a in data.sylhet_areas], errors)
+    _check_symptom_guide(data, errors)
 
 
 # ---------------------------------------------------------------- writing
 
 
 def _clear_tables(session: Session) -> None:
-    for model in (Interaction, Brand, Generic, Manufacturer, Pharmacy, Area):
+    for model in (Interaction, Brand, Generic, Manufacturer, Pharmacy, Area, RedFlag, Specialty):
         session.execute(delete(model))
 
 
@@ -373,8 +413,25 @@ def _insert_places(session: Session, data: SeedData) -> None:
     )
 
 
+def _insert_symptom_guide(session: Session, data: SeedData) -> None:
+    session.add_all(
+        RedFlag(
+            key=r.id,
+            group=r.group,
+            text=r.text,
+            text_bn=r.text_bn,
+            source_url=r.source_url,
+        )
+        for r in data.red_flags
+    )
+    session.add_all(
+        Specialty(key=s.id, name=s.name, name_bn=s.name_bn, covers=s.covers, covers_bn=s.covers_bn)
+        for s in data.specialties
+    )
+
+
 def write_database(engine: Engine, data: SeedData) -> None:
-    """Replace all seed data (medicines, pharmacies, areas) in one transaction.
+    """Replace all seed data (medicines, pharmacies, areas, symptom guide) in one transaction.
 
     The tables are dropped and recreated first: they hold only data derived from the
     seed files, and recreating them keeps an existing database in step with the models
@@ -391,6 +448,7 @@ def write_database(engine: Engine, data: SeedData) -> None:
         _insert_brands(session, data, generic_ids, manufacturer_ids)
         _insert_interactions(session, data, generic_ids)
         _insert_places(session, data)
+        _insert_symptom_guide(session, data)
 
 
 # ---------------------------------------------------------------- entry points
