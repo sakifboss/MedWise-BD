@@ -239,7 +239,7 @@ Rules for every step:
   Scoring also ignores dosage-form words, accepts a bare number for a strength, and skips reads
   of lines nobody could read (`unreadable` in the image's json). Photos are resized like the app.
 
-- [ ] **P4. "How to take" from the label.**
+- [x] **P4. "How to take" from the label.**
   Add optional how_to_take (list of short lines) and how_to_take_bn per record in generics.json,
   through schema, model, import, API and the generic page (section "How to take" /
   "কীভাবে খাবেন", with the source link under it). Content: only what the generic's existing
@@ -249,6 +249,10 @@ Rules for every step:
   Draft English for all generics by reading the cited pages. Bangla goes through the existing
   review sheet: extend build_generics_bn.py so export/apply include the new field; the team
   approves every line before apply.
+  Done 2026-11-10 (d0286a1): 59 lines for 20 generics, each verbatim from the cited NHS page or
+  FDA label (checked by script); no doses (a test checks). Ibuprofen line 1 is shortened (dose
+  removed); metformin has no meal line because the source ties it to a dose. Bangla approved
+  by the owner and applied; all five fields are Bangla for all 20 generics. Verified live.
 
 - [x] **P5. "Request this medicine".**
   When search finds nothing, and when a scanned medicine cannot be matched, show
