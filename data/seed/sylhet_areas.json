@@ -1,0 +1,182 @@
+{
+  "meta": {
+    "dataset": "sylhet_areas",
+    "source": "OpenStreetMap contributors (https://www.openstreetmap.org/copyright)",
+    "licence": "ODbL 1.0",
+    "is_sample": false,
+    "fetched": "2026-11-10",
+    "bbox_south_west_north_east": [
+      24.86,
+      91.82,
+      24.95,
+      91.93
+    ],
+    "note": "Areas to pick when location is not shared: OSM places, plus OSM junctions, roads and landmarks for areas OSM has no place for. Bangla names drafted by MedWise BD.",
+    "to_add_by_team_gps": [
+      "Kumargaon",
+      "Subidbazar"
+    ]
+  },
+  "records": [
+    {
+      "name": "Abdus Samad Azad Square",
+      "name_bn": "আব্দুস সামাদ আজাদ চত্বর",
+      "lat": 24.8675938,
+      "lon": 91.8570351,
+      "kind": "square",
+      "osm": "node/6297004102"
+    },
+    {
+      "name": "Akhalia",
+      "name_bn": "আখালিয়া",
+      "lat": 24.9083669,
+      "lon": 91.8402115,
+      "kind": "landmark",
+      "osm": "way/528899502"
+    },
+    {
+      "name": "Ambarkhana",
+      "name_bn": "আম্বরখানা",
+      "lat": 24.9050794,
+      "lon": 91.8699145,
+      "kind": "landmark",
+      "osm": "node/264490171"
+    },
+    {
+      "name": "Bondor Point",
+      "name_bn": "বন্দর পয়েন্ট",
+      "lat": 24.8919626,
+      "lon": 91.8703471,
+      "kind": "locality",
+      "osm": "node/11296620853"
+    },
+    {
+      "name": "Boroikandi",
+      "name_bn": "বরইকান্দি",
+      "lat": 24.8801115,
+      "lon": 91.8510139,
+      "kind": "village",
+      "osm": "node/4650306102"
+    },
+    {
+      "name": "Chowhatta",
+      "name_bn": "চৌহাট্টা",
+      "lat": 24.8993351,
+      "lon": 91.8687632,
+      "kind": "landmark",
+      "osm": "node/264611266"
+    },
+    {
+      "name": "Dargah (Hazrat Shahjalal Mazar)",
+      "name_bn": "দরগাহ (হযরত শাহজালাল মাজার)",
+      "lat": 24.9021885,
+      "lon": 91.8663671,
+      "kind": "landmark",
+      "osm": "node/765894619"
+    },
+    {
+      "name": "Humayun Rashid Square",
+      "name_bn": "হুমায়ূন রশীদ চত্বর",
+      "lat": 24.8775579,
+      "lon": 91.875475,
+      "kind": "square",
+      "osm": "node/4704716428"
+    },
+    {
+      "name": "Kumarpara",
+      "name_bn": "কুমারপাড়া",
+      "lat": 24.9021581,
+      "lon": 91.8798439,
+      "kind": "landmark",
+      "osm": "way/354424186"
+    },
+    {
+      "name": "Lamabazar",
+      "name_bn": "লামাবাজার",
+      "lat": 24.8958827,
+      "lon": 91.8620375,
+      "kind": "landmark",
+      "osm": "way/530948418"
+    },
+    {
+      "name": "Modina Market",
+      "name_bn": "মদিনা মার্কেট",
+      "lat": 24.9101147,
+      "lon": 91.8482479,
+      "kind": "locality",
+      "osm": "node/6296963510"
+    },
+    {
+      "name": "Naiorpul",
+      "name_bn": "নাইওরপুল",
+      "lat": 24.8947699,
+      "lon": 91.8786686,
+      "kind": "locality",
+      "osm": "node/6296962987"
+    },
+    {
+      "name": "Pathantula",
+      "name_bn": "পাঠানটুলা",
+      "lat": 24.9111608,
+      "lon": 91.8548104,
+      "kind": "landmark",
+      "osm": "node/4121728523"
+    },
+    {
+      "name": "Shibganj",
+      "name_bn": "শিবগঞ্জ",
+      "lat": 24.8952029,
+      "lon": 91.890728,
+      "kind": "locality",
+      "osm": "node/6296959098"
+    },
+    {
+      "name": "South Surma",
+      "name_bn": "দক্ষিণ সুরমা",
+      "lat": 24.87571,
+      "lon": 91.8562,
+      "kind": "borough",
+      "osm": "node/4762165002"
+    },
+    {
+      "name": "SUST (Shahjalal University)",
+      "name_bn": "শাবিপ্রবি (শাহজালাল বিশ্ববিদ্যালয়)",
+      "lat": 24.9240224,
+      "lon": 91.832594,
+      "kind": "landmark",
+      "osm": "way/539407023"
+    },
+    {
+      "name": "Temukhi",
+      "name_bn": "টেমুখী",
+      "lat": 24.9127542,
+      "lon": 91.8245314,
+      "kind": "locality",
+      "osm": "node/6296963513"
+    },
+    {
+      "name": "Tilagar",
+      "name_bn": "টিলাগড়",
+      "lat": 24.8962807,
+      "lon": 91.9001909,
+      "kind": "suburb",
+      "osm": "node/6296959097"
+    },
+    {
+      "name": "Upashahar",
+      "name_bn": "উপশহর",
+      "lat": 24.8858098,
+      "lon": 91.8809772,
+      "kind": "landmark",
+      "osm": "node/264491236"
+    },
+    {
+      "name": "Zindabazar",
+      "name_bn": "জিন্দাবাজার",
+      "lat": 24.8948943,
+      "lon": 91.868725,
+      "kind": "square",
+      "osm": "node/5146598263"
+    }
+  ]
+}
