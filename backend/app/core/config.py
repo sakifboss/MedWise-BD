@@ -34,6 +34,11 @@ class Settings(BaseSettings):
     # "Request this medicine": per client, and a cap for everyone so nobody can fill the table.
     request_limit_per_hour: int = 10
     request_limit_per_day: int = 1000
+    # Symptom guide (Gemini): per client per hour, and for everyone per day.
+    symptom_limit_per_hour: int = 10
+    symptom_limit_per_day: int = 200
+    # Words that make the guide drop an AI-written note (diagnosis words), editable without code.
+    symptom_words_path: Path = BACKEND_DIR / "app" / "core" / "symptom_words.json"
     cors_origins: str = "http://localhost:3000"
     # Shared with the frontend (same value on Vercel and Render). When set, prescription uploads
     # must carry it, so only our website can spend the Gemini quota. Empty: no check (local dev).

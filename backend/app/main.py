@@ -19,6 +19,7 @@ from app.api import (
     prescription,
     search,
     stats,
+    symptom_guide,
 )
 from app.core.config import get_settings
 from app.core.db import get_db
@@ -82,6 +83,7 @@ def create_app() -> FastAPI:
         medicine_requests,
         stats,
         pharmacies,
+        symptom_guide,
     )
     for module in routers:
         app.include_router(module.router, prefix="/api")
