@@ -462,3 +462,43 @@ PR workflow for every step:
   naming a disease left out; 11 specialties; all Bangla approved by the owner. Free Gemini tier by the
   owner's choice: the notice says Google may keep and review the text. Eval (40 invented cases):
   red flags 13/13, false alarms 0/27, specialty 27/27. Logo text hides below 420 px so the header fits.
+
+## Phase 4 (added 2026-11-10)
+Same rules and PR workflow as Phase 3: plan first and wait for the user's OK; en + bn for every
+string; no medical advice; data only through seed files and import_data.py; no hard-coded counts;
+docs updated when behaviour changes; never merge (the user merges).
+
+Pending outside this list: re-run the OCR evaluation with the first-choice model
+(`eval_ocr.py --model gemini-3.8-flash`, branch `chore/ocr-eval-first-choice`). Free tier: 20
+requests a day for that model, so it takes two days. Adding more medicines is on hold (owner, 2026-11-10).
+
+- [ ] **Q1. "Usually keeps" from partner pharmacies (Sylhet).** Blocked until the team has at least
+  one partner (consent form kept by the team, never in the repo).
+  Team: about once a month, phone each partner and fill data/templates/pharmacy_stock_template.csv
+  (pharmacy osm id or survey id, generic, strength, dosage form, brands they mentioned, asked_on,
+  asked_by). A build script writes data/seed/pharmacy_stock.json; import_data.py checks that the
+  pharmacy is a partner, the generic + strength + form is in the catalog, asked_on is not in the
+  future, and reports rows older than 30 days.
+  App: /api/pharmacies adds, per partner, what it usually keeps (only entries asked within the
+  last 30 days, computed per request, so old entries disappear without a deploy). In the finder on
+  ranking and alternatives pages:
+  en "Usually keeps <generic> <strength> <form> (the shop told us on <date>)"
+  bn "সাধারণত <generic> <strength> <form> রাখে (দোকান জানিয়েছে <date>)";
+  "Brands they mentioned: …"; a filter "Only shops that usually keep this medicine" /
+  "শুধু যে দোকান সাধারণত এই ওষুধ রাখে" (still sorted by distance); "Call before you go" stays.
+  Never "in stock"; no quantities, shop prices, orders or reservations; non-partner shops get no
+  medicine claims. A partner can be removed with a data change only.
+
+- [ ] **Q2. Light / dark theme.** A theme button in the header: System (default) / Light / Dark,
+  remembered in a cookie (like the language), rendered on the server so there is no flash and no
+  inline script (the nonce CSP stays as it is). System follows prefers-color-scheme through CSS.
+  Check every page and component in both themes (contrast of badges, score bars, severity colours,
+  the red emergency screen, QR code, charts), keep print always light, and set the PWA theme
+  colour per theme. Browser tests for both themes and all three choices.
+
+Suggested, not yet approved:
+- Q3. Larger text: a text-size choice (normal / large) for older users, saved in a cookie.
+- Q4. "Report a wrong price or detail" on brand cards: stores only the brand id, a reason from a
+  fixed list and the day (like the request log, no personal data); a script lists reports so the
+  team can fix seed data.
+- Q5. Recently viewed medicines on the home page, kept on the device only (like My Medicines).
