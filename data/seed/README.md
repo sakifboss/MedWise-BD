@@ -9,6 +9,8 @@ The **only** data source for the database. Load with `cd backend && python scrip
 > `interactions.json` comes from DDInter (CC BY-NC-SA 4.0). `generics.json` text is condensed from
 > NHS medicine pages (cefixime, famotidine, levocetirizine: US FDA labels on DailyMed; vildagliptin:
 > EMA product information); each record lists its `source_urls`. See the main README, "Collecting real data".
+> `pharmacies.json` and `sylhet_areas.json` come from OpenStreetMap (© OpenStreetMap contributors,
+> ODbL 1.0) through `backend/scripts/fetch_osm_pharmacies.py`; see the main README, "Pharmacy finder".
 
 To switch to official data, replace these files with new ones using the same format. No code changes are needed.
 
@@ -27,6 +29,8 @@ Rows reference each other **by name** (case-insensitive), not by id. Unknown fie
 | `generics.json` | `name`, `drug_class`, `indications[]`, `dosage_forms[]`, `side_effects[]`, `precautions[]`, `source_urls[]`; optional reviewed Bangla `drug_class_bn`, `indications_bn[]`, `side_effects_bn[]`, `precautions_bn[]` (each list translates every English line; written by `build_generics_bn.py`) |
 | `brands.json` | `name`, `generic`, `manufacturer`, `strength`, `dosage_form`, `price_per_unit` (BDT), optional `source_url` (price source) |
 | `interactions.json` | `generic_a`, `generic_b`, `severity` (`minor` / `moderate` / `major`), `description` |
+| `pharmacies.json` | `name`, optional `name_bn`, `lat`, `lon`, optional `address`, `phone`, `source` (`osm` with `osm_type` + `osm_id`, or `survey` with `surveyed_by` + `surveyed_on`), `is_partner`, optional `partner_since`, `hide_phone`. No stock fields |
+| `sylhet_areas.json` | `name`, optional `name_bn`, `lat`, `lon`, `kind`, optional `osm` (e.g. `node/264490171`) |
 
 `quality_factors.json` is merged into the `manufacturers` table on import. Each manufacturer needs exactly one entry.
 
@@ -36,4 +40,7 @@ Rows reference each other **by name** (case-insensitive), not by id. Unknown fie
   with the same strength compare as equal.
 - A brand's `dosage_form` must be listed in its generic's `dosage_forms`.
 - Duplicate names, duplicate brands and duplicate interaction pairs (in either order) are rejected.
+- Pharmacies and areas must lie inside the Sylhet city box (24.86,91.82 – 24.95,91.93). A repeated
+  OSM id, or two pharmacies with the same name within 20 m, is rejected. Only phone numbers that may
+  be shown are stored: OSM numbers unless `hide_phone`, survey numbers only for partners.
 - Any error stops the import and nothing is written. Every error is listed with its file, row index and field.

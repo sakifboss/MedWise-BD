@@ -10,10 +10,11 @@ const SECURITY_HEADERS = [
   { key: "X-Frame-Options", value: "DENY" },
   // Other sites see only our origin, never a page URL (share links carry the medicine list).
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-  // Microphone for voice search only; the prescription photo uses the file picker, not the camera API.
+  // Microphone for voice search, location for the pharmacy finder (worked out on the device);
+  // the prescription photo uses the file picker, not the camera API.
   {
     key: "Permissions-Policy",
-    value: "camera=(), microphone=(self), geolocation=(), payment=(), usb=(), browsing-topics=()",
+    value: "camera=(), microphone=(self), geolocation=(self), payment=(), usb=(), browsing-topics=()",
   },
   { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
 ];

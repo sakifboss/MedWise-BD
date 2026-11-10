@@ -12,6 +12,7 @@ Usage (from backend/):
 
 import argparse
 import json
+import math
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -26,12 +27,14 @@ from sqlalchemy.orm import Session  # noqa: E402
 
 from app.core.config import get_settings  # noqa: E402
 from app.core.db import Base, RequestsBase, make_engine  # noqa: E402
-from app.models import Brand, Generic, Interaction, Manufacturer  # noqa: E402
+from app.models import Area, Brand, Generic, Interaction, Manufacturer, Pharmacy  # noqa: E402
 from app.schemas.seed import (  # noqa: E402
+    AreaSeed,
     BrandSeed,
     GenericSeed,
     InteractionSeed,
     ManufacturerSeed,
+    PharmacySeed,
     QualityFactorSeed,
     SeedMeta,
 )
@@ -44,7 +47,12 @@ SEED_SCHEMAS: dict[str, type[BaseModel]] = {
     "generics": GenericSeed,
     "brands": BrandSeed,
     "interactions": InteractionSeed,
+    "pharmacies": PharmacySeed,
+    "sylhet_areas": AreaSeed,
 }
+
+# Two pharmacies with the same name closer than this are one shop entered twice.
+DUPLICATE_PHARMACY_METRES = 20.0
 
 
 @dataclass
@@ -54,6 +62,8 @@ class SeedData:
     generics: list[GenericSeed] = field(default_factory=list)
     brands: list[BrandSeed] = field(default_factory=list)
     interactions: list[InteractionSeed] = field(default_factory=list)
+    pharmacies: list[PharmacySeed] = field(default_factory=list)
+    sylhet_areas: list[AreaSeed] = field(default_factory=list)
     sample_datasets: list[str] = field(default_factory=list)
 
 
@@ -229,19 +239,51 @@ def _check_interactions(data: SeedData, errors: list[str]) -> None:
         seen.add(pair)
 
 
+def distance_metres(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+    """Great-circle distance (haversine), good to well under a metre at city scale."""
+    r = 6_371_000.0
+    p1, p2 = math.radians(lat1), math.radians(lat2)
+    dp, dl = p2 - p1, math.radians(lon2 - lon1)
+    a = math.sin(dp / 2) ** 2 + math.cos(p1) * math.cos(p2) * math.sin(dl / 2) ** 2
+    return 2 * r * math.asin(math.sqrt(a))
+
+
+def _check_pharmacies(data: SeedData, errors: list[str]) -> None:
+    seen_osm: set[tuple[str, int]] = set()
+    by_name: dict[str, list[tuple[int, PharmacySeed]]] = {}
+    for index, row in enumerate(data.pharmacies):
+        label = f"pharmacies.json[{index}] '{row.name}'"
+        if row.osm_type is not None and row.osm_id is not None:
+            ref = (row.osm_type, row.osm_id)
+            if ref in seen_osm:
+                errors.append(f"{label}: duplicate OpenStreetMap id {row.osm_type}/{row.osm_id}")
+            seen_osm.add(ref)
+        name = " ".join(_key(row.name).split())
+        for other_index, other in by_name.get(name, []):
+            metres = distance_metres(row.lat, row.lon, other.lat, other.lon)
+            if metres < DUPLICATE_PHARMACY_METRES:
+                errors.append(
+                    f"{label}: same name as pharmacies.json[{other_index}], "
+                    f"{metres:.0f} m away (closer than {DUPLICATE_PHARMACY_METRES:.0f} m)"
+                )
+        by_name.setdefault(name, []).append((index, row))
+
+
 def check_references(data: SeedData, errors: list[str]) -> None:
     _check_unique_names("manufacturers.json", [m.name for m in data.manufacturers], errors)
     _check_unique_names("generics.json", [g.name for g in data.generics], errors)
     _check_quality_factors(data, errors)
     _check_brands(data, errors)
     _check_interactions(data, errors)
+    _check_pharmacies(data, errors)
+    _check_unique_names("sylhet_areas.json", [a.name for a in data.sylhet_areas], errors)
 
 
 # ---------------------------------------------------------------- writing
 
 
 def _clear_tables(session: Session) -> None:
-    for model in (Interaction, Brand, Generic, Manufacturer):
+    for model in (Interaction, Brand, Generic, Manufacturer, Pharmacy, Area):
         session.execute(delete(model))
 
 
@@ -308,8 +350,31 @@ def _insert_interactions(session: Session, data: SeedData, generic_ids: dict[str
         )
 
 
+def _insert_places(session: Session, data: SeedData) -> None:
+    """Pharmacies (a phone is stored only when it may be shown) and areas."""
+    session.add_all(
+        Pharmacy(
+            name=p.name,
+            name_bn=p.name_bn,
+            lat=p.lat,
+            lon=p.lon,
+            address=p.address,
+            phone=p.phone if p.phone_shown else None,
+            source=p.source,
+            osm_type=p.osm_type,
+            osm_id=p.osm_id,
+            is_partner=p.is_partner,
+            partner_since=p.partner_since,
+        )
+        for p in data.pharmacies
+    )
+    session.add_all(
+        Area(name=a.name, name_bn=a.name_bn, lat=a.lat, lon=a.lon) for a in data.sylhet_areas
+    )
+
+
 def write_database(engine: Engine, data: SeedData) -> None:
-    """Replace all medicine data in one transaction.
+    """Replace all seed data (medicines, pharmacies, areas) in one transaction.
 
     The tables are dropped and recreated first: they hold only data derived from the
     seed files, and recreating them keeps an existing database in step with the models
@@ -325,6 +390,7 @@ def write_database(engine: Engine, data: SeedData) -> None:
         generic_ids = _insert_generics(session, data)
         _insert_brands(session, data, generic_ids, manufacturer_ids)
         _insert_interactions(session, data, generic_ids)
+        _insert_places(session, data)
 
 
 # ---------------------------------------------------------------- entry points

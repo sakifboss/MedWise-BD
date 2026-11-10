@@ -31,6 +31,7 @@ and dosage form, ranked by manufacturer quality (80%) and price (20%), with the 
 | **Share for the pharmacist** | WhatsApp / share / print with a QR code; a whole prescription becomes a `/share` link (nothing stored) |
 | **Manufacturer pages** | Each company's regulator approvals, score breakdown, unknowns, sources and brands |
 | **My Medicines** | Save medicines on your phone only (MedWise never receives the list): see each one's rank and the top-ranked option, check interactions across them, add daily reminders to your calendar (.ics) and back up the list |
+| **Pharmacy finder (Sylhet)** | On every ranking page, the 10 nearest pharmacies in Sylhet city from OpenStreetMap, with distance, “Call” when a number is listed and “Directions”. Your location stays in the browser (or pick your area). We never claim a shop has a medicine: “Call before you go” |
 | **Request a medicine** | When we have no data for a medicine (search or scan), one tap asks us to add it. Only the medicine name, where it came from and the day are stored |
 | **Installable app** | Add to the home screen like an app |
 | **Offline mode** | Pages you open are saved; “Save all medicines for offline use” saves every medicine and ranking page. Without internet the saved copy opens with “Showing data saved on …”, and search lists the saved medicines. Online, pages are always fresh |
@@ -173,6 +174,29 @@ reading, the request log, Next.js navigation data (`?_rsc`) and non-200 answers.
 keeps the headers it came with, so its Content-Security-Policy nonce still matches its scripts.
 At most 100 saved pages and 300 static files; the oldest go first. Bump `VERSION` in `sw.js`
 (and `PAGES_CACHE` in `src/lib/offline.ts`; a unit test checks they match) to start fresh.
+
+## Pharmacy finder (Sylhet)
+
+[`data/seed/pharmacies.json`](data/seed/pharmacies.json) and `sylhet_areas.json` come from
+OpenStreetMap (© OpenStreetMap contributors, ODbL 1.0), credited under the list and in the footer.
+Refresh them from `backend/`:
+
+```bash
+python scripts/fetch_osm_pharmacies.py          # Overpass API, Sylhet city box 24.86,91.82 – 24.95,91.93
+python scripts/import_data.py --dry-run
+```
+
+The fetch keeps `amenity=pharmacy` with a name, leaves out homeopathic, herbal, Ayurvedic and Unani
+shops (by name or tag) and prints every excluded entry with its reason. Kept by hand and carried
+over a re-fetch: `is_partner`, `partner_since` (a partner who agreed; consent forms stay with the
+team) and `hide_phone` (hide a number when the owner asks). Team survey rows (`source: "survey"`,
+recorded on site with a phone's GPS, with `surveyed_by` and `surveyed_on`) are added to the same
+file; their phone is shown only for partners. The import rejects places outside the box, a repeated
+OSM id, and two pharmacies with the same name within 20 m.
+
+`GET /api/pharmacies?city=sylhet` returns the whole list and takes no position: the browser asks
+for location only after the tap and sorts by straight-line distance on the device. If location is
+denied or outside Sylhet, the user picks an area. The list never says what a shop has in stock.
 
 ## Medicine requests
 

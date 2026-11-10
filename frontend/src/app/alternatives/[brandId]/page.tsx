@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { BackLink } from "@/components/back-link";
 import { Disclaimer } from "@/components/disclaimer";
 import { HowRankingWorks } from "@/components/how-ranking-works";
+import { PharmacyFinder } from "@/components/pharmacy-finder";
 import { RankingList } from "@/components/ranking-list";
 import { getDict, getLang } from "@/i18n/server";
 import { api, isNotFound } from "@/lib/api";
@@ -48,6 +49,7 @@ export default async function AlternativesPage(props: PageProps<"/alternatives/[
       <Disclaimer />
       <HowRankingWorks />
       <RankingList data={data} shareTitle={t.alternatives.title(`${selectedName(data)} ${data.strength}`)} />
+      <PharmacyFinder />
     </div>
   );
 }

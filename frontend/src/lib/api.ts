@@ -1,6 +1,7 @@
 import type { Lang } from "@/i18n/dictionaries";
 
 import type { components } from "./api-schema";
+import type { PharmaciesData } from "./pharmacies";
 
 type Schemas = components["schemas"];
 
@@ -126,6 +127,10 @@ export const api = {
   },
   stats() {
     return request<CatalogStats>("/api/stats");
+  },
+  /** The whole pharmacy list; no position is sent (distances are worked out in the browser). */
+  pharmacies() {
+    return request<PharmaciesData>("/api/pharmacies?city=sylhet");
   },
   /** "Request this medicine": only the text and where it came from are sent (and stored). */
   requestMedicine(query: string, source: RequestSource) {
