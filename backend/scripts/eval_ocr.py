@@ -561,6 +561,17 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--delay", type=float, default=6.0, help="seconds between Gemini calls")
     parser.add_argument("--only", help="comma-separated image ids, e.g. rx01,rx02")
     parser.add_argument("--no-write", action="store_true", help="do not write results.md")
+    parser.add_argument(
+        "--model",
+        help="measure only this model (no fallbacks); its answers are cached in cache/<model>/",
+    )
+    parser.add_argument(
+        "--retries", type=int, default=3, help="extra tries when Gemini is busy (429/503)"
+    )
+    parser.add_argument(
+        "--retry-wait", type=float, default=65.0, help="seconds to wait before a retry"
+    )
+    parser.add_argument("--out", type=Path, help="results file (default: <eval-dir>/results.md)")
     args = parser.parse_args(argv)
 
     from app.core.config import get_settings
@@ -570,7 +581,7 @@ def main(argv: list[str] | None = None) -> int:
     from scripts.import_data import run_import
 
     folder = args.eval_dir / "prescriptions"
-    cache_dir = args.eval_dir / "cache"
+    cache_dir = args.eval_dir / "cache" / args.model if args.model else args.eval_dir / "cache"
     subsets_file = args.eval_dir / "subsets.json"
     subsets_data = (
         json.loads(subsets_file.read_text(encoding="utf-8")) if subsets_file.exists() else {}
@@ -587,6 +598,11 @@ def main(argv: list[str] | None = None) -> int:
         return 1
 
     settings = get_settings()
+    if args.model:
+        # Only this model: a busy model is retried, never replaced by a fallback.
+        settings = settings.model_copy(
+            update={"gemini_model": args.model, "gemini_fallback_models": ""}
+        )
     extractor: GeminiExtractor | None = None
     with tempfile.TemporaryDirectory() as tmp:
         engine = make_engine(f"sqlite:///{(Path(tmp) / 'eval.db').as_posix()}")
@@ -617,11 +633,20 @@ def main(argv: list[str] | None = None) -> int:
                     if last_call and wait > 0:
                         time.sleep(wait)
                     last_call = time.monotonic()
-                    try:
-                        medicines, model = extractor(sent, "image/jpeg"), extractor.last_model
-                        write_cache(cache_path, image_hash, medicines, model)
-                    except AppError as exc:
-                        medicines, model, error = [], None, f"{exc.code}: {exc.message}"
+                    for attempt in range(args.retries + 1):
+                        try:
+                            medicines = extractor(sent, "image/jpeg")
+                            model, error = extractor.last_model, None
+                            write_cache(cache_path, image_hash, medicines, model)
+                            break
+                        except AppError as exc:
+                            medicines, model, error = [], None, f"{exc.code}: {exc.message}"
+                            busy = exc.code in ("ocr_busy", "ocr_unavailable")
+                            if not busy or attempt == args.retries:
+                                break
+                            print(f"{image_id}: {exc.code}, retrying in {args.retry_wait:g}s")
+                            time.sleep(args.retry_wait)
+                    last_call = time.monotonic()
                     source = "gemini"
                 extracted = dedupe(medicines)
                 unreadable = load_unreadable(path.with_suffix(".json"))
@@ -658,7 +683,7 @@ def main(argv: list[str] | None = None) -> int:
             + (f"  errors {t.errors}" if t.errors else "")
         )
     if not args.no_write:
-        out = args.eval_dir / "results.md"
+        out = args.out or args.eval_dir / "results.md"
         out.write_text(
             results_markdown(
                 results,
