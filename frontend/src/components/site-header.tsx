@@ -1,4 +1,4 @@
-import { Camera, ClipboardList, Factory, Pill, ShieldAlert } from "lucide-react";
+import { Camera, ClipboardList, Factory, Pill, ShieldAlert, Stethoscope } from "lucide-react";
 import Link from "next/link";
 
 import { LanguageToggle } from "@/components/language-toggle";
@@ -11,13 +11,15 @@ export async function SiteHeader() {
     { href: "/interactions", label: t.nav.interactions, icon: ShieldAlert },
     { href: "/manufacturers", label: t.manufacturer.nav, icon: Factory },
     { href: "/my-medicines", label: t.myMeds.nav, icon: ClipboardList },
+    { href: "/symptoms", label: t.symptoms.nav, icon: Stethoscope },
   ];
   return (
     <header className="sticky top-0 z-10 border-b print:static bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/80">
       <div className="mx-auto flex h-14 w-full max-w-3xl items-center gap-2 px-4 sm:gap-5">
         <Link href="/" className="flex shrink-0 items-center gap-2 font-semibold tracking-tight whitespace-nowrap">
           <Pill className="size-5 text-primary" aria-hidden />
-          MedWise BD
+          {/* Five nav icons and the language button need the room on small phones. */}
+          <span className="max-[420px]:sr-only">MedWise BD</span>
         </Link>
         <nav aria-label={t.nav.main} className="flex items-center text-sm sm:gap-4 print:hidden">
           {nav.map(({ href, label, icon: Icon }) => (

@@ -562,6 +562,96 @@
         }
       }
     },
+    "/api/symptom-guide/setup": {
+      "get": {
+        "tags": [
+          "symptom guide"
+        ],
+        "summary": "Setup",
+        "description": "The emergency checklist (NHS wording, in order) and the specialties.",
+        "operationId": "setup_api_symptom_guide_setup_get",
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "en",
+                "bn"
+              ],
+              "type": "string",
+              "default": "en",
+              "title": "Lang"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_SymptomGuideSetup_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/symptom-guide": {
+      "post": {
+        "tags": [
+          "symptom guide"
+        ],
+        "summary": "Symptom Guide",
+        "description": "Which kind of doctor to start with, and a short note. Not a diagnosis.",
+        "operationId": "symptom_guide_api_symptom_guide_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SymptomGuideIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_SymptomGuideOut_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/health": {
       "get": {
         "tags": [
@@ -741,6 +831,32 @@
           "brands"
         ],
         "title": "CheckedMedicine"
+      },
+      "DoctorNote": {
+        "properties": {
+          "main_problem": {
+            "type": "string",
+            "title": "Main Problem"
+          },
+          "duration": {
+            "type": "string",
+            "title": "Duration"
+          },
+          "other_symptoms": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Other Symptoms"
+          }
+        },
+        "type": "object",
+        "required": [
+          "main_problem",
+          "duration",
+          "other_symptoms"
+        ],
+        "title": "DoctorNote"
       },
       "Envelope_AlternativesResponse_": {
         "properties": {
@@ -975,6 +1091,58 @@
         },
         "type": "object",
         "title": "Envelope[SearchResponse]"
+      },
+      "Envelope_SymptomGuideOut_": {
+        "properties": {
+          "data": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SymptomGuideOut"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorBody"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "Envelope[SymptomGuideOut]"
+      },
+      "Envelope_SymptomGuideSetup_": {
+        "properties": {
+          "data": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SymptomGuideSetup"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorBody"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "Envelope[SymptomGuideSetup]"
       },
       "Envelope_dict_str__str__": {
         "properties": {
@@ -2139,6 +2307,34 @@
         ],
         "title": "RankedAlternative"
       },
+      "RedFlagOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "group": {
+            "type": "string",
+            "title": "Group"
+          },
+          "text": {
+            "type": "string",
+            "title": "Text"
+          },
+          "source_url": {
+            "type": "string",
+            "title": "Source Url"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "group",
+          "text",
+          "source_url"
+        ],
+        "title": "RedFlagOut"
+      },
       "SearchResponse": {
         "properties": {
           "query": {
@@ -2239,6 +2435,188 @@
           "generic_name"
         ],
         "title": "SearchResult"
+      },
+      "SpecialtyOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "covers": {
+            "type": "string",
+            "title": "Covers"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "covers"
+        ],
+        "title": "SpecialtyOut"
+      },
+      "SymptomGuideIn": {
+        "properties": {
+          "text": {
+            "type": "string",
+            "maxLength": 1000,
+            "minLength": 3,
+            "title": "Text",
+            "description": "The problem in their own words"
+          },
+          "since": {
+            "type": "string",
+            "enum": [
+              "today",
+              "days",
+              "weeks",
+              "months"
+            ],
+            "title": "Since"
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "mild",
+              "moderate",
+              "severe"
+            ],
+            "title": "Severity"
+          },
+          "age_group": {
+            "type": "string",
+            "enum": [
+              "child",
+              "adult",
+              "older_adult"
+            ],
+            "title": "Age Group"
+          },
+          "pregnant": {
+            "type": "string",
+            "enum": [
+              "yes",
+              "no",
+              "not_applicable"
+            ],
+            "title": "Pregnant"
+          },
+          "lang": {
+            "type": "string",
+            "enum": [
+              "en",
+              "bn"
+            ],
+            "title": "Lang",
+            "default": "en"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "text",
+          "since",
+          "severity",
+          "age_group",
+          "pregnant"
+        ],
+        "title": "SymptomGuideIn",
+        "description": "What the person answered. Nothing here is stored or logged."
+      },
+      "SymptomGuideOut": {
+        "properties": {
+          "emergency": {
+            "type": "boolean",
+            "title": "Emergency"
+          },
+          "specialty": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SpecialtyOut"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "note": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DoctorNote"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "note_written_by": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "ai",
+                  "answers"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note Written By"
+          },
+          "rule": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "child",
+                  "pregnant"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rule"
+          }
+        },
+        "type": "object",
+        "required": [
+          "emergency",
+          "specialty",
+          "note",
+          "note_written_by",
+          "rule"
+        ],
+        "title": "SymptomGuideOut"
+      },
+      "SymptomGuideSetup": {
+        "properties": {
+          "red_flags": {
+            "items": {
+              "$ref": "#/components/schemas/RedFlagOut"
+            },
+            "type": "array",
+            "title": "Red Flags"
+          },
+          "specialties": {
+            "items": {
+              "$ref": "#/components/schemas/SpecialtyOut"
+            },
+            "type": "array",
+            "title": "Specialties"
+          }
+        },
+        "type": "object",
+        "required": [
+          "red_flags",
+          "specialties"
+        ],
+        "title": "SymptomGuideSetup"
       },
       "ValidationError": {
         "properties": {
