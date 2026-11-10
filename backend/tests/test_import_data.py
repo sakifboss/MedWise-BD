@@ -40,11 +40,15 @@ def _count(engine: Engine, model: type) -> int:
         return session.scalar(select(func.count()).select_from(model)) or 0
 
 
+def _records(name: str) -> list:
+    return json.loads((SEED_DIR / f"{name}.json").read_text(encoding="utf-8"))["records"]
+
+
 def test_shipped_seed_data_is_valid() -> None:
     result = run_import(SEED_DIR, engine=None, dry_run=True)
     assert result.errors == []
     assert result.counts["manufacturers"] == 13
-    assert result.counts["generics"] == 20
+    assert result.counts["generics"] == len(_records("generics"))
     assert result.counts["brands"] >= 40
     assert result.counts["interactions"] >= 1
     # Manufacturer quality data is real (sourced), not sample.
@@ -58,7 +62,7 @@ def test_import_writes_all_rows(data_dir: Path, engine: Engine) -> None:
     result = run_import(data_dir, engine)
     assert result.ok
     assert _count(engine, Manufacturer) == result.counts["manufacturers"]
-    assert _count(engine, Generic) == 20
+    assert _count(engine, Generic) == result.counts["generics"]
     assert _count(engine, Brand) == result.counts["brands"]
     assert _count(engine, Interaction) == result.counts["interactions"]
 

@@ -1,7 +1,7 @@
 {
   "meta": {
     "dataset": "generics",
-    "source": "NHS website medicine pages (nhs.uk); Cefixime from its US FDA label on DailyMed. Each record lists its source_urls.",
+    "source": "NHS website medicine pages (nhs.uk); Cefixime, Famotidine and Levocetirizine from US FDA labels on DailyMed; Vildagliptin from the EMA product information (Galvus). Each record lists its source_urls.",
     "is_sample": false,
     "note": "Condensed from the cited pages on 2026-11-03, keeping the source's wording. drug_class and dosage_forms are set by the MedWise BD team. Not medical advice. how_to_take (added 2026-11-10) holds only what the cited page says about food, milk, alcohol and things to take apart, copied word for word; never doses."
   },
@@ -1232,6 +1232,299 @@
       "how_to_take_bn": [
         "সেটিরিজিন খাবারের সাথে বা খাবার ছাড়া খেতে পারেন, তবে ট্যাবলেট সবসময় পানি, দুধ বা শরবতের সাথে খাবেন।",
         "সেটিরিজিন খাওয়ার সময় অ্যালকোহল পান না করাই ভালো, কারণ এতে ঘুম ঘুম লাগতে পারে।"
+      ]
+    },
+    {
+      "name": "Fexofenadine",
+      "drug_class": "Second-generation antihistamine",
+      "indications": [
+        "Hay fever",
+        "Conjunctivitis (red, itchy eyes)",
+        "Eczema",
+        "Hives (urticaria)",
+        "Reactions to insect bites and stings",
+        "Some food allergies"
+      ],
+      "dosage_forms": [
+        "tablet"
+      ],
+      "side_effects": [
+        "Feeling sick",
+        "Feeling sleepy",
+        "Headaches",
+        "Feeling dizzy",
+        "Serious (rare): a serious allergic reaction (anaphylaxis), such as sudden swelling of the lips, mouth, throat or tongue"
+      ],
+      "precautions": [
+        "Tell your doctor if you have ever had an allergic reaction to fexofenadine or any other medicine",
+        "Tell your doctor if you have problems with your liver or kidneys",
+        "Tell your doctor if you have, or have ever had, heart problems",
+        "Tell your doctor if you are due to have an allergy test, as fexofenadine may affect the results",
+        "Tell your doctor if you are pregnant, trying to get pregnant or breastfeeding"
+      ],
+      "how_to_take": [
+        "If you're taking 120mg or 180mg fexofenadine tablets, take them before a meal.",
+        "Always take your fexofenadine tablets with a drink of water. Do not take your tablets with apple, orange or grapefruit juice as these can reduce how well the medicine works.",
+        "It's best not to drink alcohol while you're taking fexofenadine, as it can make you feel sleepy."
+      ],
+      "source_urls": [
+        "https://www.nhs.uk/medicines/fexofenadine/"
+      ]
+    },
+    {
+      "name": "Loratadine",
+      "drug_class": "Second-generation antihistamine",
+      "indications": [
+        "Hay fever",
+        "Conjunctivitis (red, itchy eyes)",
+        "Eczema",
+        "Hives (urticaria)",
+        "Reactions to insect bites and stings",
+        "Some food allergies"
+      ],
+      "dosage_forms": [
+        "tablet"
+      ],
+      "side_effects": [
+        "Feeling sleepy and tired",
+        "Headaches",
+        "Feeling tired or nervous (children)",
+        "Serious (rare): a serious allergic reaction (anaphylaxis), such as sudden swelling of the lips, mouth, throat or tongue"
+      ],
+      "precautions": [
+        "Tell your doctor if you have ever had an allergy to loratadine or any other medicines",
+        "Tell your doctor if you have severe liver failure",
+        "Tell your doctor if you have an allergy to food additives",
+        "Tell your doctor if you have epilepsy or another condition that puts you at risk of seizures or fits",
+        "Tell your doctor if you are due to have a test for allergies, as loratadine may affect the results"
+      ],
+      "how_to_take": [
+        "You can take all types of loratadine with or without food.",
+        "Swallow tablets with a drink of water, milk or juice.",
+        "It's best not to drink alcohol while you're taking loratadine, as it can make you feel sleepy."
+      ],
+      "source_urls": [
+        "https://www.nhs.uk/medicines/loratadine/"
+      ]
+    },
+    {
+      "name": "Domperidone",
+      "drug_class": "Anti-sickness medicine",
+      "indications": [
+        "Feeling sick (nausea) and being sick (vomiting)",
+        "Stomach pain during end of life care (palliative care)",
+        "Sometimes, to increase breast milk supply when other things have not worked"
+      ],
+      "dosage_forms": [
+        "tablet"
+      ],
+      "side_effects": [
+        "Dry mouth",
+        "Serious (rare): muscles or eyes moving in an unusual or uncontrolled way",
+        "Serious (rare): problems peeing",
+        "Serious (rare): a seizure or fit, or a fast or irregular heartbeat (call 999 or go to A&E)",
+        "Serious (rare): a serious allergic reaction (anaphylaxis), such as sudden swelling of the lips, mouth, throat or tongue"
+      ],
+      "precautions": [
+        "Tell your doctor if you have ever had an allergic reaction to domperidone or any other medicine",
+        "Tell your doctor if you weigh less than 35kg",
+        "Tell your doctor if you have a condition that can cause a blockage in your bowel, such as Crohn's disease or diverticulitis",
+        "Tell your doctor if you have ever had bleeding from your stomach or gut",
+        "Tell your doctor if you have a tumour on your pituitary gland",
+        "Tell your doctor if you have liver, kidney or heart problems, or an irregular heartbeat (arrhythmia)",
+        "May not be suitable for people over 60 years old, because there's more risk of side effects"
+      ],
+      "how_to_take": [
+        "It's best to take domperidone before food. Take it 15 to 30 minutes before you have a meal or snack.",
+        "It's best to avoid alcohol when taking domperidone.",
+        "Drinking alcohol can make side effects worse, such as feeling sleepy or an irregular heartbeat."
+      ],
+      "source_urls": [
+        "https://www.nhs.uk/medicines/domperidone/"
+      ]
+    },
+    {
+      "name": "Famotidine",
+      "drug_class": "H2 blocker (histamine-2 receptor antagonist)",
+      "indications": [
+        "Active duodenal ulcer",
+        "Active gastric ulcer",
+        "Symptomatic non-erosive gastroesophageal reflux disease (GERD)",
+        "Erosive esophagitis due to GERD",
+        "Pathological hypersecretory conditions (e.g., Zollinger-Ellison syndrome) in adults",
+        "Reducing the risk of duodenal ulcer coming back, in adults"
+      ],
+      "dosage_forms": [
+        "tablet"
+      ],
+      "side_effects": [
+        "Headache",
+        "Dizziness",
+        "Constipation",
+        "Diarrhea",
+        "Serious (rare): confusion, delirium, hallucinations, disorientation, agitation, seizures or lethargy, reported mainly in elderly people and people with kidney problems"
+      ],
+      "precautions": [
+        "Do not use if you have had a serious allergic reaction (e.g., anaphylaxis) to famotidine or other H2 blockers",
+        "Tell your doctor if you have kidney problems or are elderly (higher risk of nervous system side effects)",
+        "Relief of symptoms does not rule out stomach cancer (gastric malignancy); your doctor may check for it"
+      ],
+      "how_to_take": [
+        "Famotidine tablets may be taken with or without food.",
+        "Famotidine tablets may be given with antacids."
+      ],
+      "source_urls": [
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=4c6f4f9e-f3f5-4ecf-9f40-887e037e8847"
+      ]
+    },
+    {
+      "name": "Levocetirizine",
+      "drug_class": "Second-generation antihistamine",
+      "indications": [
+        "Hay fever or other respiratory allergies: runny nose, sneezing, itchy watery eyes, itching of the nose or throat",
+        "Skin symptoms of chronic idiopathic urticaria (long-lasting hives)"
+      ],
+      "dosage_forms": [
+        "tablet"
+      ],
+      "side_effects": [
+        "Sleepiness (somnolence)",
+        "Tiredness (fatigue)",
+        "Dry mouth",
+        "Sore throat (pharyngitis)",
+        "Cold-like symptoms (nasopharyngitis)",
+        "Serious (rare): trouble urinating or emptying the bladder (urinary retention)",
+        "Serious (rare): allergic reactions, from hives to anaphylaxis"
+      ],
+      "precautions": [
+        "Do not use if you have kidney disease",
+        "Do not use if you have ever had an allergic reaction to levocetirizine or to an antihistamine containing cetirizine",
+        "Ask a doctor before use if you have ever had trouble urinating or emptying your bladder",
+        "Drowsiness may occur; be careful when driving a motor vehicle or operating machinery",
+        "New itching may start within a few days of stopping, usually after long-term use"
+      ],
+      "how_to_take": [
+        "Levocetirizine dihydrochloride tablets can be taken without regard to food consumption.",
+        "Avoid alcoholic drinks",
+        "Alcohol, sedatives, and tranquilizers may increase drowsiness"
+      ],
+      "source_urls": [
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=8be45c2a-1eca-4a00-81b9-f7babdbdcd41",
+        "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=60ae7e0e-281c-40a3-a0d3-259b843ddaaa"
+      ]
+    },
+    {
+      "name": "Rosuvastatin",
+      "drug_class": "HMG-CoA reductase inhibitor (statin)",
+      "indications": [
+        "Bring your cholesterol levels down if you have high cholesterol",
+        "Prevent angina, heart attack, stroke and other complications if you have cardiovascular disease",
+        "Familial hypercholesterolaemia (a condition that can cause high cholesterol)"
+      ],
+      "dosage_forms": [
+        "tablet"
+      ],
+      "side_effects": [
+        "A headache",
+        "Dizziness",
+        "Feeling sick (nausea)",
+        "Digestive problems, such as constipation, diarrhoea, indigestion or farting",
+        "Muscle aches",
+        "Sleep problems",
+        "Serious (rare): inflammation of the liver (hepatitis), which can cause yellowing of your skin and the whites of your eyes",
+        "Serious (rare): inflammation of the pancreas (pancreatitis), which can cause severe stomach pain",
+        "Serious (rare): inflammation and damage to the muscles, which can cause muscle cramps, severe pain and weakness",
+        "Serious (rare): a serious allergic reaction (anaphylaxis), such as sudden swelling of the lips, mouth, throat or tongue"
+      ],
+      "precautions": [
+        "May not be suitable if you've had an allergic reaction or other serious side effects from rosuvastatin or another statin",
+        "May not be suitable if you have liver or kidney problems, or an underactive thyroid (hypothyroidism)",
+        "May not be suitable if you or a close family member have a condition that affects the muscles, such as myasthenia gravis",
+        "May not be suitable if you regularly drink a lot of alcohol",
+        "Tell your doctor if you're pregnant or trying to get pregnant; rosuvastatin is not recommended during pregnancy"
+      ],
+      "how_to_take": [
+        "You can take it with or without food",
+        "You can eat as normal while taking rosuvastatin.",
+        "It's best not to drink too much alcohol while taking rosuvastatin, as it can increase the risk of side effects like liver problems."
+      ],
+      "source_urls": [
+        "https://www.nhs.uk/medicines/rosuvastatin/"
+      ]
+    },
+    {
+      "name": "Bisoprolol",
+      "drug_class": "Beta blocker",
+      "indications": [
+        "High blood pressure (hypertension)",
+        "Heart-related chest pain (angina)",
+        "Heart failure, along with other medicines"
+      ],
+      "dosage_forms": [
+        "tablet"
+      ],
+      "side_effects": [
+        "Headaches",
+        "Feeling tired (fatigue) and weak",
+        "Your hands and feet feeling cold, numb or tingly",
+        "Low blood pressure (hypotension), which can make you feel dizzy and tired",
+        "Feeling sick (nausea) or being sick (vomiting)",
+        "Diarrhoea or constipation",
+        "Serious (rare): an allergic reaction (anaphylaxis), such as a swollen throat or tongue, a raised, itchy rash and difficulty breathing",
+        "Serious (rare): liver problems (hepatitis), such as tummy pain, dark pee or yellowing of your skin or eyes",
+        "Serious (rare): breathing problems",
+        "Serious (rare): an unusual heartbeat, or heart symptoms getting worse, if you have heart failure"
+      ],
+      "precautions": [
+        "May not be suitable if you've had an allergic reaction to bisoprolol or another beta blocker before",
+        "May not be suitable if you have breathing problems, such as asthma",
+        "May not be suitable if you have low blood pressure (hypotension)",
+        "May not be suitable if you have diabetes",
+        "May not be suitable if you have kidney disease",
+        "May not be suitable if you have a problem with blood flow in your legs (peripheral arterial disease)",
+        "Tell your doctor if you're pregnant or breastfeeding"
+      ],
+      "how_to_take": [
+        "You can eat as normal while taking bisoprolol. Drinking alcohol while you're taking bisoprolol may increase the risk of low blood pressure.",
+        "Having periods where you do not eat or drink anything (fasting) is also not recommended if you take bisoprolol. This is because it can affect your blood sugar (glucose) level."
+      ],
+      "source_urls": [
+        "https://www.nhs.uk/medicines/bisoprolol/"
+      ]
+    },
+    {
+      "name": "Vildagliptin",
+      "drug_class": "DPP-4 inhibitor (oral antidiabetic)",
+      "indications": [
+        "Type 2 diabetes in adults, when diet and exercise alone do not control it (alone or with other antidiabetic medicines)"
+      ],
+      "dosage_forms": [
+        "tablet"
+      ],
+      "side_effects": [
+        "Sore throat, runny nose, fever",
+        "Headache, dizziness or trembling",
+        "Swollen hands, ankles or feet (oedema)",
+        "Feeling sick (nausea), vomiting, stomach pain, diarrhoea, constipation or heartburn",
+        "Muscle or joint pain",
+        "Serious (rare): angioedema, such as a swollen face, tongue or throat, difficulty swallowing or breathing",
+        "Serious (rare): liver disease (hepatitis), such as yellow skin and eyes, nausea, loss of appetite or dark urine",
+        "Serious (rare): inflammation of the pancreas (pancreatitis), with severe and persistent stomach pain"
+      ],
+      "precautions": [
+        "Do not take if you are allergic to vildagliptin",
+        "Tell your doctor if you have type 1 diabetes or diabetic ketoacidosis",
+        "Tell your doctor if you take a sulphonylurea (risk of low blood sugar)",
+        "Tell your doctor if you have moderate or severe kidney disease, or are on dialysis",
+        "Tell your doctor if you have liver disease, heart failure, or have had a disease of the pancreas",
+        "Your liver function will be tested before and during treatment",
+        "Not recommended for children and adolescents under 18; should not be used during pregnancy or breast-feeding"
+      ],
+      "how_to_take": [
+        "Galvus can be administered with or without a meal"
+      ],
+      "source_urls": [
+        "https://www.ema.europa.eu/en/medicines/human/EPAR/galvus"
       ]
     }
   ]

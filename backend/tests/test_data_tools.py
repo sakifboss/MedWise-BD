@@ -178,7 +178,7 @@ def test_fully_approved_field_is_applied_and_partial_is_not(
     assert warfarin["drug_class_bn"] == "বাংলা 1"
     assert warfarin["indications_bn"] == ["বাংলা 1", "বাংলা 2"]
     assert "side_effects_bn" not in warfarin
-    assert coverage["indications"] == (1, 20)
+    assert coverage["indications"] == (1, len(doc["records"]))
 
 
 def test_stale_and_empty_rows_are_reported(tmp_path: Path, seed_copy: Path) -> None:

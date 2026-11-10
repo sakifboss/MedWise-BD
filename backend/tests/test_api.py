@@ -289,10 +289,13 @@ def test_generic_detail_has_how_to_take_from_the_seed(client: TestClient) -> Non
     cipro = by_name["Ciprofloxacin"]["how_to_take"]
     assert any("dairy products" in line for line in cipro)
     assert all("how_to_take" in g for g in by_name.values())
-    # No dose wording slipped in: the lines are about food, milk, alcohol and timing only.
+    # No dose instructions slipped in: the lines are about food, milk, alcohol and timing only.
+    # A tablet strength naming which tablets a sentence is about ("120mg or 180mg fexofenadine
+    # tablets, take them before a meal") is not a dose.
+    dose = r"\b(once|twice|\d+ times) a day\b|\bdoses?\b|\btake \d+\b|\bup to \d+\b"
     for name, g in by_name.items():
         for line in g["how_to_take"]:
-            assert not re.search(r"\b\d+\s*mg\b|\btimes a day\b|\bdoses?\b", line), (name, line)
+            assert not re.search(dose, line, re.I), (name, line)
 
 
 def test_list_generics_with_presentations(client: TestClient) -> None:
