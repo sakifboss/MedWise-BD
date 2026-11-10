@@ -1,3 +1,4 @@
+import re
 from typing import Any
 
 from fastapi.testclient import TestClient
@@ -244,6 +245,7 @@ def test_generic_text_falls_back_to_english_until_translated() -> None:
         indications=["Use"],
         side_effects=["Effect"],
         precautions=["Care"],
+        how_to_take=["With food"],
         drug_class_bn="শ্রেণি",
         indications_bn=["ব্যবহার"],
     )
@@ -251,13 +253,40 @@ def test_generic_text_falls_back_to_english_until_translated() -> None:
     assert text["drug_class"] == "শ্রেণি"
     assert text["indications"] == ["ব্যবহার"]
     assert text["side_effects"] == ["Effect"]
-    assert pending == ["side_effects", "precautions"]
+    assert pending == ["side_effects", "precautions", "how_to_take"]
     assert _localized(g, "en") == (
         {
             "drug_class": "Class",
             "indications": ["Use"],
             "side_effects": ["Effect"],
             "precautions": ["Care"],
+            "how_to_take": ["With food"],
         },
         [],
     )
+
+
+def test_empty_fields_are_not_pending_translation() -> None:
+    from app.api.generics import _localized
+    from app.models import Generic
+
+    # how_to_take is empty when the source says nothing; there is nothing to translate.
+    g = Generic(name="Y", drug_class="Class", indications=["Use"], side_effects=[], precautions=[])
+    text, pending = _localized(g, "bn")
+    assert text["how_to_take"] == []  # never stored on this object: treated as empty
+    assert pending == ["drug_class", "indications"]
+
+
+def test_generic_detail_has_how_to_take_from_the_seed(client: TestClient) -> None:
+    by_name = {}
+    for gid in range(1, 30):
+        r = client.get(f"/api/generics/{gid}")
+        if r.status_code == 200:
+            by_name[r.json()["data"]["name"]] = r.json()["data"]
+    cipro = by_name["Ciprofloxacin"]["how_to_take"]
+    assert any("dairy products" in line for line in cipro)
+    assert all("how_to_take" in g for g in by_name.values())
+    # No dose wording slipped in: the lines are about food, milk, alcohol and timing only.
+    for name, g in by_name.items():
+        for line in g["how_to_take"]:
+            assert not re.search(r"\b\d+\s*mg\b|\btimes a day\b|\bdoses?\b", line), (name, line)

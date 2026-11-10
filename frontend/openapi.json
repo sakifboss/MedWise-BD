@@ -1015,6 +1015,15 @@
             "type": "array",
             "title": "Precautions"
           },
+          "how_to_take": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "How To Take",
+            "description": "What the source says about food, milk, alcohol and timing",
+            "default": []
+          },
           "source_urls": {
             "items": {
               "type": "string"

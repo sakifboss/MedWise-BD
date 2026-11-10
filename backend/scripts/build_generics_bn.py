@@ -1,7 +1,7 @@
 """Bangla medicine information through a review sheet (data/templates/generics_bn.csv).
 
-The sheet has one row per line of English text (drug class, uses, side effects, precautions)
-with its Bangla translation and an `approved` column. From backend/:
+The sheet has one row per line of English text (drug class, uses, side effects, precautions,
+how to take) with its Bangla translation and an `approved` column. From backend/:
 
     # Add rows for new or changed English text (keeps every existing translation):
     python scripts/build_generics_bn.py export ../data/templates/generics_bn.csv

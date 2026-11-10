@@ -118,6 +118,9 @@ class GenericSeed(_SeedRow):
     dosage_forms: Annotated[list[DosageFormStr], Field(min_length=1)]
     side_effects: TextList = []
     precautions: TextList = []
+    # What the source says about food, milk, alcohol and things to take apart, in its own words.
+    # Empty when the source says nothing (the page then hides the section). Never doses.
+    how_to_take: TextList = []
     source_urls: UrlList = Field(
         default=[], description="Pages the medicine information comes from"
     )
@@ -127,6 +130,7 @@ class GenericSeed(_SeedRow):
     indications_bn: list[NonEmptyStr] | None = None
     side_effects_bn: list[NonEmptyStr] | None = None
     precautions_bn: list[NonEmptyStr] | None = None
+    how_to_take_bn: list[NonEmptyStr] | None = None
 
     @model_validator(mode="after")
     def _bangla_matches_english(self) -> "GenericSeed":
@@ -140,7 +144,7 @@ class GenericSeed(_SeedRow):
         return self
 
 
-TRANSLATED_LIST_FIELDS = ("indications", "side_effects", "precautions")
+TRANSLATED_LIST_FIELDS = ("indications", "side_effects", "precautions", "how_to_take")
 TRANSLATED_FIELDS = ("drug_class", *TRANSLATED_LIST_FIELDS)
 
 

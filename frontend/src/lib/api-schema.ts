@@ -368,6 +368,12 @@ export interface components {
             side_effects: string[];
             /** Precautions */
             precautions: string[];
+            /**
+             * How To Take
+             * @description What the source says about food, milk, alcohol and timing
+             * @default []
+             */
+            how_to_take: string[];
             /** Source Urls */
             source_urls: string[];
             /**

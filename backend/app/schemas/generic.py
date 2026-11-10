@@ -26,6 +26,9 @@ class GenericDetail(BaseModel):
     dosage_forms: list[str]
     side_effects: list[str]
     precautions: list[str]
+    how_to_take: list[str] = Field(
+        default=[], description="What the source says about food, milk, alcohol and timing"
+    )
     source_urls: list[str]
     translation_pending: list[str] = Field(
         default=[],

@@ -131,6 +131,12 @@ export default async function GenericPage(props: PageProps<"/generics/[id]">) {
       <Section title={t.generic.precautions}>
         <BulletList items={generic.precautions} empty={t.generic.notRecorded} />
       </Section>
+      {/* Only what the source says about food, milk, alcohol and timing; hidden when it says nothing. */}
+      {generic.how_to_take.length > 0 && (
+        <Section title={t.generic.howToTake}>
+          <BulletList items={generic.how_to_take} empty={t.generic.notRecorded} />
+        </Section>
+      )}
       {generic.source_urls.length > 0 && (
         <p className="text-xs text-muted-foreground">
           {t.generic.sourceBefore}

@@ -8,7 +8,7 @@ from app.core.db import get_db
 from app.models import SEVERITIES, Brand, Generic, Interaction
 from app.schemas.common import Envelope, LangQuery
 from app.schemas.generic import GenericDetail, InteractionSummary, Presentation
-from app.schemas.seed import TRANSLATED_FIELDS
+from app.schemas.seed import TRANSLATED_FIELDS, TRANSLATED_LIST_FIELDS
 
 router = APIRouter(tags=["generics"])
 
@@ -74,9 +74,12 @@ def _localized(generic: Generic, lang: str) -> tuple[dict[str, Any], list[str]]:
     pending: list[str] = []
     for field in TRANSLATED_FIELDS:
         bangla = getattr(generic, f"{field}_bn") if lang == "bn" else None
-        text[field] = bangla if bangla is not None else getattr(generic, field)
-        if lang == "bn" and bangla is None:
-            pending.append(field)
+        english = getattr(generic, field)
+        if english is None and field in TRANSLATED_LIST_FIELDS:
+            english = []  # a list field never stored (e.g. added after the row was made)
+        text[field] = bangla if bangla is not None else english
+        if lang == "bn" and bangla is None and english:
+            pending.append(field)  # an empty field has nothing to translate
     return text, pending
 
 

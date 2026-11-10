@@ -3,7 +3,7 @@
     "dataset": "generics",
     "source": "NHS website medicine pages (nhs.uk); Cefixime from its US FDA label on DailyMed. Each record lists its source_urls.",
     "is_sample": false,
-    "note": "Condensed from the cited pages on 2026-11-03, keeping the source's wording. drug_class and dosage_forms are set by the MedWise BD team. Not medical advice."
+    "note": "Condensed from the cited pages on 2026-11-03, keeping the source's wording. drug_class and dosage_forms are set by the MedWise BD team. Not medical advice. how_to_take (added 2026-11-10) holds only what the cited page says about food, milk, alcohol and things to take apart, copied word for word; never doses."
   },
   "records": [
     {
@@ -31,6 +31,10 @@
         "May not be suitable if you have a kidney or liver condition",
         "May not be suitable if you're dependent on alcohol or binge drink",
         "If you're pregnant, paracetamol is usually the best painkiller to use"
+      ],
+      "how_to_take": [
+        "You can take tablets or capsules with or without food.",
+        "You can eat and drink normally (including alcohol), when taking paracetamol."
       ],
       "source_urls": [
         "https://www.nhs.uk/medicines/paracetamol-for-adults/"
@@ -87,6 +91,10 @@
         "May not be suitable if you have problems with blood clotting or have had a stroke",
         "Avoid ibuprofen during pregnancy unless a doctor or pharmacist advises it"
       ],
+      "how_to_take": [
+        "Swallow tablets or capsules whole with water (ideally with or after food)",
+        "You can eat and drink normally while taking ibuprofen, but try to avoid drinking a lot of alcohol because this can increase the risk of side effects."
+      ],
       "source_urls": [
         "https://www.nhs.uk/medicines/ibuprofen-for-adults/"
       ],
@@ -140,6 +148,9 @@
         "May not be suitable if you have a liver or kidney condition or problems with blood clotting",
         "Tell your doctor if you're pregnant or get pregnant while taking low-dose aspirin"
       ],
+      "how_to_take": [
+        "You can eat and drink normally while taking aspirin, but try to limit the amount of alcohol you drink because alcohol can increase the risk of side effects."
+      ],
       "source_urls": [
         "https://www.nhs.uk/medicines/low-dose-aspirin/"
       ],
@@ -188,6 +199,10 @@
         "May not be suitable if you have a kidney or liver condition",
         "May not be suitable if you have osteoporosis (weakened bones)",
         "You can usually take omeprazole if you're pregnant, but check with a pharmacist or doctor first"
+      ],
+      "how_to_take": [
+        "You can take it with or without food",
+        "You can eat as normal while taking omeprazole, but it's best to not drink alcohol because it can increase the amount of acid in your stomach and make your symptoms worse."
       ],
       "source_urls": [
         "https://www.nhs.uk/medicines/omeprazole/"
@@ -240,6 +255,12 @@
         "Tell your doctor if you are due to have an endoscopy",
         "Tell your doctor if you are losing weight without trying, are vomiting blood, have blood in your poo or have problems swallowing"
       ],
+      "how_to_take": [
+        "You can take it with or without food.",
+        "Swallow tablets and capsules whole with a drink of still (non-fizzy) water. Do not take it with other liquids.",
+        "You can take esomeprazole with an antacid such as Gaviscon if you need to.",
+        "Alcohol does not affect the way esomeprazole works, but it makes your stomach produce more acid than normal. Alcohol can irritate your stomach lining and make your symptoms worse."
+      ],
       "source_urls": [
         "https://www.nhs.uk/medicines/esomeprazole/"
       ],
@@ -286,6 +307,11 @@
         "Tell your doctor if you are pregnant, trying to get pregnant or breastfeeding",
         "Tell your doctor if you are due to have an endoscopy"
       ],
+      "how_to_take": [
+        "It's best to take pantoprazole an hour before a meal.",
+        "You can take pantoprazole with an antacid like Gaviscon.",
+        "Alcohol does not affect the way pantoprazole works. However, it's best not to drink too much alcohol because drinking alcohol makes your stomach produce more acid than normal."
+      ],
       "source_urls": [
         "https://www.nhs.uk/medicines/pantoprazole/"
       ],
@@ -330,6 +356,10 @@
         "Tell your doctor if you have liver or kidney problems",
         "Tell your doctor if you have glandular fever (amoxicillin can cause a rash)",
         "Tell your doctor if you are due to have blood or urine tests or any vaccinations"
+      ],
+      "how_to_take": [
+        "You can take amoxicillin before or after food.",
+        "Yes, you can drink alcohol while taking amoxicillin."
       ],
       "source_urls": [
         "https://www.nhs.uk/medicines/amoxicillin/"
@@ -381,6 +411,12 @@
         "Tell your doctor if you have liver or kidney problems",
         "Tell your doctor if you have heart problems, including an irregular heartbeat",
         "Tell your doctor if you have myasthenia gravis"
+      ],
+      "how_to_take": [
+        "If you're taking azithromycin capsules or tablets, take them at least 1 hour before food or 2 hours after eating.",
+        "If you're taking it as liquid, you can take it with or without food.",
+        "If you’re taking antacid medicines for indigestion or heartburn, take azithromycin at least 1 hour before the antacid or at least 2 hours after. Antacids can affect how much azithromycin your body takes in.",
+        "Yes, you can drink alcohol with azithromycin. However, if azithromycin makes you feel dizzy, do not drink alcohol as it will make you feel worse."
       ],
       "source_urls": [
         "https://www.nhs.uk/medicines/azithromycin/"
@@ -437,6 +473,9 @@
         "Use with caution if you are allergic to penicillin (cross-allergy can occur)",
         "Tell your doctor if diarrhoea develops during or after treatment"
       ],
+      "how_to_take": [
+        "The capsule and tablet may be administered without regard to food."
+      ],
       "source_urls": [
         "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=068e6edd-a5fe-40d8-8dcf-ac82b78dced4"
       ],
@@ -491,6 +530,11 @@
         "Tell your doctor if you have a heart problem or a kidney condition",
         "Tell your doctor if you have an abdominal aortic aneurysm, or a close relative has had one",
         "Ciprofloxacin is not usually used during pregnancy; tell your doctor if you're pregnant"
+      ],
+      "how_to_take": [
+        "Do not take ciprofloxacin tablets with any dairy products, such as cheese or milk, or drinks with added calcium, such as plant milk. Doing so can stop the medicine from working properly.",
+        "Leave a gap of at least 2 hours between taking ciprofloxacin tablets or liquid and eating or drinking dairy products or drinks with added calcium, such as plant milk.",
+        "Try to avoid drinking a lot of alcohol because it can increase the risk of side effects."
       ],
       "source_urls": [
         "https://www.nhs.uk/medicines/ciprofloxacin/"
@@ -547,6 +591,11 @@
         "Tell your doctor if you will not be able to stop drinking alcohol while using metronidazole",
         "Tell your doctor if you have liver problems, a nervous system disease or are having dialysis"
       ],
+      "how_to_take": [
+        "Swallow the tablets whole with a drink of water, with or just after you've eaten some food.",
+        "Do not drink alcohol while you're taking metronidazole tablets or liquid or using suppositories. Continue to avoid alcohol for 2 days after you finish your treatment.",
+        "This is important because metronidazole can react with alcohol to cause a number of side effects. These include feeling and being sick, stomach pain, hot flushes, a pounding heartbeat (palpitations) and a headache."
+      ],
       "source_urls": [
         "https://www.nhs.uk/medicines/metronidazole/"
       ],
@@ -598,6 +647,9 @@
         "May not be suitable if you drink a lot of alcohol",
         "Tell your doctor if you're pregnant or get pregnant while taking metformin"
       ],
+      "how_to_take": [
+        "Try to limit how much alcohol you drink while taking metformin because it can increase the risk of serious side effects."
+      ],
       "source_urls": [
         "https://www.nhs.uk/medicines/metformin/"
       ],
@@ -643,6 +695,11 @@
         "May not be suitable if you have severe kidney or liver disease",
         "May not be suitable if you have acute porphyria",
         "Tell your doctor if you're pregnant or trying to get pregnant"
+      ],
+      "how_to_take": [
+        "Take your tablets after a meal to help avoid stomach problems",
+        "Follow your doctor’s advice about diet while taking gliclazide to reduce the chances of your blood sugar level getting too low. This may include eating a healthy diet and not skipping or delaying meals.",
+        "It’s best not to drink alcohol while taking gliclazide because it can affect your blood sugar level."
       ],
       "source_urls": [
         "https://www.nhs.uk/medicines/gliclazide/"
@@ -690,6 +747,11 @@
         "May not be suitable if you have low blood pressure or heart failure",
         "May not be suitable if you have had a recent heart attack or have heart valve disease",
         "Tell your doctor if you're pregnant or get pregnant while taking amlodipine"
+      ],
+      "how_to_take": [
+        "You can take it before or after eating or drinking.",
+        "Do not eat grapefruit or drink grapefruit juice while taking amlodipine because it can increase the chance of side effects.",
+        "Try to limit how much alcohol you drink while taking amlodipine as it can increase the risk of low blood pressure."
       ],
       "source_urls": [
         "https://www.nhs.uk/medicines/amlodipine/"
@@ -742,6 +804,11 @@
         "May not be suitable if you have severe heart failure or liver problems",
         "May not be suitable if you've had angioedema (sudden swelling of parts of the body)",
         "Losartan is not usually used during pregnancy; tell your doctor if you're pregnant or trying to get pregnant"
+      ],
+      "how_to_take": [
+        "Take it with water, with or without food",
+        "You can generally eat as normal while taking losartan, but avoid drinking grapefruit juice because it can stop your medicine working properly.",
+        "Try to limit the amount of alcohol you drink while taking losartan because it can increase the risk of side effects."
       ],
       "source_urls": [
         "https://www.nhs.uk/medicines/losartan/"
@@ -796,6 +863,11 @@
         "May not be suitable if you regularly drink a lot of alcohol",
         "Atorvastatin is not recommended during pregnancy because it can affect how the baby develops"
       ],
+      "how_to_take": [
+        "Take it with or without food",
+        "You can eat as normal while taking atorvastatin, but avoid having too much grapefruit juice as it can increase the chance of side effects. Do not have more than 1 or 2 small glasses of grapefruit juice a day.",
+        "Also, try to limit how much alcohol you drink while taking atorvastatin, as it can increase the risk of side effects like liver problems."
+      ],
       "source_urls": [
         "https://www.nhs.uk/medicines/atorvastatin/"
       ],
@@ -849,6 +921,13 @@
         "Tell your doctor if you have recently had surgery or a serious injury",
         "Tell your doctor if you have liver or kidney problems, or are pregnant or breastfeeding"
       ],
+      "how_to_take": [
+        "You can take it with or without food.",
+        "Do not drink grapefruit juice while taking clopidogrel.",
+        "Grapefruit juice decreases the effects of your medicine, so that it may not work as well to prevent blood clots.",
+        "Yes, you can drink alcohol while taking clopidogrel, as long as you stick to the national guidelines of no more than 14 units a week for men and women.",
+        "You can take other indigestion remedies such as antacids at the same time as clopidogrel."
+      ],
       "source_urls": [
         "https://www.nhs.uk/medicines/clopidogrel/"
       ],
@@ -898,6 +977,15 @@
         "May not be suitable if you have a condition that makes you bleed more easily, such as a stomach ulcer",
         "Warfarin is not usually used during pregnancy as it can affect the baby's development"
       ],
+      "how_to_take": [
+        "It can be taken with or without food.",
+        "Some food and drink can affect how warfarin works.",
+        "Do not drink large amounts of alcohol",
+        "Do not have cranberry juice or cranberry products",
+        "Do not drink grapefruit juice",
+        "Talk to your doctor before making any big changes to your diet when taking warfarin.",
+        "Foods high in vitamin K, such as broccoli, spinach and other green leafy vegetables, can affect how warfarin works. You can still eat these foods, but talk to your warfarin clinic for advice."
+      ],
       "source_urls": [
         "https://www.nhs.uk/medicines/warfarin/"
       ],
@@ -946,6 +1034,13 @@
         "Tell your doctor if you have ever had an allergic reaction to montelukast or any other medicine",
         "Tell your doctor if you have a rare hereditary problem of galactose intolerance",
         "Do not use montelukast to treat an asthma attack; use a reliever inhaler"
+      ],
+      "how_to_take": [
+        "You can take montelukast non-chewable tablets with or without food.",
+        "Swallow the tablets whole with water, juice or milk.",
+        "It's important to take chewable tablets at least 1 hour before food, or 2 hours after food.",
+        "You do not need to avoid any food or drink while taking montelukast.",
+        "Yes, you can drink alcohol while taking montelukast."
       ],
       "source_urls": [
         "https://www.nhs.uk/medicines/montelukast/"
@@ -1004,6 +1099,10 @@
         "Tell your doctor if you have epilepsy or are at risk of seizures",
         "Tell your doctor if you have difficulty peeing",
         "Tell your doctor if you are due to have an allergy test"
+      ],
+      "how_to_take": [
+        "You can take cetirizine with or without food, but always take the tablets with a drink of water, milk or squash.",
+        "It's best not to drink alcohol while you're taking cetirizine as it can make you feel sleepy."
       ],
       "source_urls": [
         "https://www.nhs.uk/medicines/cetirizine/"
