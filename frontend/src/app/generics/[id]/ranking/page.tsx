@@ -5,6 +5,8 @@ import { BackLink } from "@/components/back-link";
 import { Disclaimer } from "@/components/disclaimer";
 import { HowRankingWorks } from "@/components/how-ranking-works";
 import { PharmacyFinder } from "@/components/pharmacy-finder";
+import { RememberPage } from "@/components/recent/remember-page";
+import { rankingHref } from "@/lib/format";
 import { RankingList } from "@/components/ranking-list";
 import { getDict, getLang } from "@/i18n/server";
 import { api, isNotFound } from "@/lib/api";
@@ -54,6 +56,16 @@ export default async function GenericRankingPage(props: Props) {
         shareTitle={t.ranking.title(data.generic.name, data.strength, t.fmt.form(data.dosage_form))}
       />
       <PharmacyFinder />
+      <RememberPage
+        item={{
+          kind: "ranking",
+          name: data.generic.name,
+          genericName: data.generic.name,
+          strength: data.strength,
+          dosageForm: data.dosage_form,
+          href: rankingHref(data.generic.id, data.strength, data.dosage_form),
+        }}
+      />
     </div>
   );
 }
