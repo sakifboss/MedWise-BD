@@ -207,7 +207,7 @@ Rules for every step:
   Metronidazole 400 mg, Paracetamol 120 mg/5 ml, Amoxicillin 500 mg); Warfarin 5 mg has one brand.
   Helper src/lib/same-price.ts (Vitest); verified live on all 25 ranking pages in en and bn.
 
-- [ ] **P3. OCR accuracy evaluation.**
+- [x] **P3. OCR accuracy evaluation.**
   Goal: a measured accuracy number for the competition document and video.
   Add backend/scripts/eval_ocr.py and data/eval/README.md (how to add images, how to run).
   Input: data/eval/prescriptions/<name>.jpg|png|webp, each with <name>.json ground truth:
@@ -229,6 +229,12 @@ Rules for every step:
      to the right generic + strength.
   Print per-image misses and totals; write data/eval/results.md with date, image count, models
   used and totals. Unit tests for the scoring code with fake extractions (no network).
+  Done 2026-11-10: 23 images (10 real handwritten, 10 synthetic printed, 3 degraded copies).
+  Real handwritten: reading recall 82.4%, precision 82.4%; matching 11/15 pre-selected right,
+  12/15 offered. Overall recall 87.5%. The first-choice model was busy (503), so the fallback
+  gemini-3.5-flash-lite read 22 of 23; re-run with --refresh to measure the first choice.
+  Scoring also ignores dosage-form words, accepts a bare number for a strength, and skips reads
+  of lines nobody could read (`unreadable` in the image's json). Photos are resized like the app.
 
 - [ ] **P4. "How to take" from the label.**
   Add optional how_to_take (list of short lines) and how_to_take_bn per record in generics.json,
