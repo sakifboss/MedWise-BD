@@ -11,6 +11,14 @@ class Presentation(BaseModel):
     max_price: float
 
 
+class GenericListItem(BaseModel):
+    """Every generic with its strengths and forms (used to save all pages for offline use)."""
+
+    id: int
+    name: str
+    presentations: list[Presentation]
+
+
 class InteractionSummary(BaseModel):
     generic_id: int
     generic_name: str

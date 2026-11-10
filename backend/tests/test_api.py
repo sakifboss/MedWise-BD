@@ -1,7 +1,10 @@
+import json
 import re
 from typing import Any
 
 from fastapi.testclient import TestClient
+
+from app.core.config import get_settings
 
 
 def _ok(response: Any) -> Any:
@@ -290,3 +293,20 @@ def test_generic_detail_has_how_to_take_from_the_seed(client: TestClient) -> Non
     for name, g in by_name.items():
         for line in g["how_to_take"]:
             assert not re.search(r"\b\d+\s*mg\b|\btimes a day\b|\bdoses?\b", line), (name, line)
+
+
+def test_list_generics_with_presentations(client: TestClient) -> None:
+    r = client.get("/api/generics")
+    assert r.status_code == 200
+    items = r.json()["data"]
+    seed = get_settings().seed_dir
+    generics = json.loads((seed / "generics.json").read_text(encoding="utf-8"))["records"]
+    brands = json.loads((seed / "brands.json").read_text(encoding="utf-8"))["records"]
+    groups = {(b["generic"], b["strength"], b["dosage_form"]) for b in brands}
+    assert len(items) == len(generics)
+    assert [g["name"] for g in items] == sorted(g["name"] for g in items)
+    assert sum(len(g["presentations"]) for g in items) == len(groups)  # every compared group
+    omeprazole = next(g for g in items if g["name"] == "Omeprazole")
+    assert {"strength": "20 mg", "dosage_form": "capsule"}.items() <= omeprazole["presentations"][
+        0
+    ].items()

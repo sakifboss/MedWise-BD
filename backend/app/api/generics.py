@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session, aliased
 from app.core.db import get_db
 from app.models import SEVERITIES, Brand, Generic, Interaction
 from app.schemas.common import Envelope, LangQuery
-from app.schemas.generic import GenericDetail, InteractionSummary, Presentation
+from app.schemas.generic import GenericDetail, GenericListItem, InteractionSummary, Presentation
 from app.schemas.seed import TRANSLATED_FIELDS, TRANSLATED_LIST_FIELDS
 
 router = APIRouter(tags=["generics"])
@@ -81,6 +81,18 @@ def _localized(generic: Generic, lang: str) -> tuple[dict[str, Any], list[str]]:
         if lang == "bn" and bangla is None and english:
             pending.append(field)  # an empty field has nothing to translate
     return text, pending
+
+
+@router.get("/generics", response_model=Envelope[list[GenericListItem]])
+def list_generics(db: Annotated[Session, Depends(get_db)]) -> Envelope[list[GenericListItem]]:
+    """Every generic and its presentations, by name (small: one row per generic)."""
+    generics = db.execute(select(Generic.id, Generic.name).order_by(Generic.name)).all()
+    return Envelope(
+        data=[
+            GenericListItem(id=gid, name=name, presentations=_presentations(db, gid))
+            for gid, name in generics
+        ]
+    )
 
 
 @router.get("/generics/{generic_id}", response_model=Envelope[GenericDetail])
