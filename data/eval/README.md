@@ -1,3 +1,9 @@
+# Evaluations
+
+Two evaluations live here: prescription reading (below) and the symptom guide
+(`symptoms.json`, invented cases only; run `cd backend && python scripts/eval_symptoms.py`, results
+in `symptoms_results.md`; see the main README, "Symptom guide").
+
 # OCR evaluation
 
 Measures how well MedWise BD reads prescription photos (Gemini) and matches the medicines to our

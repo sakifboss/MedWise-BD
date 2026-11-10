@@ -31,6 +31,7 @@ and dosage form, ranked by manufacturer quality (80%) and price (20%), with the 
 | **Share for the pharmacist** | WhatsApp / share / print with a QR code; a whole prescription becomes a `/share` link (nothing stored) |
 | **Manufacturer pages** | Each company's regulator approvals, score breakdown, unknowns, sources and brands |
 | **My Medicines** | Save medicines on your phone only (MedWise never receives the list): see each one's rank and the top-ranked option, check interactions across them, add daily reminders to your calendar (.ics) and back up the list |
+| **Symptom guide** | `/symptoms`: an NHS emergency checklist first (any tick: “Call 999 now” with tap-to-call), then which kind of doctor to start with and a short note for that doctor, written from your answers. Never a diagnosis, never a medicine |
 | **Pharmacy finder (Sylhet)** | On every ranking page, the 10 nearest pharmacies in Sylhet city from OpenStreetMap, with distance, “Call” when a number is listed and “Directions”. Your location stays in the browser (or pick your area). We never claim a shop has a medicine: “Call before you go” |
 | **Request a medicine** | When we have no data for a medicine (search or scan), one tap asks us to add it. Only the medicine name, where it came from and the day are stored |
 | **Installable app** | Add to the home screen like an app |
@@ -174,6 +175,50 @@ reading, the request log, Next.js navigation data (`?_rsc`) and non-200 answers.
 keeps the headers it came with, so its Content-Security-Policy nonce still matches its scripts.
 At most 100 saved pages and 300 static files; the oldest go first. Bump `VERSION` in `sw.js`
 (and `PAGES_CACHE` in `src/lib/offline.ts`; a unit test checks they match) to start fresh.
+
+## Symptom guide
+
+`/symptoms` never diagnoses and never names a disease or a medicine. It only says which kind of
+doctor to start with.
+
+1. **Emergency checklist, no AI.** [`data/seed/red_flags.json`](data/seed/red_flags.json): signs
+   copied word for word from NHS pages that say to call 999 (items that name a disease are left
+   out). Ticking any of them shows a full-screen “Call 999 now or go to the nearest hospital
+   emergency department.” with tap-to-call 999; the only way on is back to the checklist.
+2. **The person's own words** (Bangla, Banglish or English), since when, how bad, age group and
+   pregnancy (not asked for children). Before sending, the page says the text goes to Google's
+   Gemini service and that on the free service Google may keep and review it.
+3. **`POST /api/symptom-guide`** asks Gemini (same client and model fallback as prescription
+   reading, `app/services/gemini.py`) for JSON matching a strict schema: a specialty id from
+   [`data/seed/specialties.json`](data/seed/specialties.json), `red_flag_suspected` and a short
+   note. The server then:
+   - uses the fallback (general medicine specialist, note built from the person's own answers)
+     when the answer is not valid JSON, has extra keys or names an unknown specialty;
+   - drops an AI note that names a medicine or generic from our catalog (Bangla too), a dose, or a
+     word from [`backend/app/core/symptom_words.json`](backend/app/core/symptom_words.json)
+     (diagnosis words; edit it without code changes);
+   - shows the emergency screen when the model suspects an emergency, even in an invalid answer:
+     the model can add a warning, never remove one;
+   - sends children to paediatrics and pregnancy to obstetrics and gynaecology, whatever the model says.
+4. **Result:** the specialty, and the note (editable), labelled “Written from your answers. Not a
+   diagnosis.”, optionally with the My Medicines list from the phone, to share or print. The
+   shared link is the plain `/symptoms` page; the note is never put in a URL.
+
+Nothing the person writes is stored or logged by MedWise BD. Only our frontend may call the
+endpoint (shared secret), 10 an hour per device and 200 a day overall.
+
+**Bangla** for the checklist and specialties goes through `data/templates/symptoms_bn.csv`:
+
+```bash
+cd backend
+python scripts/build_symptoms_bn.py export ../data/templates/symptoms_bn.csv   # new or changed text
+python scripts/build_symptoms_bn.py apply ../data/templates/symptoms_bn.csv    # approved rows only
+```
+
+**Evaluation:** `python scripts/eval_symptoms.py` runs 40 invented cases (`data/eval/symptoms.json`,
+en, bn and Banglish) through the whole pipeline with the real Gemini API and writes
+[`data/eval/symptoms_results.md`](data/eval/symptoms_results.md). Red-flag recall must be 100%.
+Latest: red flags 13/13, false alarms 0/27, specialty 27/27.
 
 ## Pharmacy finder (Sylhet)
 

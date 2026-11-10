@@ -22,11 +22,12 @@ medwise-bd/
   backend/
     app/
       api/        # routers: search, generics, alternatives, manufacturers, interactions, prescription,
-                  #          medicine_requests, stats, pharmacies
+                  #          medicine_requests, stats, pharmacies, symptom_guide
       core/       # config, db
       models/     # SQLAlchemy models
       schemas/    # Pydantic schemas
-      services/   # search.py, ranking.py, interactions.py, ocr.py
+      services/   # search.py, ranking.py, interactions.py, ocr.py, gemini.py (shared client),
+                  # symptom_guide.py
     scripts/
       import_data.py
       build_brands_from_csv.py   # data/templates/brands_template.csv -> brands.json
@@ -34,10 +35,13 @@ medwise-bd/
       top_requests.py            # most requested medicines (request log; no public endpoint)
       eval_ocr.py                # OCR accuracy on data/eval (see data/eval/README.md)
       fetch_osm_pharmacies.py    # OpenStreetMap (Overpass) -> pharmacies.json, sylhet_areas.json
+      build_symptoms_bn.py       # Bangla review sheet for red_flags.json and specialties.json
+      eval_symptoms.py           # symptom guide on data/eval/symptoms.json (red-flag recall)
     tests/
   data/
     seed/         # manufacturers.json, generics.json, brands.json, quality_factors.json, interactions.json,
-                  # pharmacies.json, sylhet_areas.json (OpenStreetMap, ODbL)
+                  # pharmacies.json, sylhet_areas.json (OpenStreetMap, ODbL),
+                  # red_flags.json (NHS), specialties.json
     templates/    # brands_template.csv (team brand + price sheet)
 ```
 
@@ -58,6 +62,7 @@ medwise-bd/
 - interactions(id, generic_a_id, generic_b_id, severity[minor|moderate|major], description)
 - pharmacies(id, name, name_bn, lat, lon, address, phone (only when it may be shown), source[osm|survey],
   osm_type, osm_id, is_partner, partner_since); areas(id, name, name_bn, lat, lon). No stock data.
+- red_flags(id, key, group, text, text_bn, source_url); specialties(id, key, name, name_bn, covers, covers_bn)
 
 ## Ranking formula (backend/app/services/ranking.py)
 Normalise each factor to 0-1.
@@ -140,7 +145,7 @@ git history, non-root Docker images, Next.js patched to 16.4.2.
   `frontend/src/proxy.ts`, plus frame-ancestors/X-Frame-Options, nosniff, Referrer-Policy,
   Permissions-Policy (microphone for voice search, geolocation for the P9 pharmacy finder), no X-Powered-By. Backend: nosniff,
   frame denial and a locked-down CSP on API responses (not on /docs).
-- [x] **S2. Only our frontend may call the prescription endpoint.** The Next proxy adds a secret
+- [x] **S2. Only our frontend may call the prescription endpoint** (and, since P10, the symptom guide). The Next proxy adds a secret
   header (`FRONTEND_SHARED_SECRET`, set on Vercel and Render) to /api/prescription; the backend
   rejects OCR requests without it, so nobody can drain the Gemini quota by calling Render directly.
 - [x] **S3. Rate limits on search and interactions,** generous for people, blocking floods.
@@ -404,7 +409,7 @@ PR workflow for every step:
   carries the location.
   Addresses that are empty or only "Sylhet" (43 + 4 of 49) show "Near <closest area>" instead.
 
-- [ ] **P10. Symptom guide (no diagnosis, no medicines).**
+- [x] **P10. Symptom guide (no diagnosis, no medicines).**
   Page /symptoms ("Symptom guide" / "লক্ষণ গাইড"). The top of the page says: en "This guide does
   not diagnose or suggest medicines. It helps you get the right care." bn "এই গাইড রোগ নির্ণয় বা
   ওষুধের পরামর্শ দেয় না। সঠিক চিকিৎসা পেতে সাহায্য করে।"
@@ -452,3 +457,8 @@ PR workflow for every step:
   ready; commit data/eval/symptoms_results.md.
   Tests: schema rejection (extra keys, unknown specialty), medicine name and dose pattern in the
   note, red-flag override, child and pregnancy rules, rate limit, shared-secret header.
+  Done 2026-11-10 (PR): 30 NHS signs in 7 groups (chest pain, shortness of breath, stroke symptoms,
+  anaphylaxis, epilepsy, sepsis pages; the 'When to call 999' page no longer lists symptoms), items
+  naming a disease left out; 11 specialties; all Bangla approved by the owner. Free Gemini tier by the
+  owner's choice: the notice says Google may keep and review the text. Eval (40 invented cases):
+  red flags 13/13, false alarms 0/27, specialty 27/27. Logo text hides below 420 px so the header fits.
