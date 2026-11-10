@@ -502,10 +502,14 @@ requests a day for that model, so it takes two days. Adding more medicines is on
 
 Approved by the owner 2026-11-10 ("Q2 ok", with Q3, Q4 and Q5), built in this order, one PR each:
 
-- [ ] **Q3. Larger text.** In the same header menu as the theme ("Display" / "প্রদর্শন"): text size
+- [x] **Q3. Larger text.** In the same header menu as the theme ("Display" / "প্রদর্শন"): text size
   Normal / Large ("স্বাভাবিক" / "বড়"), saved in a cookie and rendered on the server like the theme.
   Large scales the root font size (about 112.5%), so every rem-based size grows; check that no page
   scrolls sideways at 320 px in en and bn, that the header still fits, and that print stays normal.
+  Done 2026-11-11 (PR): two sizes (owner's choice), cookie `text` (normal | large), <html data-text>,
+  112.5% on screen only. Header in Large: logo text hidden below 520 px, tight spacing below 400 px,
+  language button icon-only below 360 px; the long bn 'save for offline' button wraps. No sideways
+  scroll on 9 pages at 9 widths (320-1024 px) in en and bn, light and dark; contrast unchanged.
 
 - [ ] **Q4. "Report a problem" with a brand's data.** On each brand card of the ranking and
   alternatives pages: "Report a problem" / "সমস্যা জানান" with fixed reasons only: wrong price,

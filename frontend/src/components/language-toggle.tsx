@@ -29,10 +29,11 @@ export function LanguageToggle() {
       aria-label={t.nav.switchLabel}
       title={t.nav.switchLabel}
       lang={next}
-      className="inline-flex print:hidden items-center gap-1.5 rounded-md border px-2.5 py-1 text-sm max-[360px]:gap-1 max-[360px]:px-1.5 font-medium transition-colors hover:bg-muted disabled:opacity-60"
+      className="inline-flex print:hidden items-center gap-1.5 rounded-md border px-2.5 py-1 text-sm max-[360px]:gap-1 max-[360px]:px-1.5 in-data-[text=large]:max-[400px]:gap-1 in-data-[text=large]:max-[400px]:px-1.5 font-medium transition-colors hover:bg-muted disabled:opacity-60"
     >
       <Languages aria-hidden className="size-4" />
-      {t.nav.switchTo}
+      {/* Large text on a very small phone: icon only (the button keeps its accessible name). */}
+      <span className="in-data-[text=large]:max-[360px]:sr-only">{t.nav.switchTo}</span>
     </button>
   );
 }

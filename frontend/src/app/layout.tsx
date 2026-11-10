@@ -6,7 +6,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { ServiceWorkerRegistration } from "@/components/pwa";
 import { SiteHeader } from "@/components/site-header";
 import { LangProvider } from "@/i18n/client";
-import { getDict, getLang, getTheme } from "@/i18n/server";
+import { getDict, getLang, getTextSize, getTheme } from "@/i18n/server";
 import { themeColorFor } from "@/lib/theme";
 
 import "./globals.css";
@@ -31,11 +31,12 @@ export async function generateViewport(): Promise<Viewport> {
 }
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
-  const [lang, theme] = await Promise.all([getLang(), getTheme()]);
+  const [lang, theme, textSize] = await Promise.all([getLang(), getTheme(), getTextSize()]);
   return (
     <html
       lang={lang}
       data-theme={theme}
+      data-text={textSize}
       className={`${geistSans.variable} ${geistMono.variable} ${notoBengali.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">

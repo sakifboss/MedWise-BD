@@ -185,6 +185,12 @@
     @apply font-sans;
   }
 }
+/* Larger text (Display menu): every rem-based size grows on screen; printing stays normal. */
+@media screen {
+  :root[data-text="large"] {
+    font-size: 112.5%;
+  }
+}
 /* Printing a ranking or a shared medicine list for the pharmacy. */
 @media print {
   @page {

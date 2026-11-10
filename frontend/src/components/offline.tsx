@@ -71,7 +71,7 @@ export function SaveForOffline() {
   const saving = state.status === "saving";
   return (
     <div className="space-y-1" data-testid="save-offline">
-      <Button variant="outline" size="sm" onClick={save} disabled={saving}>
+      <Button variant="outline" size="sm" onClick={save} disabled={saving} className="h-auto min-h-7 py-1 text-left whitespace-normal">
         {saving ? <Loader2 aria-hidden className="animate-spin" /> : <CloudDownload aria-hidden />}
         {o.saveAll}
       </Button>

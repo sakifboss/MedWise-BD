@@ -3,12 +3,12 @@
  * renders <html data-theme="..."> from it, so there is no flash and no inline script (the nonce CSP
  * is unchanged). "system" follows the phone's setting through CSS (prefers-color-scheme).
  */
+import { preferenceCookie, readCookie } from "./cookies";
+
 export const THEMES = ["system", "light", "dark"] as const;
 export type Theme = (typeof THEMES)[number];
 export const DEFAULT_THEME: Theme = "system";
 export const THEME_COOKIE = "theme";
-
-const ONE_YEAR = 60 * 60 * 24 * 365;
 
 /** Browser address-bar colour per theme (the manifest keeps the brand colour). */
 export const THEME_COLORS = { light: "#007565", dark: "#0f1a19" } as const;
@@ -18,19 +18,13 @@ export function isTheme(value: unknown): value is Theme {
 }
 
 export function themeCookie(theme: Theme): string {
-  return `${THEME_COOKIE}=${theme}; path=/; max-age=${ONE_YEAR}; samesite=lax`;
+  return preferenceCookie(THEME_COOKIE, theme);
 }
 
 /** The theme in a Cookie header or document.cookie string; the default when missing or invalid. */
 export function themeFromCookies(cookies: string): Theme {
-  for (const part of cookies.split(";")) {
-    const [name, ...rest] = part.trim().split("=");
-    if (name === THEME_COOKIE) {
-      const value = rest.join("=");
-      return isTheme(value) ? value : DEFAULT_THEME;
-    }
-  }
-  return DEFAULT_THEME;
+  const value = readCookie(cookies, THEME_COOKIE);
+  return isTheme(value) ? value : DEFAULT_THEME;
 }
 
 /** <meta name="theme-color"> values: one colour, or both with media queries for "system". */
