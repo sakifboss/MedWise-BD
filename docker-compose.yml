@@ -14,7 +14,7 @@ services:
       POSTGRES_PASSWORD: medwise
       POSTGRES_DB: medwise
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U medwise -d medwise"]
+      test: [ "CMD-SHELL", "pg_isready -U medwise -d medwise" ]
       interval: 3s
       timeout: 3s
       retries: 20
@@ -38,7 +38,7 @@ services:
     ports:
       - "8000:8000"
     healthcheck:
-      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health')"]
+      test: [ "CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health')" ]
       interval: 5s
       timeout: 5s
       retries: 30
@@ -57,7 +57,7 @@ services:
     ports:
       - "3000:3000"
     healthcheck:
-      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:3000/"]
+      test: [ "CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:3000/" ]
       interval: 5s
       timeout: 5s
       retries: 30
