@@ -496,9 +496,25 @@ requests a day for that model, so it takes two days. Adding more medicines is on
   the red emergency screen, QR code, charts), keep print always light, and set the PWA theme
   colour per theme. Browser tests for both themes and all three choices.
 
-Suggested, not yet approved:
-- Q3. Larger text: a text-size choice (normal / large) for older users, saved in a cookie.
-- Q4. "Report a wrong price or detail" on brand cards: stores only the brand id, a reason from a
-  fixed list and the day (like the request log, no personal data); a script lists reports so the
-  team can fix seed data.
-- Q5. Recently viewed medicines on the home page, kept on the device only (like My Medicines).
+Approved by the owner 2026-11-10 ("Q2 ok", with Q3, Q4 and Q5), built in this order, one PR each:
+
+- [ ] **Q3. Larger text.** In the same header menu as the theme ("Display" / "প্রদর্শন"): text size
+  Normal / Large ("স্বাভাবিক" / "বড়"), saved in a cookie and rendered on the server like the theme.
+  Large scales the root font size (about 112.5%), so every rem-based size grows; check that no page
+  scrolls sideways at 320 px in en and bn, that the header still fits, and that print stays normal.
+
+- [ ] **Q4. "Report a problem" with a brand's data.** On each brand card of the ranking and
+  alternatives pages: "Report a problem" / "সমস্যা জানান" with fixed reasons only: wrong price,
+  not sold any more, wrong manufacturer, other ("দাম ভুল", "আর বিক্রি হয় না", "প্রস্তুতকারক ভুল",
+  "অন্য কিছু"); no free text. POST /api/reports {brand_id, reason} stores only those two and the day
+  (no IP, user agent, cookie or user id), in its own SQLAlchemy metadata like the request log so the
+  import never drops it; frontend secret and limits like the request log (10 an hour per client,
+  1000 a day). backend/scripts/top_reports.py lists reports per brand for the team, who fix the seed
+  files. No public endpoint lists reports. After sending: "Thanks — we will check this brand's
+  data." / "ধন্যবাদ — আমরা এই ব্র্যান্ডের তথ্য যাচাই করব।"
+
+- [ ] **Q5. Recently viewed, on this device only.** The last 8 ranking or alternatives pages opened
+  (medicine name, strength, form and link; no prices) kept in localStorage through one module with
+  a versioned format, every read and write in try/catch; shown on the home page as "Recently
+  viewed" / "সম্প্রতি দেখা" with "Clear" / "মুছে ফেলুন" and the note "Saved only on this phone." /
+  "শুধু এই ফোনে সংরক্ষিত।". Nothing is sent to the backend. Vitest for the list logic.
