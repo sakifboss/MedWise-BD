@@ -197,6 +197,9 @@ OSM id, and two pharmacies with the same name within 20 m.
 `GET /api/pharmacies?city=sylhet` returns the whole list and takes no position: the browser asks
 for location only after the tap and sorts by straight-line distance on the device. If location is
 denied or outside Sylhet, the user picks an area. The list never says what a shop has in stock.
+Each row shows the shop's street address when OSM has a real one; when the address is empty or
+only says "Sylhet" / "সিলেট", it shows "Near <closest area>" (from `sylhet_areas.json`, by the
+shop's coordinates) next to the distance.
 
 ## Medicine requests
 

@@ -14,6 +14,7 @@ import {
   directionsHref,
   insideBox,
   nearest,
+  placeOf,
   telHref,
   type AreaItem,
   type Bbox,
@@ -171,15 +172,24 @@ export function PharmacyFinder() {
                     : f.nearArea(t.fmt.int(Math.min(NEAREST_COUNT, results.length)), area ? label(area) : "")}
                 </p>
                 <ol className="divide-y rounded-lg border" data-testid="pharmacy-list">
-                  {results.map((p) => (
+                  {results.map((p) => {
+                    const place = placeOf(p, data.areas);
+                    return (
                     <li key={p.id} className="space-y-1.5 p-3 text-sm" data-testid="pharmacy">
                       <div className="flex flex-wrap items-baseline justify-between gap-x-3">
                         <span className="font-medium">{label(p)}</span>
-                        <span className="text-muted-foreground" data-testid="distance">
-                          {t.fmt.distance(p.metres)}
+                        <span className="text-muted-foreground">
+                          {place && "near" in place && (
+                            <span data-testid="near-area">{f.near(label(place.near))} · </span>
+                          )}
+                          <span data-testid="distance">{t.fmt.distance(p.metres)}</span>
                         </span>
                       </div>
-                      {p.address && <p className="text-muted-foreground">{p.address}</p>}
+                      {place && "address" in place && (
+                        <p className="text-muted-foreground" data-testid="address">
+                          {place.address}
+                        </p>
+                      )}
                       {p.is_partner && (
                         <Badge variant="secondary" className="gap-1">
                           <BadgeCheck aria-hidden />
@@ -207,7 +217,8 @@ export function PharmacyFinder() {
                       </div>
                       {p.phone && p.phone_from_osm && <p className="text-xs text-muted-foreground">{f.osmPhone}</p>}
                     </li>
-                  ))}
+                    );
+                  })}
                 </ol>
                 <p className="text-xs text-muted-foreground">{f.straightLine}</p>
               </div>
