@@ -402,6 +402,7 @@ PR workflow for every step:
   are 'to add by team GPS'. Nobody is a partner yet. Directions open Google Maps with only the
   destination. Browser test: mocked location at Zindabazar, denied, Dhaka, en/bn; no request
   carries the location.
+  Addresses that are empty or only "Sylhet" (43 + 4 of 49) show "Near <closest area>" instead.
 
 - [ ] **P10. Symptom guide (no diagnosis, no medicines).**
   Page /symptoms ("Symptom guide" / "লক্ষণ গাইড"). The top of the page says: en "This guide does
