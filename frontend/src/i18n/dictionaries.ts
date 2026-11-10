@@ -59,6 +59,20 @@ const en = {
       "DDInter. Not official DGDA data.",
   },
   disclaimer: "Consult your doctor or pharmacist before changing any medicine.",
+  offline: {
+    banner: (date: string) => `You're offline. Showing data saved on ${date}. Prices may have changed.`,
+    saveAll: "Save all medicines for offline use",
+    saving: (done: string, total: string) => `Saving ${done} of ${total}…`,
+    saved: (n: string) => `Saved ${n} pages. They open without internet.`,
+    partly: (saved: string, failed: string) =>
+      `Saved ${saved} pages; ${failed} could not be saved. Try again later.`,
+    failed: "Pages could not be saved. Check your internet and try again.",
+    unsupported: "This browser cannot save pages for offline use.",
+    languageNote: "Pages are saved in the language you are using now.",
+    searchOffline: "Search needs internet.",
+    savedList: "Medicines saved on this device:",
+    noneSaved: "No medicines are saved yet. Use “Save all medicines for offline use” while you are online.",
+  },
   tooMany: "Too many requests in a short time. Please wait a minute and try again.",
   back: { newSearch: "New search", byName: "Search by name instead", home: "Home" },
   notFound: {
@@ -429,6 +443,20 @@ const bn: Dict = {
       "এটি DGDA-র সরকারি ডেটা নয়।",
   },
   disclaimer: "কোনো ওষুধ বদলানোর আগে আপনার ডাক্তার বা ফার্মাসিস্টের পরামর্শ নিন।",
+  offline: {
+    banner: (date: string) => `আপনি অফলাইনে আছেন। ${date}-এ সংরক্ষিত তথ্য দেখানো হচ্ছে। দাম বদলে থাকতে পারে।`,
+    saveAll: "সব ওষুধ অফলাইনে ব্যবহারের জন্য সংরক্ষণ করুন",
+    saving: (done: string, total: string) => `সংরক্ষণ হচ্ছে: ${total}টির মধ্যে ${done}টি…`,
+    saved: (n: string) => `${n}টি পাতা সংরক্ষিত হয়েছে। এগুলো ইন্টারনেট ছাড়াই খুলবে।`,
+    partly: (saved: string, failed: string) =>
+      `${saved}টি পাতা সংরক্ষিত হয়েছে; ${failed}টি করা যায়নি। পরে আবার চেষ্টা করুন।`,
+    failed: "পাতা সংরক্ষণ করা যায়নি। ইন্টারনেট সংযোগ দেখে আবার চেষ্টা করুন।",
+    unsupported: "এই ব্রাউজারে অফলাইনের জন্য পাতা সংরক্ষণ করা যায় না।",
+    languageNote: "এখন যে ভাষা ব্যবহার করছেন, সেই ভাষায় পাতাগুলো সংরক্ষিত হবে।",
+    searchOffline: "খুঁজতে ইন্টারনেট লাগে।",
+    savedList: "এই ডিভাইসে সংরক্ষিত ওষুধ:",
+    noneSaved: "এখনো কোনো ওষুধ সংরক্ষিত নেই। ইন্টারনেট থাকার সময় “সব ওষুধ অফলাইনে ব্যবহারের জন্য সংরক্ষণ করুন” বোতামটি চাপুন।",
+  },
   tooMany: "অল্প সময়ে অনেক বেশি অনুরোধ হয়েছে। এক মিনিট অপেক্ষা করে আবার চেষ্টা করুন।",
   back: { newSearch: "নতুন খোঁজ", byName: "নাম দিয়ে খুঁজুন", home: "হোম" },
   notFound: {

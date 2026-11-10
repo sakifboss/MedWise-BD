@@ -63,6 +63,28 @@
         }
       }
     },
+    "/api/generics": {
+      "get": {
+        "tags": [
+          "generics"
+        ],
+        "summary": "List Generics",
+        "description": "Every generic and its presentations, by name (small: one row per generic).",
+        "operationId": "list_generics_api_generics_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_list_GenericListItem__"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/generics/{generic_id}": {
       "get": {
         "tags": [
@@ -872,6 +894,36 @@
         "type": "object",
         "title": "Envelope[dict[str, str]]"
       },
+      "Envelope_list_GenericListItem__": {
+        "properties": {
+          "data": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/GenericListItem"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Data"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorBody"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "Envelope[list[GenericListItem]]"
+      },
       "Envelope_list_ManufacturerListItem__": {
         "properties": {
           "data": {
@@ -1069,6 +1121,33 @@
           "interactions"
         ],
         "title": "GenericDetail"
+      },
+      "GenericListItem": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "presentations": {
+            "items": {
+              "$ref": "#/components/schemas/Presentation"
+            },
+            "type": "array",
+            "title": "Presentations"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "presentations"
+        ],
+        "title": "GenericListItem",
+        "description": "Every generic with its strengths and forms (used to save all pages for offline use)."
       },
       "GenericRef": {
         "properties": {

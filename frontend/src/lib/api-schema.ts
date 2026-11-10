@@ -21,6 +21,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/generics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Generics
+         * @description Every generic and its presentations, by name (small: one row per generic).
+         */
+        get: operations["list_generics_api_generics_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/generics/{generic_id}": {
         parameters: {
             query?: never;
@@ -312,6 +332,12 @@ export interface components {
             } | null;
             error?: components["schemas"]["ErrorBody"] | null;
         };
+        /** Envelope[list[GenericListItem]] */
+        Envelope_list_GenericListItem__: {
+            /** Data */
+            data?: components["schemas"]["GenericListItem"][] | null;
+            error?: components["schemas"]["ErrorBody"] | null;
+        };
         /** Envelope[list[ManufacturerListItem]] */
         Envelope_list_ManufacturerListItem__: {
             /** Data */
@@ -386,6 +412,18 @@ export interface components {
             presentations: components["schemas"]["Presentation"][];
             /** Interactions */
             interactions: components["schemas"]["InteractionSummary"][];
+        };
+        /**
+         * GenericListItem
+         * @description Every generic with its strengths and forms (used to save all pages for offline use).
+         */
+        GenericListItem: {
+            /** Id */
+            id: number;
+            /** Name */
+            name: string;
+            /** Presentations */
+            presentations: components["schemas"]["Presentation"][];
         };
         /** GenericRef */
         GenericRef: {
@@ -764,6 +802,26 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_generics_api_generics_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Envelope_list_GenericListItem__"];
                 };
             };
         };

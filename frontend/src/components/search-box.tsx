@@ -5,13 +5,14 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
 
+import { OfflineSearchHelp } from "@/components/offline";
 import { RequestMedicine } from "@/components/request-medicine";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { VoiceSearchButton } from "@/components/voice-search-button";
 import type { Dict } from "@/i18n/dictionaries";
 import { useDict } from "@/i18n/client";
-import { api, isRateLimited, type SearchResponse, type SearchResult } from "@/lib/api";
+import { api, isNetworkError, isRateLimited, type SearchResponse, type SearchResult } from "@/lib/api";
 import { cn } from "@/lib/utils";
 
 const DEBOUNCE_MS = 200;
@@ -20,7 +21,7 @@ type State =
   | { status: "idle" }
   | { status: "loading"; previous?: SearchResponse }
   | { status: "done"; response: SearchResponse }
-  | { status: "error"; rateLimited: boolean };
+  | { status: "error"; rateLimited: boolean; offline: boolean };
 
 function resultHref(result: SearchResult): string {
   return result.type === "generic" ? `/generics/${result.id}` : `/alternatives/${result.id}`;
@@ -54,7 +55,10 @@ export function SearchBox() {
       setState({ status: "done", response });
       setActive(-1);
     } catch (error) {
-      if (!controller.signal.aborted) setState({ status: "error", rateLimited: isRateLimited(error) });
+      if (!controller.signal.aborted) {
+        const offline = isNetworkError(error) || !navigator.onLine;
+        setState({ status: "error", rateLimited: isRateLimited(error), offline });
+      }
       if (!(error instanceof DOMException)) console.error(error);
     }
   }
@@ -139,9 +143,12 @@ export function SearchBox() {
 
       <div aria-live="polite" className="text-sm text-muted-foreground">
         {voiceMessage && <p>{voiceMessage}</p>}
-        {state.status === "error" && (
-          <p className="text-destructive">{state.rateLimited ? t.tooMany : t.search.error}</p>
-        )}
+        {state.status === "error" &&
+          (state.offline ? (
+            <OfflineSearchHelp />
+          ) : (
+            <p className="text-destructive">{state.rateLimited ? t.tooMany : t.search.error}</p>
+          ))}
         {state.status === "done" && results.length === 0 && (
           <div className="space-y-2">
             <p>{t.search.noResults(state.response.query)}</p>

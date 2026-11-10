@@ -23,6 +23,7 @@ export type ManufacturerListItem = Schemas["ManufacturerListItem"];
 export type ManufacturerDetail = Schemas["ManufacturerDetail"];
 export type FactorKey = Schemas["FactorDetail"]["key"];
 export type CatalogStats = Schemas["CatalogStats"];
+export type GenericListItem = Schemas["GenericListItem"];
 export type RequestSource = Schemas["MedicineRequestIn"]["source"];
 
 type Envelope<T> = {
@@ -44,6 +45,11 @@ export class ApiError extends Error {
 /** True when the server asked us to slow down (HTTP 429). */
 export function isRateLimited(error: unknown): boolean {
   return error instanceof ApiError && error.status === 429;
+}
+
+/** The server could not be reached (no internet, or the connection dropped). */
+export function isNetworkError(error: unknown): boolean {
+  return error instanceof ApiError && error.code === "network_error";
 }
 
 export function isNotFound(error: unknown): boolean {
@@ -114,6 +120,9 @@ export const api = {
       body: JSON.stringify(body),
       signal,
     });
+  },
+  generics() {
+    return request<GenericListItem[]>("/api/generics");
   },
   stats() {
     return request<CatalogStats>("/api/stats");
