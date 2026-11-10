@@ -109,6 +109,7 @@ def test_generic_interactions_found_from_either_side(client: TestClient) -> None
     }
     assert names == {
         "Amlodipine",
+        "Bisoprolol",  # DDInter file C (cardiovascular), added in P7
         "Ciprofloxacin",
         "Clopidogrel",
         "Esomeprazole",

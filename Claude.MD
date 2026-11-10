@@ -5,8 +5,8 @@ Input: a brand name or prescription photo. Output: same-generic, same-strength
 alternatives ranked by manufacturer quality (80%) and price (20%), with a reason for each rank.
 
 This is a competition MVP (deadline 2026-11-05). All seed data is real and sourced: manufacturer
-quality (regulator/company pages), brands and prices (Arogga MRP), medicine information (NHS, FDA
-label for cefixime) and interactions (DDInter). Official DGDA data can replace any file later.
+quality (regulator/company pages), brands and prices (Arogga MRP), medicine information (NHS; US FDA labels
+for cefixime, famotidine and levocetirizine; EMA for vildagliptin) and interactions (DDInter). Official DGDA data can replace any file later.
 
 ## Stack
 - frontend/: Next.js (App Router, TypeScript), Tailwind CSS, shadcn/ui
@@ -296,7 +296,7 @@ Rules for every step:
   locally and live: banner en/bn, offline.html for unsaved pages, fresh online, offline search
   list, never-saved requests, cap trimming, no CSP violations.
 
-- [ ] **P7. Eight more generics (data step).**
+- [x] **P7. Eight more generics (data step).**
   Add: Fexofenadine, Ketotifen, Domperidone, Famotidine, Levocetirizine, Rosuvastatin, Bisoprolol,
   Vildagliptin. For each, use the strength and dosage form with the most brands on Arogga.
   Warfarin 5 mg has only one brand: add brands, or drop the group if no second brand is found.
@@ -310,6 +310,14 @@ Rules for every step:
   4. Interactions: re-run extract_ddinter.py with the DDInter CSVs in data/raw/ddinter/; extend
      DDINTER_ALIASES if DDInter spells a name differently; report generics it could not find.
   5. import_data.py --dry-run must pass. Update every count in README.md and this file.
+  Done 2026-11-10: Ketotifen replaced by Loratadine (no NHS, FDA or EMA source for oral ketotifen);
+  Bisoprolol 2.5 mg (tie with 5 mg); Warfarin 5 mg dropped (one brand). Now 28 generics, 188 brands,
+  32 compared groups, 55 interactions. Sources: NHS (5), DailyMed (Famotidine: Teva; Levocetirizine:
+  Xyzal OTC + Glenmark Rx), EMA (Vildagliptin/Galvus). All 20 how_to_take lines verbatim (script).
+  Bangla approved by the owner (31 lines reuse approved translations). DDInter file C was missing
+  before, so 4 existing pairs (e.g. Amlodipine + Atorvastatin) were missing too; now added.
+  DDInter has no data for Domperidone, Gliclazide or Vildagliptin (not US-approved).
+  Brand names from Arogga: decimal strengths are now trimmed too ("Bislol 2.5" -> "Bislol").
 
 ## Phase 3 — features as pull requests (approved 2026-11-09)
 All Roadmap phase 2 rules apply (en + bn for every string, no medical advice, data only through

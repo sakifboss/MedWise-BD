@@ -66,6 +66,7 @@ def test_mixed_brands_and_generics_sorted_by_severity(client: TestClient) -> Non
     )
     assert pairs(data) == [
         ("Metronidazole", "Warfarin", "major"),
+        ("Amlodipine", "Atorvastatin", "moderate"),  # from DDInter file C, added in P7
         ("Atorvastatin", "Metronidazole", "moderate"),
         ("Atorvastatin", "Warfarin", "minor"),
     ]

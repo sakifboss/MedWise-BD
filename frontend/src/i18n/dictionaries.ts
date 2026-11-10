@@ -55,7 +55,7 @@ const en = {
     noAdvice: "MedWise BD compares medicines using its own database. It does not give medical advice.",
     sources:
       "Data: manufacturer quality from public regulator and company sources; prices are Arogga MRPs " +
-      "(Nov 2026); medicine information from the NHS website and US FDA labels; interactions from " +
+      "(Nov 2026); medicine information from the NHS website, US FDA labels and the EMA; interactions from " +
       "DDInter. Not official DGDA data.",
   },
   disclaimer: "Consult your doctor or pharmacist before changing any medicine.",
@@ -439,7 +439,7 @@ const bn: Dict = {
     noAdvice: "MedWise BD নিজস্ব ডেটাবেস দিয়ে ওষুধের তুলনা করে। এটি কোনো চিকিৎসা পরামর্শ দেয় না।",
     sources:
       "ডেটা: প্রস্তুতকারকের মান নিয়ন্ত্রক সংস্থা ও কোম্পানির প্রকাশিত উৎস থেকে; দাম Arogga-র MRP " +
-      "(নভেম্বর ২০২৬); ওষুধের তথ্য NHS ওয়েবসাইট ও US FDA লেবেল থেকে; ইন্টারঅ্যাকশন DDInter থেকে। " +
+      "(নভেম্বর ২০২৬); ওষুধের তথ্য NHS ওয়েবসাইট, US FDA লেবেল ও EMA থেকে; ইন্টারঅ্যাকশন DDInter থেকে। " +
       "এটি DGDA-র সরকারি ডেটা নয়।",
   },
   disclaimer: "কোনো ওষুধ বদলানোর আগে আপনার ডাক্তার বা ফার্মাসিস্টের পরামর্শ নিন।",
