@@ -273,7 +273,7 @@ Rules for every step:
   for catalog counts; frontend-only, 10/hour per client and 1000/day overall. Verified live:
   a 'Fexo' request sent through the site survived the redeploy of 1487f27 (top_requests.py).
 
-- [ ] **P6. Offline mode for saved pages.**
+- [x] **P6. Offline mode for saved pages.**
   Today frontend/public/sw.js only shows offline.html and never caches data, on purpose, so prices
   stay fresh. Change it, keeping freshness first:
   - Network-first for GET page navigations and the Next.js data requests those pages make. On a
@@ -290,6 +290,11 @@ Rules for every step:
   Update the comment at the top of sw.js and the README.
   Test in Chrome DevTools offline mode: a saved ranking page loads with the banner; an unsaved page
   shows offline.html; back online, fresh data loads.
+  Done 2026-11-10 (2de06d2): caches v2 (pages 100, static 300); /_next/static and app icons cache
+  first; saved pages keep their headers (CSP nonce matches) and get a medwise-saved-at <meta>;
+  'Save all' (footer) saves 45 pages via GET /api/generics. Verified in Chrome offline mode
+  locally and live: banner en/bn, offline.html for unsaved pages, fresh online, offline search
+  list, never-saved requests, cap trimming, no CSP violations.
 
 - [ ] **P7. Eight more generics (data step).**
   Add: Fexofenadine, Ketotifen, Domperidone, Famotidine, Levocetirizine, Rosuvastatin, Bisoprolol,
