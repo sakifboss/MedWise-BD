@@ -22,7 +22,7 @@ medwise-bd/
   backend/
     app/
       api/        # routers: search, generics, alternatives, manufacturers, interactions, prescription,
-                  #          medicine_requests, stats
+                  #          medicine_requests, stats, pharmacies
       core/       # config, db
       models/     # SQLAlchemy models
       schemas/    # Pydantic schemas
@@ -33,9 +33,11 @@ medwise-bd/
       extract_ddinter.py         # data/raw/ddinter/*.csv (gitignored) -> interactions.json
       top_requests.py            # most requested medicines (request log; no public endpoint)
       eval_ocr.py                # OCR accuracy on data/eval (see data/eval/README.md)
+      fetch_osm_pharmacies.py    # OpenStreetMap (Overpass) -> pharmacies.json, sylhet_areas.json
     tests/
   data/
-    seed/         # manufacturers.json, generics.json, brands.json, quality_factors.json, interactions.json
+    seed/         # manufacturers.json, generics.json, brands.json, quality_factors.json, interactions.json,
+                  # pharmacies.json, sylhet_areas.json (OpenStreetMap, ODbL)
     templates/    # brands_template.csv (team brand + price sheet)
 ```
 
@@ -54,6 +56,8 @@ medwise-bd/
 - generics(id, name, drug_class, indications, dosage_forms, side_effects, precautions, source_urls)
 - brands(id, name, generic_id, manufacturer_id, strength, dosage_form, price_per_unit, source_url)
 - interactions(id, generic_a_id, generic_b_id, severity[minor|moderate|major], description)
+- pharmacies(id, name, name_bn, lat, lon, address, phone (only when it may be shown), source[osm|survey],
+  osm_type, osm_id, is_partner, partner_since); areas(id, name, name_bn, lat, lon). No stock data.
 
 ## Ranking formula (backend/app/services/ranking.py)
 Normalise each factor to 0-1.
@@ -134,7 +138,7 @@ git history, non-root Docker images, Next.js patched to 16.4.2.
 
 - [x] **S1. Security headers.** Frontend: nonce-based Content-Security-Policy set per request in
   `frontend/src/proxy.ts`, plus frame-ancestors/X-Frame-Options, nosniff, Referrer-Policy,
-  Permissions-Policy (microphone for voice search only), no X-Powered-By. Backend: nosniff,
+  Permissions-Policy (microphone for voice search, geolocation for the P9 pharmacy finder), no X-Powered-By. Backend: nosniff,
   frame denial and a locked-down CSP on API responses (not on /docs).
 - [x] **S2. Only our frontend may call the prescription endpoint.** The Next proxy adds a secret
   header (`FRONTEND_SHARED_SECRET`, set on Vercel and Render) to /api/prescription; the backend
@@ -366,7 +370,7 @@ PR workflow for every step:
   Done 2026-11-10 (PR): localStorage key medwise.myMedicines, format version 1 (lib/my-medicines.ts),
   .ics in lib/ics.ts; 20 Vitest cases; browser test checks that no request carries the list.
 
-- [ ] **P9. Sylhet pharmacy finder (real locations, no stock claims).**
+- [x] **P9. Sylhet pharmacy finder (real locations, no stock claims).**
   Data first, then stop for the user:
   1. backend/scripts/fetch_osm_pharmacies.py queries the Overpass API for amenity=pharmacy (nodes
      and ways; ways use their centre) inside Sylhet city (confirm the bounding box in the plan,
@@ -393,6 +397,11 @@ PR workflow for every step:
   No embedded map in this PR (the CSP stays unchanged). Attribution "© OpenStreetMap contributors"
   linking to openstreetmap.org/copyright under the list and in the footer sources.
   Tests: import validation, API, distance sorting.
+  Done 2026-11-10 (PR): 49 named OSM pharmacies (0 with a phone on OSM), 20 areas; 5 left out by
+  rule (1 unnamed, 4 homeopathic). Survey not needed yet (>= 30 named); Kumargaon and Subidbazar
+  are 'to add by team GPS'. Nobody is a partner yet. Directions open Google Maps with only the
+  destination. Browser test: mocked location at Zindabazar, denied, Dhaka, en/bn; no request
+  carries the location.
 
 - [ ] **P10. Symptom guide (no diagnosis, no medicines).**
   Page /symptoms ("Symptom guide" / "লক্ষণ গাইড"). The top of the page says: en "This guide does
