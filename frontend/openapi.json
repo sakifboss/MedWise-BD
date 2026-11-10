@@ -652,6 +652,47 @@
         }
       }
     },
+    "/api/reports": {
+      "post": {
+        "tags": [
+          "reports"
+        ],
+        "summary": "Report Problem",
+        "operationId": "report_problem_api_reports_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DataReportIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_DataReportSaved_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/health": {
       "get": {
         "tags": [
@@ -832,6 +873,44 @@
         ],
         "title": "CheckedMedicine"
       },
+      "DataReportIn": {
+        "properties": {
+          "brand_id": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Brand Id"
+          },
+          "reason": {
+            "type": "string",
+            "enum": [
+              "wrong_price",
+              "not_sold",
+              "wrong_manufacturer",
+              "other"
+            ],
+            "title": "Reason"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "brand_id",
+          "reason"
+        ],
+        "title": "DataReportIn",
+        "description": "A fixed reason only; there is no field for free text or anything about the person."
+      },
+      "DataReportSaved": {
+        "properties": {
+          "saved": {
+            "type": "boolean",
+            "title": "Saved",
+            "default": true
+          }
+        },
+        "type": "object",
+        "title": "DataReportSaved"
+      },
       "DoctorNote": {
         "properties": {
           "main_problem": {
@@ -909,6 +988,32 @@
         },
         "type": "object",
         "title": "Envelope[CatalogStats]"
+      },
+      "Envelope_DataReportSaved_": {
+        "properties": {
+          "data": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DataReportSaved"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorBody"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "Envelope[DataReportSaved]"
       },
       "Envelope_GenericDetail_": {
         "properties": {

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { MonthlyCost, SavingsCalculator } from "@/components/savings/savings-calculator";
 import { SavingsProvider } from "@/components/savings/savings-context";
 import { SaveToMyMedicines } from "@/components/my-medicines/save-buttons";
+import { ReportProblem } from "@/components/report-problem";
 import { RankingShare } from "@/components/share/ranking-share";
 import { ScoreBar } from "@/components/score-bar";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -163,11 +164,12 @@ function RankedCard({ item, data, t }: { item: RankedAlternative; data: Alternat
             )}
           </p>
           <MonthlyCost price={item.price_per_unit} isSelected={item.is_selected} />
-          <div className="mt-2">
+          <div className="mt-2 flex flex-wrap items-center gap-1">
             <SaveToMyMedicines
               data={{ generic: data.generic, strength: data.strength, dosage_form: data.dosage_form }}
               brand={{ brand_id: item.brand_id, name: item.name }}
             />
+            <ReportProblem brandId={item.brand_id} brandName={item.name} />
           </div>
         </div>
         <div className="text-right">

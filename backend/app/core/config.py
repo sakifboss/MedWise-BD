@@ -34,6 +34,9 @@ class Settings(BaseSettings):
     # "Request this medicine": per client, and a cap for everyone so nobody can fill the table.
     request_limit_per_hour: int = 10
     request_limit_per_day: int = 1000
+    # "Report a problem" with a brand's data: same limits as the request log.
+    report_limit_per_hour: int = 10
+    report_limit_per_day: int = 1000
     # Symptom guide (Gemini): per client per hour, and for everyone per day.
     symptom_limit_per_hour: int = 10
     symptom_limit_per_day: int = 200
