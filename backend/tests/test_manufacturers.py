@@ -1,9 +1,12 @@
 """API tests for the manufacturer transparency endpoints."""
 
+import json
 from typing import Any
 
 import pytest
 from fastapi.testclient import TestClient
+
+from app.core.config import get_settings
 
 
 def _ok(response: Any) -> Any:
@@ -23,7 +26,8 @@ def test_list_is_ranked_by_quality(listing: list[dict]) -> None:
     scores = [m["quality_score"] for m in listing]
     assert scores == sorted(scores, reverse=True)
     assert [m["quality_rank"] for m in listing] == list(range(1, 14))
-    assert sum(m["brand_count"] for m in listing) == 142
+    brands = json.loads((get_settings().seed_dir / "brands.json").read_text(encoding="utf-8"))
+    assert sum(m["brand_count"] for m in listing) == len(brands["records"])  # every brand counted
 
 
 def test_detail_points_add_up_to_the_quality_score(client: TestClient, listing: list[dict]) -> None:
