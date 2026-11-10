@@ -34,6 +34,7 @@ and dosage form, ranked by manufacturer quality (80%) and price (20%), with the 
 | **Symptom guide** | `/symptoms`: an NHS emergency checklist first (any tick: “Call 999 now” with tap-to-call), then which kind of doctor to start with and a short note for that doctor, written from your answers. Never a diagnosis, never a medicine |
 | **Pharmacy finder (Sylhet)** | On every ranking page, the 10 nearest pharmacies in Sylhet city from OpenStreetMap, with distance, “Call” when a number is listed and “Directions”. Your location stays in the browser (or pick your area). We never claim a shop has a medicine: “Call before you go” |
 | **Request a medicine** | When we have no data for a medicine (search or scan), one tap asks us to add it. Only the medicine name, where it came from and the day are stored |
+| **Light / dark theme** | System (follows the phone), Light or Dark from the header; remembered on the device, printing always light |
 | **Installable app** | Add to the home screen like an app |
 | **Offline mode** | Pages you open are saved; “Save all medicines for offline use” saves every medicine and ranking page. Without internet the saved copy opens with “Showing data saved on …”, and search lists the saved medicines. Online, pages are always fresh |
 
