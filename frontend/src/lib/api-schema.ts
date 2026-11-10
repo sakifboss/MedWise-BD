@@ -275,6 +275,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/reports": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Report Problem */
+        post: operations["report_problem_api_reports_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/health": {
         parameters: {
             query?: never;
@@ -354,6 +371,27 @@ export interface components {
             /** Brands */
             brands: string[];
         };
+        /**
+         * DataReportIn
+         * @description A fixed reason only; there is no field for free text or anything about the person.
+         */
+        DataReportIn: {
+            /** Brand Id */
+            brand_id: number;
+            /**
+             * Reason
+             * @enum {string}
+             */
+            reason: "wrong_price" | "not_sold" | "wrong_manufacturer" | "other";
+        };
+        /** DataReportSaved */
+        DataReportSaved: {
+            /**
+             * Saved
+             * @default true
+             */
+            saved: boolean;
+        };
         /** DoctorNote */
         DoctorNote: {
             /** Main Problem */
@@ -371,6 +409,11 @@ export interface components {
         /** Envelope[CatalogStats] */
         Envelope_CatalogStats_: {
             data?: components["schemas"]["CatalogStats"] | null;
+            error?: components["schemas"]["ErrorBody"] | null;
+        };
+        /** Envelope[DataReportSaved] */
+        Envelope_DataReportSaved_: {
+            data?: components["schemas"]["DataReportSaved"] | null;
             error?: components["schemas"]["ErrorBody"] | null;
         };
         /** Envelope[GenericDetail] */
@@ -1392,6 +1435,39 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Envelope_SymptomGuideOut_"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    report_problem_api_reports_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DataReportIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Envelope_DataReportSaved_"];
                 };
             };
             /** @description Validation Error */

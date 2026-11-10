@@ -27,6 +27,7 @@ export type FactorKey = Schemas["FactorDetail"]["key"];
 export type CatalogStats = Schemas["CatalogStats"];
 export type GenericListItem = Schemas["GenericListItem"];
 export type RequestSource = Schemas["MedicineRequestIn"]["source"];
+export type ReportReason = Schemas["DataReportIn"]["reason"];
 
 type Envelope<T> = {
   data?: T | null;
@@ -151,6 +152,14 @@ export const api = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ query, source }),
+    });
+  },
+  /** "Report a problem": only the brand and a fixed reason are sent (and stored, with the day). */
+  reportProblem(brandId: number, reason: ReportReason) {
+    return request<Schemas["DataReportSaved"]>("/api/reports", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ brand_id: brandId, reason }),
     });
   },
   readPrescription(image: Blob, filename: string) {
