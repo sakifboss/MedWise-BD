@@ -2,6 +2,7 @@
 -r requirements.txt
 
 pytest==9.2.0
+pillow==13.0.0  # scripts/eval_ocr.py resizes photos like the app does; not used by the app
 ruff==0.17.4
 
 # --- Needed by the tools above

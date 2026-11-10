@@ -1,0 +1,38 @@
+{
+  "subsets": {
+    "real_handwritten": [
+      "rx01",
+      "rx02",
+      "rx03",
+      "rx04",
+      "rx05",
+      "rx06",
+      "rx07",
+      "rx08",
+      "rx09",
+      "rx10"
+    ],
+    "synthetic_printed": [
+      "rx11",
+      "rx12",
+      "rx13",
+      "rx14",
+      "rx15",
+      "rx16",
+      "rx17",
+      "rx18",
+      "rx19",
+      "rx20"
+    ],
+    "degraded_copies": [
+      "rx21",
+      "rx22",
+      "rx23"
+    ]
+  },
+  "note": "Report results per subset. 'synthetic' images are computer-generated with fictional medicine names (reading only, no catalog matches). 'degraded' are blurred/dimmed/low-res copies of real images.",
+  "excluded": {
+    "count": 2,
+    "reason": "Kexam on rx07 and rx08: the team could not read the name, so it is not scored."
+  }
+}

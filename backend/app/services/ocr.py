@@ -146,6 +146,7 @@ class GeminiExtractor:
         if not settings.gemini_api_key:
             raise AppError(503, "ocr_unavailable", "Prescription reading is not configured.")
         self._settings = settings
+        self.last_model: str | None = None  # which model answered the last call (for evaluation)
         self._client = client or httpx.Client(
             # Fail fast if a connection can't be opened; allow the model time to answer.
             timeout=httpx.Timeout(settings.gemini_timeout_seconds, connect=5.0),
@@ -185,6 +186,7 @@ class GeminiExtractor:
                 last_status = 503
                 continue
             if response.status_code == 200:
+                self.last_model = model
                 return parse_medicines(_response_text(response.json()))
             # Log status only: the body may echo request details.
             logger.warning("Gemini %s returned HTTP %s", model, response.status_code)

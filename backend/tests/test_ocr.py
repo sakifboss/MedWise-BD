@@ -112,7 +112,9 @@ def test_request_sends_image_inline_with_schema() -> None:
 def test_successful_extraction() -> None:
     reply = gemini_reply({"medicines": [{"name": "Pyrolin", "strength": "500 mg"}]})
     extractor, _ = make_extractor(lambda r: httpx.Response(200, json=reply))
+    assert extractor.last_model is None
     assert extractor(IMAGE, "image/jpeg") == [ExtractedMedicine("Pyrolin", "500 mg")]
+    assert extractor.last_model == "main-model"
 
 
 def test_falls_back_to_next_model_when_overloaded() -> None:
@@ -129,6 +131,7 @@ def test_falls_back_to_next_model_when_overloaded() -> None:
         "main-model:generateContent",
         "backup-model:generateContent",
     ]
+    assert extractor.last_model == "backup-model"
 
 
 @pytest.mark.parametrize(
