@@ -22,7 +22,7 @@ medwise-bd/
   backend/
     app/
       api/        # routers: search, generics, alternatives, manufacturers, interactions, prescription,
-                  #          medicine_requests, stats, pharmacies, symptom_guide
+                  #          medicine_requests, stats, pharmacies, symptom_guide, data_reports
       core/       # config, db
       models/     # SQLAlchemy models
       schemas/    # Pydantic schemas
@@ -33,6 +33,7 @@ medwise-bd/
       build_brands_from_csv.py   # data/templates/brands_template.csv -> brands.json
       extract_ddinter.py         # data/raw/ddinter/*.csv (gitignored) -> interactions.json
       top_requests.py            # most requested medicines (request log; no public endpoint)
+      top_reports.py             # brands reported as having wrong data (no public endpoint)
       eval_ocr.py                # OCR accuracy on data/eval (see data/eval/README.md)
       fetch_osm_pharmacies.py    # OpenStreetMap (Overpass) -> pharmacies.json, sylhet_areas.json
       build_symptoms_bn.py       # Bangla review sheet for red_flags.json and specialties.json
@@ -511,7 +512,7 @@ Approved by the owner 2026-11-10 ("Q2 ok", with Q3, Q4 and Q5), built in this or
   language button icon-only below 360 px; the long bn 'save for offline' button wraps. No sideways
   scroll on 9 pages at 9 widths (320-1024 px) in en and bn, light and dark; contrast unchanged.
 
-- [ ] **Q4. "Report a problem" with a brand's data.** On each brand card of the ranking and
+- [x] **Q4. "Report a problem" with a brand's data.** On each brand card of the ranking and
   alternatives pages: "Report a problem" / "সমস্যা জানান" with fixed reasons only: wrong price,
   not sold any more, wrong manufacturer, other ("দাম ভুল", "আর বিক্রি হয় না", "প্রস্তুতকারক ভুল",
   "অন্য কিছু"); no free text. POST /api/reports {brand_id, reason} stores only those two and the day
@@ -520,6 +521,9 @@ Approved by the owner 2026-11-10 ("Q2 ok", with Q3, Q4 and Q5), built in this or
   1000 a day). backend/scripts/top_reports.py lists reports per brand for the team, who fix the seed
   files. No public endpoint lists reports. After sending: "Thanks — we will check this brand's
   data." / "ধন্যবাদ — আমরা এই ব্র্যান্ডের তথ্য যাচাই করব।"
+  Done 2026-11-11 (PR): table data_reports on RequestsBase. Besides brand_id, reason and the day it
+  saves the brand's name, manufacturer, strength and form (not personal data): brand ids are
+  reassigned when the import rebuilds the tables, so an id alone could later name the wrong brand.
 
 - [ ] **Q5. Recently viewed, on this device only.** The last 8 ranking or alternatives pages opened
   (medicine name, strength, form and link; no prices) kept in localStorage through one module with

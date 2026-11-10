@@ -33,6 +33,7 @@ and dosage form, ranked by manufacturer quality (80%) and price (20%), with the 
 | **My Medicines** | Save medicines on your phone only (MedWise never receives the list): see each one's rank and the top-ranked option, check interactions across them, add daily reminders to your calendar (.ics) and back up the list |
 | **Symptom guide** | `/symptoms`: an NHS emergency checklist first (any tick: “Call 999 now” with tap-to-call), then which kind of doctor to start with and a short note for that doctor, written from your answers. Never a diagnosis, never a medicine |
 | **Pharmacy finder (Sylhet)** | On every ranking page, the 10 nearest pharmacies in Sylhet city from OpenStreetMap, with distance, “Call” when a number is listed and “Directions”. Your location stays in the browser (or pick your area). We never claim a shop has a medicine: “Call before you go” |
+| **Report a problem** | “Report a problem” on each brand card (wrong price, not sold any more, wrong manufacturer, other); only the brand, the reason and the day are stored, so the team can fix the data |
 | **Request a medicine** | When we have no data for a medicine (search or scan), one tap asks us to add it. Only the medicine name, where it came from and the day are stored |
 | **Light / dark theme, larger text** | From the header's Display menu: System (follows the phone), Light or Dark, and Normal or Large text; remembered on the device, printing always light and normal size |
 | **Installable app** | Add to the home screen like an app |
@@ -246,6 +247,22 @@ denied or outside Sylhet, the user picks an area. The list never says what a sho
 Each row shows the shop's street address when OSM has a real one; when the address is empty or
 only says "Sylhet" / "সিলেট", it shows "Near <closest area>" (from `sylhet_areas.json`, by the
 shop's coordinates) next to the distance.
+
+## Reports about a brand's data
+
+“Report a problem” on each brand card sends only the brand id and one fixed reason (`wrong_price`,
+`not_sold`, `wrong_manufacturer`, `other`); there is no free text. The backend stores those, the day
+and the brand's own details (name, manufacturer, strength, form, because brand ids change when the
+seed import rebuilds the tables): no IP address, user agent, cookie or user id. Like the request log,
+the `data_reports` table has its own metadata (the import never drops it), only our frontend may
+send reports, 10 an hour per device and 1000 a day. There is no public list; the team reads it with
+
+```bash
+cd backend
+python scripts/top_reports.py --database-url "postgresql://..."   # brands with the most reports
+```
+
+and fixes the seed files (for prices: `data/templates/brands_template.csv`).
 
 ## Medicine requests
 
