@@ -222,9 +222,12 @@ const en = {
   },
   display: {
     menu: "Display",
-    label: (current: string) => `Display: ${current} theme`,
+    label: (theme: string, size: string) => `Display: ${theme} theme, ${size} text`,
     theme: "Theme",
     themes: { system: "System", light: "Light", dark: "Dark" },
+    textSize: "Text size",
+    textSizes: { normal: "Normal", large: "Large" },
+    textSizeWords: { normal: "normal", large: "large" },
   },
   symptoms: {
     nav: "Symptom guide",
@@ -755,9 +758,12 @@ const bn: Dict = {
   },
   display: {
     menu: "প্রদর্শন",
-    label: (current: string) => `প্রদর্শন: ${current} থিম`,
+    label: (theme: string, size: string) => `প্রদর্শন: ${theme} থিম, ${size} লেখা`,
     theme: "থিম",
     themes: { system: "সিস্টেম", light: "লাইট", dark: "ডার্ক" },
+    textSize: "লেখার আকার",
+    textSizes: { normal: "স্বাভাবিক", large: "বড়" },
+    textSizeWords: { normal: "স্বাভাবিক", large: "বড়" },
   },
   symptoms: {
     nav: "লক্ষণ গাইড",
