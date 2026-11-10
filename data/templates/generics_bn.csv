@@ -13,6 +13,8 @@ Paracetamol,precautions,1,May not be suitable if you've had an allergic reaction
 Paracetamol,precautions,2,May not be suitable if you have a kidney or liver condition,কিডনি বা লিভারের রোগ থাকলে এটি উপযুক্ত নাও হতে পারে,yes,,Draft by Claude; please check
 Paracetamol,precautions,3,May not be suitable if you're dependent on alcohol or binge drink,অ্যালকোহলে আসক্ত হলে বা অল্প সময়ে অনেক বেশি মদ্যপান করলে এটি উপযুক্ত নাও হতে পারে,yes,,Draft by Claude; please check
 Paracetamol,precautions,4,"If you're pregnant, paracetamol is usually the best painkiller to use",গর্ভাবস্থায় সাধারণত প্যারাসিটামলই ব্যথার জন্য সবচেয়ে ভালো ওষুধ,yes,,Draft by Claude; please check
+Paracetamol,how_to_take,1,You can take tablets or capsules with or without food.,"ট্যাবলেট বা ক্যাপসুল খাবারের সাথে বা খাবার ছাড়া, দুইভাবেই খেতে পারেন।",,,"Draft by Claude, 2026-11-10."
+Paracetamol,how_to_take,2,"You can eat and drink normally (including alcohol), when taking paracetamol.",প্যারাসিটামল খাওয়ার সময় স্বাভাবিকভাবে খাওয়াদাওয়া করতে পারেন (অ্যালকোহলসহ)।,,,"Draft by Claude, 2026-11-10."
 Ibuprofen,drug_class,1,Non-steroidal anti-inflammatory drug (NSAID),নন-স্টেরয়েডাল প্রদাহনাশক ওষুধ (NSAID),yes,,Draft by Claude; please check
 Ibuprofen,indications,1,Headaches and migraines,মাথাব্যথা ও মাইগ্রেন,yes,,Draft by Claude; please check
 Ibuprofen,indications,2,Joint and muscle pain,জয়েন্ট ও মাংসপেশির ব্যথা,yes,,Draft by Claude; please check
@@ -33,6 +35,8 @@ Ibuprofen,precautions,3,May not be suitable if you have asthma or allergies (suc
 Ibuprofen,precautions,4,"May not be suitable if you have a heart, liver or kidney condition","হার্ট, লিভার বা কিডনির রোগ থাকলে এটি উপযুক্ত নাও হতে পারে",yes,,Draft by Claude; please check
 Ibuprofen,precautions,5,May not be suitable if you have problems with blood clotting or have had a stroke,রক্ত জমাট বাঁধায় সমস্যা থাকলে বা আগে স্ট্রোক হয়ে থাকলে এটি উপযুক্ত নাও হতে পারে,yes,,Draft by Claude; please check
 Ibuprofen,precautions,6,Avoid ibuprofen during pregnancy unless a doctor or pharmacist advises it,ডাক্তার বা ফার্মাসিস্ট না বললে গর্ভাবস্থায় আইবুপ্রোফেন এড়িয়ে চলুন,yes,,Draft by Claude; please check
+Ibuprofen,how_to_take,1,Swallow tablets or capsules whole with water (ideally with or after food),ট্যাবলেট বা ক্যাপসুল পানির সাথে আস্ত গিলে খান (সম্ভব হলে খাবারের সাথে বা খাবারের পরে),,,"Draft by Claude, 2026-11-10. Check: English is shortened from the NHS line (dose part removed)."
+Ibuprofen,how_to_take,2,"You can eat and drink normally while taking ibuprofen, but try to avoid drinking a lot of alcohol because this can increase the risk of side effects.","আইবুপ্রোফেন খাওয়ার সময় স্বাভাবিকভাবে খাওয়াদাওয়া করতে পারেন, তবে বেশি অ্যালকোহল পান এড়িয়ে চলার চেষ্টা করুন, কারণ এতে পার্শ্বপ্রতিক্রিয়ার ঝুঁকি বাড়তে পারে।",,,"Draft by Claude, 2026-11-10."
 Aspirin,drug_class,1,Antiplatelet agent (low dose),অ্যান্টিপ্লেটলেট (কম মাত্রায়),yes,,Draft by Claude; please check
 Aspirin,indications,1,"At a low, regular dose: to prevent blood clots and lower the chance of a heart attack or stroke",নিয়মিত কম মাত্রায়: রক্ত জমাট বাঁধা ঠেকাতে এবং হার্ট অ্যাটাক বা স্ট্রোকের ঝুঁকি কমাতে,yes,,Draft by Claude; please check
 Aspirin,side_effects,1,Indigestion and stomach aches,বদহজম ও পেটব্যথা,yes,,Draft by Claude; please check
@@ -45,6 +49,7 @@ Aspirin,precautions,2,May not be suitable if you have a stomach ulcer or have ha
 Aspirin,precautions,3,May not be suitable if you have asthma or heart failure,হাঁপানি বা হার্ট ফেইলিওর থাকলে এটি উপযুক্ত নাও হতে পারে,yes,,Draft by Claude; please check
 Aspirin,precautions,4,May not be suitable if you have a liver or kidney condition or problems with blood clotting,লিভার বা কিডনির রোগ বা রক্ত জমাট বাঁধায় সমস্যা থাকলে এটি উপযুক্ত নাও হতে পারে,yes,,Draft by Claude; please check
 Aspirin,precautions,5,Tell your doctor if you're pregnant or get pregnant while taking low-dose aspirin,গর্ভবতী হলে বা কম মাত্রার অ্যাসপিরিন খাওয়ার সময় গর্ভধারণ করলে ডাক্তারকে জানান,yes,,Draft by Claude; please check
+Aspirin,how_to_take,1,"You can eat and drink normally while taking aspirin, but try to limit the amount of alcohol you drink because alcohol can increase the risk of side effects.","অ্যাসপিরিন খাওয়ার সময় স্বাভাবিকভাবে খাওয়াদাওয়া করতে পারেন, তবে অ্যালকোহল পানের পরিমাণ সীমিত রাখার চেষ্টা করুন, কারণ অ্যালকোহল পার্শ্বপ্রতিক্রিয়ার ঝুঁকি বাড়াতে পারে।",,,"Draft by Claude, 2026-11-10."
 Omeprazole,drug_class,1,Proton pump inhibitor,প্রোটন পাম্প ইনহিবিটর (পাকস্থলীর অ্যাসিড কমায়),yes,,Draft by Claude; please check
 Omeprazole,indications,1,Stomach ulcers,পাকস্থলীর আলসার,yes,,Draft by Claude; please check
 Omeprazole,indications,2,Heartburn,বুকজ্বালা,yes,,Draft by Claude; please check
@@ -61,6 +66,8 @@ Omeprazole,precautions,1,May not be suitable if you've had an allergic reaction 
 Omeprazole,precautions,2,May not be suitable if you have a kidney or liver condition,কিডনি বা লিভারের রোগ থাকলে এটি উপযুক্ত নাও হতে পারে,yes,,Draft by Claude; please check
 Omeprazole,precautions,3,May not be suitable if you have osteoporosis (weakened bones),অস্টিওপোরোসিস (হাড় দুর্বল) থাকলে এটি উপযুক্ত নাও হতে পারে,yes,,Draft by Claude; please check
 Omeprazole,precautions,4,"You can usually take omeprazole if you're pregnant, but check with a pharmacist or doctor first","গর্ভাবস্থায় সাধারণত ওমিপ্রাজল খাওয়া যায়, তবে আগে ফার্মাসিস্ট বা ডাক্তারের সাথে কথা বলে নিন",yes,,Draft by Claude; please check
+Omeprazole,how_to_take,1,You can take it with or without food,"খাবারের সাথে বা খাবার ছাড়া, দুইভাবেই খেতে পারেন",,,"Draft by Claude, 2026-11-10."
+Omeprazole,how_to_take,2,"You can eat as normal while taking omeprazole, but it's best to not drink alcohol because it can increase the amount of acid in your stomach and make your symptoms worse.","ওমিপ্রাজল খাওয়ার সময় স্বাভাবিকভাবে খাবার খেতে পারেন, তবে অ্যালকোহল পান না করাই ভালো, কারণ এটি পাকস্থলীতে অ্যাসিডের পরিমাণ বাড়িয়ে উপসর্গ আরও খারাপ করতে পারে।",,,"Draft by Claude, 2026-11-10."
 Esomeprazole,drug_class,1,Proton pump inhibitor,প্রোটন পাম্প ইনহিবিটর (পাকস্থলীর অ্যাসিড কমায়),yes,,Draft by Claude; please check
 Esomeprazole,indications,1,"Indigestion, heartburn and acid reflux, including gastro-oesophageal reflux disease (GORD)","বদহজম, বুকজ্বালা ও অ্যাসিড রিফ্লাক্স, যার মধ্যে গ্যাস্ট্রো-ইসোফেজিয়াল রিফ্লাক্স ডিজিজ (GORD)",yes,,Draft by Claude; please check
 Esomeprazole,indications,2,Preventing and treating stomach ulcers,পাকস্থলীর আলসার প্রতিরোধ ও চিকিৎসা,yes,,Draft by Claude; please check
@@ -75,6 +82,10 @@ Esomeprazole,precautions,1,Tell your doctor if you have ever had an allergic rea
 Esomeprazole,precautions,2,Tell your doctor if you have liver problems,লিভারের সমস্যা থাকলে ডাক্তারকে জানান,yes,,Draft by Claude; please check
 Esomeprazole,precautions,3,Tell your doctor if you are due to have an endoscopy,শিগগির এন্ডোস্কোপি করানোর কথা থাকলে ডাক্তারকে জানান,yes,,Draft by Claude; please check
 Esomeprazole,precautions,4,"Tell your doctor if you are losing weight without trying, are vomiting blood, have blood in your poo or have problems swallowing","চেষ্টা ছাড়াই ওজন কমতে থাকলে, রক্তবমি হলে, মলে রক্ত গেলে বা গিলতে সমস্যা হলে ডাক্তারকে জানান",yes,,Draft by Claude; please check
+Esomeprazole,how_to_take,1,You can take it with or without food.,"খাবারের সাথে বা খাবার ছাড়া, দুইভাবেই খেতে পারেন।",,,"Draft by Claude, 2026-11-10."
+Esomeprazole,how_to_take,2,Swallow tablets and capsules whole with a drink of still (non-fizzy) water. Do not take it with other liquids.,ট্যাবলেট ও ক্যাপসুল সাধারণ (গ্যাসবিহীন) পানির সাথে আস্ত গিলে খান। অন্য কোনো তরলের সাথে খাবেন না।,,,"Draft by Claude, 2026-11-10."
+Esomeprazole,how_to_take,3,You can take esomeprazole with an antacid such as Gaviscon if you need to.,প্রয়োজন হলে গ্যাভিসকনের মতো অ্যান্টাসিডের সাথে ইসোমিপ্রাজল খেতে পারেন।,,,"Draft by Claude, 2026-11-10."
+Esomeprazole,how_to_take,4,"Alcohol does not affect the way esomeprazole works, but it makes your stomach produce more acid than normal. Alcohol can irritate your stomach lining and make your symptoms worse.","অ্যালকোহল ইসোমিপ্রাজলের কাজে প্রভাব ফেলে না, কিন্তু এতে পাকস্থলী স্বাভাবিকের চেয়ে বেশি অ্যাসিড তৈরি করে। অ্যালকোহল পাকস্থলীর ভেতরের আবরণে জ্বালা সৃষ্টি করে উপসর্গ আরও খারাপ করতে পারে।",,,"Draft by Claude, 2026-11-10."
 Pantoprazole,drug_class,1,Proton pump inhibitor,প্রোটন পাম্প ইনহিবিটর (পাকস্থলীর অ্যাসিড কমায়),yes,,Draft by Claude; please check
 Pantoprazole,indications,1,"Heartburn, acid reflux and gastro-oesophageal reflux disease (GORD)","বুকজ্বালা, অ্যাসিড রিফ্লাক্স ও গ্যাস্ট্রো-ইসোফেজিয়াল রিফ্লাক্স ডিজিজ (GORD)",yes,,Draft by Claude; please check
 Pantoprazole,indications,2,Preventing and treating stomach ulcers,পাকস্থলীর আলসার প্রতিরোধ ও চিকিৎসা,yes,,Draft by Claude; please check
@@ -86,6 +97,9 @@ Pantoprazole,precautions,1,Tell your doctor if you have ever had an allergic rea
 Pantoprazole,precautions,2,Tell your doctor if you have liver problems or low levels of vitamin B12,লিভারের সমস্যা থাকলে বা ভিটামিন B12 কম থাকলে ডাক্তারকে জানান,yes,,Draft by Claude; please check
 Pantoprazole,precautions,3,"Tell your doctor if you are pregnant, trying to get pregnant or breastfeeding","গর্ভবতী হলে, গর্ভধারণের চেষ্টা করলে বা বুকের দুধ খাওয়ালে ডাক্তারকে জানান",yes,,Draft by Claude; please check
 Pantoprazole,precautions,4,Tell your doctor if you are due to have an endoscopy,শিগগির এন্ডোস্কোপি করানোর কথা থাকলে ডাক্তারকে জানান,yes,,Draft by Claude; please check
+Pantoprazole,how_to_take,1,It's best to take pantoprazole an hour before a meal.,প্যান্টোপ্রাজল খাবারের এক ঘণ্টা আগে খাওয়াই ভালো।,,,"Draft by Claude, 2026-11-10."
+Pantoprazole,how_to_take,2,You can take pantoprazole with an antacid like Gaviscon.,গ্যাভিসকনের মতো অ্যান্টাসিডের সাথে প্যান্টোপ্রাজল খেতে পারেন।,,,"Draft by Claude, 2026-11-10."
+Pantoprazole,how_to_take,3,"Alcohol does not affect the way pantoprazole works. However, it's best not to drink too much alcohol because drinking alcohol makes your stomach produce more acid than normal.","অ্যালকোহল প্যান্টোপ্রাজলের কাজে প্রভাব ফেলে না। তবে বেশি অ্যালকোহল পান না করাই ভালো, কারণ অ্যালকোহল পান করলে পাকস্থলী স্বাভাবিকের চেয়ে বেশি অ্যাসিড তৈরি করে।",,,"Draft by Claude, 2026-11-10."
 Amoxicillin,drug_class,1,Penicillin antibiotic,পেনিসিলিন-জাতীয় অ্যান্টিবায়োটিক,yes,,Draft by Claude; please check
 Amoxicillin,indications,1,"Bacterial infections, such as chest infections (including pneumonia) and dental abscesses","ব্যাকটেরিয়াজনিত সংক্রমণ, যেমন বুকের সংক্রমণ (নিউমোনিয়াসহ) ও দাঁতের ফোড়া",yes,,Draft by Claude; please check
 Amoxicillin,indications,2,Ear infections and chest infections in children,শিশুদের কানের সংক্রমণ ও বুকের সংক্রমণ,yes,,Draft by Claude; please check
@@ -98,6 +112,8 @@ Amoxicillin,precautions,1,Tell your doctor if you have ever had an allergic reac
 Amoxicillin,precautions,2,Tell your doctor if you have liver or kidney problems,লিভার বা কিডনির সমস্যা থাকলে ডাক্তারকে জানান,yes,,Draft by Claude; please check
 Amoxicillin,precautions,3,Tell your doctor if you have glandular fever (amoxicillin can cause a rash),গ্ল্যান্ডুলার ফিভার থাকলে ডাক্তারকে জানান (অ্যামোক্সিসিলিনে র‍্যাশ হতে পারে),yes,,Draft by Claude; please check
 Amoxicillin,precautions,4,Tell your doctor if you are due to have blood or urine tests or any vaccinations,রক্ত বা প্রস্রাব পরীক্ষা বা কোনো টিকা নেওয়ার কথা থাকলে ডাক্তারকে জানান,yes,,Draft by Claude; please check
+Amoxicillin,how_to_take,1,You can take amoxicillin before or after food.,অ্যামোক্সিসিলিন খাবারের আগে বা পরে খেতে পারেন।,,,"Draft by Claude, 2026-11-10."
+Amoxicillin,how_to_take,2,"Yes, you can drink alcohol while taking amoxicillin.","হ্যাঁ, অ্যামোক্সিসিলিন খাওয়ার সময় অ্যালকোহল পান করতে পারেন।",,,"Draft by Claude, 2026-11-10."
 Azithromycin,drug_class,1,Macrolide antibiotic,ম্যাক্রোলাইড অ্যান্টিবায়োটিক,yes,,Draft by Claude; please check
 Azithromycin,indications,1,Chest infections such as pneumonia,"বুকের সংক্রমণ, যেমন নিউমোনিয়া",yes,,Draft by Claude; please check
 Azithromycin,indications,2,"Ear, nose and throat infections such as sinus infections (sinusitis)","কান, নাক ও গলার সংক্রমণ, যেমন সাইনাসের সংক্রমণ (সাইনোসাইটিস)",yes,,Draft by Claude; please check
@@ -116,6 +132,10 @@ Azithromycin,precautions,1,Tell your doctor if you have ever had an allergic rea
 Azithromycin,precautions,2,Tell your doctor if you have liver or kidney problems,লিভার বা কিডনির সমস্যা থাকলে ডাক্তারকে জানান,yes,,Draft by Claude; please check
 Azithromycin,precautions,3,"Tell your doctor if you have heart problems, including an irregular heartbeat",অনিয়মিত হৃৎস্পন্দনসহ হার্টের কোনো সমস্যা থাকলে ডাক্তারকে জানান,yes,,Draft by Claude; please check
 Azithromycin,precautions,4,Tell your doctor if you have myasthenia gravis,মায়াস্থেনিয়া গ্রাভিস থাকলে ডাক্তারকে জানান,yes,,Draft by Claude; please check
+Azithromycin,how_to_take,1,"If you're taking azithromycin capsules or tablets, take them at least 1 hour before food or 2 hours after eating.",অ্যাজিথ্রোমাইসিন ক্যাপসুল বা ট্যাবলেট খেলে খাবারের অন্তত ১ ঘণ্টা আগে বা খাওয়ার ২ ঘণ্টা পরে খান।,,,"Draft by Claude, 2026-11-10."
+Azithromycin,how_to_take,2,"If you're taking it as liquid, you can take it with or without food.","তরল (সিরাপ) খেলে খাবারের সাথে বা খাবার ছাড়া, দুইভাবেই খেতে পারেন।",,,"Draft by Claude, 2026-11-10. Check: 'liquid' given as তরল (সিরাপ) for clarity."
+Azithromycin,how_to_take,3,"If you’re taking antacid medicines for indigestion or heartburn, take azithromycin at least 1 hour before the antacid or at least 2 hours after. Antacids can affect how much azithromycin your body takes in.","বদহজম বা বুকজ্বালার জন্য অ্যান্টাসিড খেলে অ্যাজিথ্রোমাইসিন অ্যান্টাসিডের অন্তত ১ ঘণ্টা আগে বা অন্তত ২ ঘণ্টা পরে খান। অ্যান্টাসিড শরীরে কতটা অ্যাজিথ্রোমাইসিন শোষিত হবে, তাতে প্রভাব ফেলতে পারে।",,,"Draft by Claude, 2026-11-10."
+Azithromycin,how_to_take,4,"Yes, you can drink alcohol with azithromycin. However, if azithromycin makes you feel dizzy, do not drink alcohol as it will make you feel worse.","হ্যাঁ, অ্যাজিথ্রোমাইসিনের সাথে অ্যালকোহল পান করতে পারেন। তবে অ্যাজিথ্রোমাইসিনে মাথা ঘোরালে অ্যালকোহল পান করবেন না, কারণ এতে আরও খারাপ লাগবে।",,,"Draft by Claude, 2026-11-10."
 Cefixime,drug_class,1,Third-generation cephalosporin antibiotic,তৃতীয় প্রজন্মের সেফালোস্পোরিন অ্যান্টিবায়োটিক,yes,,Draft by Claude; please check
 Cefixime,indications,1,Uncomplicated urinary tract infections,জটিলতাহীন মূত্রনালির সংক্রমণ,yes,,Draft by Claude; please check
 Cefixime,indications,2,Middle ear infections (otitis media),মধ্যকর্ণের সংক্রমণ (ওটাইটিস মিডিয়া),yes,,Draft by Claude; please check
@@ -132,6 +152,7 @@ Cefixime,side_effects,7,"Serious (rare): Clostridioides difficile diarrhoea, whi
 Cefixime,precautions,1,Do not use if you are allergic to cefixime or other cephalosporins,সেফিক্সিম বা অন্য কোনো সেফালোস্পোরিনে অ্যালার্জি থাকলে ব্যবহার করবেন না,yes,,Draft by Claude; please check
 Cefixime,precautions,2,Use with caution if you are allergic to penicillin (cross-allergy can occur),পেনিসিলিনে অ্যালার্জি থাকলে সাবধানে ব্যবহার করুন (এতেও অ্যালার্জি হতে পারে),yes,,Draft by Claude; please check
 Cefixime,precautions,3,Tell your doctor if diarrhoea develops during or after treatment,চিকিৎসার সময় বা পরে ডায়রিয়া হলে ডাক্তারকে জানান,yes,,Draft by Claude; please check
+Cefixime,how_to_take,1,The capsule and tablet may be administered without regard to food.,"ক্যাপসুল ও ট্যাবলেট খাবারের সাথে বা খাবার ছাড়া, যেকোনোভাবে খাওয়া যায়।",,,"Draft by Claude, 2026-11-10."
 Ciprofloxacin,drug_class,1,Fluoroquinolone antibiotic,ফ্লুরোকুইনোলোন অ্যান্টিবায়োটিক,yes,,Draft by Claude; please check
 Ciprofloxacin,indications,1,"Urinary tract infections (UTIs), such as bladder or kidney infections","মূত্রনালির সংক্রমণ (UTI), যেমন মূত্রথলি বা কিডনির সংক্রমণ",yes,,Draft by Claude; please check
 Ciprofloxacin,indications,2,Sexually transmitted infections (STIs),যৌনবাহিত সংক্রমণ (STI),yes,,Draft by Claude; please check
@@ -150,6 +171,9 @@ Ciprofloxacin,precautions,2,"Tell your doctor if you have diabetes, epilepsy or 
 Ciprofloxacin,precautions,3,Tell your doctor if you have a heart problem or a kidney condition,হার্টের সমস্যা বা কিডনির রোগ থাকলে ডাক্তারকে জানান,yes,,Draft by Claude; please check
 Ciprofloxacin,precautions,4,"Tell your doctor if you have an abdominal aortic aneurysm, or a close relative has had one",পেটের মহাধমনী ফুলে যাওয়ার রোগ (অ্যাবডোমিনাল অ্যাওর্টিক অ্যানিউরিজম) থাকলে বা নিকট আত্মীয়ের হয়ে থাকলে ডাক্তারকে জানান,yes,,Draft by Claude; please check
 Ciprofloxacin,precautions,5,Ciprofloxacin is not usually used during pregnancy; tell your doctor if you're pregnant,গর্ভাবস্থায় সাধারণত সিপ্রোফ্লক্সাসিন ব্যবহার করা হয় না; গর্ভবতী হলে ডাক্তারকে জানান,yes,,Draft by Claude; please check
+Ciprofloxacin,how_to_take,1,"Do not take ciprofloxacin tablets with any dairy products, such as cheese or milk, or drinks with added calcium, such as plant milk. Doing so can stop the medicine from working properly.","সিপ্রোফ্লক্সাসিন ট্যাবলেট কোনো দুগ্ধজাত খাবারের (যেমন পনির বা দুধ) সাথে খাবেন না, ক্যালসিয়াম মেশানো পানীয়ের (যেমন উদ্ভিজ্জ দুধ) সাথেও না। এতে ওষুধটি ঠিকমতো কাজ নাও করতে পারে।",,,"Draft by Claude, 2026-11-10. Check: 'plant milk' given as উদ্ভিজ্জ দুধ (soy/almond milk)."
+Ciprofloxacin,how_to_take,2,"Leave a gap of at least 2 hours between taking ciprofloxacin tablets or liquid and eating or drinking dairy products or drinks with added calcium, such as plant milk.",সিপ্রোফ্লক্সাসিন ট্যাবলেট বা তরল খাওয়া এবং দুগ্ধজাত খাবার বা ক্যালসিয়াম মেশানো পানীয় (যেমন উদ্ভিজ্জ দুধ) খাওয়ার মধ্যে অন্তত ২ ঘণ্টার ব্যবধান রাখুন।,,,"Draft by Claude, 2026-11-10."
+Ciprofloxacin,how_to_take,3,Try to avoid drinking a lot of alcohol because it can increase the risk of side effects.,"বেশি অ্যালকোহল পান এড়িয়ে চলার চেষ্টা করুন, কারণ এতে পার্শ্বপ্রতিক্রিয়ার ঝুঁকি বাড়তে পারে।",,,"Draft by Claude, 2026-11-10."
 Metronidazole,drug_class,1,Nitroimidazole antimicrobial,নাইট্রোইমিডাজল অ্যান্টিমাইক্রোবিয়াল,yes,,Draft by Claude; please check
 Metronidazole,indications,1,Skin infections,ত্বকের সংক্রমণ,yes,,Draft by Claude; please check
 Metronidazole,indications,2,Rosacea,রোজাসিয়া,yes,,Draft by Claude; please check
@@ -166,6 +190,9 @@ Metronidazole,precautions,1,Tell your doctor if you have ever had an allergic re
 Metronidazole,precautions,2,Tell your doctor if you are pregnant or breastfeeding,গর্ভবতী হলে বা বুকের দুধ খাওয়ালে ডাক্তারকে জানান,yes,,Draft by Claude; please check
 Metronidazole,precautions,3,Tell your doctor if you will not be able to stop drinking alcohol while using metronidazole,মেট্রোনিডাজল খাওয়ার সময় মদ্যপান বন্ধ রাখতে না পারলে ডাক্তারকে জানান,yes,,Draft by Claude; please check
 Metronidazole,precautions,4,"Tell your doctor if you have liver problems, a nervous system disease or are having dialysis","লিভারের সমস্যা বা স্নায়ুতন্ত্রের রোগ থাকলে, বা ডায়ালাইসিস চললে ডাক্তারকে জানান",yes,,Draft by Claude; please check
+Metronidazole,how_to_take,1,"Swallow the tablets whole with a drink of water, with or just after you've eaten some food.","ট্যাবলেট পানির সাথে আস্ত গিলে খান, খাবারের সাথে বা কিছু খাওয়ার ঠিক পরে।",,,"Draft by Claude, 2026-11-10."
+Metronidazole,how_to_take,2,Do not drink alcohol while you're taking metronidazole tablets or liquid or using suppositories. Continue to avoid alcohol for 2 days after you finish your treatment.,"মেট্রোনিডাজল ট্যাবলেট বা তরল খাওয়ার সময়, বা সাপোজিটরি ব্যবহারের সময় অ্যালকোহল পান করবেন না। চিকিৎসা শেষ হওয়ার পরও ২ দিন অ্যালকোহল এড়িয়ে চলুন।",,,"Draft by Claude, 2026-11-10. Check: '2 days' is how long to avoid alcohol after treatment, not how long to take the medicine."
+Metronidazole,how_to_take,3,"This is important because metronidazole can react with alcohol to cause a number of side effects. These include feeling and being sick, stomach pain, hot flushes, a pounding heartbeat (palpitations) and a headache.","এটি গুরুত্বপূর্ণ, কারণ অ্যালকোহলের সাথে মেট্রোনিডাজল বিক্রিয়া করে নানা পার্শ্বপ্রতিক্রিয়া ঘটাতে পারে। যেমন বমিভাব ও বমি, পেটব্যথা, হঠাৎ গরম লাগা, বুক ধড়ফড় (প্যালপিটেশন) এবং মাথাব্যথা।",,,"Draft by Claude, 2026-11-10."
 Metformin,drug_class,1,Biguanide antidiabetic,বাইগুয়ানাইড (ডায়াবেটিসের ওষুধ),yes,,Draft by Claude; please check
 Metformin,indications,1,Type 2 diabetes (on its own or with other diabetes medicines),টাইপ ২ ডায়াবেটিস (একা বা ডায়াবেটিসের অন্য ওষুধের সাথে),yes,,Draft by Claude; please check
 Metformin,indications,2,Diabetes that develops during pregnancy (gestational diabetes),গর্ভাবস্থায় হওয়া ডায়াবেটিস (জেস্টেশনাল ডায়াবেটিস),yes,,Draft by Claude; please check
@@ -180,6 +207,7 @@ Metformin,precautions,2,May not be suitable if you have liver or kidney problems
 Metformin,precautions,3,May not be suitable if you have a severe infection or heart failure,গুরুতর সংক্রমণ বা হার্ট ফেইলিওর থাকলে এটি উপযুক্ত নাও হতে পারে,yes,,Draft by Claude; please check
 Metformin,precautions,4,May not be suitable if you drink a lot of alcohol,বেশি মদ্যপান করলে এটি উপযুক্ত নাও হতে পারে,yes,,Draft by Claude; please check
 Metformin,precautions,5,Tell your doctor if you're pregnant or get pregnant while taking metformin,গর্ভবতী হলে বা মেটফরমিন খাওয়ার সময় গর্ভধারণ করলে ডাক্তারকে জানান,yes,,Draft by Claude; please check
+Metformin,how_to_take,1,Try to limit how much alcohol you drink while taking metformin because it can increase the risk of serious side effects.,"মেটফরমিন খাওয়ার সময় অ্যালকোহল পানের পরিমাণ সীমিত রাখার চেষ্টা করুন, কারণ এতে গুরুতর পার্শ্বপ্রতিক্রিয়ার ঝুঁকি বাড়তে পারে।",,,"Draft by Claude, 2026-11-10."
 Gliclazide,drug_class,1,Sulfonylurea antidiabetic,সালফোনাইলইউরিয়া (ডায়াবেটিসের ওষুধ),yes,,Draft by Claude; please check
 Gliclazide,indications,1,Type 2 diabetes,টাইপ ২ ডায়াবেটিস,yes,,Draft by Claude; please check
 Gliclazide,side_effects,1,Stomach pain,পেটব্যথা,yes,,Draft by Claude; please check
@@ -191,6 +219,9 @@ Gliclazide,precautions,1,May not be suitable if you've had an allergic reaction 
 Gliclazide,precautions,2,May not be suitable if you have severe kidney or liver disease,কিডনি বা লিভারের গুরুতর রোগ থাকলে এটি উপযুক্ত নাও হতে পারে,yes,,Draft by Claude; please check
 Gliclazide,precautions,3,May not be suitable if you have acute porphyria,অ্যাকিউট পরফাইরিয়া থাকলে এটি উপযুক্ত নাও হতে পারে,yes,,Draft by Claude; please check
 Gliclazide,precautions,4,Tell your doctor if you're pregnant or trying to get pregnant,গর্ভবতী হলে বা গর্ভধারণের চেষ্টা করলে ডাক্তারকে জানান,yes,,Draft by Claude; please check
+Gliclazide,how_to_take,1,Take your tablets after a meal to help avoid stomach problems,পেটের সমস্যা এড়াতে খাবারের পরে ট্যাবলেট খান,,,"Draft by Claude, 2026-11-10."
+Gliclazide,how_to_take,2,Follow your doctor’s advice about diet while taking gliclazide to reduce the chances of your blood sugar level getting too low. This may include eating a healthy diet and not skipping or delaying meals.,গ্লিক্লাজাইড খাওয়ার সময় রক্তে শর্করা খুব কমে যাওয়ার সম্ভাবনা কমাতে খাদ্যাভ্যাস নিয়ে ডাক্তারের পরামর্শ মেনে চলুন। এর মধ্যে স্বাস্থ্যকর খাবার খাওয়া এবং কোনো বেলার খাবার বাদ না দেওয়া বা দেরি না করা থাকতে পারে।,,,"Draft by Claude, 2026-11-10."
+Gliclazide,how_to_take,3,It’s best not to drink alcohol while taking gliclazide because it can affect your blood sugar level.,"গ্লিক্লাজাইড খাওয়ার সময় অ্যালকোহল পান না করাই ভালো, কারণ এটি রক্তে শর্করার মাত্রায় প্রভাব ফেলতে পারে।",,,"Draft by Claude, 2026-11-10."
 Amlodipine,drug_class,1,Calcium channel blocker,ক্যালসিয়াম চ্যানেল ব্লকার,yes,,Draft by Claude; please check
 Amlodipine,indications,1,High blood pressure (hypertension),উচ্চ রক্তচাপ (হাইপারটেনশন),yes,,Draft by Claude; please check
 Amlodipine,indications,2,Preventing angina attacks,অ্যানজাইনার (বুকে ব্যথা) আক্রমণ প্রতিরোধ,yes,,Draft by Claude; please check
@@ -206,6 +237,9 @@ Amlodipine,precautions,1,May not be suitable if you've had an allergic reaction 
 Amlodipine,precautions,2,May not be suitable if you have low blood pressure or heart failure,নিম্ন রক্তচাপ বা হার্ট ফেইলিওর থাকলে এটি উপযুক্ত নাও হতে পারে,yes,,Draft by Claude; please check
 Amlodipine,precautions,3,May not be suitable if you have had a recent heart attack or have heart valve disease,সম্প্রতি হার্ট অ্যাটাক হয়ে থাকলে বা হার্টের ভালভের রোগ থাকলে এটি উপযুক্ত নাও হতে পারে,yes,,Draft by Claude; please check
 Amlodipine,precautions,4,Tell your doctor if you're pregnant or get pregnant while taking amlodipine,গর্ভবতী হলে বা অ্যামলোডিপিন খাওয়ার সময় গর্ভধারণ করলে ডাক্তারকে জানান,yes,,Draft by Claude; please check
+Amlodipine,how_to_take,1,You can take it before or after eating or drinking.,"খাওয়া বা পান করার আগে বা পরে, যেকোনো সময় খেতে পারেন।",,,"Draft by Claude, 2026-11-10."
+Amlodipine,how_to_take,2,Do not eat grapefruit or drink grapefruit juice while taking amlodipine because it can increase the chance of side effects.,"অ্যামলোডিপিন খাওয়ার সময় গ্রেপফ্রুট খাবেন না বা গ্রেপফ্রুটের জুস পান করবেন না, কারণ এতে পার্শ্বপ্রতিক্রিয়ার সম্ভাবনা বাড়তে পারে।",,,"Draft by Claude, 2026-11-10. Check: Grapefruit kept as গ্রেপফ্রুট; it is not jambura (pomelo)."
+Amlodipine,how_to_take,3,Try to limit how much alcohol you drink while taking amlodipine as it can increase the risk of low blood pressure.,"অ্যামলোডিপিন খাওয়ার সময় অ্যালকোহল পানের পরিমাণ সীমিত রাখার চেষ্টা করুন, কারণ এতে রক্তচাপ কমে যাওয়ার ঝুঁকি বাড়তে পারে।",,,"Draft by Claude, 2026-11-10."
 Losartan,drug_class,1,Angiotensin II receptor blocker,অ্যানজিওটেনসিন II রিসেপ্টর ব্লকার (ARB),yes,,Draft by Claude; please check
 Losartan,indications,1,High blood pressure (hypertension),উচ্চ রক্তচাপ (হাইপারটেনশন),yes,,Draft by Claude; please check
 Losartan,indications,2,Heart failure,হার্ট ফেইলিওর,yes,,Draft by Claude; please check
@@ -222,6 +256,9 @@ Losartan,precautions,1,May not be suitable if you've had an allergic reaction to
 Losartan,precautions,2,May not be suitable if you have severe heart failure or liver problems,গুরুতর হার্ট ফেইলিওর বা লিভারের সমস্যা থাকলে এটি উপযুক্ত নাও হতে পারে,yes,,Draft by Claude; please check
 Losartan,precautions,3,May not be suitable if you've had angioedema (sudden swelling of parts of the body),আগে অ্যানজিওইডিমা (শরীরের কোনো অংশ হঠাৎ ফুলে যাওয়া) হয়ে থাকলে এটি উপযুক্ত নাও হতে পারে,yes,,Draft by Claude; please check
 Losartan,precautions,4,Losartan is not usually used during pregnancy; tell your doctor if you're pregnant or trying to get pregnant,গর্ভাবস্থায় সাধারণত লোসার্টান ব্যবহার করা হয় না; গর্ভবতী হলে বা গর্ভধারণের চেষ্টা করলে ডাক্তারকে জানান,yes,,Draft by Claude; please check
+Losartan,how_to_take,1,"Take it with water, with or without food","পানির সাথে খান, খাবারের সাথে বা খাবার ছাড়া",,,"Draft by Claude, 2026-11-10."
+Losartan,how_to_take,2,"You can generally eat as normal while taking losartan, but avoid drinking grapefruit juice because it can stop your medicine working properly.","লোসার্টান খাওয়ার সময় সাধারণত স্বাভাবিকভাবে খাবার খেতে পারেন, তবে গ্রেপফ্রুটের জুস পান এড়িয়ে চলুন, কারণ এতে ওষুধ ঠিকমতো কাজ নাও করতে পারে।",,,"Draft by Claude, 2026-11-10."
+Losartan,how_to_take,3,Try to limit the amount of alcohol you drink while taking losartan because it can increase the risk of side effects.,"লোসার্টান খাওয়ার সময় অ্যালকোহল পানের পরিমাণ সীমিত রাখার চেষ্টা করুন, কারণ এতে পার্শ্বপ্রতিক্রিয়ার ঝুঁকি বাড়তে পারে।",,,"Draft by Claude, 2026-11-10."
 Atorvastatin,drug_class,1,HMG-CoA reductase inhibitor (statin),HMG-CoA রিডাক্টেজ ইনহিবিটর (স্ট্যাটিন),yes,,Draft by Claude; please check
 Atorvastatin,indications,1,High cholesterol,উচ্চ কোলেস্টেরল,yes,,Draft by Claude; please check
 Atorvastatin,indications,2,"Preventing angina, heart attack and stroke in people with cardiovascular disease","হৃদ্‌রোগ বা রক্তনালির রোগ আছে এমন মানুষের অ্যানজাইনা, হার্ট অ্যাটাক ও স্ট্রোক প্রতিরোধ",yes,,Draft by Claude; please check
@@ -238,6 +275,9 @@ Atorvastatin,precautions,1,May not be suitable if you've had an allergic reactio
 Atorvastatin,precautions,2,"May not be suitable if you have liver or kidney problems, or an underactive thyroid","লিভার বা কিডনির সমস্যা থাকলে, বা থাইরয়েড কম কাজ করলে এটি উপযুক্ত নাও হতে পারে",yes,,Draft by Claude; please check
 Atorvastatin,precautions,3,May not be suitable if you regularly drink a lot of alcohol,নিয়মিত বেশি মদ্যপান করলে এটি উপযুক্ত নাও হতে পারে,yes,,Draft by Claude; please check
 Atorvastatin,precautions,4,Atorvastatin is not recommended during pregnancy because it can affect how the baby develops,"গর্ভাবস্থায় অ্যাটোরভাস্ট্যাটিন খাওয়ার পরামর্শ দেওয়া হয় না, কারণ এটি শিশুর বৃদ্ধিতে প্রভাব ফেলতে পারে",yes,,Draft by Claude; please check
+Atorvastatin,how_to_take,1,Take it with or without food,খাবারের সাথে বা খাবার ছাড়া খান,,,"Draft by Claude, 2026-11-10."
+Atorvastatin,how_to_take,2,"You can eat as normal while taking atorvastatin, but avoid having too much grapefruit juice as it can increase the chance of side effects. Do not have more than 1 or 2 small glasses of grapefruit juice a day.","অ্যাটোরভাস্ট্যাটিন খাওয়ার সময় স্বাভাবিকভাবে খাবার খেতে পারেন, তবে বেশি গ্রেপফ্রুটের জুস পান এড়িয়ে চলুন, কারণ এতে পার্শ্বপ্রতিক্রিয়ার সম্ভাবনা বাড়তে পারে। দিনে ১ বা ২ ছোট গ্লাসের বেশি গ্রেপফ্রুটের জুস পান করবেন না।",,,"Draft by Claude, 2026-11-10."
+Atorvastatin,how_to_take,3,"Also, try to limit how much alcohol you drink while taking atorvastatin, as it can increase the risk of side effects like liver problems.","এছাড়া অ্যাটোরভাস্ট্যাটিন খাওয়ার সময় অ্যালকোহল পানের পরিমাণ সীমিত রাখার চেষ্টা করুন, কারণ এতে লিভারের সমস্যার মতো পার্শ্বপ্রতিক্রিয়ার ঝুঁকি বাড়তে পারে।",,,"Draft by Claude, 2026-11-10."
 Clopidogrel,drug_class,1,Antiplatelet agent (P2Y12 inhibitor),অ্যান্টিপ্লেটলেট (P2Y12 ইনহিবিটর),yes,,Draft by Claude; please check
 Clopidogrel,indications,1,"Preventing blood clots after a heart attack, unstable angina or a stroke or mini-stroke (TIA)","হার্ট অ্যাটাক, আনস্টেবল অ্যানজাইনা, স্ট্রোক বা মিনি-স্ট্রোকের (TIA) পরে রক্ত জমাট বাঁধা প্রতিরোধ",yes,,Draft by Claude; please check
 Clopidogrel,indications,2,Peripheral arterial disease,পেরিফেরাল আর্টারিয়াল ডিজিজ,yes,,Draft by Claude; please check
@@ -254,6 +294,11 @@ Clopidogrel,precautions,2,Tell your doctor if you have ever had a stomach ulcer 
 Clopidogrel,precautions,3,"Tell your doctor if you have a bleeding disorder, such as haemophilia",হিমোফিলিয়ার মতো রক্তক্ষরণজনিত রোগ থাকলে ডাক্তারকে জানান,yes,,Draft by Claude; please check
 Clopidogrel,precautions,4,Tell your doctor if you have recently had surgery or a serious injury,সম্প্রতি অপারেশন হয়ে থাকলে বা গুরুতর আঘাত পেয়ে থাকলে ডাক্তারকে জানান,yes,,Draft by Claude; please check
 Clopidogrel,precautions,5,"Tell your doctor if you have liver or kidney problems, or are pregnant or breastfeeding","লিভার বা কিডনির সমস্যা থাকলে, বা গর্ভবতী হলে বা বুকের দুধ খাওয়ালে ডাক্তারকে জানান",yes,,Draft by Claude; please check
+Clopidogrel,how_to_take,1,You can take it with or without food.,"খাবারের সাথে বা খাবার ছাড়া, দুইভাবেই খেতে পারেন।",,,"Draft by Claude, 2026-11-10."
+Clopidogrel,how_to_take,2,Do not drink grapefruit juice while taking clopidogrel.,ক্লোপিডোগ্রেল খাওয়ার সময় গ্রেপফ্রুটের জুস পান করবেন না।,,,"Draft by Claude, 2026-11-10."
+Clopidogrel,how_to_take,3,"Grapefruit juice decreases the effects of your medicine, so that it may not work as well to prevent blood clots.","গ্রেপফ্রুটের জুস ওষুধের কার্যকারিতা কমিয়ে দেয়, ফলে রক্ত জমাট বাঁধা প্রতিরোধে এটি ততটা ভালো কাজ নাও করতে পারে।",,,"Draft by Claude, 2026-11-10."
+Clopidogrel,how_to_take,4,"Yes, you can drink alcohol while taking clopidogrel, as long as you stick to the national guidelines of no more than 14 units a week for men and women.","হ্যাঁ, ক্লোপিডোগ্রেল খাওয়ার সময় অ্যালকোহল পান করতে পারেন, যদি জাতীয় নির্দেশিকা মেনে চলেন, অর্থাৎ নারী-পুরুষ সবার জন্য সপ্তাহে ১৪ ইউনিটের বেশি নয়।",,,"Draft by Claude, 2026-11-10. Check: 'national guidelines' are the UK's; '14 units' is a UK alcohol measure. Kept as written."
+Clopidogrel,how_to_take,5,You can take other indigestion remedies such as antacids at the same time as clopidogrel.,ক্লোপিডোগ্রেলের সাথে একই সময়ে অ্যান্টাসিডের মতো অন্য বদহজমের ওষুধ খেতে পারেন।,,,"Draft by Claude, 2026-11-10."
 Warfarin,drug_class,1,Vitamin K antagonist anticoagulant,ভিটামিন K প্রতিরোধী অ্যান্টিকোয়াগুল্যান্ট (রক্ত জমাট বাঁধা কমায়),yes,,Draft by Claude; please check
 Warfarin,indications,1,"Treating and preventing blood clots, including deep vein thrombosis and pulmonary embolism","রক্ত জমাট বাঁধার চিকিৎসা ও প্রতিরোধ, যেমন ডিপ ভেইন থ্রম্বোসিস ও পালমোনারি এম্বোলিজম",yes,,Draft by Claude; please check
 Warfarin,indications,2,"Reducing the risk of blood clots, for example with atrial fibrillation or a mechanical heart valve","রক্ত জমাট বাঁধার ঝুঁকি কমানো, যেমন অ্যাট্রিয়াল ফিব্রিলেশন বা কৃত্রিম (মেকানিক্যাল) হার্ট ভালভ থাকলে",yes,,Draft by Claude; please check
@@ -266,6 +311,13 @@ Warfarin,precautions,2,May not be suitable if you have liver or kidney problems 
 Warfarin,precautions,3,"May not be suitable if you've recently had a stroke or surgery, or are about to have surgery","সম্প্রতি স্ট্রোক বা অপারেশন হয়ে থাকলে, বা শিগগির অপারেশনের কথা থাকলে এটি উপযুক্ত নাও হতে পারে",yes,,Draft by Claude; please check
 Warfarin,precautions,4,"May not be suitable if you have a condition that makes you bleed more easily, such as a stomach ulcer",পাকস্থলীর আলসারের মতো সহজে রক্তপাত হয় এমন কোনো রোগ থাকলে এটি উপযুক্ত নাও হতে পারে,yes,,Draft by Claude; please check
 Warfarin,precautions,5,Warfarin is not usually used during pregnancy as it can affect the baby's development,"গর্ভাবস্থায় সাধারণত ওয়ারফারিন ব্যবহার করা হয় না, কারণ এটি শিশুর বৃদ্ধিতে প্রভাব ফেলতে পারে",yes,,Draft by Claude; please check
+Warfarin,how_to_take,1,It can be taken with or without food.,"এটি খাবারের সাথে বা খাবার ছাড়া, দুইভাবেই খাওয়া যায়।",,,"Draft by Claude, 2026-11-10."
+Warfarin,how_to_take,2,Some food and drink can affect how warfarin works.,কিছু খাবার ও পানীয় ওয়ারফারিনের কাজে প্রভাব ফেলতে পারে।,,,"Draft by Claude, 2026-11-10."
+Warfarin,how_to_take,3,Do not drink large amounts of alcohol,বেশি পরিমাণে অ্যালকোহল পান করবেন না,,,"Draft by Claude, 2026-11-10."
+Warfarin,how_to_take,4,Do not have cranberry juice or cranberry products,ক্র্যানবেরির জুস বা ক্র্যানবেরি দিয়ে তৈরি খাবার খাবেন না,,,"Draft by Claude, 2026-11-10."
+Warfarin,how_to_take,5,Do not drink grapefruit juice,গ্রেপফ্রুটের জুস পান করবেন না,,,"Draft by Claude, 2026-11-10."
+Warfarin,how_to_take,6,Talk to your doctor before making any big changes to your diet when taking warfarin.,ওয়ারফারিন খাওয়ার সময় খাদ্যাভ্যাসে বড় কোনো পরিবর্তন আনার আগে ডাক্তারের সাথে কথা বলুন।,,,"Draft by Claude, 2026-11-10."
+Warfarin,how_to_take,7,"Foods high in vitamin K, such as broccoli, spinach and other green leafy vegetables, can affect how warfarin works. You can still eat these foods, but talk to your warfarin clinic for advice.","ভিটামিন কে সমৃদ্ধ খাবার, যেমন ব্রকলি, পালংশাক ও অন্যান্য সবুজ শাক, ওয়ারফারিনের কাজে প্রভাব ফেলতে পারে। এসব খাবার খেতে পারেন, তবে পরামর্শের জন্য আপনার ওয়ারফারিন ক্লিনিকের সাথে কথা বলুন।",,,"Draft by Claude, 2026-11-10."
 Montelukast,drug_class,1,Leukotriene receptor antagonist,লিউকোট্রিন রিসেপ্টর অ্যান্টাগোনিস্ট,yes,,Draft by Claude; please check
 Montelukast,indications,1,Preventing the symptoms of asthma,হাঁপানির উপসর্গ প্রতিরোধ,yes,,Draft by Claude; please check
 Montelukast,indications,2,Exercise-induced asthma,ব্যায়ামের সময় হওয়া হাঁপানি,yes,,Draft by Claude; please check
@@ -282,6 +334,11 @@ Montelukast,side_effects,9,"Serious (rare): new or worse sleep problems, such as
 Montelukast,precautions,1,Tell your doctor if you have ever had an allergic reaction to montelukast or any other medicine,মন্টেলুকাস্ট বা অন্য কোনো ওষুধে কখনো অ্যালার্জিক প্রতিক্রিয়া হয়ে থাকলে ডাক্তারকে জানান,yes,,Draft by Claude; please check
 Montelukast,precautions,2,Tell your doctor if you have a rare hereditary problem of galactose intolerance,গ্যালাকটোজ সহ্য না হওয়ার বিরল বংশগত সমস্যা থাকলে ডাক্তারকে জানান,yes,,Draft by Claude; please check
 Montelukast,precautions,3,Do not use montelukast to treat an asthma attack; use a reliever inhaler,হাঁপানির টান উঠলে মন্টেলুকাস্ট দিয়ে চিকিৎসা করবেন না; রিলিভার ইনহেলার ব্যবহার করুন,yes,,Draft by Claude; please check
+Montelukast,how_to_take,1,You can take montelukast non-chewable tablets with or without food.,"মন্টেলুকাস্টের চিবিয়ে না-খাওয়ার ট্যাবলেট খাবারের সাথে বা খাবার ছাড়া, দুইভাবেই খেতে পারেন।",,,"Draft by Claude, 2026-11-10."
+Montelukast,how_to_take,2,"Swallow the tablets whole with water, juice or milk.","ট্যাবলেট পানি, জুস বা দুধের সাথে আস্ত গিলে খান।",,,"Draft by Claude, 2026-11-10."
+Montelukast,how_to_take,3,"It's important to take chewable tablets at least 1 hour before food, or 2 hours after food.",চিবিয়ে খাওয়ার ট্যাবলেট খাবারের অন্তত ১ ঘণ্টা আগে বা খাবারের ২ ঘণ্টা পরে খাওয়া জরুরি।,,,"Draft by Claude, 2026-11-10."
+Montelukast,how_to_take,4,You do not need to avoid any food or drink while taking montelukast.,মন্টেলুকাস্ট খাওয়ার সময় কোনো খাবার বা পানীয় এড়িয়ে চলার দরকার নেই।,,,"Draft by Claude, 2026-11-10."
+Montelukast,how_to_take,5,"Yes, you can drink alcohol while taking montelukast.","হ্যাঁ, মন্টেলুকাস্ট খাওয়ার সময় অ্যালকোহল পান করতে পারেন।",,,"Draft by Claude, 2026-11-10."
 Cetirizine,drug_class,1,Second-generation antihistamine,দ্বিতীয় প্রজন্মের অ্যান্টিহিস্টামিন,yes,,Draft by Claude; please check
 Cetirizine,indications,1,Hay fever,হে ফিভার (মৌসুমি অ্যালার্জিজনিত সর্দি),yes,,Draft by Claude; please check
 Cetirizine,indications,2,"Conjunctivitis (red, itchy eye)",কনজাংটিভাইটিস (চোখ লাল ও চুলকানো),yes,,Draft by Claude; please check
@@ -303,3 +360,5 @@ Cetirizine,precautions,2,Tell your doctor if you have kidney failure,কিড�
 Cetirizine,precautions,3,Tell your doctor if you have epilepsy or are at risk of seizures,মৃগীরোগ থাকলে বা খিঁচুনির ঝুঁকি থাকলে ডাক্তারকে জানান,yes,,Draft by Claude; please check
 Cetirizine,precautions,4,Tell your doctor if you have difficulty peeing,প্রস্রাব করতে কষ্ট হলে ডাক্তারকে জানান,yes,,Draft by Claude; please check
 Cetirizine,precautions,5,Tell your doctor if you are due to have an allergy test,শিগগির অ্যালার্জি পরীক্ষা করানোর কথা থাকলে ডাক্তারকে জানান,yes,,Draft by Claude; please check
+Cetirizine,how_to_take,1,"You can take cetirizine with or without food, but always take the tablets with a drink of water, milk or squash.","সেটিরিজিন খাবারের সাথে বা খাবার ছাড়া খেতে পারেন, তবে ট্যাবলেট সবসময় পানি, দুধ বা শরবতের সাথে খাবেন।",,,"Draft by Claude, 2026-11-10. Check: 'squash' (fruit cordial) given as শরবত."
+Cetirizine,how_to_take,2,It's best not to drink alcohol while you're taking cetirizine as it can make you feel sleepy.,"সেটিরিজিন খাওয়ার সময় অ্যালকোহল পান না করাই ভালো, কারণ এতে ঘুম ঘুম লাগতে পারে।",,,"Draft by Claude, 2026-11-10."
