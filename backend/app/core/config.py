@@ -31,6 +31,9 @@ class Settings(BaseSettings):
     # Per client per minute; far above what a person typing or clicking needs.
     search_limit_per_minute: int = 120
     interactions_limit_per_minute: int = 60
+    # "Request this medicine": per client, and a cap for everyone so nobody can fill the table.
+    request_limit_per_hour: int = 10
+    request_limit_per_day: int = 1000
     cors_origins: str = "http://localhost:3000"
     # Shared with the frontend (same value on Vercel and Render). When set, prescription uploads
     # must carry it, so only our website can spend the Gemini quota. Empty: no check (local dev).

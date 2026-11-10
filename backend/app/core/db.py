@@ -9,7 +9,12 @@ from app.core.config import get_settings
 
 
 class Base(DeclarativeBase):
-    pass
+    """Medicine data from data/seed. import_data.py drops and recreates these tables."""
+
+
+class RequestsBase(DeclarativeBase):
+    """Data people send us (the medicine request log). Separate metadata, so the seed
+    import's drop_all/create_all never touches it."""
 
 
 def _enable_sqlite_foreign_keys(dbapi_connection: Any, _record: Any) -> None:

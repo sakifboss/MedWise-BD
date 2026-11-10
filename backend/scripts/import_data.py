@@ -25,7 +25,7 @@ from sqlalchemy import Engine, delete  # noqa: E402
 from sqlalchemy.orm import Session  # noqa: E402
 
 from app.core.config import get_settings  # noqa: E402
-from app.core.db import Base, make_engine  # noqa: E402
+from app.core.db import Base, RequestsBase, make_engine  # noqa: E402
 from app.models import Brand, Generic, Interaction, Manufacturer  # noqa: E402
 from app.schemas.seed import (  # noqa: E402
     BrandSeed,
@@ -317,6 +317,8 @@ def write_database(engine: Engine, data: SeedData) -> None:
     """
     Base.metadata.drop_all(engine)
     Base.metadata.create_all(engine)
+    # The request log is not seed data: create it if missing, never drop it.
+    RequestsBase.metadata.create_all(engine)
     with Session(engine) as session, session.begin():
         _clear_tables(session)
         manufacturer_ids = _insert_manufacturers(session, data)
