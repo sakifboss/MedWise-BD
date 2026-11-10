@@ -525,8 +525,11 @@ Approved by the owner 2026-11-10 ("Q2 ok", with Q3, Q4 and Q5), built in this or
   saves the brand's name, manufacturer, strength and form (not personal data): brand ids are
   reassigned when the import rebuilds the tables, so an id alone could later name the wrong brand.
 
-- [ ] **Q5. Recently viewed, on this device only.** The last 8 ranking or alternatives pages opened
+- [x] **Q5. Recently viewed, on this device only.** The last 8 ranking or alternatives pages opened
   (medicine name, strength, form and link; no prices) kept in localStorage through one module with
   a versioned format, every read and write in try/catch; shown on the home page as "Recently
   viewed" / "সম্প্রতি দেখা" with "Clear" / "মুছে ফেলুন" and the note "Saved only on this phone." /
   "শুধু এই ফোনে সংরক্ষিত।". Nothing is sent to the backend. Vitest for the list logic.
+  Done 2026-11-11 (PR): localStorage key medwise.recent, format version 1 (lib/recent.ts); stored
+  links must match our ranking or alternatives page patterns; opening a page again moves it to the
+  top; links carry no page state (e.g. the calculator amount).
