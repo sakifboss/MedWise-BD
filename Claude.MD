@@ -336,7 +336,7 @@ PR workflow for every step:
 6. Never merge. Wait for green CI and the user's review. After the user merges, verify the live
    deploy and report.
 
-- [ ] **P8. My Medicines (on this device only).**
+- [x] **P8. My Medicines (on this device only).**
   Frontend-only. New page /my-medicines ("My Medicines" / "আমার ওষুধ"), linked in the header.
   Storage: on the device only, through one module (frontend/src/lib/my-medicines.ts) with a
   versioned format; every read/write in try/catch; the page still works, with a message, when
@@ -363,6 +363,8 @@ PR workflow for every step:
   No login in this PR. Tests: keep logic in pure helpers (storage format and migration, .ics
   text, rank comparison) and unit-test them; if the frontend has no unit test runner, add Vitest
   as a dev dependency for lib/ helpers only.
+  Done 2026-11-10 (PR): localStorage key medwise.myMedicines, format version 1 (lib/my-medicines.ts),
+  .ics in lib/ics.ts; 20 Vitest cases; browser test checks that no request carries the list.
 
 - [ ] **P9. Sylhet pharmacy finder (real locations, no stock claims).**
   Data first, then stop for the user:
