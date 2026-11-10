@@ -1,0 +1,87 @@
+{
+  "meta": {
+    "dataset": "specialties",
+    "source": "MedWise BD (written by the team; to be reviewed with a doctor)",
+    "is_sample": false,
+    "note": "Specialties the symptom guide can point to. 'covers' is described by body part or area only, never by disease. Bangla goes through data/templates/symptoms_bn.csv. general_medicine is the fallback and must stay."
+  },
+  "records": [
+    {
+      "id": "general_medicine",
+      "name": "General medicine specialist",
+      "name_bn": "মেডিসিন বিশেষজ্ঞ",
+      "covers": "Adults with problems that do not clearly belong to one part of the body, or more than one. A good place to start when you are unsure.",
+      "covers_bn": "প্রাপ্তবয়স্কদের এমন সমস্যা যা শরীরের নির্দিষ্ট কোনো এক অংশের নয়, বা একাধিক অংশের। কোথা থেকে শুরু করবেন নিশ্চিত না হলে এখান থেকে শুরু করা ভালো।"
+    },
+    {
+      "id": "paediatrics",
+      "name": "Children's doctor (paediatrics)",
+      "name_bn": "শিশু বিশেষজ্ঞ",
+      "covers": "Babies, children and teenagers.",
+      "covers_bn": "নবজাতক, শিশু ও কিশোর-কিশোরী।"
+    },
+    {
+      "id": "obstetrics_gynaecology",
+      "name": "Obstetrics and gynaecology",
+      "name_bn": "গাইনি ও প্রসূতি বিশেষজ্ঞ",
+      "covers": "Pregnancy, periods, and the womb, ovaries and other female reproductive organs.",
+      "covers_bn": "গর্ভাবস্থা, মাসিক, এবং জরায়ু, ডিম্বাশয় ও নারীর অন্যান্য প্রজনন অঙ্গ।"
+    },
+    {
+      "id": "dermatology",
+      "name": "Skin specialist (dermatology)",
+      "name_bn": "চর্ম বিশেষজ্ঞ (ডার্মাটোলজি)",
+      "covers": "Skin, hair and nails.",
+      "covers_bn": "ত্বক, চুল ও নখ।"
+    },
+    {
+      "id": "ent",
+      "name": "Ear, nose and throat (ENT)",
+      "name_bn": "নাক, কান ও গলা বিশেষজ্ঞ (ইএনটি)",
+      "covers": "Ears and hearing, nose, sinuses, throat and voice.",
+      "covers_bn": "কান ও শোনা, নাক, সাইনাস, গলা ও কণ্ঠস্বর।"
+    },
+    {
+      "id": "eye",
+      "name": "Eye specialist (ophthalmology)",
+      "name_bn": "চক্ষু বিশেষজ্ঞ",
+      "covers": "Eyes and eyesight.",
+      "covers_bn": "চোখ ও দৃষ্টিশক্তি।"
+    },
+    {
+      "id": "orthopaedics",
+      "name": "Bones and joints (orthopaedics)",
+      "name_bn": "হাড় ও জোড়া বিশেষজ্ঞ (অর্থোপেডিক্স)",
+      "covers": "Bones, joints, muscles and the back, and injuries from falls or accidents.",
+      "covers_bn": "হাড়, জোড়া, মাংসপেশি ও পিঠ, এবং পড়ে যাওয়া বা দুর্ঘটনায় আঘাত।"
+    },
+    {
+      "id": "cardiology",
+      "name": "Heart specialist (cardiology)",
+      "name_bn": "হার্ট বিশেষজ্ঞ (কার্ডিওলজি)",
+      "covers": "The heart, heartbeat and blood circulation.",
+      "covers_bn": "হৃৎপিণ্ড, হৃৎস্পন্দন ও রক্তসঞ্চালন।"
+    },
+    {
+      "id": "neurology",
+      "name": "Brain and nerves (neurology)",
+      "name_bn": "মস্তিষ্ক ও স্নায়ু বিশেষজ্ঞ (নিউরোলজি)",
+      "covers": "The brain, spine and nerves, including headaches, numbness, weakness and fits.",
+      "covers_bn": "মস্তিষ্ক, মেরুদণ্ড ও স্নায়ু, যেমন মাথাব্যথা, অবশ ভাব, দুর্বলতা ও খিঁচুনি।"
+    },
+    {
+      "id": "psychiatry",
+      "name": "Mental health (psychiatry)",
+      "name_bn": "মানসিক স্বাস্থ্য বিশেষজ্ঞ (সাইকিয়াট্রি)",
+      "covers": "Mood, worry, sleep, thoughts and behaviour.",
+      "covers_bn": "মন-মেজাজ, দুশ্চিন্তা, ঘুম, চিন্তা ও আচরণ।"
+    },
+    {
+      "id": "dental",
+      "name": "Dentist",
+      "name_bn": "দন্ত চিকিৎসক (ডেন্টিস্ট)",
+      "covers": "Teeth, gums and mouth.",
+      "covers_bn": "দাঁত, মাড়ি ও মুখগহ্বর।"
+    }
+  ]
+}

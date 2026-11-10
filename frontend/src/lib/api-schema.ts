@@ -235,6 +235,46 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/symptom-guide/setup": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Setup
+         * @description The emergency checklist (NHS wording, in order) and the specialties.
+         */
+        get: operations["setup_api_symptom_guide_setup_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/symptom-guide": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Symptom Guide
+         * @description Which kind of doctor to start with, and a short note. Not a diagnosis.
+         */
+        post: operations["symptom_guide_api_symptom_guide_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/health": {
         parameters: {
             query?: never;
@@ -314,6 +354,15 @@ export interface components {
             /** Brands */
             brands: string[];
         };
+        /** DoctorNote */
+        DoctorNote: {
+            /** Main Problem */
+            main_problem: string;
+            /** Duration */
+            duration: string;
+            /** Other Symptoms */
+            other_symptoms: string[];
+        };
         /** Envelope[AlternativesResponse] */
         Envelope_AlternativesResponse_: {
             data?: components["schemas"]["AlternativesResponse"] | null;
@@ -357,6 +406,16 @@ export interface components {
         /** Envelope[SearchResponse] */
         Envelope_SearchResponse_: {
             data?: components["schemas"]["SearchResponse"] | null;
+            error?: components["schemas"]["ErrorBody"] | null;
+        };
+        /** Envelope[SymptomGuideOut] */
+        Envelope_SymptomGuideOut_: {
+            data?: components["schemas"]["SymptomGuideOut"] | null;
+            error?: components["schemas"]["ErrorBody"] | null;
+        };
+        /** Envelope[SymptomGuideSetup] */
+        Envelope_SymptomGuideSetup_: {
+            data?: components["schemas"]["SymptomGuideSetup"] | null;
             error?: components["schemas"]["ErrorBody"] | null;
         };
         /** Envelope[dict[str, str]] */
@@ -790,6 +849,17 @@ export interface components {
             /** Is Selected */
             is_selected: boolean;
         };
+        /** RedFlagOut */
+        RedFlagOut: {
+            /** Id */
+            id: string;
+            /** Group */
+            group: string;
+            /** Text */
+            text: string;
+            /** Source Url */
+            source_url: string;
+        };
         /** SearchResponse */
         SearchResponse: {
             /** Query */
@@ -822,6 +892,70 @@ export interface components {
             dosage_form?: string | null;
             /** Manufacturer */
             manufacturer?: string | null;
+        };
+        /** SpecialtyOut */
+        SpecialtyOut: {
+            /** Id */
+            id: string;
+            /** Name */
+            name: string;
+            /** Covers */
+            covers: string;
+        };
+        /**
+         * SymptomGuideIn
+         * @description What the person answered. Nothing here is stored or logged.
+         */
+        SymptomGuideIn: {
+            /**
+             * Text
+             * @description The problem in their own words
+             */
+            text: string;
+            /**
+             * Since
+             * @enum {string}
+             */
+            since: "today" | "days" | "weeks" | "months";
+            /**
+             * Severity
+             * @enum {string}
+             */
+            severity: "mild" | "moderate" | "severe";
+            /**
+             * Age Group
+             * @enum {string}
+             */
+            age_group: "child" | "adult" | "older_adult";
+            /**
+             * Pregnant
+             * @enum {string}
+             */
+            pregnant: "yes" | "no" | "not_applicable";
+            /**
+             * Lang
+             * @default en
+             * @enum {string}
+             */
+            lang: "en" | "bn";
+        };
+        /** SymptomGuideOut */
+        SymptomGuideOut: {
+            /** Emergency */
+            emergency: boolean;
+            specialty: components["schemas"]["SpecialtyOut"] | null;
+            note: components["schemas"]["DoctorNote"] | null;
+            /** Note Written By */
+            note_written_by: ("ai" | "answers") | null;
+            /** Rule */
+            rule: ("child" | "pregnant") | null;
+        };
+        /** SymptomGuideSetup */
+        SymptomGuideSetup: {
+            /** Red Flags */
+            red_flags: components["schemas"]["RedFlagOut"][];
+            /** Specialties */
+            specialties: components["schemas"]["SpecialtyOut"][];
         };
         /** ValidationError */
         ValidationError: {
@@ -1194,6 +1328,70 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Envelope_PharmaciesResponse_"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    setup_api_symptom_guide_setup_get: {
+        parameters: {
+            query?: {
+                lang?: "en" | "bn";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Envelope_SymptomGuideSetup_"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    symptom_guide_api_symptom_guide_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SymptomGuideIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Envelope_SymptomGuideOut_"];
                 };
             };
             /** @description Validation Error */

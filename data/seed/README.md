@@ -30,6 +30,8 @@ Rows reference each other **by name** (case-insensitive), not by id. Unknown fie
 | `brands.json` | `name`, `generic`, `manufacturer`, `strength`, `dosage_form`, `price_per_unit` (BDT), optional `source_url` (price source) |
 | `interactions.json` | `generic_a`, `generic_b`, `severity` (`minor` / `moderate` / `major`), `description` |
 | `pharmacies.json` | `name`, optional `name_bn`, `lat`, `lon`, optional `address`, `phone`, `source` (`osm` with `osm_type` + `osm_id`, or `survey` with `surveyed_by` + `surveyed_on`), `is_partner`, optional `partner_since`, `hide_phone`. No stock fields |
+| `red_flags.json` | `id`, `group` (one of the checklist groups), `text` (NHS wording), optional reviewed `text_bn`, `source_url` (an `https://www.nhs.uk/` page that says to call 999) |
+| `specialties.json` | `id`, `name`, `covers` (by body area, never by disease), optional reviewed `name_bn` and `covers_bn`. `general_medicine`, `paediatrics` and `obstetrics_gynaecology` are required |
 | `sylhet_areas.json` | `name`, optional `name_bn`, `lat`, `lon`, `kind`, optional `osm` (e.g. `node/264490171`) |
 
 `quality_factors.json` is merged into the `manufacturers` table on import. Each manufacturer needs exactly one entry.

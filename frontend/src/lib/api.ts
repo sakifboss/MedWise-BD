@@ -2,6 +2,7 @@ import type { Lang } from "@/i18n/dictionaries";
 
 import type { components } from "./api-schema";
 import type { PharmaciesData } from "./pharmacies";
+import type { SymptomAnswers, SymptomResult, SymptomSetup } from "./symptom-guide";
 
 type Schemas = components["schemas"];
 
@@ -127,6 +128,18 @@ export const api = {
   },
   stats() {
     return request<CatalogStats>("/api/stats");
+  },
+  /** The emergency checklist (NHS wording) and the specialties, in the page language. */
+  symptomSetup(lang: Lang = "en") {
+    return request<SymptomSetup>(`/api/symptom-guide/setup?lang=${lang}`);
+  },
+  /** Only the person's text and answers are sent; nothing from My Medicines. Not stored. */
+  symptomGuide(answers: SymptomAnswers) {
+    return request<SymptomResult>("/api/symptom-guide", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(answers),
+    });
   },
   /** The whole pharmacy list; no position is sent (distances are worked out in the browser). */
   pharmacies() {
