@@ -30,7 +30,8 @@ and dosage form, ranked by manufacturer quality (80%) and price (20%), with the 
 | **Share for the pharmacist** | WhatsApp / share / print with a QR code; a whole prescription becomes a `/share` link (nothing stored) |
 | **Manufacturer pages** | Each company's regulator approvals, score breakdown, unknowns, sources and brands |
 | **Request a medicine** | When we have no data for a medicine (search or scan), one tap asks us to add it. Only the medicine name, where it came from and the day are stored |
-| **Installable app** | Add to the home screen like an app; shows an offline page without internet |
+| **Installable app** | Add to the home screen like an app |
+| **Offline mode** | Pages you open are saved; “Save all medicines for offline use” saves every medicine and ranking page. Without internet the saved copy opens with “Showing data saved on …”, and search lists the saved medicines. Online, pages are always fresh |
 
 ## How ranking works
 
@@ -158,6 +159,18 @@ A section (e.g. side effects) switches to Bangla only when every one of its line
 until then it is shown in English with a "translation under review" note. After the English
 text changes, run `python scripts/build_generics_bn.py export ../data/templates/generics_bn.csv`
 to add rows for the new text; changed rows are flagged as stale instead of being shown.
+
+## Offline mode
+
+[`frontend/public/sw.js`](frontend/public/sw.js) is network first: with internet every page and
+GET `/api/*` answer is fresh, and a copy is saved with the time it was saved. Without internet the
+copy is served with a `<meta name="medwise-saved-at">`, and the page shows “You're offline.
+Showing data saved on …. Prices may have changed.” Next.js files under `/_next/static/` are cache
+first (their names hold a hash). Never saved: non-GET requests, search, health, prescription
+reading, the request log, Next.js navigation data (`?_rsc`) and non-200 answers. A saved page
+keeps the headers it came with, so its Content-Security-Policy nonce still matches its scripts.
+At most 100 saved pages and 300 static files; the oldest go first. Bump `VERSION` in `sw.js`
+(and `PAGES_CACHE` in `src/lib/offline.ts`; a unit test checks they match) to start fresh.
 
 ## Medicine requests
 
