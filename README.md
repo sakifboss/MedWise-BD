@@ -29,6 +29,7 @@ and dosage form, ranked by manufacturer quality (80%) and price (20%), with the 
 | **Voice search** | Say a medicine name in Bangla or English (browser speech recognition; no audio reaches MedWise) |
 | **Share for the pharmacist** | WhatsApp / share / print with a QR code; a whole prescription becomes a `/share` link (nothing stored) |
 | **Manufacturer pages** | Each company's regulator approvals, score breakdown, unknowns, sources and brands |
+| **Request a medicine** | When we have no data for a medicine (search or scan), one tap asks us to add it. Only the medicine name, where it came from and the day are stored |
 | **Installable app** | Add to the home screen like an app; shows an offline page without internet |
 
 ## How ranking works
@@ -157,6 +158,20 @@ A section (e.g. side effects) switches to Bangla only when every one of its line
 until then it is shown in English with a "translation under review" note. After the English
 text changes, run `python scripts/build_generics_bn.py export ../data/templates/generics_bn.csv`
 to add rows for the new text; changed rows are flagged as stale instead of being shown.
+
+## Medicine requests
+
+"Request this medicine" stores only the text (trimmed, at most 80 characters), its source
+(`search` or `prescription`) and the day: no IP address, user agent, cookie or user id. Only our
+frontend may send requests, with a limit per device (10 an hour) and overall (1000 a day). The
+`medicine_requests` table has its own SQLAlchemy metadata, so the seed import, which drops and
+recreates the medicine tables on every deploy, never touches it. There is no public list; read it
+with:
+
+```bash
+cd backend
+python scripts/top_requests.py --database-url "postgresql://..."   # 30 most requested
+```
 
 ## Deployment
 

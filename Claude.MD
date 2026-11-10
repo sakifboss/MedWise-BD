@@ -21,7 +21,8 @@ medwise-bd/
   frontend/
   backend/
     app/
-      api/        # routers: search, generics, alternatives, manufacturers, interactions, prescription
+      api/        # routers: search, generics, alternatives, manufacturers, interactions, prescription,
+                  #          medicine_requests, stats
       core/       # config, db
       models/     # SQLAlchemy models
       schemas/    # Pydantic schemas
@@ -30,6 +31,8 @@ medwise-bd/
       import_data.py
       build_brands_from_csv.py   # data/templates/brands_template.csv -> brands.json
       extract_ddinter.py         # data/raw/ddinter/*.csv (gitignored) -> interactions.json
+      top_requests.py            # most requested medicines (request log; no public endpoint)
+      eval_ocr.py                # OCR accuracy on data/eval (see data/eval/README.md)
     tests/
   data/
     seed/         # manufacturers.json, generics.json, brands.json, quality_factors.json, interactions.json
