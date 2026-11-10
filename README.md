@@ -30,6 +30,7 @@ and dosage form, ranked by manufacturer quality (80%) and price (20%), with the 
 | **Voice search** | Say a medicine name in Bangla or English (browser speech recognition; no audio reaches MedWise) |
 | **Share for the pharmacist** | WhatsApp / share / print with a QR code; a whole prescription becomes a `/share` link (nothing stored) |
 | **Manufacturer pages** | Each company's regulator approvals, score breakdown, unknowns, sources and brands |
+| **My Medicines** | Save medicines on your phone only (MedWise never receives the list): see each one's rank and the top-ranked option, check interactions across them, add daily reminders to your calendar (.ics) and back up the list |
 | **Request a medicine** | When we have no data for a medicine (search or scan), one tap asks us to add it. Only the medicine name, where it came from and the day are stored |
 | **Installable app** | Add to the home screen like an app |
 | **Offline mode** | Pages you open are saved; “Save all medicines for offline use” saves every medicine and ranking page. Without internet the saved copy opens with “Showing data saved on …”, and search lists the saved medicines. Online, pages are always fresh |

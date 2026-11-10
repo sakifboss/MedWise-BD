@@ -1,4 +1,4 @@
-import { Camera, Factory, Pill, ShieldAlert } from "lucide-react";
+import { Camera, ClipboardList, Factory, Pill, ShieldAlert } from "lucide-react";
 import Link from "next/link";
 
 import { LanguageToggle } from "@/components/language-toggle";
@@ -10,6 +10,7 @@ export async function SiteHeader() {
     { href: "/prescription", label: t.nav.scan, icon: Camera },
     { href: "/interactions", label: t.nav.interactions, icon: ShieldAlert },
     { href: "/manufacturers", label: t.manufacturer.nav, icon: Factory },
+    { href: "/my-medicines", label: t.myMeds.nav, icon: ClipboardList },
   ];
   return (
     <header className="sticky top-0 z-10 border-b print:static bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/80">

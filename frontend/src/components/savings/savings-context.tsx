@@ -52,6 +52,11 @@ export function SavingsProvider({
   return <SavingsContext.Provider value={value}>{children}</SavingsContext.Provider>;
 }
 
+/** The calculator state when this component is inside a ranking page, else null. */
+export function useSavingsIfAny(): SavingsState | null {
+  return useContext(SavingsContext);
+}
+
 export function useSavings(): SavingsState {
   const state = useContext(SavingsContext);
   if (!state) throw new Error("useSavings must be used inside SavingsProvider");

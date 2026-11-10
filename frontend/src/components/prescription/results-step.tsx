@@ -8,6 +8,7 @@ import { Disclaimer } from "@/components/disclaimer";
 import { InteractionPanel } from "@/components/interactions/interaction-panel";
 import { CostSummary } from "@/components/prescription/cost-summary";
 import { optionKey, optionLabel } from "@/components/prescription/types";
+import { SaveAllToMyMedicines } from "@/components/my-medicines/save-buttons";
 import { ShareActions } from "@/components/share/share-actions";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -174,6 +175,7 @@ export function ResultsStep({
       {selections.length > 0 && (
         <CostSummary rows={rows} onQuantityChange={(key, raw) => setDrafts((d) => ({ ...d, [key]: raw }))} />
       )}
+      {selections.length > 0 && <SaveAllToMyMedicines rows={rows} />}
       {selections.length > 0 && (
         <section className="space-y-2 rounded-xl border p-4 print:hidden">
           <h3 className="font-semibold">{t.share.heading}</h3>
