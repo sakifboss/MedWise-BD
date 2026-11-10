@@ -2,6 +2,7 @@ import { Camera, ChevronRight, Factory, ShieldAlert, type LucideIcon } from "luc
 import Link from "next/link";
 
 import { HowRankingWorks } from "@/components/how-ranking-works";
+import { RecentlyViewed } from "@/components/recent/recently-viewed";
 import { SearchBox } from "@/components/search-box";
 import { getDict } from "@/i18n/server";
 
@@ -48,6 +49,8 @@ export default async function HomePage() {
       <p className="-mt-5 text-xs text-muted-foreground">
         {t.home.typeHint} <span lang="bn">সেফিক্সিম</span>.
       </p>
+
+      <RecentlyViewed />
 
       <div className="space-y-3">
         <FeatureLink

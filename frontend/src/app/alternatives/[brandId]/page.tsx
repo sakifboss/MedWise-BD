@@ -6,6 +6,7 @@ import { BackLink } from "@/components/back-link";
 import { Disclaimer } from "@/components/disclaimer";
 import { HowRankingWorks } from "@/components/how-ranking-works";
 import { PharmacyFinder } from "@/components/pharmacy-finder";
+import { RememberPage } from "@/components/recent/remember-page";
 import { RankingList } from "@/components/ranking-list";
 import { getDict, getLang } from "@/i18n/server";
 import { api, isNotFound } from "@/lib/api";
@@ -32,7 +33,8 @@ export async function generateMetadata(props: PageProps<"/alternatives/[brandId]
 }
 
 export default async function AlternativesPage(props: PageProps<"/alternatives/[brandId]">) {
-  const [data, t] = await Promise.all([load((await props.params).brandId), getDict()]);
+  const { brandId } = await props.params;
+  const [data, t] = await Promise.all([load(brandId), getDict()]);
 
   return (
     <div className="space-y-6">
@@ -50,6 +52,16 @@ export default async function AlternativesPage(props: PageProps<"/alternatives/[
       <HowRankingWorks />
       <RankingList data={data} shareTitle={t.alternatives.title(`${selectedName(data)} ${data.strength}`)} />
       <PharmacyFinder />
+      <RememberPage
+        item={{
+          kind: "alternatives",
+          name: selectedName(data),
+          genericName: data.generic.name,
+          strength: data.strength,
+          dosageForm: data.dosage_form,
+          href: `/alternatives/${data.selected_brand_id ?? brandId}`,
+        }}
+      />
     </div>
   );
 }

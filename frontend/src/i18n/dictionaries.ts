@@ -220,6 +220,12 @@ const en = {
     quantity: (amount: string, unit: string) => `Prescribed amount: ${amount} ${unit}`,
     totals: "Total per month",
   },
+  recent: {
+    title: "Recently viewed",
+    clear: "Clear",
+    allBrands: "all brands",
+    onlyHere: "Saved only on this phone.",
+  },
   report: {
     button: "Report a problem",
     buttonFor: (brand: string) => `Report a problem with ${brand}'s data`,
@@ -772,6 +778,12 @@ const bn: Dict = {
     perMonth: (cost: string) => `মাসে ${cost}`,
     quantity: (amount: string, unit: string) => `প্রেসক্রিপশনের পরিমাণ: ${amount} ${unit}`,
     totals: "মাসে মোট",
+  },
+  recent: {
+    title: "সম্প্রতি দেখা",
+    clear: "মুছে ফেলুন",
+    allBrands: "সব ব্র্যান্ড",
+    onlyHere: "শুধু এই ফোনে সংরক্ষিত।",
   },
   report: {
     button: "সমস্যা জানান",
