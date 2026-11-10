@@ -30,7 +30,7 @@ function SavingLine({ label, option, current }: { label: string; option: Option;
         <>
           {" "}
           –{" "}
-          <strong className="font-medium text-emerald-700">
+          <strong className="font-medium text-emerald-700 dark:text-emerald-300">
             {t.savings.save(t.fmt.taka(saving), t.fmt.taka(saving * 12))}
           </strong>
         </>
@@ -135,7 +135,7 @@ export function MonthlyCost({ price, isSelected }: { price: number; isSelected: 
     const saving = monthlySaving(monthlyCost(selectedPrice, quantity, unit), monthly);
     comparison =
       saving >= 1 ? (
-        <span className="font-medium text-emerald-700">{t.savings.saveShort(t.fmt.taka(saving))}</span>
+        <span className="font-medium text-emerald-700 dark:text-emerald-300">{t.savings.saveShort(t.fmt.taka(saving))}</span>
       ) : saving <= -1 ? (
         <span className="text-muted-foreground">{t.savings.more(t.fmt.taka(-saving))}</span>
       ) : (

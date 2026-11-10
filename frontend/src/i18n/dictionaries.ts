@@ -220,6 +220,12 @@ const en = {
     quantity: (amount: string, unit: string) => `Prescribed amount: ${amount} ${unit}`,
     totals: "Total per month",
   },
+  display: {
+    menu: "Display",
+    label: (current: string) => `Display: ${current} theme`,
+    theme: "Theme",
+    themes: { system: "System", light: "Light", dark: "Dark" },
+  },
   symptoms: {
     nav: "Symptom guide",
     title: "Symptom guide",
@@ -746,6 +752,12 @@ const bn: Dict = {
     perMonth: (cost: string) => `মাসে ${cost}`,
     quantity: (amount: string, unit: string) => `প্রেসক্রিপশনের পরিমাণ: ${amount} ${unit}`,
     totals: "মাসে মোট",
+  },
+  display: {
+    menu: "প্রদর্শন",
+    label: (current: string) => `প্রদর্শন: ${current} থিম`,
+    theme: "থিম",
+    themes: { system: "সিস্টেম", light: "লাইট", dark: "ডার্ক" },
   },
   symptoms: {
     nav: "লক্ষণ গাইড",

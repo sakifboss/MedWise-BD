@@ -32,7 +32,7 @@ function OptionRow({ id, value, option, extractedStrength }: {
             : t.prescription.confirm.genericOption}
         </span>
         {extractedStrength && !option.strength_matches && (
-          <Badge variant="outline" className="mt-1 border-amber-300 bg-amber-50 text-amber-900">
+          <Badge variant="outline" className="mt-1 border-amber-300 bg-amber-50 text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
             {t.prescription.confirm.differentStrength}
           </Badge>
         )}
