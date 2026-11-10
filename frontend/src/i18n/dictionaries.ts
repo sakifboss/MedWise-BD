@@ -3,6 +3,8 @@
  * Medicine data from the database (names, strengths, medical text) is not translated here.
  */
 
+import { roundDistance } from "@/lib/pharmacies";
+
 export const LANGS = ["en", "bn"] as const;
 export type Lang = (typeof LANGS)[number];
 export const DEFAULT_LANG: Lang = "en";
@@ -12,7 +14,12 @@ export function isLang(value: unknown): value is Lang {
   return typeof value === "string" && (LANGS as readonly string[]).includes(value);
 }
 
-function formatters(locale: string, currency: string, forms: Record<string, string>) {
+function formatters(
+  locale: string,
+  currency: string,
+  forms: Record<string, string>,
+  units: { m: string; km: string },
+) {
   const number = (value: number, digits = 0) =>
     value.toLocaleString(locale, { minimumFractionDigits: digits, maximumFractionDigits: digits });
   return {
@@ -27,6 +34,11 @@ function formatters(locale: string, currency: string, forms: Record<string, stri
     date: (value: Date) =>
       value.toLocaleDateString(locale, { day: "numeric", month: "long", year: "numeric", timeZone: "Asia/Dhaka" }),
     score: (value: number) => number(value, 1),
+    /** Straight-line distance: "350 m", "1.3 km" / "৩৫০ মিটার", "১.৩ কিমি". */
+    distance(metres: number) {
+      const { value, unit } = roundDistance(metres);
+      return `${number(value, unit === "km" ? 1 : 0)} ${units[unit]}`;
+    },
     /** Dosage form as shown to the user; unknown forms are shown as stored. */
     form: (form: string) => forms[form] ?? form,
   };
@@ -41,7 +53,12 @@ const en = {
     description:
       "Find same-generic, same-strength medicine alternatives in Bangladesh, ranked by manufacturer quality and price.",
   },
-  fmt: formatters("en-US", "Tk ", { tablet: "tablet", capsule: "capsule", suspension: "suspension" }),
+  fmt: formatters(
+    "en-US",
+    "Tk ",
+    { tablet: "tablet", capsule: "capsule", suspension: "suspension" },
+    { m: "m", km: "km" },
+  ),
   severity: { major: "Major", moderate: "Moderate", minor: "Minor" },
   nav: {
     main: "Main",
@@ -57,6 +74,7 @@ const en = {
       "Data: manufacturer quality from public regulator and company sources; prices are Arogga MRPs " +
       "(Nov 2026); medicine information from the NHS website, US FDA labels and the EMA; interactions from " +
       "DDInter. Not official DGDA data.",
+    mapsBefore: "Pharmacy locations: ",
   },
   disclaimer: "Consult your doctor or pharmacist before changing any medicine.",
   offline: {
@@ -201,6 +219,30 @@ const en = {
     perMonth: (cost: string) => `${cost}/month`,
     quantity: (amount: string, unit: string) => `Prescribed amount: ${amount} ${unit}`,
     totals: "Total per month",
+  },
+  pharmacies: {
+    find: "Find pharmacies near me (Sylhet)",
+    noStock: "We don't know which medicines each shop has. Call before you go.",
+    privacy: "Your location stays on this phone: distances are worked out here and never sent to MedWise BD.",
+    locating: "Finding your location…",
+    loading: "Loading pharmacies…",
+    outside: "We cover Sylhet city for now.",
+    denied: "Location was not shared. Pick your area instead.",
+    unsupported: "This browser cannot share your location. Pick your area instead.",
+    pickArea: "Your area",
+    choose: "Choose an area",
+    useLocation: "Use my location",
+    nearYou: (n: string) => `The ${n} nearest pharmacies to you`,
+    nearArea: (n: string, area: string) => `The ${n} nearest pharmacies to ${area}`,
+    straightLine: "Distances are in a straight line; the way by road is longer.",
+    partner: "MedWise partner",
+    call: "Call",
+    osmPhone: "From OpenStreetMap, may be outdated",
+    noPhone: "No phone number on record",
+    directions: "Directions",
+    failed: "Could not load the pharmacy list. Check your internet and try again.",
+    retry: "Try again",
+    creditBefore: "Pharmacy locations ",
   },
   manufacturer: {
     nav: "Companies",
@@ -471,7 +513,12 @@ const bn: Dict = {
     description:
       "বাংলাদেশে একই জেনেরিক ও একই শক্তির ওষুধের বিকল্প খুঁজুন, প্রস্তুতকারকের মান ও দাম অনুযায়ী সাজানো।",
   },
-  fmt: formatters("bn-BD", "৳", { tablet: "ট্যাবলেট", capsule: "ক্যাপসুল", suspension: "সাসপেনশন" }),
+  fmt: formatters(
+    "bn-BD",
+    "৳",
+    { tablet: "ট্যাবলেট", capsule: "ক্যাপসুল", suspension: "সাসপেনশন" },
+    { m: "মিটার", km: "কিমি" },
+  ),
   severity: { major: "গুরুতর", moderate: "মাঝারি", minor: "সামান্য" },
   nav: {
     main: "প্রধান",
@@ -486,6 +533,7 @@ const bn: Dict = {
       "ডেটা: প্রস্তুতকারকের মান নিয়ন্ত্রক সংস্থা ও কোম্পানির প্রকাশিত উৎস থেকে; দাম Arogga-র MRP " +
       "(নভেম্বর ২০২৬); ওষুধের তথ্য NHS ওয়েবসাইট, US FDA লেবেল ও EMA থেকে; ইন্টারঅ্যাকশন DDInter থেকে। " +
       "এটি DGDA-র সরকারি ডেটা নয়।",
+    mapsBefore: "ফার্মেসির অবস্থান: ",
   },
   disclaimer: "কোনো ওষুধ বদলানোর আগে আপনার ডাক্তার বা ফার্মাসিস্টের পরামর্শ নিন।",
   offline: {
@@ -630,6 +678,30 @@ const bn: Dict = {
     perMonth: (cost: string) => `মাসে ${cost}`,
     quantity: (amount: string, unit: string) => `প্রেসক্রিপশনের পরিমাণ: ${amount} ${unit}`,
     totals: "মাসে মোট",
+  },
+  pharmacies: {
+    find: "কাছের ফার্মেসি খুঁজুন (সিলেট)",
+    noStock: "কোন দোকানে কোন ওষুধ আছে তা আমরা জানি না। যাওয়ার আগে ফোন করে নিন।",
+    privacy: "আপনার লোকেশন এই ফোনেই থাকে: দূরত্ব এখানেই হিসাব হয়, MedWise BD-তে কখনো পাঠানো হয় না।",
+    locating: "আপনার লোকেশন খোঁজা হচ্ছে…",
+    loading: "ফার্মেসির তালিকা আনা হচ্ছে…",
+    outside: "আপাতত শুধু সিলেট শহর।",
+    denied: "লোকেশন শেয়ার করা হয়নি। এর বদলে আপনার এলাকা বেছে নিন।",
+    unsupported: "এই ব্রাউজার লোকেশন শেয়ার করতে পারে না। এর বদলে আপনার এলাকা বেছে নিন।",
+    pickArea: "আপনার এলাকা",
+    choose: "এলাকা বেছে নিন",
+    useLocation: "আমার লোকেশন ব্যবহার করুন",
+    nearYou: (n: string) => `আপনার সবচেয়ে কাছের ${n}টি ফার্মেসি`,
+    nearArea: (n: string, area: string) => `${area}-এর সবচেয়ে কাছের ${n}টি ফার্মেসি`,
+    straightLine: "দূরত্ব সরলরেখায় মাপা; রাস্তা দিয়ে পথ আরও বেশি।",
+    partner: "MedWise পার্টনার",
+    call: "কল করুন",
+    osmPhone: "OpenStreetMap থেকে, পুরোনো হতে পারে",
+    noPhone: "ফোন নম্বর জানা নেই",
+    directions: "পথ দেখুন",
+    failed: "ফার্মেসির তালিকা আনা যায়নি। ইন্টারনেট সংযোগ দেখে আবার চেষ্টা করুন।",
+    retry: "আবার চেষ্টা করুন",
+    creditBefore: "ফার্মেসির অবস্থান ",
   },
   manufacturer: {
     nav: "কোম্পানি",

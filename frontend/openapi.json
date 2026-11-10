@@ -516,6 +516,52 @@
         }
       }
     },
+    "/api/pharmacies": {
+      "get": {
+        "tags": [
+          "pharmacies"
+        ],
+        "summary": "List Pharmacies",
+        "operationId": "list_pharmacies_api_pharmacies_get",
+        "parameters": [
+          {
+            "name": "city",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "const": "sylhet",
+              "type": "string",
+              "description": "Only Sylhet city for now",
+              "default": "sylhet",
+              "title": "City"
+            },
+            "description": "Only Sylhet city for now"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_PharmaciesResponse_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/health": {
       "get": {
         "tags": [
@@ -586,6 +632,46 @@
           "alternatives"
         ],
         "title": "AlternativesResponse"
+      },
+      "AreaOut": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "name_bn": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name Bn"
+          },
+          "lat": {
+            "type": "number",
+            "title": "Lat"
+          },
+          "lon": {
+            "type": "number",
+            "title": "Lon"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "name_bn",
+          "lat",
+          "lon"
+        ],
+        "title": "AreaOut"
       },
       "Body_read_prescription_api_prescription_post": {
         "properties": {
@@ -811,6 +897,32 @@
         },
         "type": "object",
         "title": "Envelope[MedicineRequestSaved]"
+      },
+      "Envelope_PharmaciesResponse_": {
+        "properties": {
+          "data": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PharmaciesResponse"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorBody"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "Envelope[PharmaciesResponse]"
       },
       "Envelope_PrescriptionResponse_": {
         "properties": {
@@ -1693,6 +1805,130 @@
         },
         "type": "object",
         "title": "MedicineRequestSaved"
+      },
+      "PharmaciesResponse": {
+        "properties": {
+          "city": {
+            "type": "string",
+            "title": "City"
+          },
+          "bbox": {
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "type": "array",
+            "maxItems": 4,
+            "minItems": 4,
+            "title": "Bbox"
+          },
+          "pharmacies": {
+            "items": {
+              "$ref": "#/components/schemas/PharmacyOut"
+            },
+            "type": "array",
+            "title": "Pharmacies"
+          },
+          "areas": {
+            "items": {
+              "$ref": "#/components/schemas/AreaOut"
+            },
+            "type": "array",
+            "title": "Areas"
+          }
+        },
+        "type": "object",
+        "required": [
+          "city",
+          "bbox",
+          "pharmacies",
+          "areas"
+        ],
+        "title": "PharmaciesResponse"
+      },
+      "PharmacyOut": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "name_bn": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name Bn"
+          },
+          "lat": {
+            "type": "number",
+            "title": "Lat"
+          },
+          "lon": {
+            "type": "number",
+            "title": "Lon"
+          },
+          "address": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Address"
+          },
+          "phone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone"
+          },
+          "phone_from_osm": {
+            "type": "boolean",
+            "title": "Phone From Osm"
+          },
+          "is_partner": {
+            "type": "boolean",
+            "title": "Is Partner"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "name_bn",
+          "lat",
+          "lon",
+          "address",
+          "phone",
+          "phone_from_osm",
+          "is_partner"
+        ],
+        "title": "PharmacyOut"
       },
       "PrescriptionItem": {
         "properties": {

@@ -218,6 +218,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/pharmacies": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Pharmacies */
+        get: operations["list_pharmacies_api_pharmacies_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/health": {
         parameters: {
             query?: never;
@@ -255,6 +272,19 @@ export interface components {
              * @default Consult your doctor or pharmacist before changing any medicine.
              */
             disclaimer: string;
+        };
+        /** AreaOut */
+        AreaOut: {
+            /** Id */
+            id: number;
+            /** Name */
+            name: string;
+            /** Name Bn */
+            name_bn: string | null;
+            /** Lat */
+            lat: number;
+            /** Lon */
+            lon: number;
         };
         /** Body_read_prescription_api_prescription_post */
         Body_read_prescription_api_prescription_post: {
@@ -312,6 +342,11 @@ export interface components {
         /** Envelope[MedicineRequestSaved] */
         Envelope_MedicineRequestSaved_: {
             data?: components["schemas"]["MedicineRequestSaved"] | null;
+            error?: components["schemas"]["ErrorBody"] | null;
+        };
+        /** Envelope[PharmaciesResponse] */
+        Envelope_PharmaciesResponse_: {
+            data?: components["schemas"]["PharmaciesResponse"] | null;
             error?: components["schemas"]["ErrorBody"] | null;
         };
         /** Envelope[PrescriptionResponse] */
@@ -642,6 +677,43 @@ export interface components {
              * @default true
              */
             saved: boolean;
+        };
+        /** PharmaciesResponse */
+        PharmaciesResponse: {
+            /** City */
+            city: string;
+            /** Bbox */
+            bbox: [
+                number,
+                number,
+                number,
+                number
+            ];
+            /** Pharmacies */
+            pharmacies: components["schemas"]["PharmacyOut"][];
+            /** Areas */
+            areas: components["schemas"]["AreaOut"][];
+        };
+        /** PharmacyOut */
+        PharmacyOut: {
+            /** Id */
+            id: number;
+            /** Name */
+            name: string;
+            /** Name Bn */
+            name_bn: string | null;
+            /** Lat */
+            lat: number;
+            /** Lon */
+            lon: number;
+            /** Address */
+            address: string | null;
+            /** Phone */
+            phone: string | null;
+            /** Phone From Osm */
+            phone_from_osm: boolean;
+            /** Is Partner */
+            is_partner: boolean;
         };
         /** PrescriptionItem */
         PrescriptionItem: {
@@ -1099,6 +1171,38 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Envelope_CatalogStats_"];
+                };
+            };
+        };
+    };
+    list_pharmacies_api_pharmacies_get: {
+        parameters: {
+            query?: {
+                /** @description Only Sylhet city for now */
+                city?: "sylhet";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Envelope_PharmaciesResponse_"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
                 };
             };
         };
