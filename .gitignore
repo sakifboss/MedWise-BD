@@ -23,3 +23,8 @@ Thumbs.db
 
 # Raw downloads (e.g. DDInter); only the extracted seed files are committed
 data/raw/
+
+# P3 OCR evaluation: real prescriptions hold personal data. Only data/eval/README.md and
+# data/eval/results.md are committed.
+data/eval/prescriptions/
+data/eval/cache/
