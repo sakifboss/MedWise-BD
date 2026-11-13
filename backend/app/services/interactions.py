@@ -1,16 +1,20 @@
 """Checks a set of medicines for recorded interactions and duplicate generics.
 
 Everything comes from the interactions table; nothing is inferred. "No interactions found"
-only means none are recorded in our data.
+only means none are recorded in our data. Generics the catalog lists only in local forms (eye
+drops, creams, ...) have no DDInter pairs (app/services/local_forms.py); they are reported as
+"not shown", with their forms, so pages can say why.
 """
 
+from collections.abc import Iterable
 from dataclasses import dataclass, field
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.core.errors import AppError
-from app.models import SEVERITIES, Brand, Generic, Interaction
+from app.models import SEVERITIES, Brand, DosageForm, Generic, Interaction
+from app.services.local_forms import local_only_forms
 
 MAX_MEDICINES = 20
 
@@ -35,16 +39,38 @@ class FoundInteraction:
         return (self.description_bn if lang == "bn" else None) or self.description
 
 
+@dataclass(frozen=True)
+class NotShown:
+    """A generic whose interactions are not shown: the catalog lists it only in local forms."""
+
+    generic: CheckedGeneric
+    forms: list[str]
+
+
 @dataclass
 class InteractionReport:
     medicines: list[CheckedGeneric]
     interactions: list[FoundInteraction]
     duplicates: list[CheckedGeneric]  # one generic chosen via 2+ different brands
+    not_shown: list[NotShown] = field(default_factory=list)
 
     @property
     def pairs_checked(self) -> int:
-        n = len(self.medicines)
-        return n * (n - 1) // 2
+        """Pairs among the medicines whose interactions we have (local-only ones excluded)."""
+        n = len(self.medicines) - len(self.not_shown)
+        return n * (n - 1) // 2 if n > 1 else 0
+
+
+def local_only_forms_by_id(db: Session, generic_ids: Iterable[int]) -> dict[int, list[str]]:
+    """Generic id -> forms, for the given generics whose every catalog brand is a local form."""
+    ids = set(generic_ids)
+    if not ids:
+        return {}
+    routes = {name: route for name, route in db.execute(select(DosageForm.name, DosageForm.route))}
+    rows = db.execute(
+        select(Brand.generic_id, Brand.dosage_form).where(Brand.generic_id.in_(ids)).distinct()
+    )
+    return local_only_forms(((gid, form) for gid, form in rows), routes)
 
 
 def _missing(kind: str, requested: set[int], found: set[int]) -> None:
@@ -118,8 +144,10 @@ def check_interactions(
     db: Session, generic_ids: list[int], brand_ids: list[int]
 ) -> InteractionReport:
     medicines = resolve_generics(db, generic_ids, brand_ids)
+    local = local_only_forms_by_id(db, (g.id for g in medicines))
     return InteractionReport(
         medicines=medicines,
-        interactions=find_interactions(db, medicines),
+        interactions=find_interactions(db, [g for g in medicines if g.id not in local]),
         duplicates=[g for g in medicines if len(g.brands) > 1],
+        not_shown=[NotShown(g, local[g.id]) for g in medicines if g.id in local],
     )

@@ -9,6 +9,7 @@ from app.models import SEVERITIES, Brand, Generic, Interaction
 from app.schemas.common import Envelope, LangQuery
 from app.schemas.generic import GenericDetail, GenericListItem, InteractionSummary, Presentation
 from app.schemas.seed import TRANSLATED_FIELDS, TRANSLATED_LIST_FIELDS
+from app.services.interactions import local_only_forms_by_id
 
 router = APIRouter(tags=["generics"])
 
@@ -105,6 +106,7 @@ def get_generic(
     if generic is None:
         raise HTTPException(status_code=404, detail=f"Generic {generic_id} not found")
     text, pending = _localized(generic, lang)
+    local_forms = local_only_forms_by_id(db, [generic_id]).get(generic_id, [])
     detail = GenericDetail(
         id=generic.id,
         name=generic.name,
@@ -113,6 +115,7 @@ def get_generic(
         translation_pending=pending,
         **text,
         presentations=_presentations(db, generic_id),
-        interactions=_interactions(db, generic_id, lang),
+        interactions=[] if local_forms else _interactions(db, generic_id, lang),
+        interactions_not_shown_forms=local_forms,
     )
     return Envelope(data=detail)

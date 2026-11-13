@@ -64,22 +64,27 @@ def _brand_hits(db: Session, latin: str, key: str) -> list[SearchHit]:
             Generic.name,
             Manufacturer.name,
             Brand.code,
+            Brand.aliases,
         )
         .join(Generic, Brand.generic_id == Generic.id)
         .join(Manufacturer, Brand.manufacturer_id == Manufacturer.id)
     )
-    scores: dict[str, float] = {}
+    scores: dict[tuple[str, ...], float] = {}
     hits = []
-    for brand_id, name, strength, form, generic_id, generic_name, manufacturer, code in rows:
-        if name not in scores:
-            scores[name] = match_score(latin, key, name)
-        if scores[name] >= MIN_SCORE:
+    for row in rows:
+        brand_id, name, strength, form, generic_id, generic_name, manufacturer, code, aliases = row
+        # A brand matches by its name or by any other name people write for it (seed aliases).
+        names = (name, *(aliases or []))
+        if names not in scores:
+            scores[names] = max(match_score(latin, key, n) for n in names)
+        score = scores[names]
+        if score >= MIN_SCORE:
             hits.append(
                 SearchHit(
                     "brand",
                     brand_id,
                     name,
-                    scores[name],
+                    score,
                     generic_id,
                     generic_name,
                     strength,

@@ -1649,6 +1649,14 @@
             },
             "type": "array",
             "title": "Interactions"
+          },
+          "interactions_not_shown_forms": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Interactions Not Shown Forms",
+            "default": []
           }
         },
         "type": "object",
@@ -1770,6 +1778,14 @@
             },
             "type": "array",
             "title": "Duplicates"
+          },
+          "not_shown": {
+            "items": {
+              "$ref": "#/components/schemas/NotShownMedicine"
+            },
+            "type": "array",
+            "title": "Not Shown",
+            "default": []
           },
           "pairs_checked": {
             "type": "integer",
@@ -2253,6 +2269,33 @@
         },
         "type": "object",
         "title": "MedicineRequestSaved"
+      },
+      "NotShownMedicine": {
+        "properties": {
+          "generic_id": {
+            "type": "integer",
+            "title": "Generic Id"
+          },
+          "generic_name": {
+            "type": "string",
+            "title": "Generic Name"
+          },
+          "forms": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Forms"
+          }
+        },
+        "type": "object",
+        "required": [
+          "generic_id",
+          "generic_name",
+          "forms"
+        ],
+        "title": "NotShownMedicine",
+        "description": "Interactions not shown: DDInter lists them for this generic taken by mouth or injection,\nand the catalog lists it only in these local forms."
       },
       "PharmaciesResponse": {
         "properties": {

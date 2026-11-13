@@ -42,10 +42,20 @@ class InteractionOut(BaseModel):
     description: str
 
 
+class NotShownMedicine(BaseModel):
+    """Interactions not shown: DDInter lists them for this generic taken by mouth or injection,
+    and the catalog lists it only in these local forms."""
+
+    generic_id: int
+    generic_name: str
+    forms: list[str]
+
+
 class InteractionCheckResponse(BaseModel):
     medicines: list[CheckedMedicine]
     interactions: list[InteractionOut]
     duplicates: list[CheckedMedicine]
+    not_shown: list[NotShownMedicine] = []
     pairs_checked: int
     note: str = NO_RECORD_NOTE
     disclaimer: str = DISCLAIMER

@@ -607,6 +607,11 @@ export interface components {
             presentations: components["schemas"]["Presentation"][];
             /** Interactions */
             interactions: components["schemas"]["InteractionSummary"][];
+            /**
+             * Interactions Not Shown Forms
+             * @default []
+             */
+            interactions_not_shown_forms: string[];
         };
         /**
          * GenericListItem
@@ -653,6 +658,11 @@ export interface components {
             interactions: components["schemas"]["InteractionOut"][];
             /** Duplicates */
             duplicates: components["schemas"]["CheckedMedicine"][];
+            /**
+             * Not Shown
+             * @default []
+             */
+            not_shown: components["schemas"]["NotShownMedicine"][];
             /** Pairs Checked */
             pairs_checked: number;
             /**
@@ -841,6 +851,19 @@ export interface components {
              * @default true
              */
             saved: boolean;
+        };
+        /**
+         * NotShownMedicine
+         * @description Interactions not shown: DDInter lists them for this generic taken by mouth or injection,
+         *     and the catalog lists it only in these local forms.
+         */
+        NotShownMedicine: {
+            /** Generic Id */
+            generic_id: number;
+            /** Generic Name */
+            generic_name: string;
+            /** Forms */
+            forms: string[];
         };
         /** PharmaciesResponse */
         PharmaciesResponse: {

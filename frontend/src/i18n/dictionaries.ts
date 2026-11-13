@@ -47,6 +47,12 @@ function formatters(
 
 const enPlural = (n: number, one: string, many: string) => (n === 1 ? one : many);
 
+/** "a", "a and b", "a, b and c" (bn: "ও"). */
+function joinList(items: string[], and: string): string {
+  if (items.length < 2) return items.join("");
+  return `${items.slice(0, -1).join(", ")} ${and} ${items[items.length - 1]}`;
+}
+
 const en = {
   lang: "en" as Lang,
   meta: {
@@ -580,6 +586,10 @@ const en = {
     duplicateTitle: "Same medicine more than once",
     duplicateText: (brands: string[], generic: string) => `${brands.join(" and ")} both contain ${generic}.`,
     addAtLeastTwo: "Add at least two different medicines to check interactions.",
+    /** The catalog lists this generic only in local forms (eye drops, cream, …); forms already translated. */
+    notShown: (generic: string, forms: string[]) =>
+      `Interactions not shown: DDInter lists them for ${generic} taken by mouth or injection, and MedWise ` +
+      `lists only ${joinList(forms, "and")} for it.`,
     note: "Only interactions recorded in our data are shown. No result does not mean it is safe to combine medicines.",
     credit: "Interaction data:",
     generic: "Generic",
@@ -1139,6 +1149,9 @@ const bn: Dict = {
     duplicateTitle: "একই ওষুধ একাধিকবার",
     duplicateText: (brands: string[], generic: string) => `${brands.join(" ও ")}, দুটিতেই ${generic} আছে।`,
     addAtLeastTwo: "ইন্টারঅ্যাকশন যাচাই করতে অন্তত দুটি ভিন্ন ওষুধ যোগ করুন।",
+    notShown: (generic: string, forms: string[]) =>
+      `ইন্টারঅ্যাকশন দেখানো হচ্ছে না: DDInter এগুলো মুখে খাওয়া বা ইনজেকশনের ${generic}-এর জন্য দেয়, ` +
+      `আর MedWise-এ এর শুধু ${joinList(forms, "ও")} আছে।`,
     note: "শুধু আমাদের ডেটায় নথিভুক্ত ইন্টারঅ্যাকশন দেখানো হয়। কোনো ফল না আসা মানে এই নয় যে ওষুধগুলো একসাথে খাওয়া নিরাপদ।",
     credit: "ইন্টারঅ্যাকশনের ডেটা:",
     generic: "জেনেরিক",

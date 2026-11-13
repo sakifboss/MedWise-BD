@@ -42,6 +42,7 @@ medwise-bd/
     tests/
   data/
     seed/         # manufacturers.json, generics.json, brands.json, quality_factors.json, interactions.json,
+                  # dosage_forms.json (route of each form: systemic | local),
                   # pharmacies.json, sylhet_areas.json (OpenStreetMap, ODbL),
                   # red_flags.json (NHS), specialties.json
     templates/    # brands_template.csv (team brand + price sheet)
@@ -56,12 +57,19 @@ medwise-bd/
 - Real data carries its source: manufacturers have `source_urls`, brands have a price `source_url`.
 - While any dataset is sample, the UI shows a small "Sample data" tag naming what is sample.
 - DDInter data is CC BY-NC-SA 4.0: credit DDInter wherever interactions are shown.
+- DDInter is for medicines taken by mouth or injection. When every catalog brand of a generic is a
+  local form (route "local" in dosage_forms.json: eye/ear drops, eye ointment, cream, ointment, gel,
+  mouthwash), extract_ddinter.py leaves out its pairs and reports them, the import rejects any
+  such pair, and every place that shows interactions says instead: "Interactions not shown: DDInter
+  lists them for <generic> taken by mouth or injection, and MedWise lists only <form> for it."
+  Adding a brand in a form taken by mouth or injection and re-running the extraction brings them back.
 
 ## Data model
 - manufacturers(id, name, stringent_approvals, export_countries, export_country_count, regulated_market_exports, compliance_score, recall_count, recall_data_available, market_share|null, years_active, source_urls)
 - generics(id, name, drug_class, indications, dosage_forms, side_effects, precautions, source_urls)
 - brands(id, code (stable, BR + 5 digits), name, generic_id, manufacturer_id, strength, dosage_form,
-  price_per_unit, source_url, price_checked_on)
+  price_per_unit, source_url, price_checked_on, aliases (other written names, e.g. "Mycetin"))
+- dosage_forms(id, name, route[systemic|local])
 - Durable (Alembic, never dropped): medicine_requests(id, query, source, requested_on),
   data_reports(id, brand_id, brand_code, brand_name, manufacturer, strength, dosage_form, reason, reported_on)
 - interactions(id, generic_a_id, generic_b_id, severity[minor|moderate|major], description)
@@ -660,16 +668,20 @@ Rules for every R step:
   readable medicine lines whose medicine exists in the catalog. Baseline 2026-11-13: 21 of 34
   readable lines (62%; 36 lines including 2 nobody could read; the owner's estimate was 19 of 36).
   Target: 80% or more. results.md shows it; a unit test covers the calculation.
-  Done 2026-11-13 (PR): coverage 21 -> 26 of 34 lines (76.5%). The rest are combinations (AcePlus),
+  Done 2026-11-13 (PR): coverage 21 -> 24 of 34 lines (70.6%, confirmed mappings only; 26 = 76.5%
+  if the unconfirmed Fenomin -> Fexomin is right). The rest are combinations (AcePlus),
   herbal (Adovas), mouthwash (Benostar), antiseptic (Viodin) and Ambroxol (skipped by the owner:
   no NHS, FDA or EMA source), so 80% needs those rules to change. Added Ibn Sina (14th manufacturer,
   sourced) with 28 brands in existing groups (none on Arogga for Ibuprofen, Aspirin, Clopidogrel,
   Vildagliptin) and Chloramphenicol 0.5% eye drops (NHS, eye drops only; 11 brands, priced per
   10 ml bottle like suspensions). Now 29 generics, 227 brands (BR00189-BR00227 new), 33 compared
-  groups, 62 interactions (7 DDInter pairs for chloramphenicol; DDInter does not separate eye
-  drops from capsules). Fenomin and Mycedin (not on Arogga) carry their generic in the local
-  ground truth (Fexomin, SQ-Mycetin per Arogga search). Scan matching: on a score tie the name
-  exactly as written wins (Cefixime generic vs Cefixim brand). Bangla approved by the owner.
+  groups, 55 interactions: chloramphenicol's 7 DDInter pairs are left out by the local-forms rule
+  (owner, 2026-11-13: DDInter is for it by mouth or injection; we list only eye drops).
+  Name mappings in the local ground truth: Mycedin -> SQ-Mycetin confirmed by the owner from the
+  photo ("SQ" before, "E/E drop" after; brand alias "Mycetin" in the seed data); Fenomin ->
+  Fexomin NOT confirmed (third letter n or r), so not counted as covered or matched until the box
+  or a pharmacy memo confirms it. Scan matching: on a score tie the name exactly as written wins
+  (Cefixime generic vs Cefixim brand). Bangla approved by the owner.
   Doctors' lists (2) and request-log queries (3) wait for doctors and PROD access.
 
 - [ ] **R2. Doctor accounts and verification.**

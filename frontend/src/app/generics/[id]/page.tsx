@@ -80,6 +80,15 @@ function Presentations({ generic, t }: { generic: GenericDetail; t: Dict }) {
 }
 
 function Interactions({ generic, t }: { generic: GenericDetail; t: Dict }) {
+  const localForms = generic.interactions_not_shown_forms;
+  if (localForms.length) {
+    // The catalog lists this generic only in local forms; DDInter is for it taken by mouth or injection.
+    return (
+      <p className="text-sm text-muted-foreground" data-testid="interactions-not-shown">
+        {t.interactions.notShown(generic.name, localForms.map((f) => t.fmt.form(f)))}
+      </p>
+    );
+  }
   if (!generic.interactions.length) {
     return <p className="text-sm text-muted-foreground">{t.generic.noInteractions}</p>;
   }
