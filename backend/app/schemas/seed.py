@@ -169,6 +169,19 @@ class BrandSeed(_SeedRow):
     price_per_unit: Decimal = Field(gt=0, max_digits=10, decimal_places=2)
     source_url: UrlStr | None = Field(default=None, description="Where the price was taken from")
     price_checked_on: date | None = None
+    # Other names people write for this brand (e.g. "Mycetin" for SQ-Mycetin); search uses them.
+    aliases: TextList = []
+
+
+DosageRoute = Literal["systemic", "local"]
+
+
+class DosageFormSeed(_SeedRow):
+    """A dosage form and its route: systemic (by mouth or injection) or local (eye, ear, skin,
+    mouth rinse). Generics whose catalog brands are all local get no DDInter pairs."""
+
+    name: DosageFormStr
+    route: DosageRoute
 
 
 class InteractionSeed(_SeedRow):

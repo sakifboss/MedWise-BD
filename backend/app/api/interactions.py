@@ -16,6 +16,7 @@ from app.schemas.interactions import (
     InteractionCheckRequest,
     InteractionCheckResponse,
     InteractionOut,
+    NotShownMedicine,
 )
 from app.services.interactions import CheckedGeneric, check_interactions
 
@@ -57,6 +58,12 @@ def check(
                 for i in report.interactions
             ],
             duplicates=[_medicine(g) for g in report.duplicates],
+            not_shown=[
+                NotShownMedicine(
+                    generic_id=n.generic.id, generic_name=n.generic.name, forms=n.forms
+                )
+                for n in report.not_shown
+            ],
             pairs_checked=report.pairs_checked,
             note=NO_RECORD_NOTE_BN if lang == "bn" else NO_RECORD_NOTE,
             disclaimer=DISCLAIMER_BN if lang == "bn" else DISCLAIMER,

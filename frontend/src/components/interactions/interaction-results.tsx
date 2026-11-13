@@ -1,4 +1,4 @@
-import { CircleAlert, Copy, ShieldQuestion } from "lucide-react";
+import { CircleAlert, Copy, EyeOff, ShieldQuestion } from "lucide-react";
 import Link from "next/link";
 
 import { SeverityBadge } from "@/components/severity-badge";
@@ -56,8 +56,26 @@ function InteractionCard({ interaction }: { interaction: FoundInteraction }) {
   );
 }
 
+/** Medicines whose interactions are not shown: the catalog lists them only in local forms. */
+export function NotShownNotes({ items }: { items: { generic_id: number; generic_name: string; forms: string[] }[] }) {
+  const t = useDict();
+  if (!items.length) return null;
+  return (
+    <ul className="space-y-1" data-testid="interactions-not-shown">
+      {items.map((n) => (
+        <li key={n.generic_id} className="flex gap-2 text-sm text-muted-foreground">
+          <EyeOff aria-hidden className="mt-0.5 size-4 shrink-0" />
+          {t.interactions.notShown(n.generic_name, n.forms.map((f) => t.fmt.form(f)))}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export function InteractionResults({ data }: { data: InteractionCheckResponse }) {
   const copy = useDict().interactions;
+  // Pairs can only be checked among medicines whose interactions we have.
+  const checkable = data.medicines.length - data.not_shown.length;
   return (
     <div className="space-y-3">
       {data.duplicates.map((d) => (
@@ -68,11 +86,13 @@ export function InteractionResults({ data }: { data: InteractionCheckResponse })
         </Alert>
       ))}
 
+      {data.medicines.length >= 2 && <NotShownNotes items={data.not_shown} />}
+
       {data.medicines.length < 2 ? (
         <p className="text-sm text-muted-foreground">{copy.addAtLeastTwo}</p>
       ) : (
         <>
-          <Summary data={data} />
+          {checkable >= 2 && <Summary data={data} />}
           {data.interactions.length > 0 && (
             <ul className="space-y-2">
               {data.interactions.map((x) => (
@@ -80,6 +100,7 @@ export function InteractionResults({ data }: { data: InteractionCheckResponse })
               ))}
             </ul>
           )}
+          {checkable >= 2 && (
           <p className="flex gap-2 text-xs text-muted-foreground">
             {data.interactions.length ? (
               <CircleAlert aria-hidden className="size-4 shrink-0" />
@@ -88,6 +109,7 @@ export function InteractionResults({ data }: { data: InteractionCheckResponse })
             )}
             {copy.note}
           </p>
+          )}
           <p className="text-xs text-muted-foreground">
             {copy.credit}{" "}
             <a

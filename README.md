@@ -180,6 +180,13 @@ python scripts/extract_ddinter.py ../data/raw/ddinter
 python scripts/import_data.py --dry-run
 ```
 
+DDInter lists interactions for medicines taken by mouth or injection. `data/seed/dosage_forms.json`
+gives each dosage form a route (`systemic` or `local`); when every catalog brand of a generic is a
+local form (eye drops, cream, mouthwash, ...), the script leaves out that generic's pairs and says
+so, the import rejects any such pair, and the app shows "Interactions not shown: DDInter lists them
+for <generic> taken by mouth or injection, and MedWise lists only <form> for it." Add a brand in a
+form taken by mouth or injection, re-run the script, and the pairs come back.
+
 DDInter is licensed CC BY-NC-SA 4.0 (non-commercial, attribution required).
 
 **Bangla medicine information:** `data/templates/generics_bn.csv` has one row per line of

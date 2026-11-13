@@ -49,7 +49,8 @@ def test_extract_keeps_only_our_generics_and_highest_severity(tmp_path: Path) ->
         header,
         [["DDInter5", "Acetaminophen", "DDInter1", "Warfarin", "Minor"]],
     )
-    records, missing, files = extract(tmp_path, SEED_DIR)
+    result = extract(tmp_path, SEED_DIR)
+    records, missing, files = result.records, result.missing, result.files
     assert files == 2
     assert [(r["generic_a"], r["generic_b"], r["severity"]) for r in records] == [
         ("Aspirin", "Warfarin", "major"),
@@ -66,13 +67,110 @@ def test_extract_output_passes_seed_validation(tmp_path: Path, seed_copy: Path) 
         ["DDInterID_A", "Drug_A", "DDInterID_B", "Drug_B", "Level"],
         [["DDInter1", "Clopidogrel", "DDInter2", "Omeprazole", "Moderate"]],
     )
-    records, _, _ = extract(tmp_path, seed_copy)
+    records = extract(tmp_path, seed_copy).records
     doc = {
         "meta": {"dataset": "interactions", "source": "DDInter", "is_sample": False},
         "records": records,
     }
     (seed_copy / "interactions.json").write_text(json.dumps(doc), encoding="utf-8")
     assert run_import(seed_copy, engine=None, dry_run=True).ok
+
+
+def _seed_doc(seed: Path, name: str) -> dict:
+    import json
+
+    return json.loads((seed / f"{name}.json").read_text(encoding="utf-8"))
+
+
+def _save_doc(seed: Path, name: str, doc: dict) -> None:
+    import json
+
+    (seed / f"{name}.json").write_text(json.dumps(doc, ensure_ascii=False), encoding="utf-8")
+
+
+def _write_interactions(seed: Path, records: list[dict]) -> None:
+    meta = {"dataset": "interactions", "source": "DDInter", "is_sample": False}
+    _save_doc(seed, "interactions", {"meta": meta, "records": records})
+
+
+CHLORAMPHENICOL_ROWS = [
+    ["DDInter1", "Chloramphenicol", "DDInter2", "Warfarin", "Moderate"],
+    ["DDInter3", "Clopidogrel", "DDInter4", "Omeprazole", "Moderate"],
+]
+
+
+def test_local_only_generic_gets_no_ddinter_pairs(tmp_path: Path, seed_copy: Path) -> None:
+    """Chloramphenicol is listed only as eye drops (local): its pairs are left out and reported,
+    and the import refuses a pair that slips in anyway."""
+    folder = tmp_path / "ddinter"
+    folder.mkdir()
+    _write_csv(
+        folder / "ddinter_downloads_code_S.csv",
+        ["DDInterID_A", "Drug_A", "DDInterID_B", "Drug_B", "Level"],
+        CHLORAMPHENICOL_ROWS,
+    )
+    result = extract(folder, seed_copy)
+    assert [(r["generic_a"], r["generic_b"]) for r in result.records] == [
+        ("Clopidogrel", "Omeprazole")
+    ]
+    assert result.left_out == {"Chloramphenicol": (["eye drops"], 1)}
+
+    _write_interactions(seed_copy, result.records)
+    assert run_import(seed_copy, engine=None, dry_run=True).ok
+    stale = {
+        "generic_a": "Chloramphenicol",
+        "generic_b": "Warfarin",
+        "severity": "moderate",
+        "description": "DDInter lists this as a moderate interaction.",
+    }
+    _write_interactions(seed_copy, [*result.records, stale])
+    errors = run_import(seed_copy, engine=None, dry_run=True).errors
+    assert any("only as eye drops (a local form)" in e for e in errors), errors
+
+
+def test_pairs_come_back_when_a_form_taken_by_mouth_is_added(
+    tmp_path: Path, seed_copy: Path
+) -> None:
+    generics = _seed_doc(seed_copy, "generics")
+    record = next(g for g in generics["records"] if g["name"] == "Chloramphenicol")
+    record["dosage_forms"].append("capsule")
+    _save_doc(seed_copy, "generics", generics)
+    brands = _seed_doc(seed_copy, "brands")
+    brands["records"].append(
+        {
+            "code": "BR99999",
+            "name": "Test Capsule",
+            "generic": "Chloramphenicol",
+            "manufacturer": "Square Pharmaceuticals PLC",
+            "strength": "250 mg",
+            "dosage_form": "capsule",
+            "price_per_unit": 2.5,
+        }
+    )
+    _save_doc(seed_copy, "brands", brands)
+
+    folder = tmp_path / "ddinter"
+    folder.mkdir()
+    _write_csv(
+        folder / "ddinter_downloads_code_S.csv",
+        ["DDInterID_A", "Drug_A", "DDInterID_B", "Drug_B", "Level"],
+        CHLORAMPHENICOL_ROWS,
+    )
+    result = extract(folder, seed_copy)
+    assert ("Chloramphenicol", "Warfarin") in [
+        (r["generic_a"], r["generic_b"]) for r in result.records
+    ]
+    assert result.left_out == {}
+    _write_interactions(seed_copy, result.records)
+    assert run_import(seed_copy, engine=None, dry_run=True).ok
+
+
+def test_every_dosage_form_needs_a_route(seed_copy: Path) -> None:
+    forms = _seed_doc(seed_copy, "dosage_forms")
+    forms["records"] = [f for f in forms["records"] if f["name"] != "eye drops"]
+    _save_doc(seed_copy, "dosage_forms", forms)
+    errors = run_import(seed_copy, engine=None, dry_run=True).errors
+    assert any("unknown dosage form 'eye drops'" in e for e in errors), errors
 
 
 # ---------------------------------------------------------------- brands CSV
