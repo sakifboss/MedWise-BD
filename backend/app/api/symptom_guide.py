@@ -1,7 +1,7 @@
-"""Symptom guide: emergency signs (no AI) and which kind of doctor to start with (Gemini).
+"""Symptom guide: emergency signs (no AI) and which kind of doctor to start with (OpenAI).
 
 The guide never diagnoses and never names a disease or a medicine (see services/symptom_guide.py).
-What the person writes is sent to Gemini to be processed and is never stored or logged here.
+What the person writes is sent to OpenAI to be processed and is never stored or logged here.
 """
 
 from collections.abc import Callable
@@ -25,7 +25,7 @@ from app.schemas.symptom_guide import (
     SymptomGuideOut,
     SymptomGuideSetup,
 )
-from app.services.gemini import GeminiClient
+from app.services.llm import LlmClient
 from app.services.symptom_guide import load_words, run_guide
 
 router = APIRouter(tags=["symptom guide"])
@@ -39,11 +39,12 @@ Generate = Callable[[dict], str]
 
 
 def get_generator() -> Generate | None:
-    """The Gemini call, or None when no key is set (the guide then uses the fallback)."""
+    """The model call, or None when no key is set (the guide then uses the fallback)."""
     settings = get_settings()
-    if not settings.gemini_api_key:
+    if not settings.openai_api_key:
         return None
-    return GeminiClient(settings).generate
+    client = LlmClient(settings)
+    return lambda body: client.generate(body["instructions"], body["content"], body["text_format"])
 
 
 def enforce_rate_limit(request: Request) -> None:

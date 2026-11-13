@@ -1,4 +1,4 @@
-"""Scoring code of scripts/eval_symptoms.py (no network, no Gemini)."""
+"""Scoring code of scripts/eval_symptoms.py (no network, no OpenAI)."""
 
 from collections import Counter
 from datetime import date

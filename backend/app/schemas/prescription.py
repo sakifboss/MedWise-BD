@@ -3,7 +3,7 @@ from typing import Literal
 from pydantic import BaseModel
 
 PRIVACY_NOTE = (
-    "Your photo was sent to Google Gemini only to read medicine names and strengths. "
+    "Your photo was sent to OpenAI only to read medicine names and strengths. "
     "MedWise does not store it."
 )
 

@@ -13,19 +13,21 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=BACKEND_DIR / ".env", extra="ignore")
 
     database_url: str = f"sqlite:///{(BACKEND_DIR / 'medwise.db').as_posix()}"
-    gemini_api_key: str = ""
-    gemini_model: str = "gemini-3.8-flash"
+    # OpenAI (prescription reading and the symptom guide). Paid API; set a monthly limit in the
+    # OpenAI dashboard. The key lives only in backend/.env and on Render, never in git.
+    openai_api_key: str = ""
+    openai_model: str = "gpt-6-luna"
     # Tried in order when the main model is overloaded or unavailable (comma-separated).
-    # Each model has its own free-tier quota, so more fallbacks = fewer 429s under bursts.
-    gemini_fallback_models: str = (
-        "gemini-3.5-flash-lite,gemini-3.6-flash,gemini-3.1-flash-lite,gemini-3.5-flash"
-    )
+    openai_fallback_models: str = "gpt-6.1-terra"
+    # "none" to "max" on the gpt-6 models; empty leaves it to the model's default.
+    openai_reasoning_effort: str = "low"
+    openai_max_output_tokens: int = 2000
     # Per model attempt; a hung model then falls through to the next one.
-    gemini_timeout_seconds: float = 20.0
+    openai_timeout_seconds: float = 30.0
     # Don't start another model after this long (keeps the whole request bounded).
-    gemini_total_seconds: float = 40.0
+    openai_total_seconds: float = 60.0
     max_upload_mb: float = 8.0
-    # Protects the Gemini quota: per client per hour, and for everyone per day.
+    # Protects the OpenAI budget: per client per hour, and for everyone per day.
     prescription_limit_per_hour: int = 10
     prescription_limit_per_day: int = 300
     # Per client per minute; far above what a person typing or clicking needs.
@@ -37,18 +39,18 @@ class Settings(BaseSettings):
     # "Report a problem" with a brand's data: same limits as the request log.
     report_limit_per_hour: int = 10
     report_limit_per_day: int = 1000
-    # Symptom guide (Gemini): per client per hour, and for everyone per day.
+    # Symptom guide (OpenAI): per client per hour, and for everyone per day.
     symptom_limit_per_hour: int = 10
     symptom_limit_per_day: int = 200
     # Words that make the guide drop an AI-written note (diagnosis words), editable without code.
     symptom_words_path: Path = BACKEND_DIR / "app" / "core" / "symptom_words.json"
     cors_origins: str = "http://localhost:3000"
     # Shared with the frontend (same value on Vercel and Render). When set, prescription uploads
-    # must carry it, so only our website can spend the Gemini quota. Empty: no check (local dev).
+    # must carry it, so only our website can spend the OpenAI budget. Empty: no check (local dev).
     frontend_shared_secret: str = ""
     seed_dir: Path = REPO_DIR / "data" / "seed"
 
-    @field_validator("gemini_api_key", "frontend_shared_secret")
+    @field_validator("openai_api_key", "frontend_shared_secret")
     @classmethod
     def _clean_key(cls, key: str) -> str:
         """Drop whitespace/quotes that sneak in when pasting into hosting dashboards."""
@@ -60,9 +62,9 @@ class Settings(BaseSettings):
         return os.environ.get("RENDER_GIT_COMMIT", "dev")[:7]
 
     @property
-    def gemini_models(self) -> list[str]:
-        fallbacks = [m.strip() for m in self.gemini_fallback_models.split(",") if m.strip()]
-        return list(dict.fromkeys([self.gemini_model, *fallbacks]))
+    def openai_models(self) -> list[str]:
+        fallbacks = [m.strip() for m in self.openai_fallback_models.split(",") if m.strip()]
+        return list(dict.fromkeys([self.openai_model, *fallbacks]))
 
 
 @lru_cache

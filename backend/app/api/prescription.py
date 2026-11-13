@@ -10,7 +10,7 @@ from app.core.frontend_auth import require_frontend
 from app.core.rate_limit import RateLimiter, client_key
 from app.schemas.common import Envelope
 from app.schemas.prescription import MatchOptionOut, PrescriptionItem, PrescriptionResponse
-from app.services.ocr import Extractor, GeminiExtractor
+from app.services.ocr import Extractor, VisionExtractor
 from app.services.prescription import PrescriptionMatch, match_prescription
 
 router = APIRouter(tags=["prescription"])
@@ -21,7 +21,7 @@ global_limiter = RateLimiter(get_settings().prescription_limit_per_day, DAY)
 
 
 def get_extractor() -> Extractor:
-    return GeminiExtractor(get_settings())
+    return VisionExtractor(get_settings())
 
 
 def enforce_rate_limit(request: Request) -> None:

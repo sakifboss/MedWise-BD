@@ -2,7 +2,7 @@
 #   docker compose up --build
 # Then open http://localhost:3000 (API docs: http://localhost:8000/docs).
 #
-# Prescription scanning needs a Gemini key: put GEMINI_API_KEY=... in backend/.env (optional;
+# Prescription scanning needs an OpenAI key: put OPENAI_API_KEY=... in backend/.env (optional;
 # everything else works without it). The database here is a local Postgres that is refilled
 # from data/seed on every start; it never touches the production database.
 

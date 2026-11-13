@@ -834,7 +834,7 @@ export interface components {
             items: components["schemas"]["PrescriptionItem"][];
             /**
              * Note
-             * @default Your photo was sent to Google Gemini only to read medicine names and strengths. MedWise does not store it.
+             * @default Your photo was sent to OpenAI only to read medicine names and strengths. MedWise does not store it.
              */
             note: string;
         };

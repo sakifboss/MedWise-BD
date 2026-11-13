@@ -21,7 +21,7 @@ and dosage form, ranked by manufacturer quality (80%) and price (20%), with the 
 |---|---|
 | **Search** | Brand or generic name, typo-tolerant, in English or Bangla (e.g. সেফিক্সিম → Cefixime) |
 | **Ranked alternatives** | Same generic + strength + dosage form only, scored out of 100 with human-readable reasons |
-| **Prescription scan** | Gemini reads **only** medicine names and strengths; the user confirms every match before results. Photos are never stored |
+| **Prescription scan** | An OpenAI vision model reads **only** medicine names and strengths; the user confirms every match before results. Photos are never stored |
 | **Interaction checker** | Recorded interactions between any medicines, most severe first, plus a warning when two brands contain the same generic |
 | **Same-price notice** | When every brand in a group costs the same, the page says so: the top-ranked one costs nothing extra |
 | **Savings calculator** | Enter the amount on your prescription; each brand shows its monthly cost and saving. The app never suggests a dose |
@@ -56,7 +56,7 @@ cheapest Tk 5 still scores 0.83 on price. All weights live in one place: [`backe
 
 ```
 Browser ──► Vercel (Next.js frontend) ──/api/*──► Render (FastAPI backend) ──► Neon (Postgres)
-                                                          └──► Google Gemini (prescription reading only)
+                                                          └──► OpenAI (prescription reading, symptom guide)
 ```
 
 | Folder | Stack |
@@ -75,8 +75,9 @@ docker compose up --build
 
 Open http://localhost:3000 (API docs at http://localhost:8000/docs). The backend loads
 `data/seed` into a local Postgres on every start, so it never touches the production database.
-For prescription scanning, put `GEMINI_API_KEY=...` in `backend/.env` first (optional; everything
-else works without it). Stop with `Ctrl+C`, or `docker compose down` if started with `-d`.
+For prescription scanning and the symptom guide's AI step, put `OPENAI_API_KEY=...` in
+`backend/.env` first (optional; everything else works without it, and the symptom guide falls back
+to the person's own words). Stop with `Ctrl+C`, or `docker compose down` if started with `-d`.
 
 ## Run locally
 
@@ -85,7 +86,7 @@ else works without it). Stop with `Ctrl+C`, or `docker compose down` if started 
 cd backend
 python -m venv .venv && .venv/Scripts/activate      # macOS/Linux: source .venv/bin/activate
 pip install -r requirements-dev.txt
-cp .env.example .env                                  # add GEMINI_API_KEY for prescription scanning
+cp .env.example .env                                  # add OPENAI_API_KEY for prescription scanning
 python scripts/import_data.py                         # load data/seed into the database
 uvicorn app.main:app --reload
 
@@ -189,10 +190,10 @@ doctor to start with.
    out). Ticking any of them shows a full-screen “Call 999 now or go to the nearest hospital
    emergency department.” with tap-to-call 999; the only way on is back to the checklist.
 2. **The person's own words** (Bangla, Banglish or English), since when, how bad, age group and
-   pregnancy (not asked for children). Before sending, the page says the text goes to Google's
-   Gemini service and that on the free service Google may keep and review it.
-3. **`POST /api/symptom-guide`** asks Gemini (same client and model fallback as prescription
-   reading, `app/services/gemini.py`) for JSON matching a strict schema: a specialty id from
+   pregnancy (not asked for children). Before sending, the page says the text goes to OpenAI,
+   which does not use it to train its models and may keep it for up to 30 days to check for abuse.
+3. **`POST /api/symptom-guide`** asks OpenAI (same client and model fallback as prescription
+   reading, `app/services/llm.py`) for JSON matching a strict schema: a specialty id from
    [`data/seed/specialties.json`](data/seed/specialties.json), `red_flag_suspected` and a short
    note. The server then:
    - uses the fallback (general medicine specialist, note built from the person's own answers)
@@ -219,9 +220,10 @@ python scripts/build_symptoms_bn.py apply ../data/templates/symptoms_bn.csv    #
 ```
 
 **Evaluation:** `python scripts/eval_symptoms.py` runs 40 invented cases (`data/eval/symptoms.json`,
-en, bn and Banglish) through the whole pipeline with the real Gemini API and writes
+en, bn and Banglish) through the whole pipeline with the real OpenAI API and writes
 [`data/eval/symptoms_results.md`](data/eval/symptoms_results.md). Red-flag recall must be 100%.
-Latest: red flags 13/13, false alarms 0/27, specialty 27/27.
+Last measured with Gemini (2026-11-10): red flags 13/13, false alarms 0/27, specialty 27/27;
+to be re-measured with OpenAI.
 
 ## Pharmacy finder (Sylhet)
 
@@ -284,12 +286,19 @@ python scripts/top_requests.py --database-url "postgresql://..."   # 30 most req
 | Service | Settings |
 |---|---|
 | **Neon** | Postgres database (Singapore region) |
-| **Render** (web service) | Build: `pip install -r backend/requirements.txt && python backend/scripts/import_data.py` · Start: `cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT` · Env: `DATABASE_URL`, `GEMINI_API_KEY`, `FRONTEND_SHARED_SECRET`, `PYTHON_VERSION=3.11.17` (same as `.python-version` and the Dockerfile) · Health check: `/api/health` |
+| **Render** (web service) | Build: `pip install -r backend/requirements.txt && python backend/scripts/import_data.py` · Start: `cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT` · Env: `DATABASE_URL`, `OPENAI_API_KEY`, `FRONTEND_SHARED_SECRET`, `PYTHON_VERSION=3.11.17` (same as `.python-version` and the Dockerfile) · Health check: `/api/health` |
 | **Vercel** | Root directory `frontend` · Env: `API_URL=https://medwise-bd.onrender.com`, `FRONTEND_SHARED_SECRET` |
 
+**OpenAI** (prescription reading and the symptom guide) is a paid API: keep the key only in
+`backend/.env` and on Render (never in git or chat), and set a monthly usage limit in the OpenAI
+dashboard. Requests use the Responses API with `store: false` and a strict JSON schema. Models are
+settings: `OPENAI_MODEL` (default `gpt-6-luna`), `OPENAI_FALLBACK_MODELS` (default
+`gpt-6.1-terra`), `OPENAI_REASONING_EFFORT` (default `low`). The daily limits (300 prescriptions,
+200 symptom guides) also cap the spend.
+
 `FRONTEND_SHARED_SECRET` must be the same long random value on Vercel and Render. The frontend adds
-it to prescription uploads, and the backend refuses uploads without it, so nobody can use up the
-Gemini quota by calling the backend directly. `/api/health` shows `"frontend_secret": "set"` once
+it to prescription uploads and symptom guide requests, and the backend refuses them without it,
+so nobody can spend the OpenAI budget by calling the backend directly. `/api/health` shows `"frontend_secret": "set"` once
 the backend has it.
 
 The free Render instance sleeps after 15 minutes idle; the first request then takes about a minute.

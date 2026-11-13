@@ -1,14 +1,15 @@
 """Evaluate the symptom guide (P10) on invented cases in data/eval/symptoms.json.
 
-Runs the real pipeline (Gemini, then every server-side check and rule) and reports:
+Runs the real pipeline (OpenAI, then every server-side check and rule) and reports:
 - red-flag recall: of the cases that must show the emergency screen, how many did (must be 100%);
 - false alarms: ordinary cases that showed the emergency screen;
 - specialty accuracy: of the ordinary cases, how many got an acceptable specialty;
 - how often the AI note was dropped, and why.
 
 Each case's raw model answer is cached in data/eval/cache/symptoms/ (gitignored) together with a
-hash of the request, so a re-run does not call Gemini again unless the prompt or the case
-changed; --refresh forces new calls. From backend/ (needs GEMINI_API_KEY in backend/.env):
+hash of the request and the models, so a re-run does not call the model again unless the
+prompt, the case or the model changed; --refresh forces new calls. From backend/ (needs
+OPENAI_API_KEY in backend/.env):
 
     python scripts/eval_symptoms.py              # writes data/eval/symptoms_results.md
     python scripts/eval_symptoms.py --only rf01,sp03 --no-write
@@ -134,7 +135,7 @@ def results_markdown(outcomes: list[Outcome], models: Counter, when: date) -> st
         "`data/eval/symptoms.json`) · Models: "
         + (", ".join(f"{m} ({n})" for m, n in models.most_common()) or "none"),
         "",
-        "The whole pipeline ran: Gemini, then the strict schema, the medicine/dose/diagnosis",
+        "The whole pipeline ran: OpenAI, then the strict schema, the medicine/dose/diagnosis",
         "checks and the fixed rules (child -> paediatrics, pregnant -> obstetrics).",
         "",
         "| | Red-flag recall | False alarms | Specialty accuracy |",
@@ -173,8 +174,8 @@ def _cache_key(body: dict) -> str:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Evaluate the symptom guide.")
     parser.add_argument("--eval-dir", type=Path, default=EVAL_DIR)
-    parser.add_argument("--refresh", action="store_true", help="call Gemini even when cached")
-    parser.add_argument("--delay", type=float, default=5.0, help="seconds between Gemini calls")
+    parser.add_argument("--refresh", action="store_true", help="call the model even when cached")
+    parser.add_argument("--delay", type=float, default=5.0, help="seconds between model calls")
     parser.add_argument("--only", help="comma-separated case ids, e.g. rf01,sp03")
     parser.add_argument("--no-write", action="store_true", help="do not write symptoms_results.md")
     args = parser.parse_args(argv)
@@ -186,7 +187,7 @@ def main(argv: list[str] | None = None) -> int:
     from app.core.db import make_engine
     from app.models import Brand, Generic, Specialty
     from app.schemas.symptom_guide import SymptomGuideIn
-    from app.services.gemini import GeminiClient, GeminiUnavailable
+    from app.services.llm import LlmClient, LlmUnavailable
     from app.services.symptom_guide import load_words, request_body, run_guide
     from scripts.import_data import run_import
 
@@ -197,7 +198,7 @@ def main(argv: list[str] | None = None) -> int:
         cases = [c for c in cases if c.id in wanted]
     cache_dir = args.eval_dir / "cache" / "symptoms"
     cache_dir.mkdir(parents=True, exist_ok=True)
-    client = GeminiClient(settings) if settings.gemini_api_key else None
+    client = LlmClient(settings) if settings.openai_api_key else None
     words = load_words(settings.symptom_words_path)
 
     outcomes: list[Outcome] = []
@@ -218,14 +219,14 @@ def main(argv: list[str] | None = None) -> int:
         for case in cases:
             answers = SymptomGuideIn(**case.answers)
             body = request_body(answers, specialties)
-            key = _cache_key(body)
+            key = _cache_key({**body, "models": settings.openai_models})
             path = cache_dir / f"{case.id}.json"
             cached = json.loads(path.read_text(encoding="utf-8")) if path.exists() else None
             error = None
             if cached and cached.get("key") == key and not args.refresh:
                 text, model = cached["text"], cached["model"]
             elif client is None:
-                print("GEMINI_API_KEY is not set and there is no cached answer.")
+                print("OPENAI_API_KEY is not set and there is no cached answer.")
                 return 1
             else:
                 wait = args.delay - (time.monotonic() - last_call)
@@ -233,17 +234,20 @@ def main(argv: list[str] | None = None) -> int:
                     time.sleep(wait)
                 last_call = time.monotonic()
                 try:
-                    text, model = client.generate(body), client.last_model
+                    text = client.generate(
+                        body["instructions"], body["content"], body["text_format"]
+                    )
+                    model = client.last_model
                     path.write_text(
                         json.dumps({"key": key, "model": model, "text": text}, ensure_ascii=False),
                         encoding="utf-8",
                     )
-                except GeminiUnavailable as exc:
+                except LlmUnavailable as exc:
                     text, model, error = None, None, f"HTTP {exc.status}"
 
             def replay(_: dict, text: str | None = text) -> str:
                 if text is None:
-                    raise GeminiUnavailable(503, [])
+                    raise LlmUnavailable(503, [])
                 return text
 
             result = run_guide(answers, specialties, names, words, replay)

@@ -24,7 +24,7 @@ from pydantic import ValidationError
 from rapidfuzz import fuzz
 
 from app.schemas.symptom_guide import DoctorNote, ModelAnswer, SymptomGuideIn
-from app.services.gemini import GeminiUnavailable
+from app.services.llm import LlmUnavailable, strict_format
 from app.services.transliterate import phonetic_key, to_latin
 
 FALLBACK_SPECIALTY = "general_medicine"
@@ -147,26 +147,32 @@ Strict rules:
 """
 
 
-RESPONSE_SCHEMA = {
-    "type": "OBJECT",
-    "properties": {
-        "specialty": {"type": "STRING"},
-        "red_flag_suspected": {"type": "BOOLEAN"},
-        "note": {
-            "type": "OBJECT",
-            "properties": {
-                "main_problem": {"type": "STRING"},
-                "duration": {"type": "STRING"},
-                "other_symptoms": {"type": "ARRAY", "items": {"type": "STRING"}},
+def response_schema(specialty_ids: list[str]) -> dict:
+    """Strict-mode schema: every key required, no other keys, the specialty one of our ids.
+    The server checks all of it again (lengths, ids, words) after the model answers."""
+    return {
+        "type": "object",
+        "properties": {
+            "specialty": {"type": "string", "enum": specialty_ids},
+            "red_flag_suspected": {"type": "boolean"},
+            "note": {
+                "type": "object",
+                "properties": {
+                    "main_problem": {"type": "string"},
+                    "duration": {"type": "string"},
+                    "other_symptoms": {"type": "array", "items": {"type": "string"}},
+                },
+                "required": ["main_problem", "duration", "other_symptoms"],
+                "additionalProperties": False,
             },
-            "required": ["main_problem", "duration", "other_symptoms"],
         },
-    },
-    "required": ["specialty", "red_flag_suspected", "note"],
-}
+        "required": ["specialty", "red_flag_suspected", "note"],
+        "additionalProperties": False,
+    }
 
 
 def request_body(answers: SymptomGuideIn, specialties: dict[str, str]) -> dict:
+    """What the model gets: our rules, and only the person's text and answers."""
     language = "Bangla" if answers.lang == "bn" else "English"
     person = {
         "what they wrote": answers.text,
@@ -176,15 +182,9 @@ def request_body(answers: SymptomGuideIn, specialties: dict[str, str]) -> dict:
         "pregnant": _ANSWER_WORDS["pregnant"][answers.pregnant],
     }
     return {
-        "systemInstruction": {
-            "parts": [{"text": system_prompt(specialties).replace("{language}", language)}]
-        },
-        "contents": [{"role": "user", "parts": [{"text": json.dumps(person, ensure_ascii=False)}]}],
-        "generationConfig": {
-            "temperature": 0,
-            "responseMimeType": "application/json",
-            "responseSchema": RESPONSE_SCHEMA,
-        },
+        "instructions": system_prompt(specialties).replace("{language}", language),
+        "content": [{"type": "input_text", "text": json.dumps(person, ensure_ascii=False)}],
+        "text_format": strict_format("symptom_guide", response_schema(list(specialties))),
     }
 
 
@@ -277,7 +277,7 @@ def run_guide(
     else:
         try:
             raw = json.loads(generate(request_body(answers, specialties)))
-        except GeminiUnavailable:
+        except LlmUnavailable:
             reason = "ai_unavailable"
         except json.JSONDecodeError:
             reason = "invalid_answer"

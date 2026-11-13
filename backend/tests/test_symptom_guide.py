@@ -12,7 +12,7 @@ from app.api import symptom_guide as api
 from app.core.config import get_settings
 from app.main import app
 from app.schemas.symptom_guide import SymptomGuideIn
-from app.services.gemini import GeminiUnavailable
+from app.services.llm import LlmUnavailable
 from app.services.symptom_guide import load_words, request_body, run_guide
 
 SECRET = "symptom-test-secret"
@@ -92,7 +92,7 @@ def test_a_valid_answer_is_used() -> None:
         (model(note={"other_symptoms": ["a"] * 9}), "invalid_answer"),  # too many
         (model(red_flag_suspected="false"), "invalid_answer"),  # not a real boolean
         (model(specialty="oncology"), "unknown_specialty"),
-        (GeminiUnavailable(503, []), "ai_unavailable"),
+        (LlmUnavailable(503, []), "ai_unavailable"),
         (None, "ai_unavailable"),  # no key configured
     ],
 )
@@ -167,13 +167,21 @@ def test_a_rule_never_hides_a_warning() -> None:
 
 def test_the_model_gets_only_the_answers_and_the_rules() -> None:
     body = request_body(answers(lang="bn"), SPECIALTIES)
-    prompt = body["systemInstruction"]["parts"][0]["text"]
-    sent = json.loads(body["contents"][0]["parts"][0]["text"])
+    prompt = body["instructions"]
+    [content] = body["content"]
+    assert content["type"] == "input_text"
+    sent = json.loads(content["text"])
     assert set(sent) == {"what they wrote", "since when", "how bad", "age group", "pregnant"}
     assert "Do NOT diagnose" in prompt and "Do NOT name any medicine" in prompt
     assert all(f"- {key}:" in prompt for key in SPECIALTIES)
     assert "Write the note in Bangla." in prompt
-    assert body["generationConfig"]["responseMimeType"] == "application/json"
+    fmt = body["text_format"]
+    assert fmt["type"] == "json_schema" and fmt["strict"] is True
+    schema = fmt["schema"]
+    assert schema["additionalProperties"] is False
+    assert schema["properties"]["note"]["additionalProperties"] is False
+    # The model can only name one of our specialties.
+    assert schema["properties"]["specialty"]["enum"] == list(SPECIALTIES)
 
 
 # ---------------------------------------------------------------- API
@@ -263,7 +271,7 @@ def test_guide_endpoint_emergency(client: TestClient, fake: FakeModel) -> None:
 
 
 def test_guide_works_without_a_key(client: TestClient, monkeypatch: pytest.MonkeyPatch) -> None:
-    monkeypatch.setattr(get_settings(), "gemini_api_key", "")
+    monkeypatch.setattr(get_settings(), "openai_api_key", "")
     data = post(client).json()["data"]
     assert data["specialty"]["id"] == "general_medicine"
     assert data["note_written_by"] == "answers"

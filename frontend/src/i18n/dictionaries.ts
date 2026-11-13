@@ -284,9 +284,9 @@ const en = {
     age: "Age group",
     pregnant: "Pregnant?",
     privacy:
-      "When you continue, your text and answers are sent to Google's Gemini service to be processed. " +
-      "On the free service, Google may keep and review it. Do not write names, phone numbers or other " +
-      "personal details. MedWise BD does not store it.",
+      "When you continue, your text and answers are sent to OpenAI to be processed. OpenAI does not use " +
+      "them to train its models, and may keep them for up to 30 days to check for abuse. Do not write " +
+      "names, phone numbers or other personal details. MedWise BD does not store it.",
     submit: "Find the right doctor",
     sending: "Working…",
     failed: "Something went wrong. Check your internet and try again.",
@@ -512,9 +512,9 @@ const en = {
       readOnlyMore:
         "We never generate doses or medical advice, and you confirm every medicine before seeing results.",
       privacy:
-        "Your photo is sent to Google Gemini to read the text and is not stored by MedWise. Google may use " +
-        "images sent through its free API tier to improve its services, so avoid photos showing details " +
-        "you don’t want shared.",
+        "Your photo is sent to OpenAI to read the text and is not stored by MedWise. OpenAI does not use it " +
+        "to train its models, and may keep it for up to 30 days to check for abuse, so avoid photos showing " +
+        "details you don’t want shared.",
     },
     confirm: {
       heading: "Check the medicines we found",
@@ -843,9 +843,9 @@ const bn: Dict = {
     age: "বয়স",
     pregnant: "গর্ভবতী?",
     privacy:
-      "এগিয়ে গেলে আপনার লেখা ও উত্তর প্রক্রিয়া করার জন্য Google-এর Gemini সেবায় পাঠানো হবে। " +
-      "বিনামূল্যের সেবায় Google এটি রেখে দিতে ও পর্যালোচনা করতে পারে। নাম, ফোন নম্বর বা অন্য ব্যক্তিগত " +
-      "তথ্য লিখবেন না। MedWise BD এটি সংরক্ষণ করে না।",
+      "এগিয়ে গেলে আপনার লেখা ও উত্তর প্রক্রিয়া করার জন্য OpenAI-তে পাঠানো হবে। OpenAI এগুলো দিয়ে " +
+      "তাদের মডেল প্রশিক্ষণ দেয় না, তবে অপব্যবহার যাচাইয়ের জন্য সর্বোচ্চ ৩০ দিন রেখে দিতে পারে। নাম, " +
+      "ফোন নম্বর বা অন্য ব্যক্তিগত তথ্য লিখবেন না। MedWise BD এটি সংরক্ষণ করে না।",
     submit: "সঠিক ডাক্তার খুঁজুন",
     sending: "কাজ চলছে…",
     failed: "কিছু একটা সমস্যা হয়েছে। ইন্টারনেট সংযোগ দেখে আবার চেষ্টা করুন।",
@@ -1071,9 +1071,9 @@ const bn: Dict = {
       readOnly: "শুধু ওষুধের নাম ও শক্তি পড়া হয়।",
       readOnlyMore: "আমরা কখনো ডোজ বা চিকিৎসা পরামর্শ তৈরি করি না, আর ফলাফল দেখার আগে আপনি প্রতিটি ওষুধ নিশ্চিত করবেন।",
       privacy:
-        "লেখা পড়ার জন্য আপনার ছবি Google Gemini-তে পাঠানো হয়, MedWise ছবিটি সংরক্ষণ করে না। Google তাদের ফ্রি " +
-        "API-তে পাঠানো ছবি নিজেদের সেবা উন্নত করতে ব্যবহার করতে পারে, তাই যে তথ্য শেয়ার করতে চান না তা " +
-        "ছবিতে না রাখাই ভালো।",
+        "লেখা পড়ার জন্য আপনার ছবি OpenAI-তে পাঠানো হয়, MedWise ছবিটি সংরক্ষণ করে না। OpenAI এটি দিয়ে " +
+        "তাদের মডেল প্রশিক্ষণ দেয় না, তবে অপব্যবহার যাচাইয়ের জন্য সর্বোচ্চ ৩০ দিন রেখে দিতে পারে, তাই যে " +
+        "তথ্য শেয়ার করতে চান না তা ছবিতে না রাখাই ভালো।",
     },
     confirm: {
       heading: "আমরা যে ওষুধগুলো পেয়েছি তা যাচাই করুন",
