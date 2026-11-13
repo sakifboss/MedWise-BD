@@ -11,6 +11,7 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from app.api import (
     alternatives,
+    brands,
     data_reports,
     generics,
     interactions,
@@ -86,6 +87,7 @@ def create_app() -> FastAPI:
         pharmacies,
         symptom_guide,
         data_reports,
+        brands,
     )
     for module in routers:
         app.include_router(module.router, prefix="/api")

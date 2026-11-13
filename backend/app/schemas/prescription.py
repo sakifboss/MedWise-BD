@@ -11,6 +11,7 @@ PRIVACY_NOTE = (
 class MatchOptionOut(BaseModel):
     kind: Literal["brand", "generic"]
     brand_id: int | None
+    brand_code: str | None = None
     generic_id: int
     generic_name: str
     name: str

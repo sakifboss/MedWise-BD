@@ -32,6 +32,7 @@ class MatchOption:
     strength_matches: bool
     brand_id: int | None = None
     manufacturer: str | None = None
+    brand_code: str | None = None
 
 
 @dataclass
@@ -58,6 +59,7 @@ def _brand_option(hit: SearchHit, extracted_strength: str | None) -> MatchOption
         strength_matches=_same_strength(extracted_strength, hit.strength),
         brand_id=hit.id,
         manufacturer=hit.manufacturer,
+        brand_code=hit.code,
     )
 
 

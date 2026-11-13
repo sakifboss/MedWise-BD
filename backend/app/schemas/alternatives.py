@@ -29,6 +29,8 @@ class QualityBreakdown(BaseModel):
 class RankedAlternative(BaseModel):
     rank: int
     brand_id: int
+    # Stable across deploys: use it for links and anything saved (ids change on every import).
+    code: str
     name: str
     manufacturer: ManufacturerSummary
     price_per_unit: float
@@ -43,6 +45,7 @@ class RankedAlternative(BaseModel):
 
 class AlternativesResponse(BaseModel):
     selected_brand_id: int | None
+    selected_brand_code: str | None
     generic: GenericRef
     strength: str
     dosage_form: str

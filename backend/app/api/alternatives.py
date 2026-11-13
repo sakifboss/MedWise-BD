@@ -27,6 +27,7 @@ def _to_schema(item: RankedBrand, selected_id: int | None) -> RankedAlternative:
     return RankedAlternative(
         rank=item.rank,
         brand_id=c.brand_id,
+        code=c.code,
         name=c.name,
         manufacturer=ManufacturerSummary(
             id=m.id,
@@ -54,10 +55,12 @@ def _response(
     ranked: list[RankedBrand],
     lang: Lang,
     selected_id: int | None = None,
+    selected_code: str | None = None,
 ) -> Envelope[AlternativesResponse]:
     return Envelope(
         data=AlternativesResponse(
             selected_brand_id=selected_id,
+            selected_brand_code=selected_code,
             generic=GenericRef(id=generic.id, name=generic.name),
             strength=strength,
             dosage_form=dosage_form,
@@ -67,9 +70,16 @@ def _response(
     )
 
 
-@router.get("/alternatives/{brand_id}", response_model=Envelope[AlternativesResponse])
+@router.get("/alternatives/{brand_ref}", response_model=Envelope[AlternativesResponse])
 def get_alternatives(
-    brand_id: Annotated[int, Path(ge=1)],
+    brand_ref: Annotated[
+        str,
+        Path(
+            min_length=1,
+            max_length=10,
+            description="Brand code (BR00042) or, for old links, the brand's database id",
+        ),
+    ],
     db: Annotated[Session, Depends(get_db)],
     lang: LangQuery = "en",
 ) -> Envelope[AlternativesResponse]:
@@ -77,12 +87,12 @@ def get_alternatives(
 
     The selected brand is included in the list (is_selected=true) so users can see where it stands.
     """
-    result = find_alternatives(db, brand_id, lang)
+    result = find_alternatives(db, brand_ref, lang)
     if result is None:
-        raise HTTPException(status_code=404, detail=f"Brand {brand_id} not found")
+        raise HTTPException(status_code=404, detail=f"Brand {brand_ref} not found")
     brand = result.selected
     return _response(
-        brand.generic, brand.strength, brand.dosage_form, result.ranked, lang, brand.id
+        brand.generic, brand.strength, brand.dosage_form, result.ranked, lang, brand.id, brand.code
     )
 
 
