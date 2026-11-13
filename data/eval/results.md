@@ -22,10 +22,24 @@ Images are resized like the app (longest side 2000 px, JPEG quality 85).
 
 | Subset | Images | On prescriptions | Read | Correct | Recall | Precision | Matched | Match rate | Offered | Offered rate |
 |---|---|---|---|---|---|---|---|---|---|---|
-| real_handwritten | 10 | 34 | 34 | 32 | 94.1% | 94.1% | 18/21 | 85.7% | 19/21 | 90.5% |
+| real_handwritten | 10 | 34 | 34 | 32 | 94.1% | 94.1% | 22/26 | 84.6% | 23/26 | 88.5% |
 | synthetic_printed | 10 | 13 | 0 | 0 | 0.0% | n/a | 0/0 | n/a | 0/0 | n/a |
 | degraded_copies | 3 | 9 | 9 | 9 | 100.0% | 100.0% | 7/7 | 100.0% | 7/7 | 100.0% |
-| overall | 23 | 56 | 43 | 41 | 73.2% | 95.3% | 25/28 | 89.3% | 26/28 | 92.9% |
+| overall | 23 | 56 | 43 | 41 | 73.2% | 95.3% | 29/33 | 87.9% | 30/33 | 90.9% |
+
+## Catalog coverage
+
+Of the readable medicine lines, how many name a medicine that is in our catalog (its brand name,
+its generic name, or the generic the team wrote in the ground truth when the written name differs
+from the pack). Lines nobody could read are left out. Target for the real handwritten
+prescriptions: 80% or more.
+
+| Subset | Lines in catalog | Coverage | Not in catalog |
+|---|---|---|---|
+| real_handwritten | 26 of 34 | 76.5% | AcePlus (3), Adovas, Ambrox (2), Benostar, Viodin |
+| synthetic_printed | 0 of 13 | 0.0% | DemoCream-1, DemoDrop-1, DemoMed-A, DemoMed-B, DemoMed-C, DemoMed-D, DemoMed-E, DemoMed-F, DemoMed-G, DemoMed-H, DemoMed-I, DemoMed-J, DemoMed-K |
+| degraded_copies | 7 of 9 | 77.8% | Ambrox, Viodin |
+| overall | 33 of 56 | 58.9% | AcePlus (3), Adovas, Ambrox (3), Benostar, DemoCream-1, DemoDrop-1, DemoMed-A, DemoMed-B, DemoMed-C, DemoMed-D, DemoMed-E, DemoMed-F, DemoMed-G, DemoMed-H, DemoMed-I, DemoMed-J, DemoMed-K, Viodin (2) |
 
 ## The images
 
@@ -40,14 +54,14 @@ Images are resized like the app (longest side 2000 px, JPEG quality 85).
 
 | Image | Subset | Correct | Missed | Extra (read, not on the prescription) | Matched |
 |---|---|---|---|---|---|
-| rx01 | real_handwritten | 3/4 | Montene | Montex | 0/1 |
+| rx01 | real_handwritten | 3/4 | Montene | Montex | 1/2 |
 | rx02 | real_handwritten | 3/3 | - | - | 3/3 |
-| rx03 | real_handwritten | 4/4 | - | - | 1/1 |
-| rx04 | real_handwritten | 3/3 | - | - | 2/2 |
+| rx03 | real_handwritten | 4/4 | - | - | 2/2 |
+| rx04 | real_handwritten | 3/3 | - | - | 2/3 |
 | rx05 | real_handwritten | 5/5 | - | - | 4/4 |
 | rx06 | real_handwritten | 3/3 | - | - | 2/2 |
-| rx07 | real_handwritten | 5/5 | - | - | 2/3 |
-| rx08 | real_handwritten | 2/3 | Montene | Montex | 1/2 |
+| rx07 | real_handwritten | 5/5 | - | - | 3/4 |
+| rx08 | real_handwritten | 2/3 | Montene | Montex | 2/3 |
 | rx09 | real_handwritten | 3/3 | - | - | 2/2 |
 | rx10 | real_handwritten | 1/1 | - | - | 1/1 |
 | rx11 | synthetic_printed | 0/1 | DemoMed-A | - | 0/0 |
