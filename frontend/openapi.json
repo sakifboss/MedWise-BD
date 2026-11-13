@@ -1274,6 +1274,107 @@
         }
       }
     },
+    "/api/doctor/rx/sign": {
+      "post": {
+        "tags": [
+          "doctor"
+        ],
+        "summary": "Sign Rx",
+        "description": "Sign the hash of a prescription's QR payload. Only the hash reaches us; nothing is stored.",
+        "operationId": "sign_rx_api_doctor_rx_sign_post",
+        "parameters": [
+          {
+            "name": "mw_doc",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Mw Doc"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RxSignIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_RxSignOut_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/rx/verify": {
+      "post": {
+        "tags": [
+          "rx"
+        ],
+        "summary": "Verify Rx",
+        "operationId": "verify_rx_api_rx_verify_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RxVerifyIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_RxVerifyOut_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/health": {
       "get": {
         "tags": [
@@ -2263,6 +2364,58 @@
         },
         "type": "object",
         "title": "Envelope[PrescriptionResponse]"
+      },
+      "Envelope_RxSignOut_": {
+        "properties": {
+          "data": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RxSignOut"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorBody"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "Envelope[RxSignOut]"
+      },
+      "Envelope_RxVerifyOut_": {
+        "properties": {
+          "data": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RxVerifyOut"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorBody"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "Envelope[RxVerifyOut]"
       },
       "Envelope_SearchResponse_": {
         "properties": {
@@ -3721,6 +3874,156 @@
           "source_url"
         ],
         "title": "RedFlagOut"
+      },
+      "RxDoctorPublic": {
+        "properties": {
+          "display_name": {
+            "type": "string",
+            "title": "Display Name"
+          },
+          "display_name_bn": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Display Name Bn"
+          },
+          "degrees": {
+            "type": "string",
+            "title": "Degrees"
+          },
+          "specialty": {
+            "type": "string",
+            "title": "Specialty"
+          },
+          "bmdc_number": {
+            "type": "string",
+            "title": "Bmdc Number"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "verified",
+              "rejected"
+            ],
+            "title": "Status"
+          },
+          "is_demo": {
+            "type": "boolean",
+            "title": "Is Demo"
+          }
+        },
+        "type": "object",
+        "required": [
+          "display_name",
+          "display_name_bn",
+          "degrees",
+          "specialty",
+          "bmdc_number",
+          "status",
+          "is_demo"
+        ],
+        "title": "RxDoctorPublic",
+        "description": "What a valid QR shows about who issued it (the same as the printed letterhead)."
+      },
+      "RxSignIn": {
+        "properties": {
+          "hash": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Hash"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "hash"
+        ],
+        "title": "RxSignIn"
+      },
+      "RxSignOut": {
+        "properties": {
+          "doctor_id": {
+            "type": "integer",
+            "title": "Doctor Id"
+          },
+          "issued_at": {
+            "type": "integer",
+            "title": "Issued At"
+          },
+          "sig": {
+            "type": "string",
+            "title": "Sig"
+          }
+        },
+        "type": "object",
+        "required": [
+          "doctor_id",
+          "issued_at",
+          "sig"
+        ],
+        "title": "RxSignOut"
+      },
+      "RxVerifyIn": {
+        "properties": {
+          "doctor_id": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Doctor Id"
+          },
+          "issued_at": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Issued At"
+          },
+          "hash": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Hash"
+          },
+          "sig": {
+            "type": "string",
+            "maxLength": 64,
+            "title": "Sig"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "doctor_id",
+          "issued_at",
+          "hash",
+          "sig"
+        ],
+        "title": "RxVerifyIn"
+      },
+      "RxVerifyOut": {
+        "properties": {
+          "valid": {
+            "type": "boolean",
+            "title": "Valid"
+          },
+          "doctor": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RxDoctorPublic"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "valid"
+        ],
+        "title": "RxVerifyOut"
       },
       "SearchResponse": {
         "properties": {

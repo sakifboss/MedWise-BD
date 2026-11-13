@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { buildIcs, escapeText, foldLine, reminderTitle } from "./ics";
+import { buildDayEventIcs, buildIcs, escapeText, foldLine, reminderTitle } from "./ics";
 
 const NOW = new Date(Date.UTC(2026, 10, 10, 6, 0, 0));
 const START = new Date(2026, 10, 11);
@@ -54,5 +54,17 @@ describe("text helpers", () => {
     const m = { brandName: "Seclo", strength: "20 mg" };
     expect(reminderTitle(m, false, "Medicine reminder")).toBe("Seclo 20 mg");
     expect(reminderTitle(m, true, "Medicine reminder")).toBe("Medicine reminder");
+  });
+});
+
+describe("buildDayEventIcs", () => {
+  it("makes one all-day event with a reminder the day before", () => {
+    const text = buildDayEventIcs("2026-11-27", "Follow-up visit", { now: new Date(Date.UTC(2026, 10, 13, 9)) });
+    expect(text).toContain("DTSTART;VALUE=DATE:20261127");
+    expect(text).toContain("DTEND;VALUE=DATE:20261128");
+    expect(text).toContain("SUMMARY:Follow-up visit");
+    expect(text).toContain("TRIGGER:-P1D");
+    expect(text).not.toContain("RRULE");
+    expect(text.split("BEGIN:VEVENT").length).toBe(2);
   });
 });

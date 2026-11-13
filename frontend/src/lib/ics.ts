@@ -82,3 +82,32 @@ export function reminderTitle(
 ): string {
   return hideNames ? neutralTitle : `${medicine.brandName} ${medicine.strength}`;
 }
+
+/** One all-day event (the follow-up visit) with a reminder the day before; made on the device. */
+export function buildDayEventIcs(date: string, title: string, options: { now?: Date } = {}): string {
+  const now = options.now ?? new Date();
+  const [y, m, d] = date.split("-").map(Number);
+  const start = new Date(y, m - 1, d);
+  const end = new Date(y, m - 1, d + 1);
+  const lines = [
+    "BEGIN:VCALENDAR",
+    "VERSION:2.0",
+    "PRODID:-//MedWise BD//Prescription//EN",
+    "CALSCALE:GREGORIAN",
+    "METHOD:PUBLISH",
+    "BEGIN:VEVENT",
+    `UID:${now.getTime().toString(36)}-followup@medwise-bd`,
+    `DTSTAMP:${utcStamp(now)}`,
+    `DTSTART;VALUE=DATE:${localDate(start)}`,
+    `DTEND;VALUE=DATE:${localDate(end)}`,
+    `SUMMARY:${escapeText(title)}`,
+    "BEGIN:VALARM",
+    "ACTION:DISPLAY",
+    `DESCRIPTION:${escapeText(title)}`,
+    "TRIGGER:-P1D",
+    "END:VALARM",
+    "END:VEVENT",
+    "END:VCALENDAR",
+  ];
+  return lines.map(foldLine).join("\r\n") + "\r\n";
+}

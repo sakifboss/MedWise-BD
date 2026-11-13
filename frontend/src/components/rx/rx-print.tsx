@@ -49,6 +49,7 @@ export function RxPrint({
   notes,
   lines,
   language,
+  qrSvg,
 }: {
   doctor: DoctorProfile;
   chamberIndex: number;
@@ -56,6 +57,8 @@ export function RxPrint({
   notes: RxNotes;
   lines: RxLine[];
   language: PrintLanguage;
+  /** The signed QR code (SVG from the qrcode library), or null when printing without one. */
+  qrSvg: string | null;
 }) {
   const t = useDict();
   const p = t.rx.print;
@@ -156,7 +159,7 @@ export function RxPrint({
                     </p>
                   )}
                   {line.note && <p className="pl-4 italic">{line.note}</p>}
-                  {line.source.kind !== "free" && (
+                  {line.source.kind === "brand" && (
                     <p className="pl-4 text-[9pt]">{line.substitution ? p.substitutionAllowed : p.brandOnly}</p>
                   )}
                 </li>
@@ -174,7 +177,21 @@ export function RxPrint({
         </section>
       </div>
 
-      <div className="mt-12 flex justify-end break-inside-avoid">
+      <div className="mt-10 flex items-end justify-between gap-6 break-inside-avoid">
+        {qrSvg ? (
+          <figure className="w-[50mm]" data-testid="rx-print-qr">
+            <div
+              role="img"
+              aria-label={t.rx.qr.caption}
+              className="size-[50mm] [&>svg]:size-full"
+              // SVG from the qrcode library for a link we built, not from user HTML.
+              dangerouslySetInnerHTML={{ __html: qrSvg }}
+            />
+            <figcaption className="text-center text-[8.5pt]">{t.rx.qr.caption}</figcaption>
+          </figure>
+        ) : (
+          <span />
+        )}
         <p className="w-56 border-t border-black pt-1 text-center">{p.signature}</p>
       </div>
     </div>

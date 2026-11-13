@@ -34,6 +34,9 @@ export type DoctorExport = Schemas["DoctorExport"];
 export type DoctorSignup = Schemas["SignupIn"];
 export type DoctorProfileIn = Schemas["ProfileIn"];
 export type DoctorChamberIn = Schemas["ChamberIn"];
+export type RxSignOut = Schemas["RxSignOut"];
+export type RxVerifyIn = Schemas["RxVerifyIn"];
+export type RxVerifyOut = Schemas["RxVerifyOut"];
 
 type Envelope<T> = {
   data?: T | null;
@@ -126,7 +129,14 @@ export const doctorApi = {
     post<{ ok: boolean }>("/api/doctor/reset", { token, new_password: newPassword }),
   exportData: () => request<DoctorExport>("/api/doctor/export", { cache: "no-store" }),
   deleteAccount: (password: string) => post<{ ok: boolean }>("/api/doctor/delete", { password }),
+  /** Sends only the SHA-256 of the prescription's QR payload; the medicines stay in the browser. */
+  signRx: (hash: string) => post<RxSignOut>("/api/doctor/rx/sign", { hash }),
 };
+
+/** The public /rx page's check: only doctor id, issue time, payload hash and signature are sent. */
+export function verifyRx(body: RxVerifyIn): Promise<RxVerifyOut> {
+  return post<RxVerifyOut>("/api/rx/verify", body);
+}
 
 export const api = {
   search(q: string, options: { limit?: number; signal?: AbortSignal } = {}) {
