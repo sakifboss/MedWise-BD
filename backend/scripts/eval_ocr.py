@@ -1,13 +1,14 @@
 """Measure how well prescription reading and matching work on real photos.
 
 Reads data/eval/prescriptions/<id>.jpg|png|webp with <id>.json ground truth, runs the app's real
-GeminiExtractor on each image (resized exactly like the app does before upload), then the app's
-match_prescription against a temporary SQLite database loaded from data/seed.
+VisionExtractor (OpenAI) on each image (resized exactly like the app does before upload), then
+the app's match_prescription against a temporary SQLite database loaded from data/seed.
 
-Gemini's answer for each image is cached in data/eval/cache/<id>.json, so re-running only
-re-scores; --refresh calls Gemini again. Both folders are gitignored (personal data).
+The model's answer for each image is cached in data/eval/cache/<model>/<id>.json (per model, so
+answers from another model are never scored as this one's), so re-running only re-scores;
+--refresh calls the model again. Both folders are gitignored (personal data).
 
-Usage (from backend/, needs GEMINI_API_KEY in backend/.env):
+Usage (from backend/, needs OPENAI_API_KEY in backend/.env):
     python scripts/eval_ocr.py          # read (cached when possible), score, write results.md
     python scripts/eval_ocr.py --refresh --only rx01,rx02
     python scripts/eval_ocr.py --threshold 90 --no-write
@@ -557,8 +558,8 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Evaluate prescription reading and matching.")
     parser.add_argument("--eval-dir", type=Path, default=EVAL_DIR)
     parser.add_argument("--threshold", type=float, default=DEFAULT_THRESHOLD)
-    parser.add_argument("--refresh", action="store_true", help="call Gemini even when cached")
-    parser.add_argument("--delay", type=float, default=6.0, help="seconds between Gemini calls")
+    parser.add_argument("--refresh", action="store_true", help="call the model even when cached")
+    parser.add_argument("--delay", type=float, default=6.0, help="seconds between model calls")
     parser.add_argument("--only", help="comma-separated image ids, e.g. rx01,rx02")
     parser.add_argument("--no-write", action="store_true", help="do not write results.md")
     parser.add_argument(
@@ -566,7 +567,7 @@ def main(argv: list[str] | None = None) -> int:
         help="measure only this model (no fallbacks); its answers are cached in cache/<model>/",
     )
     parser.add_argument(
-        "--retries", type=int, default=3, help="extra tries when Gemini is busy (429/503)"
+        "--retries", type=int, default=3, help="extra tries when the model is busy (429/503)"
     )
     parser.add_argument(
         "--retry-wait", type=float, default=65.0, help="seconds to wait before a retry"
@@ -577,11 +578,12 @@ def main(argv: list[str] | None = None) -> int:
     from app.core.config import get_settings
     from app.core.db import make_engine
     from app.core.errors import AppError
-    from app.services.ocr import GeminiExtractor
+    from app.services.ocr import VisionExtractor
     from scripts.import_data import run_import
 
     folder = args.eval_dir / "prescriptions"
-    cache_dir = args.eval_dir / "cache" / args.model if args.model else args.eval_dir / "cache"
+    settings = get_settings()
+    cache_dir = args.eval_dir / "cache" / (args.model or settings.openai_models[0])
     subsets_file = args.eval_dir / "subsets.json"
     subsets_data = (
         json.loads(subsets_file.read_text(encoding="utf-8")) if subsets_file.exists() else {}
@@ -597,13 +599,12 @@ def main(argv: list[str] | None = None) -> int:
         print(f"Ground truth missing for: {', '.join(missing)}")
         return 1
 
-    settings = get_settings()
     if args.model:
         # Only this model: a busy model is retried, never replaced by a fallback.
         settings = settings.model_copy(
-            update={"gemini_model": args.model, "gemini_fallback_models": ""}
+            update={"openai_model": args.model, "openai_fallback_models": ""}
         )
-    extractor: GeminiExtractor | None = None
+    extractor: VisionExtractor | None = None
     with tempfile.TemporaryDirectory() as tmp:
         engine = make_engine(f"sqlite:///{(Path(tmp) / 'eval.db').as_posix()}")
         imported = run_import(settings.seed_dir, engine)
@@ -628,7 +629,7 @@ def main(argv: list[str] | None = None) -> int:
                     source = "cache"
                 else:
                     if extractor is None:
-                        extractor = GeminiExtractor(settings)
+                        extractor = VisionExtractor(settings)
                     wait = args.delay - (time.monotonic() - last_call)
                     if last_call and wait > 0:
                         time.sleep(wait)
@@ -647,7 +648,7 @@ def main(argv: list[str] | None = None) -> int:
                             print(f"{image_id}: {exc.code}, retrying in {args.retry_wait:g}s")
                             time.sleep(args.retry_wait)
                     last_call = time.monotonic()
-                    source = "gemini"
+                    source = "model"
                 extracted = dedupe(medicines)
                 unreadable = load_unreadable(path.with_suffix(".json"))
                 reading = score_reading(truth, extracted, args.threshold, unreadable)
@@ -689,7 +690,7 @@ def main(argv: list[str] | None = None) -> int:
                 results,
                 args.threshold,
                 subsets_data.get("excluded"),
-                settings.gemini_models[0],
+                settings.openai_models[0],
             ),
             encoding="utf-8",
         )
