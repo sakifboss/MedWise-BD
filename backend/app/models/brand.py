@@ -1,7 +1,7 @@
 from datetime import date
 from decimal import Decimal
 
-from sqlalchemy import Date, ForeignKey, Index, Numeric, String, UniqueConstraint
+from sqlalchemy import JSON, Date, ForeignKey, Index, Numeric, String, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.core.db import Base
@@ -28,6 +28,8 @@ class Brand(Base):
     price_per_unit: Mapped[Decimal] = mapped_column(Numeric(10, 2))
     source_url: Mapped[str | None] = mapped_column(String(500), nullable=True)
     price_checked_on: Mapped[date | None] = mapped_column(Date, nullable=True)
+    # Other names people write for this brand; search matches them too.
+    aliases: Mapped[list[str]] = mapped_column(JSON, default=list)
 
     generic: Mapped[Generic] = relationship(back_populates="brands")
     manufacturer: Mapped[Manufacturer] = relationship(back_populates="brands")

@@ -2403,7 +2403,10 @@
       "dosage_form": "eye drops",
       "price_per_unit": 34.5,
       "source_url": "https://www.arogga.com/product/25583",
-      "price_checked_on": "2026-11-13"
+      "price_checked_on": "2026-11-13",
+      "aliases": [
+        "Mycetin"
+      ]
     },
     {
       "code": "BR00219",
