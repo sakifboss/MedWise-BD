@@ -13,6 +13,7 @@ from scripts.eval_ocr import (
     Expected,
     ImageResult,
     Suggestion,
+    Totals,
     TruthMedicine,
     catalog_lookup,
     dedupe,
@@ -176,6 +177,28 @@ def test_totals_per_subset_and_overall() -> None:
         3,
         3,
     )
+
+
+def test_catalog_coverage_counts_readable_lines_in_the_catalog() -> None:
+    # Ace is a catalog brand; Fexo and Kexam are not (Kexam twice, on two images).
+    results = [
+        _result("rx01", "real_handwritten", [T("Ace", None), T("Kexam", None)], []),
+        _result("rx02", "real_handwritten", [T("Fexo", None), T("Kexam", None)], []),
+        _result("rx11", "synthetic_printed", [T("DemoMed-A", None)], []),
+    ]
+    totals = totals_by_subset(results)
+    real = totals["real_handwritten"]
+    assert (real.in_catalog, real.truth, real.coverage) == (1, 4, 0.25)
+    assert real.not_in_catalog == {"Kexam": 2, "Fexo": 1}
+    assert totals["synthetic_printed"].coverage == 0.0
+    md = results_markdown(results, 85, None)
+    assert "| real_handwritten | 1 of 4 | 25.0% | Fexo, Kexam (2) |" in md
+    assert "| overall | 1 of 5 | 20.0% | DemoMed-A, Fexo, Kexam (2) |" in md
+
+
+def test_coverage_is_none_without_lines() -> None:
+    assert Totals().coverage is None
+    assert _result("rx09", "real_handwritten", [], []).matching.not_in_catalog == []
 
 
 def test_results_markdown_has_totals_notes_and_exclusions() -> None:

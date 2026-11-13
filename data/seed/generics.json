@@ -3,7 +3,7 @@
     "dataset": "generics",
     "source": "NHS website medicine pages (nhs.uk); Cefixime, Famotidine and Levocetirizine from US FDA labels on DailyMed; Vildagliptin from the EMA product information (Galvus). Each record lists its source_urls.",
     "is_sample": false,
-    "note": "Condensed from the cited pages on 2026-11-03, keeping the source's wording. drug_class and dosage_forms are set by the MedWise BD team. Not medical advice. how_to_take (added 2026-11-10) holds only what the cited page says about food, milk, alcohol and things to take apart, copied word for word; never doses."
+    "note": "Condensed from the cited pages on 2026-11-03, keeping the source's wording. drug_class and dosage_forms are set by the MedWise BD team. Not medical advice. how_to_take (added 2026-11-10) holds only what the cited page says about food, milk, alcohol and things to take apart, copied word for word; never doses. Chloramphenicol (added 2026-11-13) covers the eye drops only."
   },
   "records": [
     {
@@ -1745,6 +1745,61 @@
       ],
       "how_to_take_bn": [
         "গ্যালভাস (ভিল্ডাগ্লিপটিন) খাবারের সাথে বা খাবার ছাড়া, দুইভাবেই খাওয়া যায়"
+      ]
+    },
+    {
+      "name": "Chloramphenicol",
+      "drug_class": "Antibiotic (eye drops)",
+      "indications": [
+        "Eye infections, such as conjunctivitis"
+      ],
+      "dosage_forms": [
+        "eye drops"
+      ],
+      "side_effects": [
+        "Stinging or burning in the eye, or blurred vision",
+        "Change in eye colour or the eye surface becoming cloudy",
+        "Serious (rare): bruising more easily than usual, getting infections more easily than usual, or feeling especially tired or weak (signs of aplastic anaemia)",
+        "Serious (rare): a serious allergic reaction (anaphylaxis), such as sudden swelling of the lips, mouth, throat or tongue"
+      ],
+      "precautions": [
+        "Tell your doctor or pharmacist if you have ever had an allergic reaction to chloramphenicol or any other medicine",
+        "Tell your doctor or pharmacist if you or anyone in your family has ever had any problems with their blood, such as aplastic anaemia",
+        "Tell your doctor or pharmacist if you're using any other eye drops or ointment, or if you normally wear contact lenses",
+        "Tell your doctor or pharmacist if you have any problems with your eyesight, or severe eye pain",
+        "Tell your doctor or pharmacist if you have swollen eyes, and a rash on your face or head",
+        "Tell your doctor or pharmacist if you have had a recent eye injury, or something in your eye",
+        "Tell your doctor or pharmacist if you have glaucoma",
+        "Tell your doctor or pharmacist if you have had eye surgery or laser treatment in the last 6 months"
+      ],
+      "how_to_take": [
+        "If you usually wear contact lenses, do not wear them while you're using chloramphenicol eye drops or ointment."
+      ],
+      "source_urls": [
+        "https://www.nhs.uk/medicines/chloramphenicol/"
+      ],
+      "drug_class_bn": "অ্যান্টিবায়োটিক (চোখের ড্রপ)",
+      "indications_bn": [
+        "চোখের সংক্রমণ, যেমন কনজাংটিভাইটিস (চোখ ওঠা)"
+      ],
+      "side_effects_bn": [
+        "চোখে জ্বালা বা জ্বালাপোড়া, অথবা ঝাপসা দেখা",
+        "চোখের রং বদলে যাওয়া বা চোখের উপরিভাগ ঘোলা হয়ে যাওয়া",
+        "গুরুতর (বিরল): স্বাভাবিকের চেয়ে সহজে কালশিটে পড়া, স্বাভাবিকের চেয়ে সহজে সংক্রমণ হওয়া, অথবা খুব বেশি ক্লান্ত বা দুর্বল লাগা (অ্যাপ্লাস্টিক অ্যানিমিয়ার লক্ষণ)",
+        "গুরুতর (বিরল): গুরুতর অ্যালার্জিক প্রতিক্রিয়া (অ্যানাফাইল্যাক্সিস), যেমন হঠাৎ ঠোঁট, মুখ, গলা বা জিভ ফুলে যাওয়া"
+      ],
+      "precautions_bn": [
+        "ক্লোরামফেনিকল বা অন্য কোনো ওষুধে কখনো অ্যালার্জিক প্রতিক্রিয়া হয়ে থাকলে ডাক্তার বা ফার্মাসিস্টকে জানান",
+        "আপনার বা পরিবারের কারও কখনো রক্তের কোনো সমস্যা হয়ে থাকলে, যেমন অ্যাপ্লাস্টিক অ্যানিমিয়া, ডাক্তার বা ফার্মাসিস্টকে জানান",
+        "অন্য কোনো চোখের ড্রপ বা মলম ব্যবহার করলে, অথবা সাধারণত কন্টাক্ট লেন্স পরলে ডাক্তার বা ফার্মাসিস্টকে জানান",
+        "চোখে দেখতে কোনো সমস্যা হলে বা চোখে তীব্র ব্যথা থাকলে ডাক্তার বা ফার্মাসিস্টকে জানান",
+        "চোখ ফোলা থাকলে এবং মুখে বা মাথায় র‍্যাশ থাকলে ডাক্তার বা ফার্মাসিস্টকে জানান",
+        "সম্প্রতি চোখে আঘাত পেয়ে থাকলে বা চোখে কিছু পড়ে থাকলে ডাক্তার বা ফার্মাসিস্টকে জানান",
+        "গ্লুকোমা থাকলে ডাক্তার বা ফার্মাসিস্টকে জানান",
+        "গত ৬ মাসের মধ্যে চোখের অস্ত্রোপচার বা লেজার চিকিৎসা হয়ে থাকলে ডাক্তার বা ফার্মাসিস্টকে জানান"
+      ],
+      "how_to_take_bn": [
+        "সাধারণত কন্টাক্ট লেন্স পরলে, ক্লোরামফেনিকল চোখের ড্রপ বা মলম ব্যবহারের সময় তা পরবেন না।"
       ]
     }
   ]

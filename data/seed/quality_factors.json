@@ -3,7 +3,7 @@
     "dataset": "quality_factors",
     "source": "Public sources: company websites, MHRA GMP certificate register, news reports, IQVIA market-share summaries. Collected 2026-11-03; every manufacturer row lists its source_urls.",
     "is_sample": false,
-    "note": "stringent_approvals are PLANT-level: the company has at least one plant approved by that regulator, not necessarily the plant that makes a given product. Empty means no approval was found in public sources. compliance_score = 100 minus 15 per documented adverse finding by a stringent regulator in the last 5 years. No structured recall data exists for Bangladesh, so recall_data_available is false for every company and recall_count is 0. market_share is from IQVIA MAT Q2 2026 as reported in public summaries; null where no figure was found. Estimates: Renata and Eskayef rank 5th and 6th (IQVIA 1Q 2026) but no exact share was found, so the 7th-ranked share (4.7%) is used as a conservative lower bound. ACME 4.0% = BDT 1,548 crore sales (3Q 2025) / ~BDT 38,530 crore market. ACI 3.8% is from IQVIA MAT Q2 2023 (older figure). Beacon: unknown (null, scored as 0)."
+    "note": "stringent_approvals are PLANT-level: the company has at least one plant approved by that regulator, not necessarily the plant that makes a given product. Empty means no approval was found in public sources. compliance_score = 100 minus 15 per documented adverse finding by a stringent regulator in the last 5 years. No structured recall data exists for Bangladesh, so recall_data_available is false for every company and recall_count is 0. market_share is from IQVIA MAT Q2 2026 as reported in public summaries; null where no figure was found. Estimates: Renata and Eskayef rank 5th and 6th (IQVIA 1Q 2026) but no exact share was found, so the 7th-ranked share (4.7%) is used as a conservative lower bound. ACME 4.0% = BDT 1,548 crore sales (3Q 2025) / ~BDT 38,530 crore market. ACI 3.8% is from IQVIA MAT Q2 2023 (older figure). Beacon: unknown (null, scored as 0). IBN SINA (added 2026-11-13): incorporated 1983; its site lists WHO cGMP and ISO certificates only (no stringent-regulator approval found) and exports to 'several countries' without a count; no market share figure was found."
   },
   "records": [
     {
@@ -237,6 +237,19 @@
       "source_urls": [
         "https://beaconpharma.com.bd/beacon-attains-prestigious-eu-gmp-certification-for-antibiotic-manufacturing-facility",
         "https://beaconpharma.com.bd/beacon-at-a-glance"
+      ]
+    },
+    {
+      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
+      "stringent_approvals": [],
+      "regulated_market_exports": 0,
+      "compliance_score": 100,
+      "recall_count": 0,
+      "recall_data_available": false,
+      "market_share": null,
+      "source_urls": [
+        "https://www.ibnsinapharma.com/about/company-overview",
+        "https://ibnsinapharma.com/operations/global-operation"
       ]
     }
   ]

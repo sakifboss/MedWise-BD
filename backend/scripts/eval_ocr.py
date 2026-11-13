@@ -235,6 +235,7 @@ class Matching:
     matched: int = 0  # the app pre-selected the right generic + strength
     offered: int = 0  # the right one was among the options the user can pick from
     failures: list[str] = field(default_factory=list)
+    not_in_catalog: list[str] = field(default_factory=list)  # names, for the coverage report
 
 
 def _is_expected(expected: Expected, got: Suggestion) -> bool:
@@ -275,6 +276,7 @@ def score_matching(
     for i, m in enumerate(truth):
         expected = lookup(m)
         if expected is None:
+            matching.not_in_catalog.append(m.name)
             continue
         matching.in_catalog += 1
         if i not in by_truth:
@@ -319,6 +321,7 @@ class Totals:
     matched: int = 0
     offered: int = 0
     errors: int = 0
+    not_in_catalog: Counter[str] = field(default_factory=Counter)
 
     def add(self, r: ImageResult) -> None:
         self.images += 1
@@ -329,6 +332,7 @@ class Totals:
         self.matched += r.matching.matched
         self.offered += r.matching.offered
         self.errors += r.error is not None
+        self.not_in_catalog.update(r.matching.not_in_catalog)
 
     @property
     def recall(self) -> float | None:
@@ -345,6 +349,17 @@ class Totals:
     @property
     def offered_rate(self) -> float | None:
         return self.offered / self.in_catalog if self.in_catalog else None
+
+    @property
+    def coverage(self) -> float | None:
+        """Catalog coverage: the share of readable medicine lines whose medicine is in the catalog
+        (its brand name, its generic name, or the generic given in the ground truth)."""
+        return self.in_catalog / self.truth if self.truth else None
+
+
+def coverage_line(name: str, t: Totals) -> str:
+    missing = ", ".join(f"{n} ({c})" if c > 1 else n for n, c in sorted(t.not_in_catalog.items()))
+    return f"| {name} | {t.in_catalog} of {t.truth} | {pct(t.coverage)} | {missing or '-'} |"
 
 
 def totals_by_subset(results: Iterable[ImageResult]) -> dict[str, Totals]:
@@ -481,6 +496,7 @@ def results_markdown(
             f"| {r.image_id} | {r.subset} | {len(r.reading.correct)}/{r.reading.truth_count} | "
             f"{missed} | {extra} | {r.matching.matched}/{r.matching.in_catalog} |"
         )
+    coverage_rows = [coverage_line(name, totals[name]) for name in order]
     notes = "\n".join(
         f"- **{name}**: {SUBSET_NOTES[name]}." for name in SUBSET_NOTES if name in totals
     )
@@ -511,6 +527,17 @@ Images are resized like the app (longest side {APP_MAX_SIDE} px, JPEG quality {A
 
 {TOTALS_HEADER}
 {chr(10).join(rows)}
+
+## Catalog coverage
+
+Of the readable medicine lines, how many name a medicine that is in our catalog (its brand name,
+its generic name, or the generic the team wrote in the ground truth when the written name differs
+from the pack). Lines nobody could read are left out. Target for the real handwritten
+prescriptions: 80% or more.
+
+| Subset | Lines in catalog | Coverage | Not in catalog |
+|---|---|---|---|
+{chr(10).join(coverage_rows)}
 
 ## The images
 
@@ -685,6 +712,7 @@ def main(argv: list[str] | None = None) -> int:
             f"  offered {pct(t.offered_rate):>6} ({t.offered}/{t.in_catalog})"
             + (f"  errors {t.errors}" if t.errors else "")
         )
+        print(f"{'':18} catalog coverage {pct(t.coverage):>6} ({t.in_catalog}/{t.truth})")
     if not args.no_write:
         out = args.out or args.eval_dir / "results.md"
         out.write_text(

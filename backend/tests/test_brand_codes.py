@@ -74,6 +74,9 @@ def test_shipped_brands_all_have_unique_codes() -> None:
     assert all(re.fullmatch(r"BR\d{5}", c) for c in codes)
     assert len(set(codes)) == len(codes)
     assert not set(codes) & set(doc["meta"].get("retired_codes", []))
+    # New brands go at the end of the sheet, so the import gives existing brands the same database
+    # ids as before and old /alternatives/<id> links (from before codes) open the same brand.
+    assert codes == sorted(codes)
 
 
 # ---------------------------------------------------------------- import validation

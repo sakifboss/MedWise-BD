@@ -83,6 +83,16 @@ def test_generic_name_offers_presentations(client: TestClient, ocr: FakeOcr) -> 
     assert item["suggested_index"] == 0
 
 
+def test_a_brand_named_almost_like_its_generic_is_found_as_written(
+    client: TestClient, ocr: FakeOcr
+) -> None:
+    # Ibn Sina's cefixime brand is "Cefixim": written that way, the brand comes first.
+    ocr.medicines.append(ExtractedMedicine("Cefixim", "200 mg"))
+    item = _item(_data(upload(client)), "Cefixim")
+    top = item["options"][item["suggested_index"]]
+    assert (top["kind"], top["name"], top["generic_name"]) == ("brand", "Cefixim", "Cefixime")
+
+
 def test_strength_mismatch_is_not_auto_suggested(client: TestClient, ocr: FakeOcr) -> None:
     ocr.medicines.append(ExtractedMedicine("Seclo", "40 mg"))  # only 20 mg exists
     item = _item(_data(upload(client)), "Seclo")

@@ -76,3 +76,7 @@ python scripts/eval_ocr.py --model gpt-6-luna --out ../data/eval/results_gpt-6-l
 - **Matching**: of the medicines on the prescriptions that exist in our catalog, how many the app
   pre-selected with the right generic and strength ("Matched"), and how many it at least listed
   among the options the user picks from ("Offered").
+- **Catalog coverage**: of the readable medicine lines, how many name a medicine in our catalog
+  (its brand name, its generic name, or the `generic` written in the ground truth when the name
+  on the prescription differs from the pack). Lines not in the catalog are listed by name, so
+  the team knows what to add next. Target for the real handwritten prescriptions: 80% or more.

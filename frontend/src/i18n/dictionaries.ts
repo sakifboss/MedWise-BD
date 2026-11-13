@@ -4,6 +4,7 @@
  */
 
 import { roundDistance } from "@/lib/pharmacies";
+import { isPerBottle } from "@/lib/savings";
 
 export const LANGS = ["en", "bn"] as const;
 export type Lang = (typeof LANGS)[number];
@@ -56,7 +57,7 @@ const en = {
   fmt: formatters(
     "en-US",
     "Tk ",
-    { tablet: "tablet", capsule: "capsule", suspension: "suspension" },
+    { tablet: "tablet", capsule: "capsule", suspension: "suspension", "eye drops": "eye drops" },
     { m: "m", km: "km" },
   ),
   severity: { major: "Major", moderate: "Moderate", minor: "Minor" },
@@ -453,10 +454,10 @@ const en = {
   savings: {
     title: "Monthly cost calculator",
     question: (form: string) =>
-      form === "suspension"
+      isPerBottle(form)
         ? "How many bottles a month does your prescription say?"
         : `How many ${form}s a day does your prescription say?`,
-    unit: (form: string) => (form === "suspension" ? "bottles a month" : `${form}s a day`),
+    unit: (form: string) => (isPerBottle(form) ? "bottles a month" : `${form}s a day`),
     placeholder: "e.g. 2",
     noDoseNote: "Use the number on your prescription. MedWise BD does not suggest doses.",
     yourMedicine: "Your medicine:",
@@ -617,7 +618,7 @@ const bn: Dict = {
   fmt: formatters(
     "bn-BD",
     "৳",
-    { tablet: "ট্যাবলেট", capsule: "ক্যাপসুল", suspension: "সাসপেনশন" },
+    { tablet: "ট্যাবলেট", capsule: "ক্যাপসুল", suspension: "সাসপেনশন", "eye drops": "আই ড্রপ" },
     { m: "মিটার", km: "কিমি" },
   ),
   severity: { major: "গুরুতর", moderate: "মাঝারি", minor: "সামান্য" },
@@ -1013,11 +1014,11 @@ const bn: Dict = {
   savings: {
     title: "মাসিক খরচের হিসাব",
     question: (form: string) =>
-      form === "suspension"
+      isPerBottle(form)
         ? "প্রেসক্রিপশন অনুযায়ী মাসে কয় বোতল লাগে?"
         : `প্রেসক্রিপশনে দিনে কয়টি ${form === "capsule" ? "ক্যাপসুল" : "ট্যাবলেট"} লেখা আছে?`,
     unit: (form: string) =>
-      form === "suspension" ? "বোতল, মাসে" : `${form === "capsule" ? "ক্যাপসুল" : "ট্যাবলেট"}, দিনে`,
+      isPerBottle(form) ? "বোতল, মাসে" : `${form === "capsule" ? "ক্যাপসুল" : "ট্যাবলেট"}, দিনে`,
     placeholder: "যেমন ২",
     noDoseNote: "প্রেসক্রিপশনে যা লেখা আছে সেই সংখ্যা দিন। MedWise BD কোনো ডোজ বলে দেয় না।",
     yourMedicine: "আপনার ওষুধ:",

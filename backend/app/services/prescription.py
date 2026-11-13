@@ -97,8 +97,17 @@ def match_medicine(db: Session, medicine: ExtractedMedicine) -> PrescriptionMatc
         elif hit.score >= GENERIC_MIN_SCORE:
             options.extend(_generic_options(db, hit, medicine.strength))
 
-    # Exact strength first, then closest name.
-    options.sort(key=lambda o: (not o.strength_matches, -o.score, o.name.casefold()))
+    # Exact strength first, then closest name; on a tie, the name exactly as written wins
+    # ("Cefixime" is the generic, "Cefixim" a brand of it).
+    written = " ".join(medicine.name.split()).casefold()
+    options.sort(
+        key=lambda o: (
+            not o.strength_matches,
+            -o.score,
+            o.name.casefold() != written,
+            o.name.casefold(),
+        )
+    )
     options = options[:MAX_OPTIONS]
 
     suggested = None

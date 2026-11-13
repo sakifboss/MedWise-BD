@@ -187,3 +187,42 @@ Gluvan,Vildagliptin,50 mg,tablet,Aristopharma Ltd,20,per tablet,https://www.arog
 Vildus,Vildagliptin,50 mg,tablet,Opsonin Pharma Ltd,20.06,per tablet,https://www.arogga.com/product/19970,Arogga API (MRP re-checked 2026-11-13),2026-11-13,
 Aptin,Vildagliptin,50 mg,tablet,ACI Limited,22,per tablet,https://www.arogga.com/product/1397,Arogga API (MRP re-checked 2026-11-13),2026-11-13,
 Galvid,Vildagliptin,50 mg,tablet,Popular Pharmaceuticals PLC,18,per tablet,https://www.arogga.com/product/86965,Arogga API (MRP re-checked 2026-11-13),2026-11-13,
+Sinapol,Paracetamol,500 mg,tablet,The IBN SINA Pharmaceutical Industry PLC,1.2,per tablet,https://www.arogga.com/product/17588,Arogga API (2026-11-13),2026-11-13,
+Sinapol,Paracetamol,120 mg/5 ml,suspension,The IBN SINA Pharmaceutical Industry PLC,35,60 ml bottle,https://www.arogga.com/product/17587,Arogga API (2026-11-13),2026-11-13,
+Prolok,Omeprazole,20 mg,capsule,The IBN SINA Pharmaceutical Industry PLC,5.5,per capsule,https://www.arogga.com/product/15505,Arogga API (2026-11-13),2026-11-13,
+Esolok,Esomeprazole,20 mg,tablet,The IBN SINA Pharmaceutical Industry PLC,6,per tablet,https://www.arogga.com/product/6834,Arogga API (2026-11-13),2026-11-13,
+Esolok,Esomeprazole,40 mg,tablet,The IBN SINA Pharmaceutical Industry PLC,9,per tablet,https://www.arogga.com/product/6836,Arogga API (2026-11-13),2026-11-13,
+Pantolok,Pantoprazole,40 mg,tablet,The IBN SINA Pharmaceutical Industry PLC,7,per tablet,https://www.arogga.com/product/14497,Arogga API (2026-11-13),2026-11-13,
+Sinamox,Amoxicillin,500 mg,capsule,The IBN SINA Pharmaceutical Industry PLC,7.5,per capsule,https://www.arogga.com/product/17584,Arogga API (2026-11-13),2026-11-13,
+Sinamox,Amoxicillin,125 mg/5 ml,suspension,The IBN SINA Pharmaceutical Industry PLC,47.46,100 ml bottle,https://www.arogga.com/product/17585,Arogga API (2026-11-13),2026-11-13,Arogga lists form as 'powder for suspension'
+Romycin,Azithromycin,500 mg,tablet,The IBN SINA Pharmaceutical Industry PLC,40,per tablet,https://www.arogga.com/product/16658,Arogga API (2026-11-13),2026-11-13,
+Cefixim,Cefixime,200 mg,capsule,The IBN SINA Pharmaceutical Industry PLC,35,per capsule,https://www.arogga.com/product/3520,Arogga API (2026-11-13),2026-11-13,
+Bactin,Ciprofloxacin,500 mg,tablet,The IBN SINA Pharmaceutical Industry PLC,16,per tablet,https://www.arogga.com/product/2258,Arogga API (2026-11-13),2026-11-13,
+Metsina,Metronidazole,400 mg,tablet,The IBN SINA Pharmaceutical Industry PLC,1.7,per tablet,https://www.arogga.com/product/26685,Arogga API (2026-11-13),2026-11-13,
+Insimet,Metformin,500 mg,tablet,The IBN SINA Pharmaceutical Industry PLC,4,per tablet,https://www.arogga.com/product/9536,Arogga API (2026-11-13),2026-11-13,
+Insimet,Metformin,850 mg,tablet,The IBN SINA Pharmaceutical Industry PLC,4,per tablet,https://www.arogga.com/product/9537,Arogga API (2026-11-13),2026-11-13,
+Sinazid,Gliclazide,80 mg,tablet,The IBN SINA Pharmaceutical Industry PLC,6.5,per tablet,https://www.arogga.com/product/17551,Arogga API (2026-11-13),2026-11-13,
+Diplor,Amlodipine,5 mg,tablet,The IBN SINA Pharmaceutical Industry PLC,5,per tablet,https://www.arogga.com/product/5706,Arogga API (2026-11-13),2026-11-13,
+Losium,Losartan,50 mg,tablet,The IBN SINA Pharmaceutical Industry PLC,8.5,per tablet,https://www.arogga.com/product/10908,Arogga API (2026-11-13),2026-11-13,
+Colostat,Atorvastatin,10 mg,tablet,The IBN SINA Pharmaceutical Industry PLC,6,per tablet,https://www.arogga.com/product/4521,Arogga API (2026-11-13),2026-11-13,
+Colostat,Atorvastatin,20 mg,tablet,The IBN SINA Pharmaceutical Industry PLC,10,per tablet,https://www.arogga.com/product/4522,Arogga API (2026-11-13),2026-11-13,
+Montex,Montelukast,10 mg,tablet,The IBN SINA Pharmaceutical Industry PLC,16,per tablet,https://www.arogga.com/product/12073,Arogga API (2026-11-13),2026-11-13,
+Nosemin,Cetirizine,10 mg,tablet,The IBN SINA Pharmaceutical Industry PLC,3,per tablet,https://www.arogga.com/product/13229,Arogga API (2026-11-13),2026-11-13,
+Fexomin,Fexofenadine,120 mg,tablet,The IBN SINA Pharmaceutical Industry PLC,8,per tablet,https://www.arogga.com/product/7569,Arogga API (2026-11-13),2026-11-13,
+Silora,Loratadine,10 mg,tablet,The IBN SINA Pharmaceutical Industry PLC,2.5,per tablet,https://www.arogga.com/product/17499,Arogga API (2026-11-13),2026-11-13,
+Dopadon,Domperidone,10 mg,tablet,The IBN SINA Pharmaceutical Industry PLC,3,per tablet,https://www.arogga.com/product/5888,Arogga API (2026-11-13),2026-11-13,
+Famas,Famotidine,20 mg,tablet,The IBN SINA Pharmaceutical Industry PLC,2,per tablet,https://www.arogga.com/product/47066,Arogga API (2026-11-13),2026-11-13,
+Sinacet,Levocetirizine,5 mg,tablet,The IBN SINA Pharmaceutical Industry PLC,4,per tablet,https://www.arogga.com/product/17562,Arogga API (2026-11-13),2026-11-13,
+Restat,Rosuvastatin,10 mg,tablet,The IBN SINA Pharmaceutical Industry PLC,25,per tablet,https://www.arogga.com/product/16330,Arogga API (2026-11-13),2026-11-13,
+Orabis,Bisoprolol,2.5 mg,tablet,The IBN SINA Pharmaceutical Industry PLC,6,per tablet,https://www.arogga.com/product/13896,Arogga API (2026-11-13),2026-11-13,
+Cloram,Chloramphenicol,0.5%,eye drops,The IBN SINA Pharmaceutical Industry PLC,34.38,10 ml bottle,https://www.arogga.com/product/21397,Arogga API (2026-11-13),2026-11-13,Arogga lists form as 'eye/ear drops'
+SQ-Mycetin,Chloramphenicol,0.5%,eye drops,Square Pharmaceuticals PLC,34.5,10 ml bottle,https://www.arogga.com/product/25583,Arogga API (2026-11-13),2026-11-13,Arogga lists form as 'drop'
+A-Phenicol,Chloramphenicol,0.5%,eye drops,The ACME Laboratories Ltd,34.5,10 ml bottle,https://www.arogga.com/product/22744,Arogga API (2026-11-13),2026-11-13,Arogga lists form as 'eye/ear drops'
+Optabac,Chloramphenicol,0.5%,eye drops,Popular Pharmaceuticals PLC,34.37,10 ml bottle,https://www.arogga.com/product/23541,Arogga API (2026-11-13),2026-11-13,Arogga lists form as 'eye/ear drops'
+Conicol,Chloramphenicol,0.5%,eye drops,Opsonin Pharma Ltd,34.4,10 ml bottle,https://www.arogga.com/product/23687,Arogga API (2026-11-13),2026-11-13,Arogga lists form as 'eye/ear drops'
+Chloramex,Chloramphenicol,0.5%,eye drops,Renata PLC,25.28,10 ml bottle,https://www.arogga.com/product/25605,Arogga API (2026-11-13),2026-11-13,Arogga lists form as 'eye/ear drops'
+Eyephen,Chloramphenicol,0.5%,eye drops,Healthcare Pharmaceuticals Ltd,34,10 ml bottle,https://www.arogga.com/product/26141,Arogga API (2026-11-13),2026-11-13,Arogga lists form as 'eye/ear drops'
+Ocutrex,Chloramphenicol,0.5%,eye drops,Beximco Pharmaceuticals Ltd,34.5,10 ml bottle,https://www.arogga.com/product/21810,Arogga API (2026-11-13),2026-11-13,Arogga lists form as 'ophthalmic solution'
+I-Guard,Chloramphenicol,0.5%,eye drops,Incepta Pharmaceuticals Ltd,34.4,10 ml bottle,https://www.arogga.com/product/23567,Arogga API (2026-11-13),2026-11-13,Arogga lists form as 'eye/ear drops'
+Aristophen,Chloramphenicol,0.5%,eye drops,Aristopharma Ltd,34.5,10 ml bottle,https://www.arogga.com/product/23936,Arogga API (2026-11-13),2026-11-13,Arogga lists form as 'eye/ear drops'
+Icol,Chloramphenicol,0.5%,eye drops,ACI Limited,34.4,10 ml bottle,https://www.arogga.com/product/23101,Arogga API (2026-11-13),2026-11-13,Arogga lists form as 'eye/ear drops'
