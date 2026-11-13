@@ -614,6 +614,221 @@ const en = {
     sourceAfterTranslated: ", condensed by MedWise BD.",
     englishOnly: "",
   },
+  doctor: {
+    footerLink: "For doctors",
+    title: "Rx Pad for doctors",
+    metaDescription:
+      "Write and print clear prescriptions with MedWise BD's medicine data beside you. A Sylhet pilot.",
+    pilot: "Sylhet pilot",
+    intro:
+      "Write prescriptions with MedWise BD's data beside you (quality rank, price, regulator approvals, " +
+      "interactions) and print a clear A4 prescription. The prescription pad comes next; you can open your " +
+      "account now.",
+    points: [
+      "You choose every medicine and dose. MedWise BD never suggests a medicine, dose, test or diagnosis.",
+      "Your patients' information is never stored and never sent to MedWise BD.",
+      "MedWise BD checks your BMDC registration before your profile shows the verified badge.",
+    ],
+    privacyNote:
+      "We store your email, profile and chamber details to print your prescriptions. We never store your " +
+      "patients' information.",
+    privacyLink: "Privacy and terms for doctors",
+    tabs: { login: "Log in", signup: "Sign up" },
+    fields: {
+      email: "Email",
+      password: "Password",
+      passwordHint: "At least 10 characters. Avoid common passwords.",
+      newPassword: "New password",
+      currentPassword: "Current password",
+      confirmPassword: "New password again",
+      name: "Name as on your BMDC registration",
+      nameHint: "For example: Dr. Rahima Khatun",
+      nameBn: "Name in Bangla (optional)",
+      degrees: "Degrees",
+      degreesHint: "For example: MBBS, FCPS (Medicine)",
+      specialty: "Specialty",
+      bmdc: "BMDC registration number",
+      bmdcHint: "For example: A-12345",
+      phone: "Phone to print on prescriptions (optional)",
+    },
+    agree: "I have read the privacy and terms for doctors, and I am responsible for every prescription I write.",
+    signupButton: "Create account",
+    loginButton: "Log in",
+    working: "Please wait…",
+    forgot: "Forgot your password? Contact MedWise BD; after checking who you are, we send you a one-time link.",
+    loggedInAs: (name: string) => `Logged in as ${name}`,
+    profileLink: "Profile and chambers",
+    accountLink: "Password and account",
+    logout: "Log out",
+    loggedOut: "You are logged out.",
+    status: {
+      pending: "Waiting for verification",
+      pendingText:
+        "MedWise BD will check your BMDC registration and confirm who you are by phone or in person. Until " +
+        "then your prescriptions will say “Doctor not yet verified by MedWise BD”.",
+      verified: "BMDC verified by MedWise BD",
+      verifiedText: (date: string) => `Checked on ${date}.`,
+      rejected: "Not verified",
+      rejectedText: (reason: string) => `Reason: ${reason}`,
+      demo: "Demo account",
+      demoText: "For trying the Rx Pad. Everything it prints says “DEMO — not a real prescription”.",
+    },
+    profileTitle: "Profile",
+    profileSave: "Save profile",
+    profileSaved: "Profile saved.",
+    recheckNote: "Changing your name or BMDC number sends your account back for checking.",
+    chambersTitle: "Chambers (up to 3)",
+    chamber: (n: string) => `Chamber ${n}`,
+    chamberName: "Chamber or hospital name",
+    chamberAddress: "Address",
+    chamberHours: "Days and hours",
+    chamberHoursHint: "For example: Sat–Thu, 5–9 pm",
+    chamberPhone: "Phone (optional)",
+    addChamber: "Add a chamber",
+    removeChamber: "Remove",
+    chambersSave: "Save chambers",
+    chambersSaved: "Chambers saved.",
+    noChambers: "No chambers yet.",
+    accountTitle: "Password and account",
+    passwordTitle: "Change password",
+    passwordSave: "Change password",
+    passwordSaved: "Password changed. Your other devices were logged out.",
+    mismatch: "The two new passwords are not the same.",
+    logoutAll: "Log out everywhere",
+    logoutAllText: "Ends your login on every device, including this one.",
+    dataTitle: "Your data",
+    dataText: "Everything MedWise BD stores about you, in one file.",
+    download: "Download my data (JSON)",
+    deleteTitle: "Delete account",
+    deleteText: "Deletes your profile, chambers and logins. This cannot be undone.",
+    deleteButton: "Delete my account",
+    deleteConfirm: "Type your password and press again to delete your account for good.",
+    deleted: "Your account was deleted.",
+    resetTitle: "Set a new password",
+    resetText: "This link works once, for 60 minutes.",
+    resetMissing: "This link is not complete. Ask MedWise BD for a new one.",
+    resetButton: "Save new password",
+    resetDone: "Your password was changed. Log in with the new one.",
+    needLogin: "Please log in first.",
+    errors: {
+      login_failed: "The email or password is not right.",
+      login_locked: "Too many failed logins. Wait 15 minutes and try again.",
+      email_taken: "An account with this email already exists. Log in instead.",
+      password_too_short: "Use at least 10 characters.",
+      password_too_long: "Use at most 128 characters.",
+      password_common: "This password is too common. Choose another one.",
+      password_personal: "Do not use your email or name as the password.",
+      wrong_password: "The password is not right.",
+      reset_invalid: "This link has expired or was already used. Ask MedWise BD for a new one.",
+      validation_error: "Please check what you typed (email, BMDC number, phone).",
+      rate_limited: "Too many tries in a short time. Please wait and try again.",
+      forbidden: "Please use the MedWise BD website.",
+      network_error: "Could not reach MedWise BD. Check your internet and try again.",
+      generic: "Something went wrong. Please try again.",
+    },
+    restoreWindow: (hours: number | null) =>
+      hours === null
+        ? "a short time (to be confirmed)"
+        : hours % 24 === 0
+          ? `${hours / 24} ${hours === 24 ? "day" : "days"}`
+          : `${hours} ${hours === 1 ? "hour" : "hours"}`,
+    privacy: {
+      title: "Privacy and terms for doctors",
+      updated: "Last updated 13 November 2026.",
+      intro:
+        "This page is for doctors who use the MedWise BD Rx Pad. It says what we store about you, why, where, " +
+        "for how long, and how to download or delete it.",
+      sections: (region: string, restore: string, email: string) => [
+        {
+          title: "What we store about you",
+          items: [
+            "Your email, and your password in scrambled form (a scrypt hash): nobody can read your password from it.",
+            "Your profile: name (in English, and in Bangla if you add it), degrees, specialty, BMDC registration " +
+              "number, and a phone number to print if you add one.",
+            "Up to 3 chambers: name, address, days and hours, and a phone number if you add one.",
+            "Your verification status, the day we checked, the initials of the team member who checked, and how " +
+              "(for example, “called the chamber”).",
+            "Your logins: a scrambled form of a random login code, when it was made and last used. Of your last " +
+              "login we keep only the day.",
+            "Password reset links we make for you, in scrambled form: each works once, for 60 minutes.",
+          ],
+        },
+        {
+          title: "What we never store",
+          items: [
+            "Anything about your patients: names, ages, complaints, findings, diagnoses, allergies, tests, advice " +
+              "or the medicines you prescribe. They stay in your open browser tab and on the paper or PDF you " +
+              "print, and are never sent to MedWise BD.",
+            "ID documents or photos. We do not ask for them.",
+            "Your IP address or device details.",
+          ],
+        },
+        {
+          title: "Why",
+          items: [
+            "To print your name, degrees, BMDC number and chamber on your prescriptions.",
+            "To show patients and pharmacists that MedWise BD checked your BMDC registration.",
+            "To keep your account safe.",
+          ],
+        },
+        {
+          title: "Where",
+          items: [
+            `In a Neon PostgreSQL database in ${region}.`,
+            "The website (Vercel) and our server (Render) pass your data on but do not keep it.",
+          ],
+        },
+        {
+          title: "How long",
+          items: [
+            "Your account stays until you delete it.",
+            "A login ends after 12 hours without use, or 7 days after you log in, whichever comes first.",
+            "Reset links stop working after 60 minutes.",
+            `After you delete your account, copies may remain in the database's restore history for up to ` +
+              `${restore}; then they are gone.`,
+          ],
+        },
+        {
+          title: "Your choices",
+          items: [
+            "On the “Password and account” page you can download everything we store about you, and delete your " +
+              "account.",
+            `Questions, or help with deleting your account: ${email}.`,
+          ],
+        },
+        {
+          title: "How we verify doctors",
+          items: [
+            "We check your name and registration number on the official BMDC register (bmdc.org.bd).",
+            "We confirm who you are in person, or by calling a chamber or hospital number we find ourselves (not " +
+              "the number you typed).",
+            "If you change your name or BMDC number, we check again.",
+          ],
+        },
+        {
+          title: "Terms of use",
+          items: [
+            "You are responsible for every prescription you write and sign. MedWise BD does not choose medicines " +
+              "or doses, and never suggests a medicine, dose, test or diagnosis.",
+            "Medicine facts come from MedWise BD's database and its cited sources (prices are Arogga MRPs; " +
+              "interactions are from DDInter). They can be incomplete or out of date; use your own judgement.",
+            "The paper prescription, signed by hand, is the prescription. The QR code (coming later) helps " +
+              "patients find their medicines; it shows who issued it, not that the medicines or doses are right.",
+            "Demo accounts are for trying the pad: everything they print says it is not a real prescription.",
+            "Keep your password to yourself. Tell us if someone else may have used your account.",
+            "The Rx Pad is free. DDInter's interaction data may be used only for non-commercial purposes.",
+          ],
+        },
+        {
+          title: "Cookies",
+          items: [
+            "mw_doc keeps you logged in (12 hours without use, 7 days at most). The page's scripts cannot read it.",
+            "lang, theme and text remember your language and display choices.",
+          ],
+        },
+      ],
+    },
+  },
 };
 
 export type Dict = typeof en;
@@ -1175,6 +1390,222 @@ const bn: Dict = {
     sourceAfter: " (MedWise BD সংক্ষেপ করেছে)।",
     sourceAfterTranslated: " (MedWise BD সংক্ষেপ করেছে; বাংলা অনুবাদ টিম পর্যালোচনা করেছে)।",
     englishOnly: "কিছু অংশের বাংলা অনুবাদ এখনো পর্যালোচনাধীন, তাই সেগুলো ইংরেজিতে দেখানো হচ্ছে।",
+  },
+  doctor: {
+    footerLink: "ডাক্তারদের জন্য",
+    title: "ডাক্তারদের জন্য Rx Pad",
+    metaDescription:
+      "পাশে MedWise BD-র ওষুধের তথ্য রেখে পরিষ্কার প্রেসক্রিপশন লিখুন ও প্রিন্ট করুন। সিলেটে পাইলট।",
+    pilot: "সিলেট পাইলট",
+    intro:
+      "পাশে MedWise BD-র তথ্য (মানের র‍্যাংক, দাম, নিয়ন্ত্রক সংস্থার অনুমোদন, ইন্টারঅ্যাকশন) রেখে প্রেসক্রিপশন " +
+      "লিখুন এবং A4 কাগজে পরিষ্কার প্রেসক্রিপশন প্রিন্ট করুন। প্রেসক্রিপশন প্যাড আসছে পরের ধাপে; অ্যাকাউন্ট এখনই " +
+      "খুলতে পারেন।",
+    points: [
+      "প্রতিটি ওষুধ ও ডোজ আপনি বেছে নেন। MedWise BD কখনো কোনো ওষুধ, ডোজ, পরীক্ষা বা রোগ নির্ণয়ের পরামর্শ দেয় না।",
+      "আপনার রোগীদের কোনো তথ্য কখনো সংরক্ষণ করা হয় না, MedWise BD-তে পাঠানোও হয় না।",
+      "আপনার প্রোফাইলে যাচাইকৃত ব্যাজ দেখানোর আগে MedWise BD আপনার BMDC নিবন্ধন যাচাই করে।",
+    ],
+    privacyNote:
+      "প্রেসক্রিপশন ছাপাতে আমরা আপনার ইমেইল, প্রোফাইল ও চেম্বারের তথ্য রাখি। আপনার রোগীদের কোনো তথ্য আমরা কখনো " +
+      "রাখি না।",
+    privacyLink: "ডাক্তারদের জন্য গোপনীয়তা ও শর্তাবলি",
+    tabs: { login: "লগ ইন", signup: "অ্যাকাউন্ট খুলুন" },
+    fields: {
+      email: "ইমেইল",
+      password: "পাসওয়ার্ড",
+      passwordHint: "অন্তত ১০ অক্ষর। খুব প্রচলিত পাসওয়ার্ড দেবেন না।",
+      newPassword: "নতুন পাসওয়ার্ড",
+      currentPassword: "বর্তমান পাসওয়ার্ড",
+      confirmPassword: "নতুন পাসওয়ার্ড আবার",
+      name: "BMDC নিবন্ধনে যেভাবে আছে সেই নাম",
+      nameHint: "যেমন: Dr. Rahima Khatun",
+      nameBn: "বাংলায় নাম (ঐচ্ছিক)",
+      degrees: "ডিগ্রি",
+      degreesHint: "যেমন: MBBS, FCPS (Medicine)",
+      specialty: "বিশেষজ্ঞতা",
+      bmdc: "BMDC নিবন্ধন নম্বর",
+      bmdcHint: "যেমন: A-12345",
+      phone: "প্রেসক্রিপশনে ছাপানোর ফোন নম্বর (ঐচ্ছিক)",
+    },
+    agree: "আমি ডাক্তারদের জন্য গোপনীয়তা ও শর্তাবলি পড়েছি, এবং আমার লেখা প্রতিটি প্রেসক্রিপশনের দায়িত্ব আমার।",
+    signupButton: "অ্যাকাউন্ট খুলুন",
+    loginButton: "লগ ইন",
+    working: "অপেক্ষা করুন…",
+    forgot:
+      "পাসওয়ার্ড ভুলে গেছেন? MedWise BD-র সাথে যোগাযোগ করুন; আপনার পরিচয় যাচাইয়ের পর আমরা একবার ব্যবহারযোগ্য " +
+      "একটি লিংক পাঠাব।",
+    loggedInAs: (name: string) => `${name} হিসেবে লগ ইন করা আছে`,
+    profileLink: "প্রোফাইল ও চেম্বার",
+    accountLink: "পাসওয়ার্ড ও অ্যাকাউন্ট",
+    logout: "লগ আউট",
+    loggedOut: "আপনি লগ আউট করেছেন।",
+    status: {
+      pending: "যাচাইয়ের অপেক্ষায়",
+      pendingText:
+        "MedWise BD আপনার BMDC নিবন্ধন যাচাই করবে এবং ফোনে বা সরাসরি আপনার পরিচয় নিশ্চিত করবে। ততদিন আপনার " +
+        "প্রেসক্রিপশনে লেখা থাকবে “ডাক্তার এখনো MedWise BD দ্বারা যাচাই হননি”।",
+      verified: "MedWise BD দ্বারা BMDC যাচাইকৃত",
+      verifiedText: (date: string) => `যাচাইয়ের তারিখ: ${date}।`,
+      rejected: "যাচাই হয়নি",
+      rejectedText: (reason: string) => `কারণ: ${reason}`,
+      demo: "ডেমো অ্যাকাউন্ট",
+      demoText: "Rx Pad চালিয়ে দেখার জন্য। এর সব প্রিন্টে লেখা থাকে “ডেমো — আসল প্রেসক্রিপশন নয়”।",
+    },
+    profileTitle: "প্রোফাইল",
+    profileSave: "প্রোফাইল সংরক্ষণ করুন",
+    profileSaved: "প্রোফাইল সংরক্ষিত হয়েছে।",
+    recheckNote: "নাম বা BMDC নম্বর বদলালে আপনার অ্যাকাউন্ট আবার যাচাইয়ের জন্য যাবে।",
+    chambersTitle: "চেম্বার (সর্বোচ্চ ৩টি)",
+    chamber: (n: string) => `চেম্বার ${n}`,
+    chamberName: "চেম্বার বা হাসপাতালের নাম",
+    chamberAddress: "ঠিকানা",
+    chamberHours: "দিন ও সময়",
+    chamberHoursHint: "যেমন: শনি–বৃহস্পতি, বিকেল ৫টা–রাত ৯টা",
+    chamberPhone: "ফোন (ঐচ্ছিক)",
+    addChamber: "চেম্বার যোগ করুন",
+    removeChamber: "সরান",
+    chambersSave: "চেম্বার সংরক্ষণ করুন",
+    chambersSaved: "চেম্বার সংরক্ষিত হয়েছে।",
+    noChambers: "এখনো কোনো চেম্বার নেই।",
+    accountTitle: "পাসওয়ার্ড ও অ্যাকাউন্ট",
+    passwordTitle: "পাসওয়ার্ড বদলান",
+    passwordSave: "পাসওয়ার্ড বদলান",
+    passwordSaved: "পাসওয়ার্ড বদলানো হয়েছে। আপনার অন্য ডিভাইসগুলো থেকে লগ আউট করা হয়েছে।",
+    mismatch: "দুটি নতুন পাসওয়ার্ড এক নয়।",
+    logoutAll: "সব ডিভাইস থেকে লগ আউট",
+    logoutAllText: "এই ডিভাইসসহ সব ডিভাইসে আপনার লগ ইন শেষ হবে।",
+    dataTitle: "আপনার তথ্য",
+    dataText: "MedWise BD আপনার সম্পর্কে যা রাখে, সব একটি ফাইলে।",
+    download: "আমার তথ্য ডাউনলোড করুন (JSON)",
+    deleteTitle: "অ্যাকাউন্ট মুছুন",
+    deleteText: "আপনার প্রোফাইল, চেম্বার ও লগ ইন মুছে যাবে। এটি আর ফেরানো যাবে না।",
+    deleteButton: "আমার অ্যাকাউন্ট মুছুন",
+    deleteConfirm: "চিরতরে অ্যাকাউন্ট মুছতে পাসওয়ার্ড লিখে আবার চাপুন।",
+    deleted: "আপনার অ্যাকাউন্ট মুছে ফেলা হয়েছে।",
+    resetTitle: "নতুন পাসওয়ার্ড দিন",
+    resetText: "এই লিংক একবারই কাজ করে, ৬০ মিনিটের জন্য।",
+    resetMissing: "লিংকটি সম্পূর্ণ নয়। MedWise BD-র কাছে নতুন লিংক চান।",
+    resetButton: "নতুন পাসওয়ার্ড সংরক্ষণ করুন",
+    resetDone: "আপনার পাসওয়ার্ড বদলানো হয়েছে। নতুন পাসওয়ার্ড দিয়ে লগ ইন করুন।",
+    needLogin: "আগে লগ ইন করুন।",
+    errors: {
+      login_failed: "ইমেইল বা পাসওয়ার্ড ঠিক নয়।",
+      login_locked: "অনেকবার ভুল লগ ইন হয়েছে। ১৫ মিনিট পর আবার চেষ্টা করুন।",
+      email_taken: "এই ইমেইলে আগেই একটি অ্যাকাউন্ট আছে। লগ ইন করুন।",
+      password_too_short: "অন্তত ১০ অক্ষর দিন।",
+      password_too_long: "সর্বোচ্চ ১২৮ অক্ষর দিন।",
+      password_common: "এই পাসওয়ার্ড খুব প্রচলিত। অন্য একটি বেছে নিন।",
+      password_personal: "ইমেইল বা নাম পাসওয়ার্ড হিসেবে দেবেন না।",
+      wrong_password: "পাসওয়ার্ড ঠিক নয়।",
+      reset_invalid: "লিংকটির মেয়াদ শেষ বা আগেই ব্যবহার হয়েছে। MedWise BD-র কাছে নতুন লিংক চান।",
+      validation_error: "যা লিখেছেন তা দেখে নিন (ইমেইল, BMDC নম্বর, ফোন)।",
+      rate_limited: "অল্প সময়ে অনেকবার চেষ্টা হয়েছে। একটু পরে আবার চেষ্টা করুন।",
+      forbidden: "MedWise BD ওয়েবসাইট ব্যবহার করুন।",
+      network_error: "MedWise BD-তে পৌঁছানো যায়নি। ইন্টারনেট দেখে আবার চেষ্টা করুন।",
+      generic: "কিছু একটা সমস্যা হয়েছে। আবার চেষ্টা করুন।",
+    },
+    restoreWindow: (hours: number | null) =>
+      hours === null
+        ? "অল্প সময় (নিশ্চিত করা হবে)"
+        : hours % 24 === 0
+          ? `${(hours / 24).toLocaleString("bn-BD")} দিন`
+          : `${hours.toLocaleString("bn-BD")} ঘণ্টা`,
+    privacy: {
+      title: "ডাক্তারদের জন্য গোপনীয়তা ও শর্তাবলি",
+      updated: "সর্বশেষ হালনাগাদ: ১৩ নভেম্বর ২০২৬।",
+      intro:
+        "এই পাতা MedWise BD Rx Pad ব্যবহারকারী ডাক্তারদের জন্য। আমরা আপনার সম্পর্কে কী রাখি, কেন, কোথায়, কতদিন, " +
+        "এবং কীভাবে তা ডাউনলোড বা মুছে ফেলবেন, এখানে লেখা আছে।",
+      sections: (region: string, restore: string, email: string) => [
+        {
+          title: "আপনার সম্পর্কে আমরা যা রাখি",
+          items: [
+            "আপনার ইমেইল, এবং দুর্বোধ্য রূপে আপনার পাসওয়ার্ড (scrypt হ্যাশ): এ থেকে কেউ আপনার পাসওয়ার্ড পড়তে পারে না।",
+            "আপনার প্রোফাইল: নাম (ইংরেজিতে, আর যোগ করলে বাংলায়), ডিগ্রি, বিশেষজ্ঞতা, BMDC নিবন্ধন নম্বর, এবং যোগ " +
+              "করলে প্রিন্টের জন্য একটি ফোন নম্বর।",
+            "সর্বোচ্চ ৩টি চেম্বার: নাম, ঠিকানা, দিন ও সময়, এবং যোগ করলে একটি ফোন নম্বর।",
+            "আপনার যাচাইয়ের অবস্থা, যাচাইয়ের তারিখ, যিনি যাচাই করেছেন তাঁর নামের আদ্যক্ষর, এবং কীভাবে যাচাই হয়েছে " +
+              "(যেমন, “চেম্বারে ফোন করা হয়েছে”)।",
+            "আপনার লগ ইন: একটি এলোমেলো লগ ইন কোডের দুর্বোধ্য রূপ, কখন তৈরি ও শেষ কখন ব্যবহার হয়েছে। শেষ লগ ইনের " +
+              "শুধু তারিখটি রাখা হয়।",
+            "আপনার জন্য তৈরি পাসওয়ার্ড রিসেট লিংক, দুর্বোধ্য রূপে: প্রতিটি একবারই কাজ করে, ৬০ মিনিটের জন্য।",
+          ],
+        },
+        {
+          title: "যা আমরা কখনো রাখি না",
+          items: [
+            "আপনার রোগীদের কোনো তথ্য: নাম, বয়স, সমস্যা, পরীক্ষার ফলাফল, রোগ নির্ণয়, অ্যালার্জি, টেস্ট, পরামর্শ বা আপনার " +
+              "লেখা ওষুধ। এগুলো থাকে শুধু আপনার খোলা ব্রাউজার ট্যাবে এবং প্রিন্ট করা কাগজ বা PDF-এ; MedWise BD-তে " +
+              "কখনো পাঠানো হয় না।",
+            "পরিচয়পত্র বা ছবি। আমরা এগুলো চাই না।",
+            "আপনার IP ঠিকানা বা ডিভাইসের তথ্য।",
+          ],
+        },
+        {
+          title: "কেন রাখি",
+          items: [
+            "আপনার প্রেসক্রিপশনে আপনার নাম, ডিগ্রি, BMDC নম্বর ও চেম্বার ছাপাতে।",
+            "রোগী ও ফার্মাসিস্টকে দেখাতে যে MedWise BD আপনার BMDC নিবন্ধন যাচাই করেছে।",
+            "আপনার অ্যাকাউন্ট সুরক্ষিত রাখতে।",
+          ],
+        },
+        {
+          title: "কোথায় রাখি",
+          items: [
+            `${region}-এ একটি Neon PostgreSQL ডেটাবেসে।`,
+            "ওয়েবসাইট (Vercel) ও আমাদের সার্ভার (Render) আপনার তথ্য পৌঁছে দেয়, কিন্তু রাখে না।",
+          ],
+        },
+        {
+          title: "কতদিন রাখি",
+          items: [
+            "আপনি না মোছা পর্যন্ত আপনার অ্যাকাউন্ট থাকে।",
+            "একটি লগ ইন ১২ ঘণ্টা ব্যবহার না হলে, অথবা লগ ইনের ৭ দিন পর, যেটি আগে হয়, শেষ হয়ে যায়।",
+            "রিসেট লিংক ৬০ মিনিট পর আর কাজ করে না।",
+            `অ্যাকাউন্ট মোছার পর ডেটাবেসের রিস্টোর হিস্ট্রিতে সর্বোচ্চ ${restore} পর্যন্ত কপি থেকে যেতে পারে; তারপর ` +
+              "সেগুলোও মুছে যায়।",
+          ],
+        },
+        {
+          title: "আপনি যা করতে পারেন",
+          items: [
+            "“পাসওয়ার্ড ও অ্যাকাউন্ট” পাতায় আমরা আপনার সম্পর্কে যা রাখি সব ডাউনলোড করতে, এবং অ্যাকাউন্ট মুছতে পারেন।",
+            `প্রশ্ন থাকলে, বা অ্যাকাউন্ট মুছতে সাহায্য লাগলে: ${email}।`,
+          ],
+        },
+        {
+          title: "আমরা কীভাবে ডাক্তার যাচাই করি",
+          items: [
+            "সরকারি BMDC রেজিস্টারে (bmdc.org.bd) আপনার নাম ও নিবন্ধন নম্বর মিলিয়ে দেখি।",
+            "সরাসরি দেখা করে, অথবা আমরা নিজেরা খুঁজে পাওয়া কোনো চেম্বার বা হাসপাতালের নম্বরে ফোন করে (আপনার দেওয়া নম্বরে " +
+              "নয়) আপনার পরিচয় নিশ্চিত করি।",
+            "নাম বা BMDC নম্বর বদলালে আমরা আবার যাচাই করি।",
+          ],
+        },
+        {
+          title: "ব্যবহারের শর্তাবলি",
+          items: [
+            "আপনার লেখা ও স্বাক্ষর করা প্রতিটি প্রেসক্রিপশনের দায়িত্ব আপনার। MedWise BD ওষুধ বা ডোজ বেছে দেয় না, এবং " +
+              "কখনো কোনো ওষুধ, ডোজ, পরীক্ষা বা রোগ নির্ণয়ের পরামর্শ দেয় না।",
+            "ওষুধের তথ্য আসে MedWise BD-র ডেটাবেস ও উল্লেখিত উৎস থেকে (দাম Arogga-র MRP; ইন্টারঅ্যাকশন DDInter থেকে)। " +
+              "এগুলো অসম্পূর্ণ বা পুরনো হতে পারে; নিজের বিবেচনা ব্যবহার করুন।",
+            "হাতে স্বাক্ষর করা কাগজের প্রেসক্রিপশনটিই আসল প্রেসক্রিপশন। QR কোড (পরে আসছে) রোগীকে ওষুধ খুঁজে পেতে সাহায্য " +
+              "করে; এটি দেখায় কে প্রেসক্রিপশন দিয়েছেন, ওষুধ বা ডোজ ঠিক কি না তা নয়।",
+            "ডেমো অ্যাকাউন্ট প্যাড চালিয়ে দেখার জন্য: এর সব প্রিন্টে লেখা থাকে যে এটি আসল প্রেসক্রিপশন নয়।",
+            "পাসওয়ার্ড কাউকে জানাবেন না। অন্য কেউ আপনার অ্যাকাউন্ট ব্যবহার করে থাকতে পারে মনে হলে আমাদের জানান।",
+            "Rx Pad বিনামূল্যে। DDInter-এর ইন্টারঅ্যাকশন ডেটা শুধু অবাণিজ্যিক কাজে ব্যবহার করা যায়।",
+          ],
+        },
+        {
+          title: "কুকি",
+          items: [
+            "mw_doc আপনাকে লগ ইন রাখে (ব্যবহার না হলে ১২ ঘণ্টা, সর্বোচ্চ ৭ দিন)। পাতার স্ক্রিপ্ট এটি পড়তে পারে না।",
+            "lang, theme ও text আপনার ভাষা ও প্রদর্শনের পছন্দ মনে রাখে।",
+          ],
+        },
+      ],
+    },
   },
 };
 

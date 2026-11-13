@@ -7,6 +7,8 @@
 //   the app icons and manifest.
 // - Never saved: POST and other non-GET requests, search, health, prescription reading, the
 //   medicine request log, Next.js client navigation data (?_rsc), other sites and non-200 answers.
+// - Never touched at all: doctor pages (/doctor/*) and doctor data (/api/doctor/*); they go straight
+//   to the network and are never cached (the server also sends Cache-Control: no-store).
 // - A saved page keeps the response headers it came with, including its Content-Security-Policy,
 //   so the nonce in the header still matches the nonce on the page's own scripts.
 // - Caps: 100 saved pages/data, 300 static files; the oldest saved goes first.
@@ -22,6 +24,7 @@ const MAX_PAGES = 100;
 const MAX_ASSETS = 300;
 const SAVED_AT = "x-medwise-saved-at";
 const NEVER_SAVE = /^\/api\/(search|health|prescription|requests)(\/|$)/;
+const DOCTOR = /^\/(api\/)?doctor(\/|$)/;
 // App icons and the manifest change only with a new deploy (the icon URL carries a hash).
 const APP_FILES = /^\/(icon\.svg|apple-icon\.png|manifest\.webmanifest|icons\/)/;
 
@@ -46,7 +49,7 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
   if (url.searchParams.has("_rsc") || request.headers.get("RSC")) return; // let Next.js fall back
-  if (NEVER_SAVE.test(url.pathname)) return;
+  if (NEVER_SAVE.test(url.pathname) || DOCTOR.test(url.pathname)) return;
 
   if (url.pathname.startsWith("/_next/static/") || APP_FILES.test(url.pathname)) {
     event.respondWith(cacheFirst(request));

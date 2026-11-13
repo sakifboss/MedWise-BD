@@ -29,6 +29,11 @@ export type GenericListItem = Schemas["GenericListItem"];
 export type RequestSource = Schemas["MedicineRequestIn"]["source"];
 export type BrandIndex = Schemas["BrandIndex"];
 export type ReportReason = Schemas["DataReportIn"]["reason"];
+export type DoctorProfile = Schemas["DoctorOut"];
+export type DoctorExport = Schemas["DoctorExport"];
+export type DoctorSignup = Schemas["SignupIn"];
+export type DoctorProfileIn = Schemas["ProfileIn"];
+export type DoctorChamberIn = Schemas["ChamberIn"];
 
 type Envelope<T> = {
   data?: T | null;
@@ -94,6 +99,34 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   }
   return body.data;
 }
+
+function post<T>(path: string, body: unknown): Promise<T> {
+  return request<T>(path, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+}
+
+/**
+ * Doctor accounts (Rx Pad). Browser only: the login lives in an HttpOnly cookie that the page's
+ * scripts cannot read, sent with these same-site calls. Never used for anything about patients.
+ */
+export const doctorApi = {
+  me: () => request<DoctorProfile>("/api/doctor/me", { cache: "no-store" }),
+  signup: (body: DoctorSignup) => post<DoctorProfile>("/api/doctor/signup", body),
+  login: (email: string, password: string) => post<DoctorProfile>("/api/doctor/login", { email, password }),
+  logout: () => post<{ ok: boolean }>("/api/doctor/logout", {}),
+  logoutEverywhere: () => post<{ ok: boolean }>("/api/doctor/logout-all", {}),
+  saveProfile: (body: DoctorProfileIn) => post<DoctorProfile>("/api/doctor/profile", body),
+  saveChambers: (chambers: DoctorChamberIn[]) => post<DoctorProfile>("/api/doctor/chambers", { chambers }),
+  changePassword: (currentPassword: string, newPassword: string) =>
+    post<{ ok: boolean }>("/api/doctor/password", { current_password: currentPassword, new_password: newPassword }),
+  resetPassword: (token: string, newPassword: string) =>
+    post<{ ok: boolean }>("/api/doctor/reset", { token, new_password: newPassword }),
+  exportData: () => request<DoctorExport>("/api/doctor/export", { cache: "no-store" }),
+  deleteAccount: (password: string) => post<{ ok: boolean }>("/api/doctor/delete", { password }),
+};
 
 export const api = {
   search(q: string, options: { limit?: number; signal?: AbortSignal } = {}) {
