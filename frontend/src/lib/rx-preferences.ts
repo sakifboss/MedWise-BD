@@ -7,10 +7,10 @@
 export const RX_PREFS_KEY = "medwise.rxPrefs";
 const VERSION = 1;
 
-export const PRINT_LANGUAGES = ["bn", "both", "en"] as const;
+export const PRINT_LANGUAGES = ["both", "bn", "en"] as const;
 export type PrintLanguage = (typeof PRINT_LANGUAGES)[number];
-/** For a device that has no saved choice yet. */
-export const DEFAULT_PRINT_LANGUAGE: PrintLanguage = "bn";
+/** For a device that has no saved choice yet: both languages; the doctor can pick one. */
+export const DEFAULT_PRINT_LANGUAGE: PrintLanguage = "both";
 
 export function parsePrintLanguage(raw: string | null): PrintLanguage {
   try {

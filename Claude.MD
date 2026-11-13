@@ -796,7 +796,8 @@ Rules for every R step:
   in en and bn on A4.
   Done 2026-11-13 (PR): owner's choices: the print language of the patient instructions is the
   doctor's last choice on this device (localStorage medwise.rxPrefs, format version 1, the doctor's
-  preference only, never patient data), Bangla on a new device; approx. cost on screen only; the
+  preference only, never patient data), both languages on a new device (owner, 2026-11-14); approx.
+  cost on screen only; the
   existing server search. Bangla approved by the owner with three changes. Search requests
   carry only the typed text: the session cookie moved to Path=/api/doctor (R2's Path=/ cookie is
   cleared at login and logout); the pad waits 250 ms after typing, needs 2 characters, caches
