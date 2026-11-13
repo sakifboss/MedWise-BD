@@ -502,6 +502,43 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/doctor/rx/sign": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Sign Rx
+         * @description Sign the hash of a prescription's QR payload. Only the hash reaches us; nothing is stored.
+         */
+        post: operations["sign_rx_api_doctor_rx_sign_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/rx/verify": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Verify Rx */
+        post: operations["verify_rx_api_rx_verify_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/health": {
         parameters: {
             query?: never;
@@ -810,6 +847,16 @@ export interface components {
         /** Envelope[PrescriptionResponse] */
         Envelope_PrescriptionResponse_: {
             data?: components["schemas"]["PrescriptionResponse"] | null;
+            error?: components["schemas"]["ErrorBody"] | null;
+        };
+        /** Envelope[RxSignOut] */
+        Envelope_RxSignOut_: {
+            data?: components["schemas"]["RxSignOut"] | null;
+            error?: components["schemas"]["ErrorBody"] | null;
+        };
+        /** Envelope[RxVerifyOut] */
+        Envelope_RxVerifyOut_: {
+            data?: components["schemas"]["RxVerifyOut"] | null;
             error?: components["schemas"]["ErrorBody"] | null;
         };
         /** Envelope[SearchResponse] */
@@ -1333,6 +1380,60 @@ export interface components {
             text: string;
             /** Source Url */
             source_url: string;
+        };
+        /**
+         * RxDoctorPublic
+         * @description What a valid QR shows about who issued it (the same as the printed letterhead).
+         */
+        RxDoctorPublic: {
+            /** Display Name */
+            display_name: string;
+            /** Display Name Bn */
+            display_name_bn: string | null;
+            /** Degrees */
+            degrees: string;
+            /** Specialty */
+            specialty: string;
+            /** Bmdc Number */
+            bmdc_number: string;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "pending" | "verified" | "rejected";
+            /** Is Demo */
+            is_demo: boolean;
+        };
+        /** RxSignIn */
+        RxSignIn: {
+            /** Hash */
+            hash: string;
+        };
+        /** RxSignOut */
+        RxSignOut: {
+            /** Doctor Id */
+            doctor_id: number;
+            /** Issued At */
+            issued_at: number;
+            /** Sig */
+            sig: string;
+        };
+        /** RxVerifyIn */
+        RxVerifyIn: {
+            /** Doctor Id */
+            doctor_id: number;
+            /** Issued At */
+            issued_at: number;
+            /** Hash */
+            hash: string;
+            /** Sig */
+            sig: string;
+        };
+        /** RxVerifyOut */
+        RxVerifyOut: {
+            /** Valid */
+            valid: boolean;
+            doctor?: components["schemas"]["RxDoctorPublic"] | null;
         };
         /** SearchResponse */
         SearchResponse: {
@@ -2304,6 +2405,74 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Envelope_Done_"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    sign_rx_api_doctor_rx_sign_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: {
+                mw_doc?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RxSignIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Envelope_RxSignOut_"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    verify_rx_api_rx_verify_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RxVerifyIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Envelope_RxVerifyOut_"];
                 };
             };
             /** @description Validation Error */

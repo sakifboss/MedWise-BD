@@ -6,6 +6,7 @@ logged (no request bodies, emails, passwords or tokens). Every response is Cache
 scripts/doctors.py; there are no admin web pages.
 """
 
+import time
 from datetime import date
 from typing import Annotated
 
@@ -33,6 +34,8 @@ from app.schemas.doctor import (
     ProfileIn,
     SignupIn,
 )
+from app.schemas.rx import RxSignIn, RxSignOut
+from app.services import rx_signing
 from app.services.doctor_auth import (
     clear_session_cookie,
     client_guard,
@@ -57,6 +60,7 @@ from app.services.passwords import (
 router = APIRouter(prefix="/doctor", tags=["doctor"], dependencies=[Depends(require_frontend)])
 
 signup_limiter = RateLimiter(get_settings().doctor_signup_limit_per_hour, 3600)
+rx_sign_limiter = RateLimiter(get_settings().rx_sign_limit_per_day, 86400)
 CurrentDoctor = Annotated[Doctor, Depends(current_doctor)]
 Db = Annotated[Session, Depends(get_db)]
 SAME_SITE = [Depends(require_same_site)]
@@ -292,6 +296,24 @@ def delete_account(
     db.commit()
     clear_session_cookie(response, request)
     return Envelope(data=Done())
+
+
+# ---------------------------------------------------------------- Rx Pad QR (R4)
+
+
+@router.post("/rx/sign", response_model=Envelope[RxSignOut], dependencies=SAME_SITE)
+def sign_rx(body: RxSignIn, doctor: CurrentDoctor) -> Envelope[RxSignOut]:
+    """Sign the hash of a prescription's QR payload. Only the hash reaches us; nothing is stored."""
+    secret = get_settings().rx_signing_secret
+    if not secret:
+        raise AppError(503, "signing_unavailable", "QR codes are not set up yet.")
+    if doctor.status == "rejected" and not doctor.is_demo:
+        raise AppError(403, "not_allowed", "Your account was not verified.")
+    if not rx_sign_limiter.allow(f"doctor:{doctor.id}"):
+        raise AppError(429, "rate_limited", "Too many prescriptions today. Try again tomorrow.")
+    issued_at = int(time.time())
+    sig = rx_signing.sign(secret, doctor.id, issued_at, body.hash)
+    return Envelope(data=RxSignOut(doctor_id=doctor.id, issued_at=issued_at, sig=sig))
 
 
 def delete_doctor(db: Session, doctor: Doctor) -> None:

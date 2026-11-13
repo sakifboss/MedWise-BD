@@ -204,7 +204,7 @@ export function LineEditor({
         <Input id={id("note")} value={line.note} maxLength={120} onChange={(e) => set({ note: e.target.value })} {...PRIVATE} />
       </div>
 
-      {line.source.kind !== "free" && (
+      {line.source.kind === "brand" && (
         <label className="flex items-start gap-2 text-sm">
           <input
             type="checkbox"

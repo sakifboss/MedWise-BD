@@ -1,18 +1,21 @@
 "use client";
 
-import { FilePlus2, Printer, ShieldCheck } from "lucide-react";
+import { ExternalLink, FilePlus2, Loader2, Printer, QrCode, ShieldCheck } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 
 import { StatusCard, useDoctor } from "@/components/doctor/shared";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useDict } from "@/i18n/client";
-import type { DoctorProfile } from "@/lib/api";
+import { doctorApi, type DoctorProfile } from "@/lib/api";
 import { MAX_LINES, newLine, type RxLine, type RxSource } from "@/lib/rx";
+import { buildRxLink, canonical, encodePayload, sha256Hex, toPayload } from "@/lib/rx-payload";
 import { PRINT_LANGUAGES, loadPrintLanguage, savePrintLanguage } from "@/lib/rx-preferences";
 import { confirmBeforeLeaving, setPrintMargins, todayIso } from "@/lib/rx-print";
+import { makeQrSvg } from "@/lib/rx-qr";
 
 import { LineEditor } from "./line-editor";
 import { MedicinePicker } from "./medicine-picker";
@@ -82,6 +85,14 @@ function Pad({ doctor }: { doctor: DoctorProfile }) {
   const [language, setLanguage] = useState<PrintLanguage>(loadPrintLanguage);
   const [chamberIndex, setChamberIndex] = useState(doctor.chambers.length ? 0 : -1);
   const [confirmingNew, setConfirmingNew] = useState(false);
+  // The signed QR for one exact version of the medicine lines and dates; any edit makes it stale.
+  const [finalized, setFinalized] = useState<{ text: string; link: string; svg: string } | null>(null);
+  const [signing, setSigning] = useState(false);
+  const qrText = useMemo(
+    () => (lines.length ? canonical(toPayload(lines, patient.date, notes.followUp)) : null),
+    [lines, patient.date, notes.followUp],
+  );
+  const qrCurrent = finalized !== null && finalized.text === qrText;
   const hasContent =
     lines.length > 0 ||
     Object.values(notes).some((v) => v.trim()) ||
@@ -106,6 +117,40 @@ function Pad({ doctor }: { doctor: DoctorProfile }) {
     setNotes(EMPTY_NOTES);
     setLines([]);
     setConfirmingNew(false);
+    setFinalized(null);
+  }
+
+  /**
+   * "Print" finalizes first: the browser hashes the QR payload (medicine lines and dates only),
+   * sends only the hash to be signed, builds the link and the QR, then prints. If signing fails,
+   * it asks before printing without a QR code.
+   */
+  async function print() {
+    if (!qrText || qrCurrent) {
+      window.print();
+      return;
+    }
+    setSigning(true);
+    try {
+      const signed = await doctorApi.signRx(await sha256Hex(qrText));
+      const link = buildRxLink(window.location.origin, await encodePayload(qrText), {
+        doctorId: signed.doctor_id,
+        issuedAt: signed.issued_at,
+        sig: signed.sig,
+      });
+      const svg = await makeQrSvg(link);
+      flushSync(() => {
+        setFinalized({ text: qrText, link, svg });
+        setSigning(false);
+      });
+      window.print();
+    } catch {
+      setSigning(false);
+      if (window.confirm(t.rx.qr.failed)) {
+        flushSync(() => setFinalized(null));
+        window.print();
+      }
+    }
   }
 
   const s = t.rx.sections;
@@ -273,9 +318,9 @@ function Pad({ doctor }: { doctor: DoctorProfile }) {
               ))}
             </select>
           </div>
-          <Button onClick={() => window.print()}>
-            <Printer aria-hidden />
-            {t.rx.print.button}
+          <Button onClick={() => void print()} disabled={signing}>
+            {signing ? <Loader2 aria-hidden className="animate-spin" /> : <Printer aria-hidden />}
+            {signing ? t.rx.qr.signing : t.rx.print.button}
           </Button>
           {confirmingNew ? (
             <span className="flex flex-wrap items-center gap-2 text-sm">
@@ -294,6 +339,23 @@ function Pad({ doctor }: { doctor: DoctorProfile }) {
             </Button>
           )}
         </section>
+        {finalized && (
+          <p className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground" data-testid="rx-qr-status">
+            <QrCode aria-hidden className="size-4" />
+            {qrCurrent ? t.rx.qr.ready : t.rx.qr.stale}
+            {qrCurrent && (
+              <a
+                href={finalized.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 underline underline-offset-2"
+              >
+                {t.rx.qr.openPatientPage}
+                <ExternalLink aria-hidden className="size-3" />
+              </a>
+            )}
+          </p>
+        )}
       </div>
 
       <RxPrint
@@ -303,6 +365,7 @@ function Pad({ doctor }: { doctor: DoctorProfile }) {
         notes={notes}
         lines={lines}
         language={language}
+        qrSvg={qrCurrent ? finalized.svg : null}
       />
     </>
   );

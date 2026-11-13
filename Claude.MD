@@ -808,7 +808,7 @@ Rules for every R step:
   Browser test (33 checks): no request, storage area or cookie holds the patient's details; Bangla
   in the PDF is checked on the print view (PDF text extraction cannot rebuild Bangla conjuncts).
 
-- [ ] **R4. QR, signature and the patient page.**
+- [x] **R4. QR, signature and the patient page.**
   "Finalize" builds, in the browser, a versioned compact payload of the medicine lines only (brand
   code, or generic name + strength + form, or free-text name of at most 40 characters; pattern,
   unit, food, duration, substitution flag) and the issue date. No patient fields, complaints,
@@ -850,6 +850,16 @@ Rules for every R step:
   Tests: payload round trip and fuzz (bad input never crashes the page), HMAC sign and verify,
   tampered payload fails, demo and unverified states. Browser: open /rx from a generated URL and
   check that no request carries a medicine name.
+  Done 2026-11-13 (PR): owner's choices: the follow-up date is in the payload (for "Add to calendar"),
+  the QR prints 5 cm wide with error correction M, and "Print" finalizes by itself (it asks before
+  printing without a QR when signing fails). Payload v1 (lib/rx-payload.ts): compact JSON arrays,
+  "z" + base64url(deflate-raw) via CompressionStream ("p" + plain base64url without it); line
+  notes are not in it. Measured worst case (12 lines): 423-character link, QR version 16 (81x81),
+  0.56 mm modules at 5 cm (0.45 mm at 4 cm). sig = full HMAC-SHA256 (43 characters). The server
+  sets issued_at; /api/rx/verify refuses issue times more than 5 minutes ahead and QRs of deleted
+  accounts; 30 checks a minute per client, frontend secret required, no-store. Substitution
+  applies to brand lines only (a generic line already allows any brand). Physical scan test on a
+  phone: a printable sheet with the 12-line QR at 5 and 4 cm is given to the owner with the PR.
 
 - [ ] **R5. Templates and favourite tests.**
   Doctors save the current medicine lines, plus tests and advice text, as a named template; list,
