@@ -116,6 +116,8 @@ class DoctorExport(BaseModel):
     verified_by: str | None
     verify_method: str | None
     active_sessions: int
+    favourite_tests: list[str] = []
+    templates: list[dict] = []
     note: str = (
         "This is everything MedWise BD stores about you. MedWise BD never stores your "
         "patients' information."

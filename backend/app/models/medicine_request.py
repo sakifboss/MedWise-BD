@@ -6,7 +6,7 @@ from sqlalchemy.orm import Mapped, mapped_column
 from app.core.db import RequestsBase
 
 QUERY_MAX_LENGTH = 80
-REQUEST_SOURCES = ("search", "prescription")
+REQUEST_SOURCES = ("search", "prescription", "rx-pad")
 
 
 class MedicineRequest(RequestsBase):

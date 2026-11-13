@@ -14,6 +14,7 @@ from app.api import (
     brands,
     data_reports,
     doctor,
+    doctor_templates,
     generics,
     interactions,
     manufacturers,
@@ -91,6 +92,7 @@ def create_app() -> FastAPI:
         data_reports,
         brands,
         doctor,
+        doctor_templates,
         rx,
     )
     for module in routers:
