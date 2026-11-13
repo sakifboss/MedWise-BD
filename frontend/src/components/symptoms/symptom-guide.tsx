@@ -291,7 +291,7 @@ export function SymptomGuide({ setup }: { setup: SymptomSetup }) {
               onChange={(pregnant) => setForm({ ...form, pregnant })}
             />
           )}
-          <p className="rounded-lg border bg-muted/40 p-3 text-xs" data-testid="gemini-notice">
+          <p className="rounded-lg border bg-muted/40 p-3 text-xs" data-testid="ai-notice">
             {s.privacy}
           </p>
           {error && (
