@@ -85,13 +85,6 @@
     },
     {
       "generic_a": "Amlodipine",
-      "generic_b": "Chloramphenicol",
-      "severity": "moderate",
-      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed.",
-      "description_bn": "DDInter অনুযায়ী এটি একটি মাঝারি ইন্টারঅ্যাকশন। একসাথে খাওয়ার আগে ডাক্তার বা ফার্মাসিস্টকে জিজ্ঞেস করুন; বাড়তি পর্যবেক্ষণ বা ডোজ বদলের দরকার হতে পারে।"
-    },
-    {
-      "generic_a": "Amlodipine",
       "generic_b": "Ciprofloxacin",
       "severity": "moderate",
       "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed.",
@@ -135,13 +128,6 @@
     {
       "generic_a": "Atorvastatin",
       "generic_b": "Azithromycin",
-      "severity": "moderate",
-      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed.",
-      "description_bn": "DDInter অনুযায়ী এটি একটি মাঝারি ইন্টারঅ্যাকশন। একসাথে খাওয়ার আগে ডাক্তার বা ফার্মাসিস্টকে জিজ্ঞেস করুন; বাড়তি পর্যবেক্ষণ বা ডোজ বদলের দরকার হতে পারে।"
-    },
-    {
-      "generic_a": "Atorvastatin",
-      "generic_b": "Chloramphenicol",
       "severity": "moderate",
       "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed.",
       "description_bn": "DDInter অনুযায়ী এটি একটি মাঝারি ইন্টারঅ্যাকশন। একসাথে খাওয়ার আগে ডাক্তার বা ফার্মাসিস্টকে জিজ্ঞেস করুন; বাড়তি পর্যবেক্ষণ বা ডোজ বদলের দরকার হতে পারে।"
@@ -218,41 +204,6 @@
     },
     {
       "generic_a": "Cefixime",
-      "generic_b": "Chloramphenicol",
-      "severity": "moderate",
-      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed.",
-      "description_bn": "DDInter অনুযায়ী এটি একটি মাঝারি ইন্টারঅ্যাকশন। একসাথে খাওয়ার আগে ডাক্তার বা ফার্মাসিস্টকে জিজ্ঞেস করুন; বাড়তি পর্যবেক্ষণ বা ডোজ বদলের দরকার হতে পারে।"
-    },
-    {
-      "generic_a": "Cefixime",
-      "generic_b": "Warfarin",
-      "severity": "moderate",
-      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed.",
-      "description_bn": "DDInter অনুযায়ী এটি একটি মাঝারি ইন্টারঅ্যাকশন। একসাথে খাওয়ার আগে ডাক্তার বা ফার্মাসিস্টকে জিজ্ঞেস করুন; বাড়তি পর্যবেক্ষণ বা ডোজ বদলের দরকার হতে পারে।"
-    },
-    {
-      "generic_a": "Chloramphenicol",
-      "generic_b": "Clopidogrel",
-      "severity": "moderate",
-      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed.",
-      "description_bn": "DDInter অনুযায়ী এটি একটি মাঝারি ইন্টারঅ্যাকশন। একসাথে খাওয়ার আগে ডাক্তার বা ফার্মাসিস্টকে জিজ্ঞেস করুন; বাড়তি পর্যবেক্ষণ বা ডোজ বদলের দরকার হতে পারে।"
-    },
-    {
-      "generic_a": "Chloramphenicol",
-      "generic_b": "Metronidazole",
-      "severity": "moderate",
-      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed.",
-      "description_bn": "DDInter অনুযায়ী এটি একটি মাঝারি ইন্টারঅ্যাকশন। একসাথে খাওয়ার আগে ডাক্তার বা ফার্মাসিস্টকে জিজ্ঞেস করুন; বাড়তি পর্যবেক্ষণ বা ডোজ বদলের দরকার হতে পারে।"
-    },
-    {
-      "generic_a": "Chloramphenicol",
-      "generic_b": "Rosuvastatin",
-      "severity": "moderate",
-      "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed.",
-      "description_bn": "DDInter অনুযায়ী এটি একটি মাঝারি ইন্টারঅ্যাকশন। একসাথে খাওয়ার আগে ডাক্তার বা ফার্মাসিস্টকে জিজ্ঞেস করুন; বাড়তি পর্যবেক্ষণ বা ডোজ বদলের দরকার হতে পারে।"
-    },
-    {
-      "generic_a": "Chloramphenicol",
       "generic_b": "Warfarin",
       "severity": "moderate",
       "description": "DDInter lists this as a moderate interaction. Ask a doctor or pharmacist before taking these together; extra monitoring or a dose change may be needed.",

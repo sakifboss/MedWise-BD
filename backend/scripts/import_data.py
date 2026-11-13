@@ -31,6 +31,7 @@ from app.core.migrations import upgrade_durable_tables  # noqa: E402
 from app.models import (  # noqa: E402
     Area,
     Brand,
+    DosageForm,
     Generic,
     Interaction,
     Manufacturer,
@@ -42,6 +43,7 @@ from app.schemas.seed import (  # noqa: E402
     REQUIRED_SPECIALTIES,
     AreaSeed,
     BrandSeed,
+    DosageFormSeed,
     GenericSeed,
     InteractionSeed,
     ManufacturerSeed,
@@ -51,10 +53,12 @@ from app.schemas.seed import (  # noqa: E402
     SeedMeta,
     SpecialtySeed,
 )
+from app.services.local_forms import local_only_forms  # noqa: E402
 
 RowT = TypeVar("RowT", bound=BaseModel)
 
 SEED_SCHEMAS: dict[str, type[BaseModel]] = {
+    "dosage_forms": DosageFormSeed,
     "manufacturers": ManufacturerSeed,
     "quality_factors": QualityFactorSeed,
     "generics": GenericSeed,
@@ -72,6 +76,7 @@ DUPLICATE_PHARMACY_METRES = 20.0
 
 @dataclass
 class SeedData:
+    dosage_forms: list[DosageFormSeed] = field(default_factory=list)
     manufacturers: list[ManufacturerSeed] = field(default_factory=list)
     quality_factors: list[QualityFactorSeed] = field(default_factory=list)
     generics: list[GenericSeed] = field(default_factory=list)
@@ -251,15 +256,42 @@ def _check_brands(data: SeedData, errors: list[str]) -> None:
         codes.add(row.code)
 
 
+def _check_dosage_forms(data: SeedData, errors: list[str]) -> None:
+    """Every form a generic lists must be in dosage_forms.json (with its route)."""
+    _check_unique_names("dosage_forms.json", [f.name for f in data.dosage_forms], errors)
+    names = [f.name for f in data.dosage_forms]
+    known = set(names)
+    for index, generic in enumerate(data.generics):
+        for form in generic.dosage_forms:
+            if form not in known:
+                errors.append(
+                    f"generics.json[{index}] '{generic.name}': "
+                    f"{_unknown('dosage form', form, names)}; add it to dosage_forms.json"
+                )
+
+
+def local_only_generics(data: SeedData) -> dict[str, list[str]]:
+    """Generic key -> forms, for generics whose every catalog brand is a local form."""
+    routes = {f.name: f.route for f in data.dosage_forms}
+    return local_only_forms(((_key(b.generic), b.dosage_form) for b in data.brands), routes)
+
+
 def _check_interactions(data: SeedData, errors: list[str]) -> None:
     generic_names = [g.name for g in data.generics]
     known = {_key(n) for n in generic_names}
+    local_only = local_only_generics(data)
     seen: set[frozenset[str]] = set()
     for index, row in enumerate(data.interactions):
         label = f"interactions.json[{index}] '{row.generic_a} + {row.generic_b}'"
         for name in (row.generic_a, row.generic_b):
             if _key(name) not in known:
                 errors.append(f"{label}: {_unknown('generic', name, generic_names)}")
+            elif _key(name) in local_only:
+                errors.append(
+                    f"{label}: the catalog lists '{name}' only as "
+                    f"{', '.join(local_only[_key(name)])} (a local form), and DDInter pairs are "
+                    "for medicines taken by mouth or injection; re-run scripts/extract_ddinter.py"
+                )
         pair = frozenset({_key(row.generic_a), _key(row.generic_b)})
         if len(pair) == 1:
             errors.append(f"{label}: a generic cannot interact with itself")
@@ -325,6 +357,7 @@ def check_references(data: SeedData, errors: list[str]) -> None:
     _check_unique_names("manufacturers.json", [m.name for m in data.manufacturers], errors)
     _check_unique_names("generics.json", [g.name for g in data.generics], errors)
     _check_quality_factors(data, errors)
+    _check_dosage_forms(data, errors)
     _check_brands(data, errors)
     _check_interactions(data, errors)
     _check_pharmacies(data, errors)
@@ -336,7 +369,17 @@ def check_references(data: SeedData, errors: list[str]) -> None:
 
 
 def _clear_tables(session: Session) -> None:
-    for model in (Interaction, Brand, Generic, Manufacturer, Pharmacy, Area, RedFlag, Specialty):
+    for model in (
+        Interaction,
+        Brand,
+        Generic,
+        Manufacturer,
+        DosageForm,
+        Pharmacy,
+        Area,
+        RedFlag,
+        Specialty,
+    ):
         session.execute(delete(model))
 
 
@@ -386,6 +429,7 @@ def _insert_brands(
             price_per_unit=b.price_per_unit,
             source_url=b.source_url,
             price_checked_on=b.price_checked_on,
+            aliases=b.aliases,
         )
         for b in data.brands
     )
@@ -456,6 +500,7 @@ def write_database(engine: Engine, data: SeedData) -> None:
     Base.metadata.create_all(engine)
     with Session(engine) as session, session.begin():
         _clear_tables(session)
+        session.add_all(DosageForm(name=f.name, route=f.route) for f in data.dosage_forms)
         manufacturer_ids = _insert_manufacturers(session, data)
         generic_ids = _insert_generics(session, data)
         _insert_brands(session, data, generic_ids, manufacturer_ids)

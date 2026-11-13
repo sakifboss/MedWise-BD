@@ -1,0 +1,22 @@
+{
+  "meta": {
+    "dataset": "dosage_forms",
+    "source": "MedWise BD team",
+    "is_sample": false,
+    "note": "Every dosage form used in generics.json and brands.json, with its route: 'systemic' = taken by mouth or injection, 'local' = used on the eye, ear or skin or as a mouth rinse. DDInter lists interactions for medicines taken by mouth or injection, so when every catalog brand of a generic is a local form, scripts/extract_ddinter.py leaves out that generic's DDInter pairs and the app says why instead. Forms not used yet are listed so that adding one needs no code change."
+  },
+  "records": [
+    { "name": "tablet", "route": "systemic" },
+    { "name": "capsule", "route": "systemic" },
+    { "name": "suspension", "route": "systemic" },
+    { "name": "syrup", "route": "systemic" },
+    { "name": "injection", "route": "systemic" },
+    { "name": "eye drops", "route": "local" },
+    { "name": "ear drops", "route": "local" },
+    { "name": "eye ointment", "route": "local" },
+    { "name": "cream", "route": "local" },
+    { "name": "ointment", "route": "local" },
+    { "name": "gel", "route": "local" },
+    { "name": "mouthwash", "route": "local" }
+  ]
+}

@@ -10,6 +10,11 @@ Only pairs where BOTH medicines are generics in generics.json are kept. DDInter 
 with level "Unknown" are skipped; if a pair appears more than once, the most severe
 level wins.
 
+DDInter lists interactions for medicines taken by mouth or injection. A generic whose catalog
+brands (brands.json) are all local forms (route "local" in dosage_forms.json: eye drops, cream,
+mouthwash, ...) gets no pairs; they are reported instead. Add a brand in a form taken by mouth or
+injection and re-run this script, and its pairs come back.
+
 DDInter data is licensed CC BY-NC-SA 4.0 (non-commercial, attribution required).
 Credit DDInter wherever interaction results are shown.
 """
@@ -18,11 +23,13 @@ import argparse
 import csv
 import json
 import sys
+from dataclasses import dataclass, field
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from app.core.config import get_settings  # noqa: E402
+from app.services.local_forms import local_only_forms  # noqa: E402
 
 # Generic name in generics.json -> name(s) DDInter uses, where they differ.
 DDINTER_ALIASES: dict[str, list[str]] = {
@@ -69,9 +76,29 @@ def _name_map(seed_dir: Path) -> dict[str, str]:
     return mapping
 
 
-def extract(folder: Path, seed_dir: Path) -> tuple[list[dict], list[str], int]:
-    """Return (interaction records, generics not found in DDInter, number of files read)."""
+def _records(seed_dir: Path, dataset: str) -> list[dict]:
+    return json.loads((seed_dir / f"{dataset}.json").read_text(encoding="utf-8"))["records"]
+
+
+def local_only_generics(seed_dir: Path) -> dict[str, list[str]]:
+    """Generic name -> forms, for generics whose every catalog brand is a local form."""
+    routes = {f["name"]: f["route"] for f in _records(seed_dir, "dosage_forms")}
+    brands = ((b["generic"], b["dosage_form"]) for b in _records(seed_dir, "brands"))
+    return local_only_forms(brands, routes)
+
+
+@dataclass
+class Extraction:
+    records: list[dict]
+    missing: list[str]  # generics DDInter does not list (check DDINTER_ALIASES)
+    files: int
+    # Generics listed only in local forms -> (their forms, number of DDInter pairs left out).
+    left_out: dict[str, tuple[list[str], int]] = field(default_factory=dict)
+
+
+def extract(folder: Path, seed_dir: Path) -> Extraction:
     names = _name_map(seed_dir)
+    local_only = local_only_generics(seed_dir)
     files = sorted(folder.glob("ddinter_downloads_code_*.csv"))
     seen_names: set[str] = set()
     pairs: dict[tuple[str, str], str] = {}
@@ -90,6 +117,14 @@ def extract(folder: Path, seed_dir: Path) -> tuple[list[dict], list[str], int]:
                 if SEVERITY_RANK[level] > SEVERITY_RANK.get(pairs.get(key, ""), 0):
                     pairs[key] = level
 
+    left_out: dict[str, tuple[list[str], int]] = {}
+    for a, b in list(pairs):
+        for name in {a, b} & set(local_only):
+            forms, count = left_out.get(name, (local_only[name], 0))
+            left_out[name] = (forms, count + 1)
+        if {a, b} & set(local_only):
+            del pairs[(a, b)]
+
     records = [
         {
             "generic_a": a,
@@ -101,7 +136,7 @@ def extract(folder: Path, seed_dir: Path) -> tuple[list[dict], list[str], int]:
         for (a, b), level in sorted(pairs.items(), key=lambda kv: (-SEVERITY_RANK[kv[1]], kv[0]))
     ]
     missing = sorted(set(names.values()) - seen_names)
-    return records, missing, len(files)
+    return Extraction(records, missing, len(files), dict(sorted(left_out.items())))
 
 
 def main() -> int:
@@ -110,7 +145,8 @@ def main() -> int:
     parser.add_argument("--seed-dir", type=Path, default=get_settings().seed_dir)
     args = parser.parse_args()
 
-    records, missing, file_count = extract(args.folder, args.seed_dir)
+    result = extract(args.folder, args.seed_dir)
+    records, missing, file_count = result.records, result.missing, result.files
     if file_count == 0:
         print(f"No ddinter_downloads_code_*.csv files in {args.folder}")
         return 1
@@ -133,6 +169,11 @@ def main() -> int:
     print(f"Read {file_count} files. Wrote {len(records)} interactions to {out}: {counts}")
     if missing:
         print("Generics not found in DDInter (check DDINTER_ALIASES):", ", ".join(missing))
+    for name, (forms, count) in result.left_out.items():
+        print(
+            f"Left out {count} DDInter pair(s) for {name}: the catalog lists it only as "
+            f"{', '.join(forms)} (local), and DDInter is for medicines taken by mouth or injection."
+        )
     return 0
 
 

@@ -44,3 +44,6 @@ class GenericDetail(BaseModel):
     )
     presentations: list[Presentation]
     interactions: list[InteractionSummary]
+    # When not empty, the catalog lists this generic only in these local forms (eye drops, cream,
+    # ...): DDInter's interactions are for it taken by mouth or injection, so none are shown.
+    interactions_not_shown_forms: list[str] = []
