@@ -23,7 +23,7 @@ medwise-bd/
   backend/
     app/
       api/        # routers: search, generics, alternatives, manufacturers, interactions, prescription,
-                  #          medicine_requests, stats, pharmacies, symptom_guide, data_reports
+                  #          medicine_requests, stats, pharmacies, symptom_guide, data_reports, doctor
       core/       # config, db
       models/     # SQLAlchemy models
       schemas/    # Pydantic schemas
@@ -39,6 +39,7 @@ medwise-bd/
       fetch_osm_pharmacies.py    # OpenStreetMap (Overpass) -> pharmacies.json, sylhet_areas.json
       build_symptoms_bn.py       # Bangla review sheet for red_flags.json and specialties.json
       eval_symptoms.py           # symptom guide on data/eval/symptoms.json (red-flag recall)
+      doctors.py                 # doctor accounts: list, verify, reject, reset-link, demo, delete
     tests/
   data/
     seed/         # manufacturers.json, generics.json, brands.json, quality_factors.json, interactions.json,
@@ -71,7 +72,13 @@ medwise-bd/
   price_per_unit, source_url, price_checked_on, aliases (other written names, e.g. "Mycetin"))
 - dosage_forms(id, name, route[systemic|local])
 - Durable (Alembic, never dropped): medicine_requests(id, query, source, requested_on),
-  data_reports(id, brand_id, brand_code, brand_name, manufacturer, strength, dosage_form, reason, reported_on)
+  data_reports(id, brand_id, brand_code, brand_name, manufacturer, strength, dosage_form, reason, reported_on),
+  doctors(id, email, password_hash (scrypt$N$r$p$salt$hash), display_name, display_name_bn, degrees,
+  specialty, bmdc_number, phone, status[pending|verified|rejected], rejection_reason, verified_at,
+  verified_by, verify_method, is_demo, created_at, last_login_day), doctor_chambers(id, doctor_id,
+  position, name, address, hours, phone), doctor_sessions(id, token_hash (sha256), doctor_id,
+  created_at, last_seen, expires_at), doctor_password_resets(id, token_hash, doctor_id, expires_at,
+  used_at)
 - interactions(id, generic_a_id, generic_b_id, severity[minor|moderate|major], description)
 - pharmacies(id, name, name_bn, lat, lon, address, phone (only when it may be shown), source[osm|survey],
   osm_type, osm_id, is_partner, partner_since); areas(id, name, name_bn, lat, lon). No stock data.
@@ -684,7 +691,7 @@ Rules for every R step:
   (Cefixime generic vs Cefixim brand). Bangla approved by the owner.
   Doctors' lists (2) and request-log queries (3) wait for doctors and PROD access.
 
-- [ ] **R2. Doctor accounts and verification.**
+- [x] **R2. Doctor accounts and verification.**
   Pages: /doctor (what the Rx Pad is, sign up, log in), /doctor/profile, /doctor/account,
   /doctor/privacy (public: what is stored about doctors, why, where, for how long, how to download
   and delete it; that patients' information is never stored; terms of use: the doctor is
@@ -725,6 +732,17 @@ Rules for every R step:
   ইমেইল, প্রোফাইল ও চেম্বারের তথ্য রাখি। আপনার রোগীদের কোনো তথ্য আমরা কখনো রাখি না।"
   Tests: hashing, session idle and absolute expiry, cookie flags, lockout, Origin check, secret
   header, status changes, delete account removes every row, no password or token in logs (caplog).
+  Done 2026-11-13 (PR): owner's decisions: hashlib.scrypt N=2^14 r=8 p=5, 16-byte salt, 32-byte key,
+  stored as scrypt$N$r$p$salt$hash (old parameters still verify; needs_rehash at login); no doctor
+  login on Vercel previews (Origin must be in SITE_ORIGINS, default the live site and
+  localhost:3000; Render's CORS_ORIGINS does not list the live site, so it is not reused); data in
+  Neon, AWS US East (Ohio) us-east-2 (read from the host name; not Singapore). Migration 0003 adds the
+  four tables. Common passwords: SecLists (MIT), 9,159 entries of 10+ characters. Changing the name
+  (not only the BMDC number) also goes back to pending, since the badge vouches for both. Reset
+  links put the token after '#' (never sent to a server) and the page removes it from the address
+  bar. Sign-ups and resets share one limit (5 an hour per client). The service worker never
+  touches /doctor or /api/doctor; both send Cache-Control: no-store. Privacy-page facts live in
+  frontend/src/lib/doctor-config.ts (restore window and contact email still to be filled by the owner).
 
 - [ ] **R3. Write and print a prescription.**
   Page /doctor/rx (login required; verified, pending and demo doctors). Sections: patient (name,

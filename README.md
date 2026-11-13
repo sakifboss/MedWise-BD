@@ -37,6 +37,7 @@ and dosage form, ranked by manufacturer quality (80%) and price (20%), with the 
 | **Report a problem** | “Report a problem” on each brand card (wrong price, not sold any more, wrong manufacturer, other); only the brand, the reason and the day are stored, so the team can fix the data |
 | **Request a medicine** | When we have no data for a medicine (search or scan), one tap asks us to add it. Only the medicine name, where it came from and the day are stored |
 | **Light / dark theme, larger text** | From the header's Display menu: System (follows the phone), Light or Dark, and Normal or Large text; remembered on the device, printing always light and normal size |
+| **For doctors (Rx Pad, Sylhet pilot)** | `/doctor`: doctor accounts with profile and up to 3 chambers; MedWise BD checks the BMDC registration before the verified badge shows. The prescription pad comes next. Patients' information is never stored |
 | **Installable app** | Add to the home screen like an app |
 | **Offline mode** | Pages you open are saved; “Save all medicines for offline use” saves every medicine and ranking page. Without internet the saved copy opens with “Showing data saved on …”, and search lists the saved medicines. Online, pages are always fresh |
 
@@ -315,6 +316,34 @@ with:
 cd backend
 python scripts/top_requests.py --database-url "postgresql://..."   # 30 most requested
 ```
+
+## Doctor accounts (Rx Pad)
+
+`/doctor` (sign up and log in), `/doctor/profile`, `/doctor/account` and the public
+`/doctor/privacy`. Only what the doctor types about themselves is stored (durable tables, Alembic
+0003): email, a scrypt password hash, profile, up to 3 chambers, hashed login tokens and hashed
+one-time reset tokens. Never anything about patients. Logins end after 12 hours without use or 7
+days; the `mw_doc` cookie is HttpOnly, SameSite=Lax, Secure except on http://localhost. Changes need
+our frontend's secret header and an Origin listed in `SITE_ORIGINS` (default: the live site and
+http://localhost:3000; no Vercel previews). Five failed
+logins for an email, or 20 from one client, wait 15 minutes; 5 sign-ups or resets an hour per
+client. Responses are `Cache-Control: no-store` and the service worker never touches doctor pages.
+
+Accounts start as pending. The owner manages them on their own computer (no admin pages):
+
+```bash
+cd backend
+python scripts/doctors.py --prod list --status pending
+python scripts/doctors.py --prod verify 12        # confirm each check: BMDC register, identity
+python scripts/doctors.py --prod reject 12 --reason "..."
+python scripts/doctors.py --prod reset-link 12    # one-time link, 60 minutes; send after a phone check
+python scripts/doctors.py --prod create-demo --email demo@example.com --name "Dr. Demo"
+python scripts/doctors.py --prod delete 12
+```
+
+`--prod` reads `PROD_DATABASE_URL` from `backend/.env`; without it the script uses `DATABASE_URL`.
+Facts on the privacy page (data region, restore window, contact) live in
+`frontend/src/lib/doctor-config.ts`.
 
 ## Deployment
 
