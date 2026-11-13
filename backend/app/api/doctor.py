@@ -19,7 +19,7 @@ from app.core.db import get_db
 from app.core.errors import AppError
 from app.core.frontend_auth import require_frontend
 from app.core.rate_limit import RateLimiter, client_key, per_client_limit
-from app.models import Doctor, DoctorChamber, DoctorPasswordReset, DoctorSession
+from app.models import Doctor, DoctorChamber, DoctorPasswordReset, DoctorSession, DoctorTemplate
 from app.schemas.common import Envelope
 from app.schemas.doctor import (
     ChamberOut,
@@ -281,6 +281,13 @@ def export_data(db: Db, doctor: CurrentDoctor) -> Envelope[DoctorExport]:
             verified_by=doctor.verified_by,
             verify_method=doctor.verify_method,
             active_sessions=sessions or 0,
+            favourite_tests=doctor.favourite_tests or [],
+            templates=[
+                {"name": t.name, "lines": t.lines, "tests": t.tests, "advice": t.advice}
+                for t in db.scalars(
+                    select(DoctorTemplate).where(DoctorTemplate.doctor_id == doctor.id)
+                )
+            ],
         )
     )
 
@@ -289,7 +296,7 @@ def export_data(db: Db, doctor: CurrentDoctor) -> Envelope[DoctorExport]:
 def delete_account(
     body: DeleteIn, request: Request, response: Response, db: Db, doctor: CurrentDoctor
 ) -> Envelope[Done]:
-    """Removes the profile, chambers, sessions and reset links (and, from R5, templates)."""
+    """Removes the profile, chambers, sessions, reset links, templates and favourite tests."""
     if not verify_password(body.password, doctor.password_hash):
         raise AppError(403, "wrong_password", "The password is not right.")
     delete_doctor(db, doctor)
@@ -318,6 +325,6 @@ def sign_rx(body: RxSignIn, doctor: CurrentDoctor) -> Envelope[RxSignOut]:
 
 def delete_doctor(db: Session, doctor: Doctor) -> None:
     """Delete a doctor and every row that belongs to them (also used by scripts/doctors.py)."""
-    for model in (DoctorSession, DoctorPasswordReset, DoctorChamber):
+    for model in (DoctorSession, DoctorPasswordReset, DoctorChamber, DoctorTemplate):
         db.query(model).filter(model.doctor_id == doctor.id).delete()
     db.delete(doctor)

@@ -7,13 +7,26 @@ Stored and nothing else: the doctor's email, password hash, profile, up to 3 cha
 
 from datetime import date, datetime
 
-from sqlalchemy import Boolean, CheckConstraint, Date, DateTime, ForeignKey, Integer, String
+from sqlalchemy import (
+    JSON,
+    Boolean,
+    CheckConstraint,
+    Date,
+    DateTime,
+    ForeignKey,
+    Integer,
+    String,
+    Text,
+    UniqueConstraint,
+)
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.core.db import RequestsBase
 
 DOCTOR_STATUSES = ("pending", "verified", "rejected")
 MAX_CHAMBERS = 3
+MAX_TEMPLATES = 100
+MAX_FAVOURITE_TESTS = 50
 
 
 class Doctor(RequestsBase):
@@ -39,6 +52,8 @@ class Doctor(RequestsBase):
     is_demo: Mapped[bool] = mapped_column(Boolean, default=False)
     created_at: Mapped[datetime] = mapped_column(DateTime)
     last_login_day: Mapped[date | None] = mapped_column(Date, nullable=True)
+    # The doctor's own list of test names (R5), shown as chips in the tests box; null = none yet.
+    favourite_tests: Mapped[list[str] | None] = mapped_column(JSON, nullable=True)
 
     chambers: Mapped[list["DoctorChamber"]] = relationship(
         back_populates="doctor",
@@ -84,3 +99,22 @@ class DoctorPasswordReset(RequestsBase):
     doctor_id: Mapped[int] = mapped_column(ForeignKey("doctors.id", ondelete="CASCADE"), index=True)
     expires_at: Mapped[datetime] = mapped_column(DateTime)
     used_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+
+
+class DoctorTemplate(RequestsBase):
+    """A doctor's own named template (R5): medicine lines, tests and advice. Never patient fields.
+    Private to the doctor: not shared, listed for others, ranked or aggregated."""
+
+    __tablename__ = "doctor_templates"
+    __table_args__ = (UniqueConstraint("doctor_id", "name"),)
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    doctor_id: Mapped[int] = mapped_column(ForeignKey("doctors.id", ondelete="CASCADE"), index=True)
+    name: Mapped[str] = mapped_column(String(60))
+    # Each line: brand code with a name snapshot, or generic + strength + form, or a free-text name;
+    # plus pattern, unit, food, duration, substitution and the doctor's note.
+    lines: Mapped[list[dict]] = mapped_column(JSON)
+    tests: Mapped[str] = mapped_column(Text, default="")
+    advice: Mapped[str] = mapped_column(Text, default="")
+    created_at: Mapped[datetime] = mapped_column(DateTime)
+    updated_at: Mapped[datetime] = mapped_column(DateTime)

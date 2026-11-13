@@ -3,10 +3,13 @@ from app.models.data_report import REPORT_REASONS, DataReport
 from app.models.doctor import (
     DOCTOR_STATUSES,
     MAX_CHAMBERS,
+    MAX_FAVOURITE_TESTS,
+    MAX_TEMPLATES,
     Doctor,
     DoctorChamber,
     DoctorPasswordReset,
     DoctorSession,
+    DoctorTemplate,
 )
 from app.models.dosage_form import DosageForm
 from app.models.generic import Generic
@@ -25,10 +28,13 @@ __all__ = [
     "DoctorChamber",
     "DoctorPasswordReset",
     "DoctorSession",
+    "DoctorTemplate",
     "DosageForm",
     "Generic",
     "Interaction",
     "MAX_CHAMBERS",
+    "MAX_FAVOURITE_TESTS",
+    "MAX_TEMPLATES",
     "Manufacturer",
     "MedicineRequest",
     "Pharmacy",

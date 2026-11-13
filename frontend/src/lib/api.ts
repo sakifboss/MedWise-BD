@@ -35,6 +35,9 @@ export type DoctorSignup = Schemas["SignupIn"];
 export type DoctorProfileIn = Schemas["ProfileIn"];
 export type DoctorChamberIn = Schemas["ChamberIn"];
 export type RxSignOut = Schemas["RxSignOut"];
+export type TemplateIn = Schemas["TemplateIn"];
+export type TemplateOut = Schemas["TemplateOut"];
+export type TemplateSummary = Schemas["TemplateSummary"];
 export type RxVerifyIn = Schemas["RxVerifyIn"];
 export type RxVerifyOut = Schemas["RxVerifyOut"];
 
@@ -131,6 +134,15 @@ export const doctorApi = {
   deleteAccount: (password: string) => post<{ ok: boolean }>("/api/doctor/delete", { password }),
   /** Sends only the SHA-256 of the prescription's QR payload; the medicines stay in the browser. */
   signRx: (hash: string) => post<RxSignOut>("/api/doctor/rx/sign", { hash }),
+  /** The doctor's own templates and favourite tests (never patient details). */
+  templates: () => request<TemplateSummary[]>("/api/doctor/templates", { cache: "no-store" }),
+  template: (id: number) => request<TemplateOut>(`/api/doctor/templates/${id}`, { cache: "no-store" }),
+  createTemplate: (body: TemplateIn) => post<TemplateOut>("/api/doctor/templates", body),
+  updateTemplate: (id: number, body: TemplateIn) => post<TemplateOut>(`/api/doctor/templates/${id}`, body),
+  renameTemplate: (id: number, name: string) => post<TemplateSummary>(`/api/doctor/templates/${id}/rename`, { name }),
+  deleteTemplate: (id: number) => post<{ ok: boolean }>(`/api/doctor/templates/${id}/delete`, {}),
+  favouriteTests: () => request<{ tests: string[] }>("/api/doctor/favourite-tests", { cache: "no-store" }),
+  saveFavouriteTests: (tests: string[]) => post<{ tests: string[] }>("/api/doctor/favourite-tests", { tests }),
 };
 
 /** The public /rx page's check: only doctor id, issue time, payload hash and signature are sent. */

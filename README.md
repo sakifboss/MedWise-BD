@@ -356,6 +356,14 @@ right), always reminds pharmacists that a QR can be copied, and offers "Save to 
 "Find pharmacies" and a follow-up calendar file. If `RX_SIGNING_SECRET` changes, old QR codes
 still open but show "Could not check".
 
+**Templates and favourite tests** (`/doctor/templates`). A doctor can save the current medicine lines,
+tests and advice under a name ("Save as template" on the pad, with the warning "Do not write patient
+information here.") and apply it to a new prescription; saving under an existing name replaces it.
+Favourite tests show as chips under the Tests box. Templates are private to each doctor (another
+doctor's id answers 404), at most 100 of 12 lines; they never hold patient details. Medicine names
+that are not in MedWise are sent to the request log as source `rx-pad` when the doctor prints (name
+only; no doctor or patient details).
+
 Accounts start as pending. The owner manages them on their own computer (no admin pages):
 
 ```bash

@@ -16,8 +16,14 @@ def _engine(tmp_path: Path) -> Engine:
     return make_engine(f"sqlite:///{(tmp_path / 'db.sqlite').as_posix()}")
 
 
-HEAD = "0003"
-DOCTOR_TABLES = ("doctors", "doctor_chambers", "doctor_sessions", "doctor_password_resets")
+HEAD = "0004"
+DOCTOR_TABLES = (
+    "doctors",
+    "doctor_chambers",
+    "doctor_sessions",
+    "doctor_password_resets",
+    "doctor_templates",
+)
 NEW_DOCTOR_TABLES = {name: (None, 0) for name in DOCTOR_TABLES}
 EMPTY_DOCTOR_TABLES = {name: (0, 0) for name in DOCTOR_TABLES}
 
@@ -141,4 +147,33 @@ def test_a_dry_run_never_migrates(tmp_path: Path) -> None:
     result = run_import(get_settings().seed_dir, None, dry_run=True)
     assert result.ok and result.durable_rows == {}
     assert not inspect(engine).has_table("alembic_version")
+    engine.dispose()
+
+
+def test_0004_on_a_database_at_0003_keeps_doctors(tmp_path: Path) -> None:
+    """The live database after R2-R4 (at 0003, with a doctor): 0004 adds templates, favourites."""
+    from alembic import command
+    from alembic.config import Config
+
+    from app.core.config import BACKEND_DIR
+
+    engine = _engine(tmp_path)
+    config = Config(str(BACKEND_DIR / "alembic.ini"))
+    config.set_main_option("script_location", str(BACKEND_DIR / "migrations"))
+    with engine.begin() as connection:
+        config.attributes["connection"] = connection
+        command.upgrade(config, "0003")
+    with engine.begin() as conn:
+        conn.execute(
+            text(
+                "INSERT INTO doctors (email, password_hash, display_name, degrees, specialty,"
+                " bmdc_number, status, is_demo, created_at)"
+                " VALUES ('a@b.cd', 'x', 'Dr. A', 'MBBS', 'Medicine', 'A-1', 'pending', 0,"
+                " '2026-11-13 10:00:00')"
+            )
+        )
+    rows = upgrade_durable_tables(engine)
+    assert rows["doctors"] == (1, 1) and rows["doctor_templates"] == (None, 0)
+    assert "favourite_tests" in {c["name"] for c in inspect(engine).get_columns("doctors")}
+    assert _version(engine) == HEAD
     engine.dispose()

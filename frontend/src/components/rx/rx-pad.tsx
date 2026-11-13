@@ -10,17 +10,19 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useDict } from "@/i18n/client";
-import { doctorApi, type DoctorProfile } from "@/lib/api";
+import { api, doctorApi, type DoctorProfile } from "@/lib/api";
 import { MAX_LINES, newLine, type RxLine, type RxSource } from "@/lib/rx";
 import { buildRxLink, canonical, encodePayload, sha256Hex, toPayload } from "@/lib/rx-payload";
 import { PRINT_LANGUAGES, loadPrintLanguage, savePrintLanguage } from "@/lib/rx-preferences";
 import { confirmBeforeLeaving, setPrintMargins, todayIso } from "@/lib/rx-print";
 import { makeQrSvg } from "@/lib/rx-qr";
+import { appendText, applyLines } from "@/lib/rx-templates";
 
 import { LineEditor } from "./line-editor";
 import { MedicinePicker } from "./medicine-picker";
 import { RxPrint, type PrintLanguage, type RxNotes, type RxPatient } from "./rx-print";
 import { RxWarnings } from "./rx-warnings";
+import { FavouriteTestChips, TemplatesBar } from "./templates-bar";
 
 /**
  * Patient information: kept only in this component's memory (never in localStorage, cookies or
@@ -88,6 +90,9 @@ function Pad({ doctor }: { doctor: DoctorProfile }) {
   // The signed QR for one exact version of the medicine lines and dates; any edit makes it stale.
   const [finalized, setFinalized] = useState<{ text: string; link: string; svg: string } | null>(null);
   const [signing, setSigning] = useState(false);
+  const [templateNote, setTemplateNote] = useState<string | null>(null);
+  // Names not in MedWise already sent to the request log from this tab (each once).
+  const sentNames = useRef(new Set<string>());
   const qrText = useMemo(
     () => (lines.length ? canonical(toPayload(lines, patient.date, notes.followUp)) : null),
     [lines, patient.date, notes.followUp],
@@ -118,6 +123,7 @@ function Pad({ doctor }: { doctor: DoctorProfile }) {
     setLines([]);
     setConfirmingNew(false);
     setFinalized(null);
+    setTemplateNote(null);
   }
 
   /**
@@ -125,6 +131,37 @@ function Pad({ doctor }: { doctor: DoctorProfile }) {
    * sends only the hash to be signed, builds the link and the QR, then prints. If signing fails,
    * it asks before printing without a QR code.
    */
+  /**
+   * Names the doctor wrote that MedWise does not have go to the request log (name only, source
+   * "rx-pad"; the session cookie is not sent to /api/requests, and no patient detail is included),
+   * so the team learns what to add. Best effort: the log's own limits apply.
+   */
+  function reportUnknownNames() {
+    for (const line of lines) {
+      if (line.source.kind !== "free") continue;
+      const name = line.source.name.trim();
+      if (!name || sentNames.current.has(name.toLowerCase())) continue;
+      sentNames.current.add(name.toLowerCase());
+      api.requestMedicine(name, "rx-pad").catch(() => {});
+    }
+  }
+
+  function applyTemplate(tpl: { name: string; lines: RxLine[]; tests: string; advice: string; asWritten: number }) {
+    const { lines: next, skipped } = applyLines(lines, tpl.lines);
+    setLines(next);
+    setNotes((n) => ({ ...n, tests: appendText(n.tests, tpl.tests), advice: appendText(n.advice, tpl.advice) }));
+    const c = t.rx.templates;
+    setTemplateNote(
+      [
+        c.applied(tpl.name),
+        skipped ? c.skipped(t.fmt.int(skipped)) : "",
+        tpl.asWritten ? c.asWritten(t.fmt.int(tpl.asWritten)) : "",
+      ]
+        .filter(Boolean)
+        .join(" "),
+    );
+  }
+
   async function print() {
     if (!qrText || qrCurrent) {
       window.print();
@@ -143,6 +180,7 @@ function Pad({ doctor }: { doctor: DoctorProfile }) {
         setFinalized({ text: qrText, link, svg });
         setSigning(false);
       });
+      reportUnknownNames();
       window.print();
     } catch {
       setSigning(false);
@@ -244,6 +282,12 @@ function Pad({ doctor }: { doctor: DoctorProfile }) {
 
         <section className="space-y-3">
           <h2 className="text-lg font-semibold">{s.medicines}</h2>
+          <TemplatesBar lines={lines} tests={notes.tests} advice={notes.advice} onApply={applyTemplate} />
+          {templateNote && (
+            <p role="status" className="text-xs text-muted-foreground" data-testid="rx-template-note">
+              {templateNote}
+            </p>
+          )}
           {lines.length > 0 && (
             <ol className="space-y-3">
               {lines.map((line, i) => (
@@ -262,7 +306,10 @@ function Pad({ doctor }: { doctor: DoctorProfile }) {
         </section>
 
         <section className="grid gap-3 sm:grid-cols-2">
-          <NoteField id="tests" label={s.tests} value={notes.tests} onChange={setNote("tests")} rows={3} />
+          <div className="space-y-2">
+            <NoteField id="tests" label={s.tests} value={notes.tests} onChange={setNote("tests")} rows={3} />
+            <FavouriteTestChips onPick={(test) => setNotes((n) => ({ ...n, tests: appendText(n.tests, test) }))} />
+          </div>
           <NoteField id="advice" label={s.advice} value={notes.advice} onChange={setNote("advice")} rows={3} />
           <div className="space-y-1">
             <label htmlFor="rx-followUp" className="text-sm font-medium">

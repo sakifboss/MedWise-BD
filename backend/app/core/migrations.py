@@ -17,6 +17,7 @@ DURABLE_TABLES = (
     "doctor_chambers",
     "doctor_sessions",
     "doctor_password_resets",
+    "doctor_templates",
 )
 
 

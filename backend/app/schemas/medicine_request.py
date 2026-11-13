@@ -9,7 +9,8 @@ class MedicineRequestIn(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     query: str = Field(min_length=1, max_length=500, description="What the person searched for")
-    source: Literal["search", "prescription"]
+    # rx-pad: a medicine a doctor wrote that is not in MedWise (name only; no doctor or patient).
+    source: Literal["search", "prescription", "rx-pad"]
 
     @field_validator("query")
     @classmethod

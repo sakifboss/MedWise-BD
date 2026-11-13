@@ -73,9 +73,10 @@ medwise-bd/
 - dosage_forms(id, name, route[systemic|local])
 - Durable (Alembic, never dropped): medicine_requests(id, query, source, requested_on),
   data_reports(id, brand_id, brand_code, brand_name, manufacturer, strength, dosage_form, reason, reported_on),
+  doctor_templates(id, doctor_id, name, lines, tests, advice, created_at, updated_at),
   doctors(id, email, password_hash (scrypt$N$r$p$salt$hash), display_name, display_name_bn, degrees,
   specialty, bmdc_number, phone, status[pending|verified|rejected], rejection_reason, verified_at,
-  verified_by, verify_method, is_demo, created_at, last_login_day), doctor_chambers(id, doctor_id,
+  verified_by, verify_method, is_demo, created_at, last_login_day, favourite_tests), doctor_chambers(id, doctor_id,
   position, name, address, hours, phone), doctor_sessions(id, token_hash (sha256), doctor_id,
   created_at, last_seen, expires_at), doctor_password_resets(id, token_hash, doctor_id, expires_at,
   used_at)
@@ -868,7 +869,7 @@ wider screens show the names in the header (header up to 1024 px wide). Checked 
 normal/large text: no sideways scroll, no cut-off names, buttons at least 56 px. This replaces the icon-only
 phone header from Q2/Q3.
 
-- [ ] **R5. Templates and favourite tests.**
+- [x] **R5. Templates and favourite tests.**
   Doctors save the current medicine lines, plus tests and advice text, as a named template; list,
   rename, edit, delete; "Apply" adds the lines to the current prescription. No patient fields are
   ever saved in a template; the save box warns: "Do not write patient information here." /
@@ -881,6 +882,15 @@ phone header from Q2/Q3.
   learns what to add. The pad says so under the search box.
   Tests: CRUD, ownership (doctor A gets 404 for doctor B's templates), limits, catalog change,
   request log rows carry only name, source and day.
+  Done 2026-11-14 (PR): owner's choices: edit = apply on the pad and save under the same name (it
+  asks before replacing); apply adds tests and advice after what is in the boxes; line notes are
+  saved with the warning shown. Alembic 0004: doctor_templates (name unique per doctor ignoring
+  case; lines JSON: brand code + name snapshot, or generic + strength + form, or a free-text name;
+  pattern, unit, food, duration code, substitution, note) and doctors.favourite_tests (JSON, up to
+  50 names of 80 characters). A brand that left the catalog comes back as a line "as written" (the
+  stored copy is unchanged). The template code never reads the patient fields. Names not in MedWise
+  go to the request log as source "rx-pad" after a successful print, each once per tab (the session
+  cookie is not sent there). Export and account deletion include templates; privacy page updated.
 
 - [ ] **R6 (optional). Chamber serial board, on this computer only.**
   /doctor/queue, no login needed: serial numbers only, no names or any other patient detail

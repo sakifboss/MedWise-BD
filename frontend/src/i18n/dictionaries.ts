@@ -685,6 +685,9 @@ const en = {
       choosePresentation: "Choose strength and form:",
       maxLines: (n: string) => `At most ${n} medicines.`,
       onlySearchSent: "Only the medicine name you type is sent, to search.",
+      freeNamesNote:
+        "When you print, names not in MedWise are sent to us (only the name: nothing about you or the patient), " +
+        "so we know what to add.",
     },
     line: {
       formWord: "Form",
@@ -720,6 +723,27 @@ const en = {
       notChecked: (names: string) => `Not checked (not in MedWise): ${names}.`,
       noneYet: "Add medicines from MedWise to check interactions.",
     },
+    templates: {
+      title: "Templates",
+      choose: "Your templates",
+      none: "No templates yet. Write a prescription, then save it as a template.",
+      apply: "Apply",
+      applied: (name: string) => `Added “${name}”.`,
+      skipped: (n: string) => `${n} medicine(s) did not fit (at most 12 lines).`,
+      asWritten: (n: string) => `${n} medicine(s) are no longer in MedWise; added as written.`,
+      saveAs: "Save as template",
+      name: "Template name",
+      warning: "Do not write patient information here.",
+      willSave: (n: string) => `Saves ${n} medicine(s), the tests and the advice. Patient details are never saved.`,
+      save: "Save template",
+      saved: (name: string) => `Saved “${name}”.`,
+      replace: (name: string) => `A template called “${name}” exists. Replace it?`,
+      replaceYes: "Yes, replace",
+      cancel: "Cancel",
+      manage: "Manage templates and favourite tests",
+      nothingToSave: "Add medicines, tests or advice first.",
+    },
+    favourites: { title: "Favourite tests", hint: "Tap to add to Tests." },
     qr: {
       caption: "Scan to see these medicines in MedWise BD",
       signing: "Making the QR code…",
@@ -810,6 +834,27 @@ const en = {
       demo: "Demo account",
       demoText: "For trying the Rx Pad. Everything it prints says “DEMO — not a real prescription”.",
     },
+    templatesLink: "Templates and favourite tests",
+    templatesPage: {
+      title: "Templates and favourite tests",
+      intro: "Your templates are private: only you can see or use them. Edit one by applying it on the pad and saving it under the same name.",
+      empty: "No templates yet. Save one from the prescription pad.",
+      lines: (n: string) => `${n} medicine(s)`,
+      changed: (date: string) => `changed ${date}`,
+      rename: "Rename",
+      renameSave: "Save name",
+      delete: "Delete",
+      deleteConfirm: (name: string) => `Delete “${name}”?`,
+      deleteYes: "Yes, delete",
+      cancel: "Cancel",
+      favTitle: "Favourite tests",
+      favHint: "Your own list (up to 50). They show as buttons under Tests on the pad.",
+      favPlaceholder: "Test name, e.g. CBC",
+      favAdd: "Add",
+      favRemove: (name: string) => `Remove ${name}`,
+      favFull: "At most 50 tests.",
+      saved: "Saved.",
+    },
     profileTitle: "Profile",
     profileSave: "Save profile",
     profileSaved: "Profile saved.",
@@ -862,6 +907,8 @@ const en = {
       forbidden: "Please use the MedWise BD website.",
       network_error: "Could not reach MedWise BD. Check your internet and try again.",
       generic: "Something went wrong. Please try again.",
+      template_name_taken: "A template with this name already exists.",
+      template_limit: "You can keep at most 100 templates. Delete one first.",
     },
     restoreWindow: (hours: number | null) =>
       hours === null
@@ -888,6 +935,8 @@ const en = {
             "Your logins: a scrambled form of a random login code, when it was made and last used. Of your last " +
               "login we keep only the day.",
             "Password reset links we make for you, in scrambled form: each works once, for 60 minutes.",
+            "Your templates (the medicine lines, tests and advice you save under a name) and your list of " +
+              "favourite tests. They never hold patient details.",
           ],
         },
         {
@@ -920,6 +969,7 @@ const en = {
           title: "How long",
           items: [
             "Your account stays until you delete it.",
+            "Templates and favourite tests stay until you delete them, or your account.",
             "A login ends after 12 hours without use, or 7 days after you log in, whichever comes first.",
             "Reset links stop working after 60 minutes.",
             `After you delete your account, copies may remain in the database's restore history for up to ` +
@@ -1600,6 +1650,9 @@ const bn: Dict = {
       choosePresentation: "শক্তি ও ধরন বেছে নিন:",
       maxLines: (n: string) => `সর্বোচ্চ ${n}টি ওষুধ।`,
       onlySearchSent: "খোঁজার জন্য শুধু আপনার লেখা ওষুধের নাম পাঠানো হয়।",
+      freeNamesNote:
+        "প্রিন্ট করলে MedWise-এ নেই এমন ওষুধের নাম আমাদের কাছে আসে (শুধু নাম: আপনার বা রোগীর কোনো তথ্য নয়), " +
+        "যাতে বুঝি কোন ওষুধ যোগ করতে হবে।",
     },
     line: {
       formWord: "ধরন",
@@ -1635,6 +1688,27 @@ const bn: Dict = {
       notChecked: (names: string) => `যাচাই হয়নি (MedWise-এ নেই): ${names}।`,
       noneYet: "ইন্টারঅ্যাকশন যাচাই করতে MedWise থেকে ওষুধ যোগ করুন।",
     },
+    templates: {
+      title: "টেমপ্লেট",
+      choose: "আপনার টেমপ্লেট",
+      none: "এখনো কোনো টেমপ্লেট নেই। একটি প্রেসক্রিপশন লিখে টেমপ্লেট হিসেবে সংরক্ষণ করুন।",
+      apply: "যোগ করুন",
+      applied: (name: string) => `“${name}” যোগ হয়েছে।`,
+      skipped: (n: string) => `${n}টি ওষুধ জায়গা হয়নি (সর্বোচ্চ ১২ লাইন)।`,
+      asWritten: (n: string) => `${n}টি ওষুধ এখন আর MedWise-এ নেই; যেভাবে লেখা ছিল সেভাবে যোগ হয়েছে।`,
+      saveAs: "টেমপ্লেট হিসেবে সংরক্ষণ করুন",
+      name: "টেমপ্লেটের নাম",
+      warning: "এখানে রোগীর তথ্য লিখবেন না।",
+      willSave: (n: string) => `${n}টি ওষুধ, টেস্ট ও পরামর্শ সংরক্ষিত হবে। রোগীর তথ্য কখনো সংরক্ষণ করা হয় না।`,
+      save: "টেমপ্লেট সংরক্ষণ করুন",
+      saved: (name: string) => `“${name}” সংরক্ষিত হয়েছে।`,
+      replace: (name: string) => `“${name}” নামে একটি টেমপ্লেট আছে। এটির জায়গায় রাখবেন?`,
+      replaceYes: "হ্যাঁ, বদলে দিন",
+      cancel: "বাতিল",
+      manage: "টেমপ্লেট ও প্রিয় টেস্ট সাজান",
+      nothingToSave: "আগে ওষুধ, টেস্ট বা পরামর্শ যোগ করুন।",
+    },
+    favourites: { title: "প্রিয় টেস্ট", hint: "চাপলে টেস্টে যোগ হবে।" },
     qr: {
       caption: "MedWise BD-তে এই ওষুধগুলো দেখতে স্ক্যান করুন",
       signing: "QR কোড তৈরি হচ্ছে…",
@@ -1726,6 +1800,27 @@ const bn: Dict = {
       demo: "ডেমো অ্যাকাউন্ট",
       demoText: "Rx Pad চালিয়ে দেখার জন্য। এর সব প্রিন্টে লেখা থাকে “ডেমো — আসল প্রেসক্রিপশন নয়”।",
     },
+    templatesLink: "টেমপ্লেট ও প্রিয় টেস্ট",
+    templatesPage: {
+      title: "টেমপ্লেট ও প্রিয় টেস্ট",
+      intro: "আপনার টেমপ্লেট ব্যক্তিগত: শুধু আপনি দেখতে ও ব্যবহার করতে পারেন। বদলাতে চাইলে প্যাডে যোগ করে, বদলে, একই নামে সংরক্ষণ করুন।",
+      empty: "এখনো কোনো টেমপ্লেট নেই। প্রেসক্রিপশন প্যাড থেকে সংরক্ষণ করুন।",
+      lines: (n: string) => `${n}টি ওষুধ`,
+      changed: (date: string) => `বদলানো হয়েছে ${date}`,
+      rename: "নাম বদলান",
+      renameSave: "নাম সংরক্ষণ করুন",
+      delete: "মুছুন",
+      deleteConfirm: (name: string) => `“${name}” মুছবেন?`,
+      deleteYes: "হ্যাঁ, মুছুন",
+      cancel: "বাতিল",
+      favTitle: "প্রিয় টেস্ট",
+      favHint: "আপনার নিজের তালিকা (সর্বোচ্চ ৫০টি)। প্যাডে টেস্টের নিচে বোতাম হিসেবে দেখা যায়।",
+      favPlaceholder: "টেস্টের নাম, যেমন CBC",
+      favAdd: "যোগ করুন",
+      favRemove: (name: string) => `${name} সরান`,
+      favFull: "সর্বোচ্চ ৫০টি টেস্ট।",
+      saved: "সংরক্ষিত হয়েছে।",
+    },
     profileTitle: "প্রোফাইল",
     profileSave: "প্রোফাইল সংরক্ষণ করুন",
     profileSaved: "প্রোফাইল সংরক্ষিত হয়েছে।",
@@ -1778,6 +1873,8 @@ const bn: Dict = {
       forbidden: "MedWise BD ওয়েবসাইট ব্যবহার করুন।",
       network_error: "MedWise BD-তে পৌঁছানো যায়নি। ইন্টারনেট দেখে আবার চেষ্টা করুন।",
       generic: "কিছু একটা সমস্যা হয়েছে। আবার চেষ্টা করুন।",
+      template_name_taken: "এই নামে আগেই একটি টেমপ্লেট আছে।",
+      template_limit: "সর্বোচ্চ ১০০টি টেমপ্লেট রাখা যায়। আগে একটি মুছুন।",
     },
     restoreWindow: (hours: number | null) =>
       hours === null
@@ -1804,6 +1901,8 @@ const bn: Dict = {
             "আপনার লগ ইন: একটি এলোমেলো লগ ইন কোডের হ্যাশ করা রূপ, কখন তৈরি ও শেষ কখন ব্যবহার হয়েছে। শেষ লগ ইনের " +
               "শুধু তারিখটি রাখা হয়।",
             "আপনার জন্য তৈরি পাসওয়ার্ড রিসেট লিংক, হ্যাশ করা রূপে: প্রতিটি একবারই কাজ করে, ৬০ মিনিটের জন্য।",
+            "আপনার টেমপ্লেট (নাম দিয়ে সংরক্ষণ করা ওষুধের লাইন, টেস্ট ও পরামর্শ) এবং প্রিয় টেস্টের তালিকা। " +
+              "এগুলোতে কখনো রোগীর তথ্য থাকে না।",
           ],
         },
         {
@@ -1836,6 +1935,7 @@ const bn: Dict = {
           title: "কতদিন রাখি",
           items: [
             "আপনি না মোছা পর্যন্ত আপনার অ্যাকাউন্ট থাকে।",
+            "টেমপ্লেট ও প্রিয় টেস্ট থাকে যতক্ষণ না আপনি সেগুলো বা আপনার অ্যাকাউন্ট মোছেন।",
             "একটি লগ ইন ১২ ঘণ্টা ব্যবহার না হলে, অথবা লগ ইনের ৭ দিন পর, যেটি আগে হয়, শেষ হয়ে যায়।",
             "রিসেট লিংক ৬০ মিনিট পর আর কাজ করে না।",
             `অ্যাকাউন্ট মোছার পর ডেটাবেসের রিস্টোর হিস্ট্রিতে সর্বোচ্চ ${restore} পর্যন্ত কপি থেকে যেতে পারে; তারপর ` +
