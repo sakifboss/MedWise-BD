@@ -137,6 +137,11 @@ export function DoctorHome() {
         <p className="font-medium">{t.doctor.loggedInAs(doctor.display_name)}</p>
         <StatusCard doctor={doctor} />
         <nav className="flex flex-wrap gap-2">
+          {(doctor.status !== "rejected" || doctor.is_demo) && (
+            <Link href="/doctor/rx" className={buttonVariants()}>
+              {t.rx.writeLink}
+            </Link>
+          )}
           <Link href="/doctor/profile" className={buttonVariants({ variant: "outline" })}>
             {t.doctor.profileLink}
           </Link>

@@ -15,7 +15,7 @@ export async function SiteHeader() {
     { href: "/symptoms", label: t.symptoms.nav, icon: Stethoscope },
   ];
   return (
-    <header className="sticky top-0 z-10 border-b print:static bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/80">
+    <header data-site-chrome className="sticky top-0 z-10 border-b print:static bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/80">
       <div className="mx-auto flex h-14 w-full max-w-3xl items-center gap-2 px-4 max-[360px]:gap-1 max-[360px]:px-3 in-data-[text=large]:max-[400px]:gap-1 in-data-[text=large]:max-[400px]:px-3 md:gap-5">
         <Link href="/" className="flex shrink-0 items-center gap-2 font-semibold tracking-tight whitespace-nowrap">
           <Pill className="size-5 text-primary" aria-hidden />
