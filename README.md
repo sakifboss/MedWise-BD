@@ -116,6 +116,34 @@ fixes as soon as an advisory appears. The Audit workflow runs `pip-audit` and `n
 push and daily: anything that ships to the browser or server must be clean, and the build-only
 tools (eslint, shadcn CLI, openapi-typescript) may not have high or critical issues.
 
+## Brand codes and migrations
+
+Every brand has a stable **code** (`BR00042`) in `data/seed/brands.json`. Database ids change
+whenever the import rebuilds the seed tables, so everything that must keep working after a deploy
+uses the code:
+
+- page links: `/alternatives/BR00042` (an old `/alternatives/<id>` link still opens, and the
+  address bar then shows the code URL without reloading);
+- share links: `/share?m=c:BR00042:2` (old `b:<id>` links still open);
+- My Medicines (format version 2) and Recently viewed (version 2) on the phone. Lists saved
+  before codes existed are matched to codes on the device with the public brand index (by brand,
+  strength and form; the old id only as a fallback); a brand that is no longer listed is kept and
+  marked, so nothing the user saved is lost.
+
+`build_brands_from_csv.py` keeps a brand's code while its name, manufacturer, strength and form stay
+the same (a price change keeps it), gives new brands the next number, and moves the codes of
+removed brands to `meta.retired_codes`; the import refuses duplicate or retired codes.
+`GET /api/brands/index` lists every brand with its code, price, check date, rank in its group and
+approvals (about 43 KB, 3 KB compressed, cached for an hour).
+
+**Durable tables** (the request log and data reports; doctor accounts later) change only through
+Alembic migrations in `backend/migrations/`. `import_data.py` runs `alembic upgrade head` first and
+prints only row counts before and after (for example `medicine_requests 4 -> 4`), stops if rows
+would disappear, and then rebuilds the seed tables as before. Render and Docker need no extra
+command. Revision 0001 creates the two tables only when they are missing, so on an existing
+database it changes nothing; 0002 adds `data_reports.brand_code`. Before a release with a new
+migration, make a Neon branch as a backup.
+
 ## Replacing sample data with official data
 
 Put new files with the same format in `data/seed/` and push. No code changes are needed.
