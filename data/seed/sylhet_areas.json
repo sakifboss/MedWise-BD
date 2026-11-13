@@ -4,7 +4,7 @@
     "source": "OpenStreetMap contributors (https://www.openstreetmap.org/copyright)",
     "licence": "ODbL 1.0",
     "is_sample": false,
-    "fetched": "2026-11-10",
+    "fetched": "2026-11-13",
     "bbox_south_west_north_east": [
       24.86,
       91.82,
@@ -12,10 +12,7 @@
       91.93
     ],
     "note": "Areas to pick when location is not shared: OSM places, plus OSM junctions, roads and landmarks for areas OSM has no place for. Bangla names drafted by MedWise BD.",
-    "to_add_by_team_gps": [
-      "Kumargaon",
-      "Subidbazar"
-    ]
+    "to_add_by_team_gps": []
   },
   "records": [
     {
@@ -83,6 +80,14 @@
       "osm": "node/4704716428"
     },
     {
+      "name": "Kumargaon",
+      "name_bn": "কুমারগাঁও",
+      "lat": 24.9099239,
+      "lon": 91.831591,
+      "kind": "landmark",
+      "osm": "way/1509312201"
+    },
+    {
       "name": "Kumarpara",
       "name_bn": "কুমারপাড়া",
       "lat": 24.9021581,
@@ -137,6 +142,14 @@
       "lon": 91.8562,
       "kind": "borough",
       "osm": "node/4762165002"
+    },
+    {
+      "name": "Subidbazar",
+      "name_bn": "সুবিদবাজার",
+      "lat": 24.9033726,
+      "lon": 91.8614901,
+      "kind": "landmark",
+      "osm": "way/1107198636"
     },
     {
       "name": "SUST (Shahjalal University)",

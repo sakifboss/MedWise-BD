@@ -48,6 +48,8 @@ AREA_ANCHORS: dict[str, tuple[str, str]] = {
     "way/528899502": ("Akhalia", "আখালিয়া"),  # Akhalia (road)
     "way/530948418": ("Lamabazar", "লামাবাজার"),  # Lamabazar Jame Masjid
     "way/354424186": ("Kumarpara", "কুমারপাড়া"),  # Kumarpara Road
+    "way/1107198636": ("Subidbazar", "সুবিদবাজার"),  # Subid Bazar Road
+    "way/1509312201": ("Kumargaon", "কুমারগাঁও"),  # Shajahanullah United Kumargaon power plant
     "node/765894619": ("Dargah (Hazrat Shahjalal Mazar)", "দরগাহ (হযরত শাহজালাল মাজার)"),
     "way/539407023": (
         "SUST (Shahjalal University)",
@@ -64,7 +66,8 @@ PLACE_NAMES: dict[str, tuple[str, str]] = {
 # OSM places left out because another entry already names the same area.
 SKIP_PLACES = {"node/5103775457"}  # Tilaghar Point: the suburb Tilagar covers it
 # Not in OpenStreetMap as a place or landmark: to be added by the team with a phone's GPS.
-TO_ADD_BY_GPS = ("Kumargaon", "Subidbazar")
+# Found on OSM on 2026-11-13 (Kumargaon, Subidbazar); add names here that OSM does not have.
+TO_ADD_BY_GPS: tuple[str, ...] = ()
 
 EXCLUDED_NAME = re.compile(r"homeo|হোমিও|herbal|ayurved|unani", re.I)
 EXCLUDED_TAGS = {
