@@ -222,8 +222,8 @@ python scripts/build_symptoms_bn.py apply ../data/templates/symptoms_bn.csv    #
 **Evaluation:** `python scripts/eval_symptoms.py` runs 40 invented cases (`data/eval/symptoms.json`,
 en, bn and Banglish) through the whole pipeline with the real OpenAI API and writes
 [`data/eval/symptoms_results.md`](data/eval/symptoms_results.md). Red-flag recall must be 100%.
-Last measured with Gemini (2026-11-10): red flags 13/13, false alarms 0/27, specialty 27/27;
-to be re-measured with OpenAI.
+Latest (OpenAI gpt-6-luna, 2026-11-13): red flags 13/13, false alarms 0/27, specialty 27/27,
+the same as with Gemini before.
 
 ## Pharmacy finder (Sylhet)
 

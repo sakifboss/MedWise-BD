@@ -406,7 +406,8 @@ PR workflow for every step:
   Tests: import validation, API, distance sorting.
   Done 2026-11-10 (PR): 49 named OSM pharmacies (0 with a phone on OSM), 20 areas; 5 left out by
   rule (1 unnamed, 4 homeopathic). Survey not needed yet (>= 30 named); Kumargaon and Subidbazar
-  are 'to add by team GPS'. Nobody is a partner yet. Directions open Google Maps with only the
+  are 'to add by team GPS' (found on OSM and added 2026-11-13: Subid Bazar Road, and the
+  Kumargaon power plant). Nobody is a partner yet. Directions open Google Maps with only the
   destination. Browser test: mocked location at Zindabazar, denied, Dhaka, en/bn; no request
   carries the location.
   Addresses that are empty or only "Sylhet" (43 + 4 of 49) show "Near <closest area>" instead.
@@ -470,8 +471,9 @@ Same rules and PR workflow as Phase 3: plan first and wait for the user's OK; en
 string; no medical advice; data only through seed files and import_data.py; no hard-coded counts;
 docs updated when behaviour changes; never merge (the user merges).
 
-Pending outside this list: re-run both evaluations with OpenAI (`eval_ocr.py`, `eval_symptoms.py`;
-needs OPENAI_API_KEY in backend/.env). Adding more medicines is on hold (owner, 2026-11-10).
+Pending outside this list: the owner's choice of OCR model (see Q6). All 188 brand prices were
+re-checked against Arogga on 2026-11-13: none changed. Adding more medicines is on hold (owner,
+2026-11-10).
 
 - [ ] **Q1. "Usually keeps" from partner pharmacies (Sylhet).** Blocked until the team has at least
   one partner (consent form kept by the team, never in the repo).
@@ -508,7 +510,12 @@ needs OPENAI_API_KEY in backend/.env). Adding more medicines is on hold (owner, 
   guide's schema limits the specialty to our ids; every server-side check and rule is unchanged.
   Privacy text: OpenAI does not train on API data and may keep it up to 30 days for abuse checks.
   Owner: key only in backend/.env and on Render (OPENAI_API_KEY), monthly usage limit set in the
-  OpenAI dashboard; remove GEMINI_API_KEY from Render after the merge. Evaluations to re-run.
+  OpenAI dashboard; remove GEMINI_API_KEY from Render after the merge.
+  Evaluations 2026-11-13: symptom guide (gpt-6-luna) red flags 13/13, false alarms 0/27, specialty
+  27/27. OCR on real handwriting: gpt-6-luna recall 70.6% (worse than Gemini's 82.4%),
+  gpt-6.1-terra 94.1% (data/eval/results_gpt-6.1-terra.md); terra returns nothing for the synthetic
+  pages marked "NOT A REAL PRESCRIPTION", as our instructions ask. Cost per scan: luna $0.0004,
+  terra $0.0034. Proposed: terra for scans, luna for the symptom guide (owner to decide).
 
 Approved by the owner 2026-11-10 ("Q2 ok", with Q3, Q4 and Q5), built in this order, one PR each:
 
