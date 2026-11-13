@@ -471,7 +471,7 @@ Same rules and PR workflow as Phase 3: plan first and wait for the user's OK; en
 string; no medical advice; data only through seed files and import_data.py; no hard-coded counts;
 docs updated when behaviour changes; never merge (the user merges).
 
-Pending outside this list: the owner's choice of OCR model (see Q6). All 188 brand prices were
+Pending outside this list: nothing for OpenAI (see Q6). All 188 brand prices were
 re-checked against Arogga on 2026-11-13: none changed. Adding more medicines is on hold (owner,
 2026-11-10).
 
@@ -513,9 +513,11 @@ re-checked against Arogga on 2026-11-13: none changed. Adding more medicines is 
   OpenAI dashboard; remove GEMINI_API_KEY from Render after the merge.
   Evaluations 2026-11-13: symptom guide (gpt-6-luna) red flags 13/13, false alarms 0/27, specialty
   27/27. OCR on real handwriting: gpt-6-luna recall 70.6% (worse than Gemini's 82.4%),
-  gpt-6.1-terra 94.1% (data/eval/results_gpt-6.1-terra.md); terra returns nothing for the synthetic
+  gpt-6.1-terra 94.1% (data/eval/results.md); terra returns nothing for the synthetic
   pages marked "NOT A REAL PRESCRIPTION", as our instructions ask. Cost per scan: luna $0.0004,
-  terra $0.0034. Proposed: terra for scans, luna for the symptom guide (owner to decide).
+  terra $0.0034. Owner's decision 2026-11-13: terra for scans (OPENAI_OCR_MODEL, luna as fallback),
+  luna for the symptom guide (OPENAI_MODEL); the daily scan limit stays at 300 (~$1/day at most).
+  data/eval/results.md shows the scan model; results_gpt-6-luna.md keeps luna for comparison.
 
 Approved by the owner 2026-11-10 ("Q2 ok", with Q3, Q4 and Q5), built in this order, one PR each:
 
