@@ -7,10 +7,10 @@
 export const DOCTOR_DATA_REGION = "AWS US East (Ohio), us-east-2";
 
 /**
- * How long a deleted account can remain in Neon's restore history, in hours. Null until the owner
- * confirms it from the Neon settings; the page then says "a short time (to be confirmed)".
+ * How long a deleted account can remain in Neon's restore history, in hours (Neon settings). Null
+ * makes the page say "a short time (to be confirmed)".
  */
-export const RESTORE_WINDOW_HOURS: number | null = null;
+export const RESTORE_WINDOW_HOURS: number | null = 24; // 1 day (owner, 2026-11-13)
 
-/** Contact for doctors (deletion, verification). Empty until the owner gives the project email. */
-export const DOCTOR_CONTACT_EMAIL = "";
+/** Contact for doctors (deletion, verification): the project email. No phone number. */
+export const DOCTOR_CONTACT_EMAIL = "medwisebd.team@gmail.com";

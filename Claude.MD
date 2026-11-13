@@ -742,7 +742,10 @@ Rules for every R step:
   links put the token after '#' (never sent to a server) and the page removes it from the address
   bar. Sign-ups and resets share one limit (5 an hour per client). The service worker never
   touches /doctor or /api/doctor; both send Cache-Control: no-store. Privacy-page facts live in
-  frontend/src/lib/doctor-config.ts (restore window and contact email still to be filled by the owner).
+  frontend/src/lib/doctor-config.ts: contact medwisebd.team@gmail.com (no phone), Neon restore window
+  1 day. The privacy page does not claim that no IP address is kept anywhere: the hosting services
+  (Vercel, Render) keep standard request logs for a short time. Bangla wording fixed and approved by
+  the owner (hashed, not "scrambled"; "যাচাই সফল হয়নি" for rejected).
 
 - [ ] **R3. Write and print a prescription.**
   Page /doctor/rx (login required; verified, pending and demo doctors). Sections: patient (name,
