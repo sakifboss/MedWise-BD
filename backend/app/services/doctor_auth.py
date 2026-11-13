@@ -4,8 +4,9 @@ Sessions: the cookie holds a random 32-byte token; the database keeps only its s
 ends after 12 hours without use or 7 days after login, whichever comes first, on logout, and for
 every device on "log out everywhere", a password change or reset, and account deletion.
 
-Cookie mw_doc: HttpOnly, SameSite=Lax, Path=/, no Domain attribute (only our site), Secure except
-on http://localhost (local development and Docker).
+Cookie mw_doc: HttpOnly, SameSite=Lax, Path=/api/doctor (sent only to the doctor API, so other
+requests such as search never say who is asking), no Domain attribute (only our site), Secure
+except on http://localhost (local development and Docker).
 
 Requests that change anything must come through our frontend (shared-secret header) and carry an
 Origin that is one of our sites (settings.site_origins: the live site, localhost). Vercel preview
@@ -32,6 +33,8 @@ from app.core.frontend_auth import require_frontend
 from app.models import Doctor, DoctorSession
 
 COOKIE_NAME = "mw_doc"
+COOKIE_PATH = "/api/doctor"
+OLD_COOKIE_PATH = "/"  # R2 set the cookie on every path; cleared whenever we set or clear ours
 IDLE = timedelta(hours=12)
 ABSOLUTE = timedelta(days=7)
 LAST_SEEN_STEP = timedelta(minutes=1)  # write last_seen at most once a minute
@@ -122,12 +125,19 @@ def _is_local(request: Request) -> bool:
     return origin.startswith(("http://localhost", "http://127.0.0.1"))
 
 
+def _clear(response: Response, request: Request, path: str) -> None:
+    response.delete_cookie(
+        COOKIE_NAME, path=path, httponly=True, secure=not _is_local(request), samesite="lax"
+    )
+
+
 def set_session_cookie(response: Response, request: Request, token: str) -> None:
+    _clear(response, request, OLD_COOKIE_PATH)
     response.set_cookie(
         COOKIE_NAME,
         token,
         max_age=int(ABSOLUTE.total_seconds()),
-        path="/",
+        path=COOKIE_PATH,
         httponly=True,
         secure=not _is_local(request),
         samesite="lax",
@@ -135,9 +145,8 @@ def set_session_cookie(response: Response, request: Request, token: str) -> None
 
 
 def clear_session_cookie(response: Response, request: Request) -> None:
-    response.delete_cookie(
-        COOKIE_NAME, path="/", httponly=True, secure=not _is_local(request), samesite="lax"
-    )
+    _clear(response, request, OLD_COOKIE_PATH)
+    _clear(response, request, COOKIE_PATH)
 
 
 # ---------------------------------------------------------------- sessions

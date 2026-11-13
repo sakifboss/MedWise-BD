@@ -201,3 +201,52 @@
     -webkit-print-color-adjust: exact;
   }
 }
+
+/* The Rx Pad's A4 prescription: only the prescription is printed (no site header or footer).
+   The doctor's name on page 2 onwards, the MedWise BD footer and the page number sit in the page
+   margins; their text comes from custom properties set by the pad (lib/rx-print.ts). */
+@media print {
+  body:has([data-rx-print]) [data-site-chrome] {
+    display: none !important;
+  }
+  body:has([data-rx-print]) main {
+    max-width: none;
+    padding: 0;
+  }
+  .rx-print {
+    page: rx;
+  }
+  .rx-mark {
+    position: fixed;
+    top: 45%;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 30pt;
+    font-weight: 700;
+    color: rgb(0 0 0 / 0.12);
+    transform: rotate(-30deg);
+    pointer-events: none;
+  }
+}
+@page rx {
+  size: A4;
+  margin: 16mm 14mm 18mm;
+  @top-left {
+    content: var(--rx-running-head);
+    font-size: 9pt;
+  }
+  @bottom-left {
+    content: var(--rx-footer);
+    font-size: 8pt;
+  }
+  @bottom-right {
+    content: counter(page) " / " counter(pages);
+    font-size: 8pt;
+  }
+}
+@page rx:first {
+  @top-left {
+    content: none;
+  }
+}

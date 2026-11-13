@@ -76,9 +76,13 @@ def login(api: TestClient, email: str = "rahima@example.com", password: str = PA
 
 
 def set_cookie(response) -> SimpleCookie:  # noqa: ANN001
-    jar: SimpleCookie = SimpleCookie()
-    jar.load(response.headers["set-cookie"])
-    return jar
+    """The session cookie being set (not the clearing of R2's old Path=/ cookie)."""
+    for header in response.headers.get_list("set-cookie"):
+        jar: SimpleCookie = SimpleCookie()
+        jar.load(header)
+        if jar[COOKIE_NAME]["path"] == "/api/doctor":
+            return jar
+    raise AssertionError("no session cookie set")
 
 
 def doctor_row(engine: Engine, email: str = "rahima@example.com") -> Doctor:
@@ -149,9 +153,22 @@ def test_session_cookie_flags(api: TestClient) -> None:
     cookie = set_cookie(r)[COOKIE_NAME]
     header = r.headers["set-cookie"].lower()
     assert cookie["httponly"] and cookie["secure"] and cookie["samesite"].lower() == "lax"
-    assert cookie["path"] == "/" and "domain=" not in header
+    assert cookie["path"] == "/api/doctor" and "domain=" not in header
     assert int(cookie["max-age"]) == 7 * 24 * 3600
     assert len(cookie.value) >= 40  # 32 random bytes
+
+
+def test_cookie_goes_only_to_the_doctor_api_and_clears_the_old_one(api: TestClient) -> None:
+    r = api.post(
+        "/api/doctor/signup", json={**PROFILE, "email": "p@example.com", "password": PASSWORD}
+    )
+    headers = [h.lower() for h in r.headers.get_list("set-cookie")]
+    # R2's cookie (Path=/) is removed, so search and other requests never carry the session.
+    assert any(
+        h.startswith(f"{COOKIE_NAME}=") and "max-age=0" in h and "path=/;" in h for h in headers
+    )
+    assert [c.path for c in api.cookies.jar if c.name == COOKIE_NAME] == ["/api/doctor"]
+    assert api.get("/api/doctor/me").status_code == 200
 
 
 def test_cookie_is_not_secure_on_localhost(api: TestClient) -> None:
