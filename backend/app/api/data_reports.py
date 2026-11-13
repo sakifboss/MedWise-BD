@@ -46,16 +46,17 @@ def report_problem(
     body: DataReportIn, db: Annotated[Session, Depends(get_db)]
 ) -> Envelope[DataReportSaved]:
     row = db.execute(
-        select(Brand.name, Manufacturer.name, Brand.strength, Brand.dosage_form)
+        select(Brand.name, Manufacturer.name, Brand.strength, Brand.dosage_form, Brand.code)
         .join(Manufacturer, Brand.manufacturer_id == Manufacturer.id)
         .where(Brand.id == body.brand_id)
     ).first()
     if row is None:
         raise AppError(404, "not_found", "Brand not found")
-    name, manufacturer, strength, form = row
+    name, manufacturer, strength, form, code = row
     db.add(
         DataReport(
             brand_id=body.brand_id,
+            brand_code=code,
             brand_name=name,
             manufacturer=manufacturer,
             strength=strength,

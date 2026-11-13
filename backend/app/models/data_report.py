@@ -21,6 +21,8 @@ class DataReport(RequestsBase):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     brand_id: Mapped[int] = mapped_column(Integer)
+    # The stable brand code (from Alembic revision 0002; older rows have none).
+    brand_code: Mapped[str | None] = mapped_column(String(7), nullable=True)
     brand_name: Mapped[str] = mapped_column(String(200))
     manufacturer: Mapped[str] = mapped_column(String(200))
     strength: Mapped[str] = mapped_column(String(50))

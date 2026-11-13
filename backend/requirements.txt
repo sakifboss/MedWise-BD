@@ -10,6 +10,7 @@ pydantic==2.14.3
 pydantic-settings==2.16.2
 psycopg[binary]==3.3.8
 rapidfuzz==3.14.6
+alembic==1.20.1
 python-multipart==0.0.33
 httpx==0.28.1
 
@@ -23,6 +24,8 @@ h11==0.16.0
 httpcore==1.0.9
 httptools==0.9.0
 idna==3.20
+mako==1.4.3
+markupsafe==3.0.4
 opentelemetry-api==1.45.2  # needed by fastapi; API only, records and sends nothing without an SDK
 psycopg-binary==3.3.8 ; implementation_name != 'pypy'
 pydantic-core==2.50.4

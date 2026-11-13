@@ -63,12 +63,14 @@ def test_stores_only_the_brand_reason_and_day(
         "wrong_price",
     )
     assert (row.strength, row.dosage_form) == ("20 mg", "capsule")
+    assert row.brand_code is not None and row.brand_code.startswith("BR")
     assert row.reported_on == datetime.now(UTC).date()
     # No column for anything about the person (IP, user agent, cookie, user id, free text).
     columns = {c["name"] for c in inspect(seeded_engine).get_columns("data_reports")}
     assert columns == {
         "id",
         "brand_id",
+        "brand_code",
         "brand_name",
         "manufacturer",
         "strength",
