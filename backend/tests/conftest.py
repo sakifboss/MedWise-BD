@@ -45,9 +45,9 @@ def client(seeded_engine: Engine) -> Iterator[TestClient]:
 
 
 @pytest.fixture(autouse=True)
-def no_real_gemini(monkeypatch: pytest.MonkeyPatch) -> None:
-    """Tests must never call the real Gemini API, even if backend/.env has a key."""
-    monkeypatch.setattr(get_settings(), "gemini_api_key", "")
+def no_real_openai(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Tests must never call the real OpenAI API, even if backend/.env has a key."""
+    monkeypatch.setattr(get_settings(), "openai_api_key", "")
 
 
 @pytest.fixture(autouse=True)

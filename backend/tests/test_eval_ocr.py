@@ -1,4 +1,4 @@
-"""Scoring code of scripts/eval_ocr.py, with fake extractions (no network, no Gemini)."""
+"""Scoring code of scripts/eval_ocr.py, with fake extractions (no network, no OpenAI)."""
 
 import io
 import json

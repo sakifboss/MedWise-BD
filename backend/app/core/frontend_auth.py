@@ -1,8 +1,8 @@
 """Proof that a request came through our own frontend.
 
-The Next.js proxy adds FRONTEND_SECRET_HEADER with the shared secret to Gemini-backed requests
+The Next.js proxy adds FRONTEND_SECRET_HEADER with the shared secret to OpenAI-backed requests
 (prescription reading, symptom guide) and the request log, so
-calling the backend directly cannot use up the Gemini quota. With no secret configured (local
+calling the backend directly cannot use up the OpenAI budget. With no secret configured (local
 development, tests) every request is allowed.
 """
 

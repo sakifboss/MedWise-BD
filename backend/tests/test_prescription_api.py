@@ -15,7 +15,10 @@ PNG = b"\x89PNG\r\n\x1a\n" + b"\x00" * 64
 
 
 class FakeOcr:
-    """Stands in for Gemini. Tests set `medicines` or `error`; `calls` records requests."""
+    """Stands in for the OpenAI vision model.
+
+    Tests set `medicines` or `error`; `calls` records requests.
+    """
 
     def __init__(self) -> None:
         self.medicines: list[ExtractedMedicine] = []
@@ -148,7 +151,7 @@ def test_ocr_errors_use_envelope(client: TestClient, ocr: FakeOcr) -> None:
 def test_missing_key_returns_503(client: TestClient, monkeypatch: pytest.MonkeyPatch) -> None:
     from app.core.config import get_settings
 
-    monkeypatch.setattr(get_settings(), "gemini_api_key", "")
+    monkeypatch.setattr(get_settings(), "openai_api_key", "")
     response = upload(client)
     assert response.status_code == 503
     assert response.json()["error"]["code"] == "ocr_unavailable"
@@ -203,7 +206,7 @@ def test_direct_calls_without_the_secret_are_rejected(
     response = _upload_with(client, header)
     assert response.status_code == 403
     assert response.json()["error"]["code"] == "forbidden"
-    assert ocr.calls == []  # Gemini is never reached
+    assert ocr.calls == []  # the model is never reached
 
 
 def test_rejected_calls_do_not_use_up_the_rate_limits(

@@ -1,4 +1,4 @@
-"""Reads medicine names and strengths from a prescription photo using Gemini vision.
+"""Reads medicine names and strengths from a prescription photo with an OpenAI vision model.
 
 Safety rules (CLAUDE.md):
 - The model ONLY extracts names + strengths. The response schema has no field for dosage,
@@ -16,7 +16,7 @@ from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
 from app.core.config import Settings
 from app.core.errors import AppError
-from app.services.gemini import GeminiClient, GeminiUnavailable
+from app.services.llm import LlmClient, LlmUnavailable, strict_format
 
 MAX_MEDICINES = 20
 
@@ -37,21 +37,23 @@ Rules:
 """
 
 RESPONSE_SCHEMA = {
-    "type": "OBJECT",
+    "type": "object",
     "properties": {
         "medicines": {
-            "type": "ARRAY",
+            "type": "array",
             "items": {
-                "type": "OBJECT",
+                "type": "object",
                 "properties": {
-                    "name": {"type": "STRING"},
-                    "strength": {"type": "STRING", "nullable": True},
+                    "name": {"type": "string"},
+                    "strength": {"type": ["string", "null"]},
                 },
-                "required": ["name"],
+                "required": ["name", "strength"],
+                "additionalProperties": False,
             },
         }
     },
     "required": ["medicines"],
+    "additionalProperties": False,
 }
 
 
@@ -77,29 +79,13 @@ class _ModelOutput(BaseModel):
 Extractor = Callable[[bytes, str], list[ExtractedMedicine]]
 
 
-def _request_body(image: bytes, mime_type: str) -> dict:
-    return {
-        "systemInstruction": {"parts": [{"text": SYSTEM_PROMPT}]},
-        "contents": [
-            {
-                "role": "user",
-                "parts": [
-                    {
-                        "inline_data": {
-                            "mime_type": mime_type,
-                            "data": base64.b64encode(image).decode("ascii"),
-                        }
-                    },
-                    {"text": "List the medicines on this prescription."},
-                ],
-            }
-        ],
-        "generationConfig": {
-            "temperature": 0,
-            "responseMimeType": "application/json",
-            "responseSchema": RESPONSE_SCHEMA,
-        },
-    }
+def _image_content(image: bytes, mime_type: str) -> list[dict]:
+    data_url = f"data:{mime_type};base64,{base64.b64encode(image).decode('ascii')}"
+    return [
+        {"type": "input_text", "text": "List the medicines on this prescription."},
+        # "high" detail: handwriting needs the full resolution.
+        {"type": "input_image", "image_url": data_url, "detail": "high"},
+    ]
 
 
 def parse_medicines(text: str) -> list[ExtractedMedicine]:
@@ -124,16 +110,20 @@ def parse_medicines(text: str) -> list[ExtractedMedicine]:
     return medicines[:MAX_MEDICINES]
 
 
-class GeminiExtractor(GeminiClient):
+class VisionExtractor(LlmClient):
     def __init__(self, settings: Settings, client: httpx.Client | None = None) -> None:
-        if not settings.gemini_api_key:
+        if not settings.openai_api_key:
             raise AppError(503, "ocr_unavailable", "Prescription reading is not configured.")
         super().__init__(settings, client)
 
     def __call__(self, image: bytes, mime_type: str) -> list[ExtractedMedicine]:
         try:
-            return parse_medicines(self.generate(_request_body(image, mime_type)))
-        except GeminiUnavailable as exc:
+            text = self.generate(
+                SYSTEM_PROMPT,
+                _image_content(image, mime_type),
+                strict_format("prescription_medicines", RESPONSE_SCHEMA),
+            )
+        except LlmUnavailable as exc:
             # Attempt details (model, outcome, time) help diagnose failures; they hold no secrets.
             if exc.status == 429:
                 raise AppError(
@@ -149,3 +139,4 @@ class GeminiExtractor(GeminiClient):
             raise AppError(
                 503, "ocr_unavailable", "Prescription reading is unavailable.", exc.attempts
             ) from exc
+        return parse_medicines(text)
