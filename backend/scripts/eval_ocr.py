@@ -56,15 +56,29 @@ APP_JPEG_QUALITY = 85
 
 @dataclass(frozen=True)
 class TruthMedicine:
-    name: str
+    name: str  # as written on the prescription
     strength: str | None
     generic: str | None = None  # set when the written name differs from the catalog's brand name
+    # The mapping from the written name to a product: the pack's name, whether the team confirmed
+    # it (from the photo, the box or a pharmacy memo) and how. An unconfirmed mapping is not
+    # counted as covered or matched; coverage is also reported with it, separately.
+    mapped_to: str | None = None
+    confirmed: bool = True
+    mapping_note: str | None = None
 
 
 def load_truth(path: Path) -> list[TruthMedicine]:
     data = json.loads(path.read_text(encoding="utf-8"))
     return [
-        TruthMedicine(m["name"], m.get("strength"), m.get("generic")) for m in data["medicines"]
+        TruthMedicine(
+            m["name"],
+            m.get("strength"),
+            m.get("generic"),
+            m.get("mapped_to"),
+            bool(m.get("confirmed", True)),
+            m.get("mapping_note"),
+        )
+        for m in data["medicines"]
     ]
 
 
@@ -236,19 +250,23 @@ class Matching:
     offered: int = 0  # the right one was among the options the user can pick from
     failures: list[str] = field(default_factory=list)
     not_in_catalog: list[str] = field(default_factory=list)  # names, for the coverage report
+    unconfirmed: list[str] = field(default_factory=list)  # in the catalog only if a guess is right
 
 
 def _is_expected(expected: Expected, got: Suggestion) -> bool:
     return got.generic == expected.generic and strengths_agree(expected.strength, got.strength)
 
 
-def catalog_lookup(
-    brands: dict[str, set[str]], generics: dict[str, str]
-) -> Callable[[TruthMedicine], Expected | None]:
-    """brands: normalised brand name -> generic names; generics: normalised name -> name."""
+Lookup = Callable[..., Expected | None]
 
-    def lookup(m: TruthMedicine) -> Expected | None:
-        if m.generic:
+
+def catalog_lookup(brands: dict[str, set[str]], generics: dict[str, str]) -> Lookup:
+    """brands: normalised brand name -> generic names; generics: normalised name -> name.
+
+    lookup(m) uses only confirmed mappings; lookup(m, include_unconfirmed=True) also the rest."""
+
+    def lookup(m: TruthMedicine, include_unconfirmed: bool = False) -> Expected | None:
+        if m.generic and (m.confirmed or include_unconfirmed):
             generic = generics.get(norm_name(m.generic))
         elif norm_name(m.name) in brands:
             options = brands[norm_name(m.name)]
@@ -264,7 +282,7 @@ def score_matching(
     truth: Sequence[TruthMedicine],
     reading: Reading,
     suggestions: Sequence[Suggestion | None],
-    lookup: Callable[[TruthMedicine], Expected | None],
+    lookup: Lookup,
     offered: Sequence[Sequence[Suggestion]] | None = None,
 ) -> Matching:
     """Of the true medicines in our catalog, how many got the right suggestion (generic + strength).
@@ -276,7 +294,10 @@ def score_matching(
     for i, m in enumerate(truth):
         expected = lookup(m)
         if expected is None:
-            matching.not_in_catalog.append(m.name)
+            if lookup(m, include_unconfirmed=True) is not None:
+                matching.unconfirmed.append(m.name)
+            else:
+                matching.not_in_catalog.append(m.name)
             continue
         matching.in_catalog += 1
         if i not in by_truth:
@@ -322,6 +343,7 @@ class Totals:
     offered: int = 0
     errors: int = 0
     not_in_catalog: Counter[str] = field(default_factory=Counter)
+    unconfirmed: Counter[str] = field(default_factory=Counter)
 
     def add(self, r: ImageResult) -> None:
         self.images += 1
@@ -333,6 +355,7 @@ class Totals:
         self.offered += r.matching.offered
         self.errors += r.error is not None
         self.not_in_catalog.update(r.matching.not_in_catalog)
+        self.unconfirmed.update(r.matching.unconfirmed)
 
     @property
     def recall(self) -> float | None:
@@ -356,10 +379,39 @@ class Totals:
         (its brand name, its generic name, or the generic given in the ground truth)."""
         return self.in_catalog / self.truth if self.truth else None
 
+    @property
+    def coverage_with_unconfirmed(self) -> float | None:
+        """Coverage if every unconfirmed mapping turns out right."""
+        extra = sum(self.unconfirmed.values())
+        return (self.in_catalog + extra) / self.truth if self.truth else None
+
+
+def _names(counts: Counter[str]) -> str:
+    return ", ".join(f"{n} ({c})" if c > 1 else n for n, c in sorted(counts.items())) or "-"
+
 
 def coverage_line(name: str, t: Totals) -> str:
-    missing = ", ".join(f"{n} ({c})" if c > 1 else n for n, c in sorted(t.not_in_catalog.items()))
-    return f"| {name} | {t.in_catalog} of {t.truth} | {pct(t.coverage)} | {missing or '-'} |"
+    return (
+        f"| {name} | {t.in_catalog} of {t.truth} | {pct(t.coverage)} | "
+        f"{pct(t.coverage_with_unconfirmed)} | {_names(t.unconfirmed)} | "
+        f"{_names(t.not_in_catalog)} |"
+    )
+
+
+def mapping_lines(results: Iterable[ImageResult]) -> list[str]:
+    """Each written name the team mapped to a product, once, with its status (names only)."""
+    seen: dict[str, TruthMedicine] = {}
+    for r in results:
+        for m in r.truth:
+            if m.mapped_to and m.name not in seen:
+                seen[m.name] = m
+    lines = []
+    for name, m in sorted(seen.items()):
+        status = "confirmed" if m.confirmed else "NOT confirmed (not counted as covered or matched)"
+        note = f": {m.mapping_note}" if m.mapping_note else ""
+        generic = f" ({m.generic})" if m.generic else ""
+        lines.append(f"- {name} -> {m.mapped_to}{generic}, {status}{note}.")
+    return lines
 
 
 def totals_by_subset(results: Iterable[ImageResult]) -> dict[str, Totals]:
@@ -497,6 +549,7 @@ def results_markdown(
             f"{missed} | {extra} | {r.matching.matched}/{r.matching.in_catalog} |"
         )
     coverage_rows = [coverage_line(name, totals[name]) for name in order]
+    mappings = "\n".join(mapping_lines(results)) or "- None."
     notes = "\n".join(
         f"- **{name}**: {SUBSET_NOTES[name]}." for name in SUBSET_NOTES if name in totals
     )
@@ -533,11 +586,16 @@ Images are resized like the app (longest side {APP_MAX_SIDE} px, JPEG quality {A
 Of the readable medicine lines, how many name a medicine that is in our catalog (its brand name,
 its generic name, or the generic the team wrote in the ground truth when the written name differs
 from the pack). Lines nobody could read are left out. Target for the real handwritten
-prescriptions: 80% or more.
+prescriptions: 80% or more. "Coverage" counts confirmed mappings only (the main number); the next
+column also counts mappings the team has not confirmed yet.
 
-| Subset | Lines in catalog | Coverage | Not in catalog |
-|---|---|---|---|
+| Subset | Lines in catalog | Coverage | With unconfirmed mappings | Unconfirmed | Not in catalog |
+|---|---|---|---|---|---|
 {chr(10).join(coverage_rows)}
+
+Names written differently from the pack, as mapped by the team:
+
+{mappings}
 
 ## The images
 
@@ -712,7 +770,10 @@ def main(argv: list[str] | None = None) -> int:
             f"  offered {pct(t.offered_rate):>6} ({t.offered}/{t.in_catalog})"
             + (f"  errors {t.errors}" if t.errors else "")
         )
-        print(f"{'':18} catalog coverage {pct(t.coverage):>6} ({t.in_catalog}/{t.truth})")
+        print(
+            f"{'':18} catalog coverage {pct(t.coverage):>6} ({t.in_catalog}/{t.truth}),"
+            f" with unconfirmed mappings {pct(t.coverage_with_unconfirmed)}"
+        )
     if not args.no_write:
         out = args.out or args.eval_dir / "results.md"
         out.write_text(

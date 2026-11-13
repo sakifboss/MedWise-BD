@@ -37,6 +37,14 @@ Run `git status` before every commit: no image or `rxNN.json` may appear.
    - Numbers in a circle (how many tablets) are not strengths.
    - When the written name differs from the catalog's brand name, add the generic:
      `{"name": "Nexum", "strength": "20 mg", "generic": "Esomeprazole"}` (catalog: "Nexum MUPS").
+   - When the written name is not a product name at all, keep it as written and record the
+     mapping: `"mapped_to"` (the pack's name), `"confirmed"` (true only when the team checked it
+     on the photo, the medicine box or a pharmacy memo) and `"mapping_note"` (how). An unconfirmed
+     mapping is not counted as covered or matched; results.md lists every mapping and reports
+     coverage both ways. Example: `{"name": "Fenomin", "strength": null, "generic":
+     "Fexofenadine", "mapped_to": "Fexomin", "confirmed": false, "mapping_note": "third letter
+     looks like n or r"}`. If people often write a brand differently, also add the spelling to
+     the brand's `aliases` in the brand sheet so search and the scanner find it.
 3. Add the id to a subset in `subsets.json` (`real_handwritten`, `synthetic_printed`,
    `degraded_copies`). Results are reported per subset and overall.
 
@@ -80,3 +88,4 @@ python scripts/eval_ocr.py --model gpt-6-luna --out ../data/eval/results_gpt-6-l
   (its brand name, its generic name, or the `generic` written in the ground truth when the name
   on the prescription differs from the pack). Lines not in the catalog are listed by name, so
   the team knows what to add next. Target for the real handwritten prescriptions: 80% or more.
+  The main number counts confirmed mappings only; a second column also counts unconfirmed ones.

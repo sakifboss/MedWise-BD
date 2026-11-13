@@ -192,8 +192,39 @@ def test_catalog_coverage_counts_readable_lines_in_the_catalog() -> None:
     assert real.not_in_catalog == {"Kexam": 2, "Fexo": 1}
     assert totals["synthetic_printed"].coverage == 0.0
     md = results_markdown(results, 85, None)
-    assert "| real_handwritten | 1 of 4 | 25.0% | Fexo, Kexam (2) |" in md
-    assert "| overall | 1 of 5 | 20.0% | DemoMed-A, Fexo, Kexam (2) |" in md
+    assert "| real_handwritten | 1 of 4 | 25.0% | 25.0% | - | Fexo, Kexam (2) |" in md
+    assert "| overall | 1 of 5 | 20.0% | 20.0% | - | DemoMed-A, Fexo, Kexam (2) |" in md
+
+
+def test_unconfirmed_mappings_are_not_counted_as_covered_or_matched() -> None:
+    # "Fenomin" may be Fexomin (fexofenadine), not yet confirmed; "Mycedin" is confirmed.
+    fenomin = TruthMedicine(
+        "Fenomin", None, "Fexofenadine", "Fexomin", False, "third letter n or r"
+    )
+    mycedin = TruthMedicine(
+        "Mycedin", None, "Chloramphenicol", "SQ-Mycetin", True, "SQ on the photo"
+    )
+    lookup = catalog_lookup(
+        {}, {"fexofenadine": "Fexofenadine", "chloramphenicol": "Chloramphenicol"}
+    )
+    assert lookup(fenomin) is None
+    assert lookup(fenomin, include_unconfirmed=True) == Expected("Fexofenadine", None)
+    assert lookup(mycedin) == Expected("Chloramphenicol", None)
+
+    truth = [fenomin, mycedin]
+    reading = score_reading(truth, [E("Fenomin", None), E("Mycedin", None)], 85)
+    got = [Suggestion("Fexofenadine", "120 mg"), Suggestion("Chloramphenicol", "0.5 %")]
+    matching = score_matching(truth, reading, got, lookup)
+    assert (matching.in_catalog, matching.matched) == (1, 1)  # Mycedin only
+    assert matching.unconfirmed == ["Fenomin"] and matching.not_in_catalog == []
+
+    result = ImageResult("rx01", "real_handwritten", truth, [], reading, matching, "model-x")
+    real = totals_by_subset([result])["real_handwritten"]
+    assert (real.coverage, real.coverage_with_unconfirmed) == (0.5, 1.0)
+    md = results_markdown([result], 85, None)
+    assert "| real_handwritten | 1 of 2 | 50.0% | 100.0% | Fenomin | - |" in md
+    assert "- Fenomin -> Fexomin (Fexofenadine), NOT confirmed" in md
+    assert "- Mycedin -> SQ-Mycetin (Chloramphenicol), confirmed: SQ on the photo." in md
 
 
 def test_coverage_is_none_without_lines() -> None:
