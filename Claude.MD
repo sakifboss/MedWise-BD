@@ -474,8 +474,8 @@ string; no medical advice; data only through seed files and import_data.py; no h
 docs updated when behaviour changes; never merge (the user merges).
 
 Pending outside this list: nothing for OpenAI (see Q6). All 188 brand prices were
-re-checked against Arogga on 2026-11-13: none changed. Adding more medicines is on hold (owner,
-2026-11-10).
+re-checked against Arogga on 2026-11-13: none changed. Adding more medicines was on hold (owner,
+2026-11-10) and resumes in Phase 5, step R1b.
 
 - [ ] **Q1. "Usually keeps" from partner pharmacies (Sylhet).** Blocked until the team has at least
   one partner (consent form kept by the team, never in the repo).
@@ -557,17 +557,16 @@ Approved by the owner 2026-11-10 ("Q2 ok", with Q3, Q4 and Q5), built in this or
 ## Phase 5 — Doctor's Rx Pad (approved 2026-11-13)
 Same rules and PR workflow as Phase 3: plan first and wait for the user's OK; en + bn for every
 string; no hard-coded counts; docs updated when behaviour changes; never merge (the user merges).
-Order: R1 -> R2 -> R3 -> R4 -> R5 -> (R6); each step starts after the previous one is merged.
+Order: R1 -> R1b -> R2 -> R3 -> R4 -> R5 -> (R6); each step starts after the previous one is merged.
 
 Purpose: doctors write prescriptions with MedWise data beside them (quality rank, price, approvals,
 interactions), print a clear A4 prescription, and give the patient a QR code that opens the
 medicines in MedWise BD. The paper, signed by hand, stays the prescription; the QR is a helper.
 
-Open questions for the owner (answer before R3): (a) the catalog has 28 generics and 188 brands
-and adding medicines is on hold, so most real prescriptions will show "Not in MedWise yet";
-either grow the catalog alongside Phase 5 or present the Rx Pad as a pilot/demo; (b) the
-competition deadline above (2026-11-05) has passed: confirm the new date, since R1-R4 are enough
-for the demo (write -> print -> QR -> /rx) and R5-R6 can follow.
+Catalog decision (owner, 2026-11-13): present the Rx Pad as a Sylhet pilot now, and grow the
+catalog in R1b right after R1 (the hold on adding medicines ends there).
+Open question for the owner: the competition deadline above (2026-11-05) has passed; confirm the
+new date (R1-R4 are enough for the demo: write -> print -> QR -> /rx; R5-R6 can follow).
 
 Rules for every R step:
 - Patient information never reaches our backend. Patient name, age, sex, weight, complaints,
@@ -636,6 +635,22 @@ Rules for every R step:
   with rows (rows kept); importing twice gives identical codes; build_brands_from_csv keeps codes
   after a price change and retires removed ones; My Medicines and Recently viewed v1 -> v2
   migration (Vitest); old id links redirect.
+
+- [ ] **R1b. Targeted catalog growth (data step, after R1 is merged).**
+  Same process as P7: generic records with sourced text (NHS, then the US FDA label on DailyMed,
+  then the EMA product information) and how_to_take; Bangla through the review sheet, approved
+  before apply; brands and Arogga prices through data/templates/brands_template.csv and
+  build_brands_from_csv.py (new brands get new codes, R1); interactions re-extracted from DDInter;
+  import_data.py --dry-run passes; every count in README.md and this file updated.
+  Which generics, in this order: (1) those missing from the real eval prescriptions
+  (data/eval: medicine lines whose generic is not in the catalog); (2) the most-written medicines
+  from 1-2 doctors who try the pad (a list of names only, no patient data); (3) the top queries in
+  the request log (top_requests.py). Skip herbal products, mouthwashes and combination products
+  for now. Plan the list first and wait for the owner's OK.
+  Coverage measure: eval_ocr.py reports, for the real handwritten prescriptions, the share of
+  readable medicine lines whose medicine exists in the catalog. Baseline 2026-11-13: 21 of 34
+  readable lines (62%; 36 lines including 2 nobody could read; the owner's estimate was 19 of 36).
+  Target: 80% or more. results.md shows it; a unit test covers the calculation.
 
 - [ ] **R2. Doctor accounts and verification.**
   Pages: /doctor (what the Rx Pad is, sign up, log in), /doctor/profile, /doctor/account,
