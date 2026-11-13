@@ -752,6 +752,8 @@ const en = {
   },
   doctor: {
     footerLink: "For doctors",
+    /** Short name in the site menu. */
+    nav: "Doctors",
     title: "Rx Pad for doctors",
     metaDescription:
       "Write and print clear prescriptions with MedWise BD's medicine data beside you. A Sylhet pilot.",
@@ -1665,6 +1667,7 @@ const bn: Dict = {
   },
   doctor: {
     footerLink: "ডাক্তারদের জন্য",
+    nav: "ডাক্তার",
     title: "ডাক্তারদের জন্য Rx Pad",
     metaDescription:
       "MedWise BD-র ওষুধের তথ্য পাশে রেখে পরিষ্কার প্রেসক্রিপশন লিখুন ও প্রিন্ট করুন। সিলেটে পাইলট।",

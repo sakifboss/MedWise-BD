@@ -861,6 +861,13 @@ Rules for every R step:
   applies to brand lines only (a generic line already allows any brand). Physical scan test on a
   phone: a printable sheet with the 12-line QR at 5 and 4 cm is given to the owner with the PR.
 
+Site menu (owner, 2026-11-14): the doctors' section is in the menu ("Doctors" / "ডাক্তার", /doctor).
+Phones (below 768 px, or below 1024 px with Large text) get the sections as a 3x2 grid of large
+buttons with icon and name under the slim header (6 in a row from 640 px), scrolling away with the page;
+wider screens show the names in the header (header up to 1024 px wide). Checked at 15 widths x en/bn x
+normal/large text: no sideways scroll, no cut-off names, buttons at least 56 px. This replaces the icon-only
+phone header from Q2/Q3.
+
 - [ ] **R5. Templates and favourite tests.**
   Doctors save the current medicine lines, plus tests and advice text, as a named template; list,
   rename, edit, delete; "Apply" adds the lines to the current prescription. No patient fields are
