@@ -22,10 +22,10 @@ def listing(client: TestClient) -> list[dict]:
 
 
 def test_list_is_ranked_by_quality(listing: list[dict]) -> None:
-    assert len(listing) == 13
+    assert len(listing) == 14
     scores = [m["quality_score"] for m in listing]
     assert scores == sorted(scores, reverse=True)
-    assert [m["quality_rank"] for m in listing] == list(range(1, 14))
+    assert [m["quality_rank"] for m in listing] == list(range(1, len(listing) + 1))
     brands = json.loads((get_settings().seed_dir / "brands.json").read_text(encoding="utf-8"))
     assert sum(m["brand_count"] for m in listing) == len(brands["records"])  # every brand counted
 

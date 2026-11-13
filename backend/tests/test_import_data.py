@@ -47,7 +47,7 @@ def _records(name: str) -> list:
 def test_shipped_seed_data_is_valid() -> None:
     result = run_import(SEED_DIR, engine=None, dry_run=True)
     assert result.errors == []
-    assert result.counts["manufacturers"] == 13
+    assert result.counts["manufacturers"] == len(_records("manufacturers"))
     assert result.counts["generics"] == len(_records("generics"))
     assert result.counts["brands"] >= 40
     assert result.counts["interactions"] >= 1

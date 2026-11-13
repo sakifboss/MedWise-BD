@@ -138,7 +138,7 @@ def test_alternatives_same_generic_strength_and_form(client: TestClient) -> None
     assert data["generic"]["name"] == "Paracetamol"
     assert (data["strength"], data["dosage_form"]) == ("500 mg", "tablet")
     names = {a["name"] for a in data["alternatives"]}
-    assert names == {"Napa", "Ace", "Renova", "Reset", "Tamen", "Xpa"}  # no suspensions
+    assert names == {"Napa", "Ace", "Renova", "Reset", "Tamen", "Xpa", "Sinapol"}  # no suspensions
 
 
 def test_alternatives_are_ranked_and_explained(client: TestClient) -> None:
@@ -277,7 +277,7 @@ def test_empty_fields_are_not_pending_translation() -> None:
 
 def test_generic_detail_has_how_to_take_from_the_seed(client: TestClient) -> None:
     by_name = {}
-    for gid in range(1, 30):
+    for gid in range(1, 60):
         r = client.get(f"/api/generics/{gid}")
         if r.status_code == 200:
             by_name[r.json()["data"]["name"]] = r.json()["data"]
