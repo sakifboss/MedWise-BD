@@ -56,8 +56,16 @@ def output_text(payload: dict) -> str | None:
 
 
 class LlmClient:
-    def __init__(self, settings: Settings, client: httpx.Client | None = None) -> None:
+    def __init__(
+        self,
+        settings: Settings,
+        client: httpx.Client | None = None,
+        models: list[str] | None = None,
+    ) -> None:
         self._settings = settings
+        # Which models to try, in order; the general (symptom guide) list unless a feature
+        # passes its own (prescription reading).
+        self.models = models or settings.openai_models
         self.last_model: str | None = None  # which model answered the last call (for evaluation)
         self._client = client or httpx.Client(
             # Fail fast if a connection can't be opened; allow the model time to answer.
@@ -100,7 +108,7 @@ class LlmClient:
         started = time.monotonic()
         attempts: list[dict] = []
         last_status = 0
-        for model in self._settings.openai_models:
+        for model in self.models:
             if attempts and time.monotonic() - started > self._settings.openai_total_seconds:
                 break  # out of time budget: don't start another model
             t0 = time.monotonic()

@@ -9,6 +9,12 @@ BACKEND_DIR = Path(__file__).resolve().parents[2]
 REPO_DIR = BACKEND_DIR.parent
 
 
+def _model_list(first: str, fallbacks: str) -> list[str]:
+    """The first model, then the comma-separated fallbacks, without repeats."""
+    rest = [m.strip() for m in fallbacks.split(",") if m.strip()]
+    return list(dict.fromkeys([first.strip(), *rest]))
+
+
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=BACKEND_DIR / ".env", extra="ignore")
 
@@ -16,9 +22,14 @@ class Settings(BaseSettings):
     # OpenAI (prescription reading and the symptom guide). Paid API; set a monthly limit in the
     # OpenAI dashboard. The key lives only in backend/.env and on Render, never in git.
     openai_api_key: str = ""
+    # Symptom guide (text): the cheapest model is enough (13/13 red flags, 27/27 specialties).
     openai_model: str = "gpt-6-luna"
     # Tried in order when the main model is overloaded or unavailable (comma-separated).
     openai_fallback_models: str = "gpt-6.1-terra"
+    # Prescription photos: handwriting needs the stronger model (real handwritten recall 94.1%
+    # against 70.6% for gpt-6-luna; data/eval/results.md, results_gpt-6-luna.md); ~$0.003 a scan.
+    openai_ocr_model: str = "gpt-6.1-terra"
+    openai_ocr_fallback_models: str = "gpt-6-luna"
     # "none" to "max" on the gpt-6 models; empty leaves it to the model's default.
     openai_reasoning_effort: str = "low"
     openai_max_output_tokens: int = 2000
@@ -63,8 +74,11 @@ class Settings(BaseSettings):
 
     @property
     def openai_models(self) -> list[str]:
-        fallbacks = [m.strip() for m in self.openai_fallback_models.split(",") if m.strip()]
-        return list(dict.fromkeys([self.openai_model, *fallbacks]))
+        return _model_list(self.openai_model, self.openai_fallback_models)
+
+    @property
+    def openai_ocr_models(self) -> list[str]:
+        return _model_list(self.openai_ocr_model, self.openai_ocr_fallback_models)
 
 
 @lru_cache

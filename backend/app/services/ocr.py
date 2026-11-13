@@ -114,7 +114,7 @@ class VisionExtractor(LlmClient):
     def __init__(self, settings: Settings, client: httpx.Client | None = None) -> None:
         if not settings.openai_api_key:
             raise AppError(503, "ocr_unavailable", "Prescription reading is not configured.")
-        super().__init__(settings, client)
+        super().__init__(settings, client, models=settings.openai_ocr_models)
 
     def __call__(self, image: bytes, mime_type: str) -> list[ExtractedMedicine]:
         try:
