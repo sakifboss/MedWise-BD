@@ -29,6 +29,7 @@ class SearchHit:
     strength: str | None = None
     dosage_form: str | None = None
     manufacturer: str | None = None
+    code: str | None = None
 
 
 @lru_cache(maxsize=4096)
@@ -62,13 +63,14 @@ def _brand_hits(db: Session, latin: str, key: str) -> list[SearchHit]:
             Generic.id,
             Generic.name,
             Manufacturer.name,
+            Brand.code,
         )
         .join(Generic, Brand.generic_id == Generic.id)
         .join(Manufacturer, Brand.manufacturer_id == Manufacturer.id)
     )
     scores: dict[str, float] = {}
     hits = []
-    for brand_id, name, strength, form, generic_id, generic_name, manufacturer in rows:
+    for brand_id, name, strength, form, generic_id, generic_name, manufacturer, code in rows:
         if name not in scores:
             scores[name] = match_score(latin, key, name)
         if scores[name] >= MIN_SCORE:
@@ -83,6 +85,7 @@ def _brand_hits(db: Session, latin: str, key: str) -> list[SearchHit]:
                     strength,
                     form,
                     manufacturer,
+                    code,
                 )
             )
     return hits

@@ -26,7 +26,8 @@ from sqlalchemy import Engine, delete  # noqa: E402
 from sqlalchemy.orm import Session  # noqa: E402
 
 from app.core.config import get_settings  # noqa: E402
-from app.core.db import Base, RequestsBase, make_engine  # noqa: E402
+from app.core.db import Base, make_engine  # noqa: E402
+from app.core.migrations import upgrade_durable_tables  # noqa: E402
 from app.models import (  # noqa: E402
     Area,
     Brand,
@@ -81,6 +82,7 @@ class SeedData:
     red_flags: list[RedFlagSeed] = field(default_factory=list)
     specialties: list[SpecialtySeed] = field(default_factory=list)
     sample_datasets: list[str] = field(default_factory=list)
+    retired_brand_codes: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -88,6 +90,8 @@ class ImportResult:
     errors: list[str] = field(default_factory=list)
     counts: dict[str, int] = field(default_factory=dict)
     sample_datasets: list[str] = field(default_factory=list)
+    # Durable tables (Alembic): rows before and after the migration; empty on a dry run.
+    durable_rows: dict[str, tuple[int | None, int | None]] = field(default_factory=dict)
 
     @property
     def ok(self) -> bool:
@@ -168,6 +172,8 @@ def load_seed_data(data_dir: Path, errors: list[str]) -> SeedData:
         setattr(data, dataset, rows)
         if meta is not None and meta.is_sample:
             data.sample_datasets.append(dataset)
+        if meta is not None and dataset == "brands":
+            data.retired_brand_codes = list(meta.retired_codes)
     return data
 
 
@@ -216,6 +222,8 @@ def _check_brands(data: SeedData, errors: list[str]) -> None:
     forms_by_generic = {_key(g.name): g.dosage_forms for g in data.generics}
     known_manufacturers = {_key(n) for n in manufacturer_names}
     seen: set[tuple[str, str, str, str]] = set()
+    codes: set[str] = set()
+    retired = set(data.retired_brand_codes)
 
     for index, row in enumerate(data.brands):
         label = f"brands.json[{index}] '{row.name}'"
@@ -236,6 +244,11 @@ def _check_brands(data: SeedData, errors: list[str]) -> None:
         if identity in seen:
             errors.append(f"{label}: duplicate brand ({row.strength} {row.dosage_form})")
         seen.add(identity)
+        if row.code in codes:
+            errors.append(f"{label}: code {row.code} is used twice")
+        if row.code in retired:
+            errors.append(f"{label}: code {row.code} is retired (it belonged to a removed brand)")
+        codes.add(row.code)
 
 
 def _check_interactions(data: SeedData, errors: list[str]) -> None:
@@ -364,6 +377,7 @@ def _insert_brands(
 ) -> None:
     session.add_all(
         Brand(
+            code=b.code,
             name=b.name,
             generic_id=generic_ids[_key(b.generic)],
             manufacturer_id=manufacturer_ids[_key(b.manufacturer)],
@@ -371,6 +385,7 @@ def _insert_brands(
             dosage_form=b.dosage_form,
             price_per_unit=b.price_per_unit,
             source_url=b.source_url,
+            price_checked_on=b.price_checked_on,
         )
         for b in data.brands
     )
@@ -439,8 +454,6 @@ def write_database(engine: Engine, data: SeedData) -> None:
     """
     Base.metadata.drop_all(engine)
     Base.metadata.create_all(engine)
-    # The request log is not seed data: create it if missing, never drop it.
-    RequestsBase.metadata.create_all(engine)
     with Session(engine) as session, session.begin():
         _clear_tables(session)
         manufacturer_ids = _insert_manufacturers(session, data)
@@ -461,6 +474,8 @@ def run_import(data_dir: Path, engine: Engine | None, dry_run: bool = False) -> 
     result.sample_datasets = data.sample_datasets
     result.counts = {name: len(getattr(data, name)) for name in SEED_SCHEMAS}
     if result.ok and not dry_run and engine is not None:
+        # Durable tables first (never dropped, changed only by migrations), then the seed tables.
+        result.durable_rows = upgrade_durable_tables(engine)
         write_database(engine, data)
     return result
 
@@ -475,6 +490,9 @@ def _print_report(result: ImportResult, dry_run: bool) -> None:
     print("Validation passed." if dry_run else "Import complete.")
     for name, count in result.counts.items():
         print(f"  {name:<16} {count:>4} rows")
+    for name, (before, after) in result.durable_rows.items():
+        was = "new table" if before is None else before
+        print(f"  {name:<16} {was} -> {after} rows (durable, migrated)")
     if result.sample_datasets:
         print(f"\nNOTE: SAMPLE data in: {', '.join(result.sample_datasets)}")
     if dry_run:

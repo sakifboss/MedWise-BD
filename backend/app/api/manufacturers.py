@@ -82,6 +82,7 @@ def _detail(r: RatedManufacturer, total: int, brands: list[Brand]) -> Manufactur
         brands=[
             ManufacturerBrand(
                 id=b.id,
+                code=b.code,
                 name=b.name,
                 generic_id=b.generic_id,
                 generic_name=b.generic.name,

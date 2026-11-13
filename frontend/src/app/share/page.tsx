@@ -26,7 +26,7 @@ async function loadRow(item: ShareItem, lang: Awaited<ReturnType<typeof getLang>
   try {
     const data =
       item.kind === "brand"
-        ? await api.alternatives(item.brandId, lang)
+        ? await api.alternatives(item.ref, lang)
         : await api.genericRanking(item.genericId, item.strength, item.dosageForm, lang);
     // Re-check the quantity against the real dosage form (e.g. bottles a month for suspensions).
     const quantity =
@@ -45,7 +45,7 @@ function medicineName(data: AlternativesResponse, t: Dict): string {
 function fullRankingHref(row: Row): string {
   const base =
     row.item.kind === "brand"
-      ? `/alternatives/${row.item.brandId}`
+      ? `/alternatives/${row.data.selected_brand_code ?? row.item.ref}`
       : rankingHref(row.data.generic.id, row.data.strength, row.data.dosage_form);
   if (row.quantity === null) return base;
   return `${base}${base.includes("?") ? "&" : "?"}${QUANTITY_PARAM}=${row.quantity}`;

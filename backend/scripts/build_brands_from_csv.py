@@ -6,6 +6,10 @@ then run from backend/:
     python scripts/build_brands_from_csv.py ../data/templates/brands_template.csv
     python scripts/import_data.py --dry-run
 
+Each brand keeps its stable code (BR00042) from the current brands.json while its name,
+manufacturer, strength and dosage form stay the same; new rows get the next unused code and
+removed brands' codes are retired (scripts/brand_codes.py).
+
 Rows with an empty brand_name are skipped (unused template rows). Every kept row needs a
 manufacturer from manufacturers.json, a positive price and a price_source_url. If any row
 is wrong, all problems are listed and brands.json is left untouched.
@@ -23,6 +27,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from app.core.config import get_settings  # noqa: E402
 from app.schemas.seed import normalize_strength  # noqa: E402
+from scripts.brand_codes import assign_codes  # noqa: E402
 
 REQUIRED_COLUMNS = (
     "brand_name",
@@ -38,6 +43,14 @@ REQUIRED_COLUMNS = (
 def _names(seed_dir: Path, dataset: str) -> dict[str, str]:
     doc = json.loads((seed_dir / f"{dataset}.json").read_text(encoding="utf-8"))
     return {r["name"].strip().casefold(): r["name"] for r in doc["records"]}
+
+
+def _checked_on(value: str) -> dict[str, str]:
+    """The day the price was checked, when the sheet has a valid date."""
+    try:
+        return {"price_checked_on": date.fromisoformat(value.strip()).isoformat()}
+    except ValueError:
+        return {}
 
 
 def build_brands(csv_path: Path, seed_dir: Path) -> tuple[list[dict], list[str]]:
@@ -95,6 +108,7 @@ def build_brands(csv_path: Path, seed_dir: Path) -> tuple[list[dict], list[str]]
                     "dosage_form": form,
                     "price_per_unit": float(price),
                     "source_url": cell["price_source_url"],
+                    **_checked_on(cell.get("date_checked", "")),
                 }
             )
     return records, errors
@@ -116,16 +130,19 @@ def main() -> int:
         print("No filled rows found; brands.json NOT written.")
         return 1
 
+    out = args.seed_dir / "brands.json"
+    previous = json.loads(out.read_text(encoding="utf-8")) if out.exists() else None
+    records, retired = assign_codes(records, previous)
     doc = {
         "meta": {
             "dataset": "brands",
             "source": "Collected by the MedWise BD team; each row's source_url is the price source",
             "is_sample": False,
             "note": f"Built from {args.csv.name} on {date.today().isoformat()}.",
+            "retired_codes": retired,
         },
         "records": records,
     }
-    out = args.seed_dir / "brands.json"
     out.write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     groups: dict[tuple[str, str, str], int] = {}
     for r in records:

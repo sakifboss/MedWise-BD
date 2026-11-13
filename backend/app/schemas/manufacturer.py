@@ -19,6 +19,7 @@ class FactorDetail(BaseModel):
 
 class ManufacturerBrand(BaseModel):
     id: int
+    code: str
     name: str
     generic_id: int
     generic_name: str

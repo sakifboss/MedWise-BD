@@ -1,10 +1,12 @@
 import { describe, expect, it } from "vitest";
 
+import type { BrandIndexItem } from "./brand-index";
 import {
   EMPTY_RECENT,
   MAX_RECENT,
   RECENT_VERSION,
   addRecent,
+  migrateRecent,
   parseRecent,
   recentFor,
   toRecentItem,
@@ -13,7 +15,7 @@ import {
 
 const NOW = new Date(2026, 10, 11, 9, 0);
 const seclo = recentFor(
-  { kind: "alternatives", brandId: 22, brandName: "Seclo" },
+  { kind: "alternatives", brandCode: "BR00022", brandName: "Seclo" },
   { genericName: "Omeprazole", strength: "20 mg", dosageForm: "capsule" },
   NOW,
 );
@@ -31,7 +33,7 @@ describe("recentFor", () => {
       genericName: "Omeprazole",
       strength: "20 mg",
       dosageForm: "capsule",
-      href: "/alternatives/22",
+      href: "/alternatives/BR00022",
       viewedOn: "2026-11-11",
     });
     expect(omeprazole.name).toBe("Omeprazole");
@@ -51,9 +53,9 @@ describe("addRecent", () => {
 
   it(`keeps at most ${MAX_RECENT}`, () => {
     let list = EMPTY_RECENT;
-    for (let i = 1; i <= 12; i++) list = addRecent(list, { ...seclo, href: `/alternatives/${i}` });
+    for (let i = 1; i <= 12; i++) list = addRecent(list, { ...seclo, href: `/alternatives/BR${String(i).padStart(5, "0")}` });
     expect(list.items).toHaveLength(MAX_RECENT);
-    expect(list.items[0].href).toBe("/alternatives/12");
+    expect(list.items[0].href).toBe("/alternatives/BR00012");
   });
 });
 
@@ -77,7 +79,8 @@ describe("parseRecent (storage format)", () => {
       "https://evil.example/alternatives/22",
       "//evil.example",
       "javascript:alert(1)",
-      "/alternatives/22?x=<script>",
+      "/alternatives/BR00022?x=<script>",
+      "/alternatives/22", // version 1 (id) links are only read for migration
       "/my-medicines",
       "/generics/4/ranking?strength=20+mg&form=capsule#x",
     ]) {
@@ -89,5 +92,38 @@ describe("parseRecent (storage format)", () => {
     const list = parseRecent(stored([{ ...seclo, price: 6, patient: "Rahim" }, { kind: "x" }, null]));
     expect(list.items).toEqual([seclo]);
     expect(Object.keys(list.items[0])).not.toContain("price");
+  });
+});
+
+describe("version 1 lists (brand links by id)", () => {
+  const v1 = JSON.stringify({
+    version: 1,
+    items: [
+      { ...seclo, href: "/alternatives/22", viewedOn: "2026-11-12" },
+      { ...omeprazole, viewedOn: "2026-11-10" },
+      { ...seclo, name: "Gone", href: "/alternatives/99", viewedOn: "2026-11-11" },
+    ],
+  });
+  const index = [
+    { code: "BR00030", id: 22, name: "Losectil", generic: "Omeprazole", strength: "20 mg", dosage_form: "capsule" },
+    { code: "BR00022", id: 31, name: "Seclo", generic: "Omeprazole", strength: "20 mg", dosage_form: "capsule" },
+  ] as BrandIndexItem[];
+
+  it("keeps ranking links and sets brand links aside", () => {
+    const list = parseRecent(v1);
+    expect(list.items.map((i) => i.href)).toEqual([omeprazole.href]);
+    expect(list.legacy?.map((i) => i.href)).toEqual(["/alternatives/22", "/alternatives/99"]);
+  });
+
+  it("matches brand links to codes by brand details (not the old id) and keeps the order", () => {
+    const list = migrateRecent(parseRecent(v1), index);
+    expect(list.legacy).toBeUndefined();
+    expect(list.items.map((i) => i.href)).toEqual(["/alternatives/BR00022", omeprazole.href]);
+  });
+
+  it("pending items survive a page view before the migration", () => {
+    const pending = parseRecent(v1);
+    const stored = JSON.stringify(addRecent(pending, omeprazole));
+    expect(parseRecent(stored).legacy).toHaveLength(2);
   });
 });

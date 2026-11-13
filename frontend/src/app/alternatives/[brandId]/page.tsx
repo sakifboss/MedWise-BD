@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { BackLink } from "@/components/back-link";
+import { CanonicalUrl } from "@/components/canonical-url";
 import { Disclaimer } from "@/components/disclaimer";
 import { HowRankingWorks } from "@/components/how-ranking-works";
 import { PharmacyFinder } from "@/components/pharmacy-finder";
@@ -12,11 +13,14 @@ import { getDict, getLang } from "@/i18n/server";
 import { api, isNotFound } from "@/lib/api";
 import { parseId } from "@/lib/format";
 
-async function load(brandIdParam: string) {
-  const brandId = parseId(brandIdParam);
-  if (brandId === null) notFound();
+const CODE = /^BR\d{5}$/i;
+
+/** The page's brand: a code (BR00042), or a database id from a link made before codes existed. */
+async function load(brandParam: string) {
+  const ref = CODE.test(brandParam) ? brandParam.toUpperCase() : parseId(brandParam);
+  if (ref === null) notFound();
   try {
-    return await api.alternatives(brandId, await getLang());
+    return await api.alternatives(ref, await getLang());
   } catch (error) {
     if (isNotFound(error)) notFound();
     throw error;
@@ -29,7 +33,10 @@ function selectedName(data: Awaited<ReturnType<typeof load>>): string {
 
 export async function generateMetadata(props: PageProps<"/alternatives/[brandId]">): Promise<Metadata> {
   const [data, t] = await Promise.all([load((await props.params).brandId), getDict()]);
-  return { title: t.alternatives.title(`${selectedName(data)} ${data.strength}`) };
+  return {
+    title: t.alternatives.title(`${selectedName(data)} ${data.strength}`),
+    alternates: data.selected_brand_code ? { canonical: `/alternatives/${data.selected_brand_code}` } : undefined,
+  };
 }
 
 export default async function AlternativesPage(props: PageProps<"/alternatives/[brandId]">) {
@@ -52,6 +59,7 @@ export default async function AlternativesPage(props: PageProps<"/alternatives/[
       <HowRankingWorks />
       <RankingList data={data} shareTitle={t.alternatives.title(`${selectedName(data)} ${data.strength}`)} />
       <PharmacyFinder />
+      {data.selected_brand_code && <CanonicalUrl path={`/alternatives/${data.selected_brand_code}`} />}
       <RememberPage
         item={{
           kind: "alternatives",
@@ -59,7 +67,7 @@ export default async function AlternativesPage(props: PageProps<"/alternatives/[
           genericName: data.generic.name,
           strength: data.strength,
           dosageForm: data.dosage_form,
-          href: `/alternatives/${data.selected_brand_id ?? brandId}`,
+          href: `/alternatives/${data.selected_brand_code ?? brandId}`,
         }}
       />
     </div>

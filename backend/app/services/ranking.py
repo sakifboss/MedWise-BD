@@ -75,6 +75,7 @@ class BrandCandidate:
     price_per_unit: Decimal
     manufacturer: ManufacturerFactors
     price_source_url: str | None = None
+    code: str = ""  # stable brand code (BR00042); ids change on every import
 
 
 @dataclass(frozen=True)

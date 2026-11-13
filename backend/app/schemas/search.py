@@ -13,6 +13,7 @@ class SearchResult(BaseModel):
     strength: str | None = None
     dosage_form: str | None = None
     manufacturer: str | None = None
+    code: str | None = None  # brands only: the stable brand code for links
 
 
 class SearchResponse(BaseModel):

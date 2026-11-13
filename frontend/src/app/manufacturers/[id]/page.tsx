@@ -174,7 +174,7 @@ export default async function ManufacturerPage(props: PageProps<"/manufacturers/
             {m.brands.map((b) => (
               <li key={b.id}>
                 <Link
-                  href={`/alternatives/${b.id}`}
+                  href={`/alternatives/${b.code}`}
                   className="flex items-center justify-between gap-3 px-4 py-2.5 transition-colors hover:bg-muted/60"
                 >
                   <span className="min-w-0">

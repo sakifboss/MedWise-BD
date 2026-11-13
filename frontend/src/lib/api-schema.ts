@@ -58,7 +58,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/alternatives/{brand_id}": {
+    "/api/alternatives/{brand_ref}": {
         parameters: {
             query?: never;
             header?: never;
@@ -71,7 +71,7 @@ export interface paths {
          *
          *     The selected brand is included in the list (is_selected=true) so users can see where it stands.
          */
-        get: operations["get_alternatives_api_alternatives__brand_id__get"];
+        get: operations["get_alternatives_api_alternatives__brand_ref__get"];
         put?: never;
         post?: never;
         delete?: never;
@@ -292,6 +292,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/brands/index": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Brand Index */
+        get: operations["brand_index_api_brands_index_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/health": {
         parameters: {
             query?: never;
@@ -317,6 +334,8 @@ export interface components {
         AlternativesResponse: {
             /** Selected Brand Id */
             selected_brand_id: number | null;
+            /** Selected Brand Code */
+            selected_brand_code: string | null;
             generic: components["schemas"]["GenericRef"];
             /** Strength */
             strength: string;
@@ -350,6 +369,40 @@ export interface components {
              * @description Photo of the prescription
              */
             image: string;
+        };
+        /** BrandIndex */
+        BrandIndex: {
+            /** Brands */
+            brands: components["schemas"]["BrandIndexItem"][];
+        };
+        /** BrandIndexItem */
+        BrandIndexItem: {
+            /** Code */
+            code: string;
+            /** Id */
+            id: number;
+            /** Name */
+            name: string;
+            /** Generic Id */
+            generic_id: number;
+            /** Generic */
+            generic: string;
+            /** Strength */
+            strength: string;
+            /** Dosage Form */
+            dosage_form: string;
+            /** Manufacturer */
+            manufacturer: string;
+            /** Price Per Unit */
+            price_per_unit: number;
+            /** Price Checked On */
+            price_checked_on: string | null;
+            /** Rank */
+            rank: number;
+            /** Group Size */
+            group_size: number;
+            /** Approvals */
+            approvals: number;
         };
         /** CatalogStats */
         CatalogStats: {
@@ -404,6 +457,11 @@ export interface components {
         /** Envelope[AlternativesResponse] */
         Envelope_AlternativesResponse_: {
             data?: components["schemas"]["AlternativesResponse"] | null;
+            error?: components["schemas"]["ErrorBody"] | null;
+        };
+        /** Envelope[BrandIndex] */
+        Envelope_BrandIndex_: {
+            data?: components["schemas"]["BrandIndex"] | null;
             error?: components["schemas"]["ErrorBody"] | null;
         };
         /** Envelope[CatalogStats] */
@@ -638,6 +696,8 @@ export interface components {
         ManufacturerBrand: {
             /** Id */
             id: number;
+            /** Code */
+            code: string;
             /** Name */
             name: string;
             /** Generic Id */
@@ -742,6 +802,8 @@ export interface components {
             kind: "brand" | "generic";
             /** Brand Id */
             brand_id: number | null;
+            /** Brand Code */
+            brand_code?: string | null;
             /** Generic Id */
             generic_id: number;
             /** Generic Name */
@@ -873,6 +935,8 @@ export interface components {
             rank: number;
             /** Brand Id */
             brand_id: number;
+            /** Code */
+            code: string;
             /** Name */
             name: string;
             manufacturer: components["schemas"]["ManufacturerSummary"];
@@ -935,6 +999,8 @@ export interface components {
             dosage_form?: string | null;
             /** Manufacturer */
             manufacturer?: string | null;
+            /** Code */
+            code?: string | null;
         };
         /** SpecialtyOut */
         SpecialtyOut: {
@@ -1109,7 +1175,7 @@ export interface operations {
             };
         };
     };
-    get_alternatives_api_alternatives__brand_id__get: {
+    get_alternatives_api_alternatives__brand_ref__get: {
         parameters: {
             query?: {
                 /** @description Language for generated text: en (default) or bn */
@@ -1117,7 +1183,8 @@ export interface operations {
             };
             header?: never;
             path: {
-                brand_id: number;
+                /** @description Brand code (BR00042) or, for old links, the brand's database id */
+                brand_ref: string;
             };
             cookie?: never;
         };
@@ -1477,6 +1544,26 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    brand_index_api_brands_index_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Envelope_BrandIndex_"];
                 };
             };
         };

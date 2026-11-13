@@ -20,6 +20,7 @@ import { buildIcs, reminderTitle } from "@/lib/ics";
 import {
   EMPTY_LIST,
   compare,
+  itemKey,
   merge,
   parseListText,
   remove,
@@ -31,16 +32,16 @@ import { QUANTITY_PARAM } from "@/lib/savings";
 
 type Loaded = { status: "loading" } | { status: "error" } | { status: "done"; data: AlternativesResponse };
 
-/** Rankings for every saved brand, loaded once per set of brands (only brand ids are sent). */
-function useRankings(brandIds: number[], lang: Dict["lang"]): Record<number, Loaded> {
-  const [rankings, setRankings] = useState<Record<number, Loaded>>({});
-  const key = `${brandIds.join(",")}|${lang}`;
+/** Rankings for every saved brand, loaded once per set of brands (only brand codes are sent). */
+function useRankings(codes: string[], lang: Dict["lang"]): Record<string, Loaded> {
+  const [rankings, setRankings] = useState<Record<string, Loaded>>({});
+  const key = `${codes.join(",")}|${lang}`;
   useEffect(() => {
     let cancelled = false;
-    for (const id of key.split("|")[0].split(",").filter(Boolean).map(Number)) {
-      api.alternatives(id, lang).then(
-        (data) => !cancelled && setRankings((r) => ({ ...r, [id]: { status: "done", data } })),
-        () => !cancelled && setRankings((r) => ({ ...r, [id]: { status: "error" } })),
+    for (const code of key.split("|")[0].split(",").filter(Boolean)) {
+      api.alternatives(code, lang).then(
+        (data) => !cancelled && setRankings((r) => ({ ...r, [code]: { status: "done", data } })),
+        () => !cancelled && setRankings((r) => ({ ...r, [code]: { status: "error" } })),
       );
     }
     return () => {
@@ -48,6 +49,16 @@ function useRankings(brandIds: number[], lang: Dict["lang"]): Record<number, Loa
     };
   }, [key, lang]);
   return rankings;
+}
+
+/** This deploy's brand ids, read from the freshly loaded rankings (saved items keep only codes). */
+function currentIds(items: SavedMedicine[], rankings: Record<string, Loaded>): number[] {
+  return items.flatMap((item) => {
+    const loaded = item.brandCode ? rankings[item.brandCode] : undefined;
+    if (loaded?.status !== "done") return [];
+    const mine = loaded.data.alternatives.find((a) => a.code === item.brandCode);
+    return mine ? [mine.brand_id] : [];
+  });
 }
 
 function download(filename: string, type: string, text: string): void {
@@ -64,6 +75,7 @@ function download(filename: string, type: string, text: string): void {
 function Standing({ item, loaded }: { item: SavedMedicine; loaded: Loaded | undefined }) {
   const t = useDict();
   const m = t.myMeds;
+  if (item.brandCode === null) return <p className="text-sm text-muted-foreground">{m.notListed}</p>;
   if (!loaded || loaded.status === "loading") return <Skeleton className="h-12 w-full" />;
   if (loaded.status === "error") return <p className="text-sm text-destructive">{m.loadError}</p>;
   const c = compare(item, loaded.data);
@@ -110,9 +122,13 @@ function MedicineCard({
   const t = useDict();
   const m = t.myMeds;
   const [time, setTime] = useState("");
-  const href = `/alternatives/${item.brandId}${item.unitsPerDay ? `?${QUANTITY_PARAM}=${item.unitsPerDay}` : ""}`;
-  const unitsId = `units-${item.brandId}`;
-  const timeId = `time-${item.brandId}`;
+  const key = itemKey(item);
+  const href = item.brandCode
+    ? `/alternatives/${item.brandCode}${item.unitsPerDay ? `?${QUANTITY_PARAM}=${item.unitsPerDay}` : ""}`
+    : null;
+  const domId = key.replace(/[^a-z0-9]/gi, "-");
+  const unitsId = `units-${domId}`;
+  const timeId = `time-${domId}`;
 
   return (
     <Card data-testid="saved-medicine">
@@ -125,7 +141,7 @@ function MedicineCard({
             {item.genericName} · {m.savedOn(t.fmt.date(new Date(`${item.addedOn}T12:00:00`)))}
           </p>
         </div>
-        <Button variant="ghost" size="sm" onClick={() => onChange((l) => remove(l, item.brandId))}>
+        <Button variant="ghost" size="sm" onClick={() => onChange((l) => remove(l, key))}>
           <X aria-hidden />
           {m.remove}
         </Button>
@@ -144,7 +160,7 @@ function MedicineCard({
               value={item.unitsPerDay ?? ""}
               onChange={(e) => {
                 const v = e.target.value === "" ? null : Number(e.target.value);
-                onChange((l) => update(l, item.brandId, { unitsPerDay: v }));
+                onChange((l) => update(l, key, { unitsPerDay: v }));
               }}
             />
           </div>
@@ -156,7 +172,7 @@ function MedicineCard({
                 variant="outline"
                 disabled={!time}
                 onClick={() => {
-                  onChange((l) => update(l, item.brandId, { reminderTimes: [...item.reminderTimes, time] }));
+                  onChange((l) => update(l, key, { reminderTimes: [...item.reminderTimes, time] }));
                   setTime("");
                 }}
               >
@@ -174,7 +190,7 @@ function MedicineCard({
                       className="rounded-full p-0.5 hover:bg-muted"
                       onClick={() =>
                         onChange((l) =>
-                          update(l, item.brandId, { reminderTimes: item.reminderTimes.filter((x) => x !== rt) }),
+                          update(l, key, { reminderTimes: item.reminderTimes.filter((x) => x !== rt) }),
                         )
                       }
                     >
@@ -186,9 +202,11 @@ function MedicineCard({
             )}
           </div>
         </div>
-        <Link href={href} className="inline-block text-sm font-medium text-primary underline-offset-4 hover:underline">
-          {m.viewRanking}
-        </Link>
+        {href && (
+          <Link href={href} className="inline-block text-sm font-medium text-primary underline-offset-4 hover:underline">
+            {m.viewRanking}
+          </Link>
+        )}
       </CardContent>
     </Card>
   );
@@ -197,9 +215,9 @@ function MedicineCard({
 export function MyMedicinesView() {
   const t = useDict();
   const m = t.myMeds;
-  const { list, available, change } = useMyMedicines();
+  const { list, available, change, migrating } = useMyMedicines();
   const rankings = useRankings(
-    list.items.map((i) => i.brandId),
+    list.items.flatMap((i) => (i.brandCode ? [i.brandCode] : [])),
     t.lang,
   );
   const [hideNames, setHideNames] = useState(false);
@@ -230,6 +248,11 @@ export function MyMedicinesView() {
             {m.privacy}
           </AlertDescription>
         </Alert>
+      {migrating && (
+        <p className="text-sm text-muted-foreground" role="status" data-testid="migrating">
+          {m.migrating}
+        </p>
+      )}
       </header>
 
       {!available && (
@@ -252,8 +275,12 @@ export function MyMedicinesView() {
           <Disclaimer />
           <ul className="space-y-3">
             {list.items.map((item) => (
-              <li key={item.brandId}>
-                <MedicineCard item={item} loaded={rankings[item.brandId]} onChange={change} />
+              <li key={itemKey(item)}>
+                <MedicineCard
+                  item={item}
+                  loaded={item.brandCode ? rankings[item.brandCode] : undefined}
+                  onChange={change}
+                />
               </li>
             ))}
           </ul>
@@ -261,7 +288,7 @@ export function MyMedicinesView() {
           {list.items.length >= 2 && (
             <section className="space-y-2 rounded-xl border p-4">
               <h2 className="font-semibold">{m.interactions}</h2>
-              <InteractionPanel brandIds={list.items.map((i) => i.brandId)} genericIds={[]} />
+              <InteractionPanel brandIds={currentIds(list.items, rankings)} genericIds={[]} />
             </section>
           )}
 

@@ -60,7 +60,10 @@ medwise-bd/
 ## Data model
 - manufacturers(id, name, stringent_approvals, export_countries, export_country_count, regulated_market_exports, compliance_score, recall_count, recall_data_available, market_share|null, years_active, source_urls)
 - generics(id, name, drug_class, indications, dosage_forms, side_effects, precautions, source_urls)
-- brands(id, name, generic_id, manufacturer_id, strength, dosage_form, price_per_unit, source_url)
+- brands(id, code (stable, BR + 5 digits), name, generic_id, manufacturer_id, strength, dosage_form,
+  price_per_unit, source_url, price_checked_on)
+- Durable (Alembic, never dropped): medicine_requests(id, query, source, requested_on),
+  data_reports(id, brand_id, brand_code, brand_name, manufacturer, strength, dosage_form, reason, reported_on)
 - interactions(id, generic_a_id, generic_b_id, severity[minor|moderate|major], description)
 - pharmacies(id, name, name_bn, lat, lon, address, phone (only when it may be shown), source[osm|survey],
   osm_type, osm_id, is_partner, partner_since); areas(id, name, name_bn, lat, lon). No stock data.
@@ -565,8 +568,8 @@ medicines in MedWise BD. The paper, signed by hand, stays the prescription; the 
 
 Catalog decision (owner, 2026-11-13): present the Rx Pad as a Sylhet pilot now, and grow the
 catalog in R1b right after R1 (the hold on adding medicines ends there).
-Open question for the owner: the competition deadline above (2026-11-05) has passed; confirm the
-new date (R1-R4 are enough for the demo: write -> print -> QR -> /rx; R5-R6 can follow).
+Deadline (owner, 2026-11-13): there is time before the competition; no fixed date yet. Build the
+steps in order and stop for review after each, as usual.
 
 Rules for every R step:
 - Patient information never reaches our backend. Patient name, age, sex, weight, complaints,
@@ -603,7 +606,7 @@ Rules for every R step:
 - DDInter data is CC BY-NC-SA 4.0 (non-commercial): fine for the competition and a free tool; any
   paid use of the Rx Pad needs a different interaction source or a licence first.
 
-- [ ] **R1. Foundations: stable brand codes, brand index, migrations.**
+- [x] **R1. Foundations: stable brand codes, brand index, migrations.**
   1. Every record in data/seed/brands.json gets a `code` ("BR" + 5 digits, e.g. BR00042), unique
      and never reused; meta.retired_codes lists codes of removed brands. A one-time script assigns
      codes to the current brands in file order. build_brands_from_csv.py keeps a brand's code when
@@ -635,6 +638,12 @@ Rules for every R step:
   with rows (rows kept); importing twice gives identical codes; build_brands_from_csv keeps codes
   after a price change and retires removed ones; My Medicines and Recently viewed v1 -> v2
   migration (Vitest); old id links redirect.
+  Done 2026-11-13 (PR): 188 brands coded BR00001-BR00188 in file order (scripts/brand_codes.py, used
+  by build_brands_from_csv.py). /api/alternatives/ takes a code or an old id; old id links show the
+  page and switch the address bar to the code URL with history.replaceState (a server redirect
+  would load the page twice, because the page streams). Brand index 43 KB (3 KB gzipped).
+  Alembic runs inside import_data.py (no Render change); 0001 is a no-op on existing tables, 0002 adds
+  data_reports.brand_code; local run on a database with rows: requests 24 -> 24, reports 7 -> 7.
 
 - [ ] **R1b. Targeted catalog growth (data step, after R1 is merged).**
   Same process as P7: generic records with sourced text (NHS, then the US FDA label on DailyMed,

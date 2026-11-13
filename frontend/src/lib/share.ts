@@ -1,8 +1,9 @@
 /**
  * Share links for a list of medicines. Everything is in the URL (no data is stored):
- *   /share?m=b:22:2&m=g:12:500 mg:tablet:
- * "b:<brand id>:<quantity>" or "g:<generic id>:<strength>:<dosage form>:<quantity>";
- * the quantity is optional and always comes from the user's prescription.
+ *   /share?m=c:BR00042:2&m=g:12:500 mg:tablet:
+ * "c:<brand code>:<quantity>" or "g:<generic id>:<strength>:<dosage form>:<quantity>";
+ * the quantity is optional and always comes from the user's prescription. Links made before brand
+ * codes existed ("b:<brand id>:<quantity>") still open.
  */
 
 import type { MatchOption } from "@/lib/api";
@@ -12,14 +13,17 @@ export const SHARE_PARAM = "m";
 export const MAX_SHARE_ITEMS = 10;
 /** Upper bound for any quantity in a link; the page re-checks it per dosage form. */
 const MAX_QUANTITY = 24;
+const CODE = /^BR\d{5}$/;
 
 export type ShareItem =
-  | { kind: "brand"; brandId: number; quantity: number | null }
+  /** `ref` is the brand code, or the database id from an old link. */
+  | { kind: "brand"; ref: string; quantity: number | null }
   | { kind: "generic"; genericId: number; strength: string; dosageForm: string; quantity: number | null };
 
 export function shareItem(option: MatchOption, quantity: number | null): ShareItem {
-  return option.kind === "brand" && option.brand_id != null
-    ? { kind: "brand", brandId: option.brand_id, quantity }
+  const ref = option.brand_code ?? (option.brand_id != null ? String(option.brand_id) : null);
+  return option.kind === "brand" && ref !== null
+    ? { kind: "brand", ref, quantity }
     : {
         kind: "generic",
         genericId: option.generic_id,
@@ -31,9 +35,8 @@ export function shareItem(option: MatchOption, quantity: number | null): ShareIt
 
 function encode(item: ShareItem): string {
   const q = item.quantity ?? "";
-  return item.kind === "brand"
-    ? `b:${item.brandId}:${q}`
-    : `g:${item.genericId}:${item.strength}:${item.dosageForm}:${q}`;
+  if (item.kind === "brand") return CODE.test(item.ref) ? `c:${item.ref}:${q}` : `b:${item.ref}:${q}`;
+  return `g:${item.genericId}:${item.strength}:${item.dosageForm}:${q}`;
 }
 
 export function shareHref(items: ShareItem[]): string {
@@ -54,9 +57,13 @@ function quantity(value: string | undefined): number | null {
 
 function decode(value: string): ShareItem | null {
   const parts = value.split(":");
+  if (parts[0] === "c" && parts.length === 3) {
+    const code = parts[1].toUpperCase();
+    return CODE.test(code) ? { kind: "brand", ref: code, quantity: quantity(parts[2]) } : null;
+  }
   if (parts[0] === "b" && parts.length === 3) {
     const brandId = id(parts[1]);
-    return brandId === null ? null : { kind: "brand", brandId, quantity: quantity(parts[2]) };
+    return brandId === null ? null : { kind: "brand", ref: String(brandId), quantity: quantity(parts[2]) };
   }
   if (parts[0] === "g" && parts.length === 5) {
     const genericId = id(parts[1]);

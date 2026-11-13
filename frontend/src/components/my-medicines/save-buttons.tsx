@@ -16,13 +16,13 @@ export function SaveToMyMedicines({
   brand,
 }: {
   data: Pick<AlternativesResponse, "generic" | "strength" | "dosage_form">;
-  brand: Pick<RankedAlternative, "brand_id" | "name">;
+  brand: Pick<RankedAlternative, "code" | "name">;
 }) {
   const t = useDict();
   const { list, available, change } = useMyMedicines();
   const savings = useSavingsIfAny();
   const [failed, setFailed] = useState(false);
-  const saved = list.items.some((m) => m.brandId === brand.brand_id);
+  const saved = list.items.some((m) => m.brandCode === brand.code);
 
   if (!available) return null;
   return (
@@ -42,11 +42,10 @@ export function SaveToMyMedicines({
 }
 
 function fromOption(option: MatchOption, unitsPerDay: number | null): SavedMedicine | null {
-  if (option.kind !== "brand" || option.brand_id == null) return null; // a generic without a brand
+  if (option.kind !== "brand" || !option.brand_code) return null; // a generic without a brand
   return {
-    brandId: option.brand_id,
+    brandCode: option.brand_code,
     brandName: option.name,
-    genericId: option.generic_id,
     genericName: option.generic_name,
     strength: option.strength,
     dosageForm: option.dosage_form,

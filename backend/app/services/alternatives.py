@@ -1,5 +1,6 @@
 """Loads comparable brands from the database and ranks them with services/ranking.py."""
 
+import re
 from dataclasses import dataclass
 
 from sqlalchemy import select
@@ -20,6 +21,9 @@ from app.services.ranking import (
 class AlternativesResult:
     selected: Brand
     ranked: list[RankedBrand]
+
+
+BRAND_CODE = re.compile(r"^BR\d{5}$")
 
 
 def to_factors(m: Manufacturer) -> ManufacturerFactors:
@@ -48,6 +52,7 @@ def to_candidate(b: Brand) -> BrandCandidate:
         price_per_unit=b.price_per_unit,
         manufacturer=to_factors(b.manufacturer),
         price_source_url=b.source_url,
+        code=b.code,
     )
 
 
@@ -78,8 +83,22 @@ def rank_group(
     return rank_brands([to_candidate(b) for b in brands], load_bounds(db), lang)
 
 
-def find_alternatives(db: Session, brand_id: int, lang: str = "en") -> AlternativesResult | None:
-    brand = db.get(Brand, brand_id, options=[joinedload(Brand.generic)])
+def find_brand(db: Session, ref: str) -> Brand | None:
+    """A brand by its stable code (BR00042) or, for old links, its database id."""
+    ref = ref.strip()
+    if BRAND_CODE.match(ref.upper()):
+        return db.scalar(
+            select(Brand).options(joinedload(Brand.generic)).where(Brand.code == ref.upper())
+        )
+    if ref.isdigit() and int(ref) > 0:
+        return db.get(Brand, int(ref), options=[joinedload(Brand.generic)])
+    return None
+
+
+def find_alternatives(
+    db: Session, brand_ref: int | str, lang: str = "en"
+) -> AlternativesResult | None:
+    brand = find_brand(db, str(brand_ref))
     if brand is None:
         return None
     ranked = rank_group(db, brand.generic_id, brand.strength, brand.dosage_form, lang)

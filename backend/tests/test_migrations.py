@@ -1,0 +1,102 @@
+"""R1: Alembic for the durable tables. The first run on the live database (tables already there,
+with rows, and no Alembic yet) must keep every row."""
+
+from datetime import date
+from pathlib import Path
+
+from sqlalchemy import Engine, inspect, text
+
+from app.core.config import get_settings
+from app.core.db import make_engine
+from app.core.migrations import upgrade_durable_tables
+from scripts.import_data import run_import
+
+
+def _engine(tmp_path: Path) -> Engine:
+    return make_engine(f"sqlite:///{(tmp_path / 'db.sqlite').as_posix()}")
+
+
+def _version(engine: Engine) -> str:
+    with engine.connect() as conn:
+        return conn.execute(text("SELECT version_num FROM alembic_version")).scalar_one()
+
+
+def test_upgrade_on_an_empty_database(tmp_path: Path) -> None:
+    engine = _engine(tmp_path)
+    rows = upgrade_durable_tables(engine)
+    assert rows == {"medicine_requests": (None, 0), "data_reports": (None, 0)}
+    columns = {c["name"] for c in inspect(engine).get_columns("data_reports")}
+    assert "brand_code" in columns
+    assert _version(engine) == "0002"
+    engine.dispose()
+
+
+def _make_live_like(engine: Engine) -> None:
+    """The live database before R1: both tables exist with rows, no alembic_version."""
+    with engine.begin() as conn:
+        conn.execute(
+            text(
+                "CREATE TABLE medicine_requests (id INTEGER PRIMARY KEY,"
+                " query VARCHAR(80) NOT NULL, source VARCHAR(20) NOT NULL,"
+                " requested_on DATE NOT NULL)"
+            )
+        )
+        conn.execute(
+            text(
+                "CREATE TABLE data_reports (id INTEGER PRIMARY KEY, brand_id INTEGER NOT NULL,"
+                " brand_name VARCHAR(200) NOT NULL, manufacturer VARCHAR(200) NOT NULL,"
+                " strength VARCHAR(50) NOT NULL, dosage_form VARCHAR(50) NOT NULL,"
+                " reason VARCHAR(30) NOT NULL, reported_on DATE NOT NULL)"
+            )
+        )
+        for q in ("Fexo", "Fexo", "Qwzxyfexo", "Romycin"):
+            conn.execute(
+                text(
+                    "INSERT INTO medicine_requests (query, source, requested_on)"
+                    " VALUES (:q, 'search', :d)"
+                ),
+                {"q": q, "d": date(2026, 11, 10)},
+            )
+        conn.execute(
+            text(
+                "INSERT INTO data_reports (brand_id, brand_name, manufacturer, strength,"
+                " dosage_form, reason, reported_on) VALUES (22, 'Seclo', 'Square', '20 mg',"
+                " 'capsule', 'wrong_price', :d)"
+            ),
+            {"d": date(2026, 11, 11)},
+        )
+
+
+def test_first_upgrade_on_a_live_like_database_keeps_every_row(tmp_path: Path) -> None:
+    engine = _engine(tmp_path)
+    _make_live_like(engine)
+    rows = upgrade_durable_tables(engine)
+    assert rows == {"medicine_requests": (4, 4), "data_reports": (1, 1)}
+    with engine.connect() as conn:
+        queries = conn.execute(text("SELECT query FROM medicine_requests ORDER BY id")).scalars()
+        assert list(queries) == ["Fexo", "Fexo", "Qwzxyfexo", "Romycin"]
+        report = conn.execute(text("SELECT brand_name, brand_code FROM data_reports")).one()
+        assert tuple(report) == ("Seclo", None)  # old rows keep NULL for the new column
+    assert _version(engine) == "0002"
+    # Running again changes nothing.
+    assert upgrade_durable_tables(engine) == {"medicine_requests": (4, 4), "data_reports": (1, 1)}
+    engine.dispose()
+
+
+def test_the_import_migrates_then_rebuilds_only_seed_tables(tmp_path: Path) -> None:
+    engine = _engine(tmp_path)
+    _make_live_like(engine)
+    result = run_import(get_settings().seed_dir, engine)
+    assert result.ok, result.errors
+    assert result.durable_rows == {"medicine_requests": (4, 4), "data_reports": (1, 1)}
+    again = run_import(get_settings().seed_dir, engine)
+    assert again.durable_rows == {"medicine_requests": (4, 4), "data_reports": (1, 1)}
+    engine.dispose()
+
+
+def test_a_dry_run_never_migrates(tmp_path: Path) -> None:
+    engine = _engine(tmp_path)
+    result = run_import(get_settings().seed_dir, None, dry_run=True)
+    assert result.ok and result.durable_rows == {}
+    assert not inspect(engine).has_table("alembic_version")
+    engine.dispose()

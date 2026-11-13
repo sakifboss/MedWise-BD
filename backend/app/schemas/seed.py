@@ -75,6 +75,8 @@ class SeedMeta(_SeedRow):
     # What a fetch left out and why, and what the team still has to add.
     excluded: list[dict] = []
     to_add_by_team_gps: list[str] = []
+    # brands.json: codes of removed brands, never given out again.
+    retired_codes: list[Annotated[str, StringConstraints(pattern=r"^BR\d{5}$")]] = []
 
 
 StringentRegulator = Literal["US FDA", "UK MHRA", "EU GMP", "TGA Australia"]
@@ -157,6 +159,8 @@ TRANSLATED_FIELDS = ("drug_class", *TRANSLATED_LIST_FIELDS)
 
 
 class BrandSeed(_SeedRow):
+    # Stable code (scripts/brand_codes.py): what saved lists, links and QR codes refer to.
+    code: Annotated[str, StringConstraints(pattern=r"^BR\d{5}$")]
     name: NonEmptyStr
     generic: NonEmptyStr
     manufacturer: NonEmptyStr
@@ -164,6 +168,7 @@ class BrandSeed(_SeedRow):
     dosage_form: DosageFormStr
     price_per_unit: Decimal = Field(gt=0, max_digits=10, decimal_places=2)
     source_url: UrlStr | None = Field(default=None, description="Where the price was taken from")
+    price_checked_on: date | None = None
 
 
 class InteractionSeed(_SeedRow):

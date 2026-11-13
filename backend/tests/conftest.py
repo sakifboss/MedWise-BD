@@ -54,6 +54,7 @@ def no_real_openai(monkeypatch: pytest.MonkeyPatch) -> None:
 def reset_rate_limits() -> None:
     """Rate limiters are module-level; start every test with a clean slate."""
     from app.api import (
+        brands,
         data_reports,
         interactions,
         medicine_requests,
@@ -77,3 +78,4 @@ def reset_rate_limits() -> None:
     symptom_guide.setup_limiter.reset()
     data_reports.per_client_limiter.reset()
     data_reports.global_limiter.reset()
+    brands.index_limiter.reset()
