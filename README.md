@@ -344,6 +344,18 @@ autofill, browser spellcheck and translation, and have no voice input. Search se
 typed text, at most 60 searches a minute per tab. The only thing the pad keeps on the device is
 the doctor's choice of print language (localStorage `medwise.rxPrefs`; Bangla at first).
 
+**QR code and the patient page.** "Print" first finalizes the prescription: the browser builds
+a compact payload of the medicine lines and dates only (no patient details, notes or advice),
+sends only its SHA-256 to `POST /api/doctor/rx/sign`, and gets back an HMAC signature
+(`RX_SIGNING_SECRET`, only on Render and in `backend/.env`; the server stores nothing). The printed
+QR (5 cm) opens `https://<site>/rx#<payload>.<doctor id>.<issue time>.<signature>`: the part after
+`#` never reaches any server. `/rx` reads the medicines on the phone, looks brands up in the
+cached brand index, and checks the signature by sending only the doctor id, issue time, hash and
+signature to `POST /api/rx/verify`. It says who issued the QR (not that the medicines or doses are
+right), always reminds pharmacists that a QR can be copied, and offers "Save to My Medicines",
+"Find pharmacies" and a follow-up calendar file. If `RX_SIGNING_SECRET` changes, old QR codes
+still open but show "Could not check".
+
 Accounts start as pending. The owner manages them on their own computer (no admin pages):
 
 ```bash
@@ -365,7 +377,7 @@ Facts on the privacy page (data region, restore window, contact) live in
 | Service | Settings |
 |---|---|
 | **Neon** | Postgres database (Singapore region) |
-| **Render** (web service) | Build: `pip install -r backend/requirements.txt && python backend/scripts/import_data.py` · Start: `cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT` · Env: `DATABASE_URL`, `OPENAI_API_KEY`, `FRONTEND_SHARED_SECRET`, `PYTHON_VERSION=3.11.17` (same as `.python-version` and the Dockerfile) · Health check: `/api/health` |
+| **Render** (web service) | Build: `pip install -r backend/requirements.txt && python backend/scripts/import_data.py` · Start: `cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT` · Env: `DATABASE_URL`, `OPENAI_API_KEY`, `FRONTEND_SHARED_SECRET`, `RX_SIGNING_SECRET`, `PYTHON_VERSION=3.11.17` (same as `.python-version` and the Dockerfile) · Health check: `/api/health` |
 | **Vercel** | Root directory `frontend` · Env: `API_URL=https://medwise-bd.onrender.com`, `FRONTEND_SHARED_SECRET` |
 
 **OpenAI** (prescription reading and the symptom guide) is a paid API: keep the key only in
