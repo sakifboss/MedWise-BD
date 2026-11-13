@@ -10,7 +10,14 @@ from sqlalchemy import Engine, func, inspect, select, table
 
 from app.core.config import BACKEND_DIR
 
-DURABLE_TABLES = ("medicine_requests", "data_reports")
+DURABLE_TABLES = (
+    "medicine_requests",
+    "data_reports",
+    "doctors",
+    "doctor_chambers",
+    "doctor_sessions",
+    "doctor_password_resets",
+)
 
 
 def _count(engine: Engine, name: str) -> int | None:

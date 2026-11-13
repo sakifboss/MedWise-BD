@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { SaveForOffline } from "@/components/offline";
 import { OsmCredit } from "@/components/pharmacy-finder";
 import { InstallAppButton } from "@/components/pwa";
@@ -11,6 +13,11 @@ export async function SiteFooter() {
         <p>{t.footer.noAdvice}</p>
         <p>{t.footer.sources}</p>
         <OsmCredit before={t.footer.mapsBefore} />
+        <p>
+          <Link href="/doctor" className="underline underline-offset-2">
+            {t.doctor.footerLink}
+          </Link>
+        </p>
         <div className="flex flex-col gap-3 pt-2">
           <InstallAppButton />
           <SaveForOffline />

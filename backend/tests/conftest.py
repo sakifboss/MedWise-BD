@@ -79,3 +79,10 @@ def reset_rate_limits() -> None:
     data_reports.per_client_limiter.reset()
     data_reports.global_limiter.reset()
     brands.index_limiter.reset()
+
+    from app.api import doctor
+    from app.services import doctor_auth
+
+    doctor.signup_limiter.reset()
+    doctor_auth.email_guard.reset()
+    doctor_auth.client_guard.reset()

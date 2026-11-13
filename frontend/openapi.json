@@ -717,6 +717,563 @@
         }
       }
     },
+    "/api/doctor/signup": {
+      "post": {
+        "tags": [
+          "doctor"
+        ],
+        "summary": "Signup",
+        "operationId": "signup_api_doctor_signup_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignupIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_DoctorOut_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/doctor/login": {
+      "post": {
+        "tags": [
+          "doctor"
+        ],
+        "summary": "Login",
+        "operationId": "login_api_doctor_login_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_DoctorOut_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/doctor/logout": {
+      "post": {
+        "tags": [
+          "doctor"
+        ],
+        "summary": "Logout",
+        "operationId": "logout_api_doctor_logout_post",
+        "parameters": [
+          {
+            "name": "mw_doc",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Mw Doc"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_Done_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/doctor/logout-all": {
+      "post": {
+        "tags": [
+          "doctor"
+        ],
+        "summary": "Logout Everywhere",
+        "operationId": "logout_everywhere_api_doctor_logout_all_post",
+        "parameters": [
+          {
+            "name": "mw_doc",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Mw Doc"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_Done_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/doctor/me": {
+      "get": {
+        "tags": [
+          "doctor"
+        ],
+        "summary": "Me",
+        "operationId": "me_api_doctor_me_get",
+        "parameters": [
+          {
+            "name": "mw_doc",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Mw Doc"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_DoctorOut_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/doctor/profile": {
+      "post": {
+        "tags": [
+          "doctor"
+        ],
+        "summary": "Update Profile",
+        "operationId": "update_profile_api_doctor_profile_post",
+        "parameters": [
+          {
+            "name": "mw_doc",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Mw Doc"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProfileIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_DoctorOut_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/doctor/chambers": {
+      "post": {
+        "tags": [
+          "doctor"
+        ],
+        "summary": "Save Chambers",
+        "operationId": "save_chambers_api_doctor_chambers_post",
+        "parameters": [
+          {
+            "name": "mw_doc",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Mw Doc"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChambersIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_DoctorOut_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/doctor/password": {
+      "post": {
+        "tags": [
+          "doctor"
+        ],
+        "summary": "Change Password",
+        "operationId": "change_password_api_doctor_password_post",
+        "parameters": [
+          {
+            "name": "mw_doc",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Mw Doc"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PasswordChangeIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_Done_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/doctor/reset": {
+      "post": {
+        "tags": [
+          "doctor"
+        ],
+        "summary": "Reset Password",
+        "description": "Use a one-time link from the owner (scripts/doctors.py reset-link).",
+        "operationId": "reset_password_api_doctor_reset_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PasswordResetIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_Done_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/doctor/export": {
+      "get": {
+        "tags": [
+          "doctor"
+        ],
+        "summary": "Export Data",
+        "operationId": "export_data_api_doctor_export_get",
+        "parameters": [
+          {
+            "name": "mw_doc",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Mw Doc"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_DoctorExport_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/doctor/delete": {
+      "post": {
+        "tags": [
+          "doctor"
+        ],
+        "summary": "Delete Account",
+        "description": "Removes the profile, chambers, sessions and reset links (and, from R5, templates).",
+        "operationId": "delete_account_api_doctor_delete_post",
+        "parameters": [
+          {
+            "name": "mw_doc",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Mw Doc"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_Done_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/health": {
       "get": {
         "tags": [
@@ -980,6 +1537,102 @@
         ],
         "title": "CatalogStats"
       },
+      "ChamberIn": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "address": {
+            "type": "string",
+            "maxLength": 300,
+            "minLength": 1,
+            "title": "Address"
+          },
+          "hours": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Hours"
+          },
+          "phone": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 20,
+                "pattern": "^[0-9+\\- ()]*$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "name",
+          "address",
+          "hours"
+        ],
+        "title": "ChamberIn"
+      },
+      "ChamberOut": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "address": {
+            "type": "string",
+            "title": "Address"
+          },
+          "hours": {
+            "type": "string",
+            "title": "Hours"
+          },
+          "phone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "address",
+          "hours",
+          "phone"
+        ],
+        "title": "ChamberOut"
+      },
+      "ChambersIn": {
+        "properties": {
+          "chambers": {
+            "items": {
+              "$ref": "#/components/schemas/ChamberIn"
+            },
+            "type": "array",
+            "maxItems": 3,
+            "title": "Chambers"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "chambers"
+        ],
+        "title": "ChambersIn"
+      },
       "CheckedMedicine": {
         "properties": {
           "generic_id": {
@@ -1044,6 +1697,93 @@
         "type": "object",
         "title": "DataReportSaved"
       },
+      "DeleteIn": {
+        "properties": {
+          "password": {
+            "type": "string",
+            "maxLength": 128,
+            "title": "Password"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "password"
+        ],
+        "title": "DeleteIn"
+      },
+      "DoctorExport": {
+        "properties": {
+          "exported_on": {
+            "type": "string",
+            "format": "date",
+            "title": "Exported On"
+          },
+          "profile": {
+            "$ref": "#/components/schemas/DoctorOut"
+          },
+          "created_on": {
+            "type": "string",
+            "format": "date",
+            "title": "Created On"
+          },
+          "last_login_day": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Login Day"
+          },
+          "verified_by": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Verified By"
+          },
+          "verify_method": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Verify Method"
+          },
+          "active_sessions": {
+            "type": "integer",
+            "title": "Active Sessions"
+          },
+          "note": {
+            "type": "string",
+            "title": "Note",
+            "default": "This is everything MedWise BD stores about you. MedWise BD never stores your patients' information."
+          }
+        },
+        "type": "object",
+        "required": [
+          "exported_on",
+          "profile",
+          "created_on",
+          "last_login_day",
+          "verified_by",
+          "verify_method",
+          "active_sessions"
+        ],
+        "title": "DoctorExport",
+        "description": "Everything stored about the doctor (no password hash, no tokens)."
+      },
       "DoctorNote": {
         "properties": {
           "main_problem": {
@@ -1069,6 +1809,122 @@
           "other_symptoms"
         ],
         "title": "DoctorNote"
+      },
+      "DoctorOut": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "title": "Email"
+          },
+          "display_name": {
+            "type": "string",
+            "title": "Display Name"
+          },
+          "display_name_bn": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Display Name Bn"
+          },
+          "degrees": {
+            "type": "string",
+            "title": "Degrees"
+          },
+          "specialty": {
+            "type": "string",
+            "title": "Specialty"
+          },
+          "bmdc_number": {
+            "type": "string",
+            "title": "Bmdc Number"
+          },
+          "phone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "verified",
+              "rejected"
+            ],
+            "title": "Status"
+          },
+          "rejection_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rejection Reason"
+          },
+          "verified_on": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Verified On"
+          },
+          "is_demo": {
+            "type": "boolean",
+            "title": "Is Demo"
+          },
+          "chambers": {
+            "items": {
+              "$ref": "#/components/schemas/ChamberOut"
+            },
+            "type": "array",
+            "title": "Chambers"
+          }
+        },
+        "type": "object",
+        "required": [
+          "email",
+          "display_name",
+          "display_name_bn",
+          "degrees",
+          "specialty",
+          "bmdc_number",
+          "phone",
+          "status",
+          "rejection_reason",
+          "verified_on",
+          "is_demo",
+          "chambers"
+        ],
+        "title": "DoctorOut"
+      },
+      "Done": {
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "title": "Ok",
+            "default": true
+          }
+        },
+        "type": "object",
+        "title": "Done"
       },
       "Envelope_AlternativesResponse_": {
         "properties": {
@@ -1173,6 +2029,84 @@
         },
         "type": "object",
         "title": "Envelope[DataReportSaved]"
+      },
+      "Envelope_DoctorExport_": {
+        "properties": {
+          "data": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DoctorExport"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorBody"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "Envelope[DoctorExport]"
+      },
+      "Envelope_DoctorOut_": {
+        "properties": {
+          "data": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DoctorOut"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorBody"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "Envelope[DoctorOut]"
+      },
+      "Envelope_Done_": {
+        "properties": {
+          "data": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Done"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorBody"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "Envelope[Done]"
       },
       "Envelope_GenericDetail_": {
         "properties": {
@@ -1875,6 +2809,27 @@
         ],
         "title": "InteractionSummary"
       },
+      "LoginIn": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "maxLength": 254,
+            "title": "Email"
+          },
+          "password": {
+            "type": "string",
+            "maxLength": 128,
+            "title": "Password"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "email",
+          "password"
+        ],
+        "title": "LoginIn"
+      },
       "ManufacturerBrand": {
         "properties": {
           "id": {
@@ -2297,6 +3252,49 @@
         "title": "NotShownMedicine",
         "description": "Interactions not shown: DDInter lists them for this generic taken by mouth or injection,\nand the catalog lists it only in these local forms."
       },
+      "PasswordChangeIn": {
+        "properties": {
+          "current_password": {
+            "type": "string",
+            "maxLength": 128,
+            "title": "Current Password"
+          },
+          "new_password": {
+            "type": "string",
+            "maxLength": 128,
+            "title": "New Password"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "current_password",
+          "new_password"
+        ],
+        "title": "PasswordChangeIn"
+      },
+      "PasswordResetIn": {
+        "properties": {
+          "token": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 20,
+            "title": "Token"
+          },
+          "new_password": {
+            "type": "string",
+            "maxLength": 128,
+            "title": "New Password"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "token",
+          "new_password"
+        ],
+        "title": "PasswordResetIn"
+      },
       "PharmaciesResponse": {
         "properties": {
           "city": {
@@ -2519,6 +3517,67 @@
           "max_price"
         ],
         "title": "Presentation"
+      },
+      "ProfileIn": {
+        "properties": {
+          "display_name": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 1,
+            "title": "Display Name"
+          },
+          "display_name_bn": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 120
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Display Name Bn"
+          },
+          "degrees": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Degrees"
+          },
+          "specialty": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 1,
+            "title": "Specialty"
+          },
+          "bmdc_number": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9-]{1,20}$",
+            "title": "Bmdc Number"
+          },
+          "phone": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 20,
+                "pattern": "^[0-9+\\- ()]*$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "display_name",
+          "degrees",
+          "specialty",
+          "bmdc_number"
+        ],
+        "title": "ProfileIn"
       },
       "QualityBreakdown": {
         "properties": {
@@ -2774,6 +3833,78 @@
           "generic_name"
         ],
         "title": "SearchResult"
+      },
+      "SignupIn": {
+        "properties": {
+          "display_name": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 1,
+            "title": "Display Name"
+          },
+          "display_name_bn": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 120
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Display Name Bn"
+          },
+          "degrees": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Degrees"
+          },
+          "specialty": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 1,
+            "title": "Specialty"
+          },
+          "bmdc_number": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9-]{1,20}$",
+            "title": "Bmdc Number"
+          },
+          "phone": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 20,
+                "pattern": "^[0-9+\\- ()]*$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone"
+          },
+          "email": {
+            "type": "string",
+            "title": "Email"
+          },
+          "password": {
+            "type": "string",
+            "maxLength": 128,
+            "title": "Password"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "display_name",
+          "degrees",
+          "specialty",
+          "bmdc_number",
+          "email",
+          "password"
+        ],
+        "title": "SignupIn"
       },
       "SpecialtyOut": {
         "properties": {

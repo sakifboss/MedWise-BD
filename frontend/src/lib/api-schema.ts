@@ -309,6 +309,199 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/doctor/signup": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Signup */
+        post: operations["signup_api_doctor_signup_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/doctor/login": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Login */
+        post: operations["login_api_doctor_login_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/doctor/logout": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Logout */
+        post: operations["logout_api_doctor_logout_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/doctor/logout-all": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Logout Everywhere */
+        post: operations["logout_everywhere_api_doctor_logout_all_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/doctor/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Me */
+        get: operations["me_api_doctor_me_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/doctor/profile": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Update Profile */
+        post: operations["update_profile_api_doctor_profile_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/doctor/chambers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Save Chambers */
+        post: operations["save_chambers_api_doctor_chambers_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/doctor/password": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Change Password */
+        post: operations["change_password_api_doctor_password_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/doctor/reset": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Reset Password
+         * @description Use a one-time link from the owner (scripts/doctors.py reset-link).
+         */
+        post: operations["reset_password_api_doctor_reset_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/doctor/export": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Export Data */
+        get: operations["export_data_api_doctor_export_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/doctor/delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Delete Account
+         * @description Removes the profile, chambers, sessions and reset links (and, from R5, templates).
+         */
+        post: operations["delete_account_api_doctor_delete_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/health": {
         parameters: {
             query?: never;
@@ -415,6 +608,33 @@ export interface components {
             /** Interactions */
             interactions: number;
         };
+        /** ChamberIn */
+        ChamberIn: {
+            /** Name */
+            name: string;
+            /** Address */
+            address: string;
+            /** Hours */
+            hours: string;
+            /** Phone */
+            phone?: string | null;
+        };
+        /** ChamberOut */
+        ChamberOut: {
+            /** Name */
+            name: string;
+            /** Address */
+            address: string;
+            /** Hours */
+            hours: string;
+            /** Phone */
+            phone: string | null;
+        };
+        /** ChambersIn */
+        ChambersIn: {
+            /** Chambers */
+            chambers: components["schemas"]["ChamberIn"][];
+        };
         /** CheckedMedicine */
         CheckedMedicine: {
             /** Generic Id */
@@ -445,6 +665,41 @@ export interface components {
              */
             saved: boolean;
         };
+        /** DeleteIn */
+        DeleteIn: {
+            /** Password */
+            password: string;
+        };
+        /**
+         * DoctorExport
+         * @description Everything stored about the doctor (no password hash, no tokens).
+         */
+        DoctorExport: {
+            /**
+             * Exported On
+             * Format: date
+             */
+            exported_on: string;
+            profile: components["schemas"]["DoctorOut"];
+            /**
+             * Created On
+             * Format: date
+             */
+            created_on: string;
+            /** Last Login Day */
+            last_login_day: string | null;
+            /** Verified By */
+            verified_by: string | null;
+            /** Verify Method */
+            verify_method: string | null;
+            /** Active Sessions */
+            active_sessions: number;
+            /**
+             * Note
+             * @default This is everything MedWise BD stores about you. MedWise BD never stores your patients' information.
+             */
+            note: string;
+        };
         /** DoctorNote */
         DoctorNote: {
             /** Main Problem */
@@ -453,6 +708,44 @@ export interface components {
             duration: string;
             /** Other Symptoms */
             other_symptoms: string[];
+        };
+        /** DoctorOut */
+        DoctorOut: {
+            /** Email */
+            email: string;
+            /** Display Name */
+            display_name: string;
+            /** Display Name Bn */
+            display_name_bn: string | null;
+            /** Degrees */
+            degrees: string;
+            /** Specialty */
+            specialty: string;
+            /** Bmdc Number */
+            bmdc_number: string;
+            /** Phone */
+            phone: string | null;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "pending" | "verified" | "rejected";
+            /** Rejection Reason */
+            rejection_reason: string | null;
+            /** Verified On */
+            verified_on: string | null;
+            /** Is Demo */
+            is_demo: boolean;
+            /** Chambers */
+            chambers: components["schemas"]["ChamberOut"][];
+        };
+        /** Done */
+        Done: {
+            /**
+             * Ok
+             * @default true
+             */
+            ok: boolean;
         };
         /** Envelope[AlternativesResponse] */
         Envelope_AlternativesResponse_: {
@@ -472,6 +765,21 @@ export interface components {
         /** Envelope[DataReportSaved] */
         Envelope_DataReportSaved_: {
             data?: components["schemas"]["DataReportSaved"] | null;
+            error?: components["schemas"]["ErrorBody"] | null;
+        };
+        /** Envelope[DoctorExport] */
+        Envelope_DoctorExport_: {
+            data?: components["schemas"]["DoctorExport"] | null;
+            error?: components["schemas"]["ErrorBody"] | null;
+        };
+        /** Envelope[DoctorOut] */
+        Envelope_DoctorOut_: {
+            data?: components["schemas"]["DoctorOut"] | null;
+            error?: components["schemas"]["ErrorBody"] | null;
+        };
+        /** Envelope[Done] */
+        Envelope_Done_: {
+            data?: components["schemas"]["Done"] | null;
             error?: components["schemas"]["ErrorBody"] | null;
         };
         /** Envelope[GenericDetail] */
@@ -702,6 +1010,13 @@ export interface components {
             /** Description */
             description: string;
         };
+        /** LoginIn */
+        LoginIn: {
+            /** Email */
+            email: string;
+            /** Password */
+            password: string;
+        };
         /** ManufacturerBrand */
         ManufacturerBrand: {
             /** Id */
@@ -865,6 +1180,20 @@ export interface components {
             /** Forms */
             forms: string[];
         };
+        /** PasswordChangeIn */
+        PasswordChangeIn: {
+            /** Current Password */
+            current_password: string;
+            /** New Password */
+            new_password: string;
+        };
+        /** PasswordResetIn */
+        PasswordResetIn: {
+            /** Token */
+            token: string;
+            /** New Password */
+            new_password: string;
+        };
         /** PharmaciesResponse */
         PharmaciesResponse: {
             /** City */
@@ -935,6 +1264,21 @@ export interface components {
             min_price: number;
             /** Max Price */
             max_price: number;
+        };
+        /** ProfileIn */
+        ProfileIn: {
+            /** Display Name */
+            display_name: string;
+            /** Display Name Bn */
+            display_name_bn?: string | null;
+            /** Degrees */
+            degrees: string;
+            /** Specialty */
+            specialty: string;
+            /** Bmdc Number */
+            bmdc_number: string;
+            /** Phone */
+            phone?: string | null;
         };
         /**
          * QualityBreakdown
@@ -1024,6 +1368,25 @@ export interface components {
             manufacturer?: string | null;
             /** Code */
             code?: string | null;
+        };
+        /** SignupIn */
+        SignupIn: {
+            /** Display Name */
+            display_name: string;
+            /** Display Name Bn */
+            display_name_bn?: string | null;
+            /** Degrees */
+            degrees: string;
+            /** Specialty */
+            specialty: string;
+            /** Bmdc Number */
+            bmdc_number: string;
+            /** Phone */
+            phone?: string | null;
+            /** Email */
+            email: string;
+            /** Password */
+            password: string;
         };
         /** SpecialtyOut */
         SpecialtyOut: {
@@ -1587,6 +1950,369 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Envelope_BrandIndex_"];
+                };
+            };
+        };
+    };
+    signup_api_doctor_signup_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SignupIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Envelope_DoctorOut_"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    login_api_doctor_login_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LoginIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Envelope_DoctorOut_"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    logout_api_doctor_logout_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: {
+                mw_doc?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Envelope_Done_"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    logout_everywhere_api_doctor_logout_all_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: {
+                mw_doc?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Envelope_Done_"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    me_api_doctor_me_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: {
+                mw_doc?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Envelope_DoctorOut_"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_profile_api_doctor_profile_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: {
+                mw_doc?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ProfileIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Envelope_DoctorOut_"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    save_chambers_api_doctor_chambers_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: {
+                mw_doc?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ChambersIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Envelope_DoctorOut_"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    change_password_api_doctor_password_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: {
+                mw_doc?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PasswordChangeIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Envelope_Done_"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    reset_password_api_doctor_reset_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PasswordResetIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Envelope_Done_"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    export_data_api_doctor_export_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: {
+                mw_doc?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Envelope_DoctorExport_"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    delete_account_api_doctor_delete_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: {
+                mw_doc?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DeleteIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Envelope_Done_"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
                 };
             };
         };

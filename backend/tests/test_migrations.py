@@ -1,5 +1,5 @@
-"""R1: Alembic for the durable tables. The first run on the live database (tables already there,
-with rows, and no Alembic yet) must keep every row."""
+"""Alembic for the durable tables (R1; doctor tables from R2). The first run on the live database
+(tables already there, with rows, and no Alembic yet) must keep every row, and so must 0003."""
 
 from datetime import date
 from pathlib import Path
@@ -16,6 +16,12 @@ def _engine(tmp_path: Path) -> Engine:
     return make_engine(f"sqlite:///{(tmp_path / 'db.sqlite').as_posix()}")
 
 
+HEAD = "0003"
+DOCTOR_TABLES = ("doctors", "doctor_chambers", "doctor_sessions", "doctor_password_resets")
+NEW_DOCTOR_TABLES = {name: (None, 0) for name in DOCTOR_TABLES}
+EMPTY_DOCTOR_TABLES = {name: (0, 0) for name in DOCTOR_TABLES}
+
+
 def _version(engine: Engine) -> str:
     with engine.connect() as conn:
         return conn.execute(text("SELECT version_num FROM alembic_version")).scalar_one()
@@ -24,10 +30,10 @@ def _version(engine: Engine) -> str:
 def test_upgrade_on_an_empty_database(tmp_path: Path) -> None:
     engine = _engine(tmp_path)
     rows = upgrade_durable_tables(engine)
-    assert rows == {"medicine_requests": (None, 0), "data_reports": (None, 0)}
+    assert rows == {"medicine_requests": (None, 0), "data_reports": (None, 0), **NEW_DOCTOR_TABLES}
     columns = {c["name"] for c in inspect(engine).get_columns("data_reports")}
     assert "brand_code" in columns
-    assert _version(engine) == "0002"
+    assert _version(engine) == HEAD
     engine.dispose()
 
 
@@ -71,15 +77,16 @@ def test_first_upgrade_on_a_live_like_database_keeps_every_row(tmp_path: Path) -
     engine = _engine(tmp_path)
     _make_live_like(engine)
     rows = upgrade_durable_tables(engine)
-    assert rows == {"medicine_requests": (4, 4), "data_reports": (1, 1)}
+    assert rows == {"medicine_requests": (4, 4), "data_reports": (1, 1), **NEW_DOCTOR_TABLES}
     with engine.connect() as conn:
         queries = conn.execute(text("SELECT query FROM medicine_requests ORDER BY id")).scalars()
         assert list(queries) == ["Fexo", "Fexo", "Qwzxyfexo", "Romycin"]
         report = conn.execute(text("SELECT brand_name, brand_code FROM data_reports")).one()
         assert tuple(report) == ("Seclo", None)  # old rows keep NULL for the new column
-    assert _version(engine) == "0002"
+    assert _version(engine) == HEAD
     # Running again changes nothing.
-    assert upgrade_durable_tables(engine) == {"medicine_requests": (4, 4), "data_reports": (1, 1)}
+    again = upgrade_durable_tables(engine)
+    assert again == {"medicine_requests": (4, 4), "data_reports": (1, 1), **EMPTY_DOCTOR_TABLES}
     engine.dispose()
 
 
@@ -88,9 +95,44 @@ def test_the_import_migrates_then_rebuilds_only_seed_tables(tmp_path: Path) -> N
     _make_live_like(engine)
     result = run_import(get_settings().seed_dir, engine)
     assert result.ok, result.errors
-    assert result.durable_rows == {"medicine_requests": (4, 4), "data_reports": (1, 1)}
+    assert result.durable_rows == {
+        "medicine_requests": (4, 4),
+        "data_reports": (1, 1),
+        **NEW_DOCTOR_TABLES,
+    }
+    with engine.begin() as conn:  # a doctor signs up between two deploys
+        conn.execute(
+            text(
+                "INSERT INTO doctors (email, password_hash, display_name, degrees, specialty,"
+                " bmdc_number, status, is_demo, created_at)"
+                " VALUES ('a@b.cd', 'x', 'Dr. A', 'MBBS', 'Medicine', 'A-1', 'pending', 0,"
+                " '2026-11-13 10:00:00')"
+            )
+        )
     again = run_import(get_settings().seed_dir, engine)
-    assert again.durable_rows == {"medicine_requests": (4, 4), "data_reports": (1, 1)}
+    assert again.durable_rows["doctors"] == (1, 1)  # the import never drops doctor accounts
+    assert again.durable_rows["medicine_requests"] == (4, 4)
+    engine.dispose()
+
+
+def test_0003_on_a_database_at_0002_keeps_every_row(tmp_path: Path) -> None:
+    """The live database after R1 (at 0002, with rows): 0003 only adds the doctor tables."""
+    from alembic import command
+    from alembic.config import Config
+
+    from app.core.config import BACKEND_DIR
+
+    engine = _engine(tmp_path)
+    _make_live_like(engine)
+    config = Config(str(BACKEND_DIR / "alembic.ini"))
+    config.set_main_option("script_location", str(BACKEND_DIR / "migrations"))
+    with engine.begin() as connection:
+        config.attributes["connection"] = connection
+        command.upgrade(config, "0002")
+    assert _version(engine) == "0002" and not inspect(engine).has_table("doctors")
+    rows = upgrade_durable_tables(engine)
+    assert rows == {"medicine_requests": (4, 4), "data_reports": (1, 1), **NEW_DOCTOR_TABLES}
+    assert _version(engine) == HEAD
     engine.dispose()
 
 

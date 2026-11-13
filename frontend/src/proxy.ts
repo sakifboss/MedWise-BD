@@ -56,6 +56,8 @@ export function proxy(request: NextRequest) {
 
   const response = NextResponse.next({ request: { headers: requestHeaders } });
   response.headers.set("Content-Security-Policy", csp);
+  // Doctor pages: never kept by the browser cache, the service worker or anything in between.
+  if (/^\/doctor(\/|$)/.test(request.nextUrl.pathname)) response.headers.set("Cache-Control", "no-store");
   return response;
 }
 
