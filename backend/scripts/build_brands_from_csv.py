@@ -10,6 +10,9 @@ Each brand keeps its stable code (BR00042) from the current brands.json while it
 manufacturer, strength and dosage form stay the same; new rows get the next unused code and
 removed brands' codes are retired (scripts/brand_codes.py).
 
+Optional column `aliases`: other names people write for the brand, separated by ';'
+(e.g. "Mycetin" for SQ-Mycetin); search and the prescription scanner match them too.
+
 Rows with an empty brand_name are skipped (unused template rows). Every kept row needs a
 manufacturer from manufacturers.json, a positive price and a price_source_url. If any row
 is wrong, all problems are listed and brands.json is left untouched.
@@ -51,6 +54,12 @@ def _checked_on(value: str) -> dict[str, str]:
         return {"price_checked_on": date.fromisoformat(value.strip()).isoformat()}
     except ValueError:
         return {}
+
+
+def _aliases(value: str) -> dict[str, list[str]]:
+    """Other names people write for the brand, separated by ';' (only when there are any)."""
+    names = [a.strip() for a in value.split(";") if a.strip()]
+    return {"aliases": names} if names else {}
 
 
 def build_brands(csv_path: Path, seed_dir: Path) -> tuple[list[dict], list[str]]:
@@ -109,6 +118,7 @@ def build_brands(csv_path: Path, seed_dir: Path) -> tuple[list[dict], list[str]]
                     "price_per_unit": float(price),
                     "source_url": cell["price_source_url"],
                     **_checked_on(cell.get("date_checked", "")),
+                    **_aliases(cell.get("aliases", "")),
                 }
             )
     return records, errors
