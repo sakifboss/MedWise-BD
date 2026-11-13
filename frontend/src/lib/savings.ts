@@ -6,7 +6,7 @@ export const DAYS_PER_MONTH = 30;
 export const QUANTITY_PARAM = "per";
 
 export type QuantityUnit = {
-  /** Dosage form the quantity counts (tablet, capsule, suspension). */
+  /** Dosage form the quantity counts (tablet, capsule, suspension, eye drops). */
   form: string;
   /** How many entered quantities make up one month. */
   perMonth: number;
@@ -14,9 +14,16 @@ export type QuantityUnit = {
   max: number;
 };
 
-/** Suspensions are priced per bottle, so the user enters bottles a month. */
+/** Forms priced per bottle (Arogga MRP of one bottle), not per tablet or capsule. */
+const PER_BOTTLE_FORMS: ReadonlySet<string> = new Set(["suspension", "eye drops"]);
+
+export function isPerBottle(dosageForm: string): boolean {
+  return PER_BOTTLE_FORMS.has(dosageForm);
+}
+
+/** Bottled forms are priced per bottle, so the user enters bottles a month. */
 export function quantityUnit(dosageForm: string): QuantityUnit {
-  if (dosageForm === "suspension") {
+  if (isPerBottle(dosageForm)) {
     return { form: dosageForm, perMonth: 1, step: 1, max: 20 };
   }
   return { form: dosageForm, perMonth: DAYS_PER_MONTH, step: 0.5, max: 24 };
