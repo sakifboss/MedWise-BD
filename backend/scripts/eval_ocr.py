@@ -444,7 +444,9 @@ TOTALS_HEADER = (
 SUBSET_NOTES = {
     "real_handwritten": "real handwritten prescriptions (scanned with CamScanner)",
     "synthetic_printed": "computer-generated printed prescriptions with fictional medicine names "
-    "(shows the pipeline works; not real-world accuracy; no catalog matches possible)",
+    "(shows the pipeline works; not real-world accuracy; no catalog matches possible). Each page "
+    'says "NOT A REAL PRESCRIPTION"; a model that follows our instruction to return nothing for '
+    "a non-prescription scores 0 here, which is the intended behaviour",
     "degraded_copies": "blurred / dimmed and rotated / low-resolution copies of real images",
 }
 
@@ -583,7 +585,7 @@ def main(argv: list[str] | None = None) -> int:
 
     folder = args.eval_dir / "prescriptions"
     settings = get_settings()
-    cache_dir = args.eval_dir / "cache" / (args.model or settings.openai_models[0])
+    cache_dir = args.eval_dir / "cache" / (args.model or settings.openai_ocr_models[0])
     subsets_file = args.eval_dir / "subsets.json"
     subsets_data = (
         json.loads(subsets_file.read_text(encoding="utf-8")) if subsets_file.exists() else {}
@@ -602,7 +604,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.model:
         # Only this model: a busy model is retried, never replaced by a fallback.
         settings = settings.model_copy(
-            update={"openai_model": args.model, "openai_fallback_models": ""}
+            update={"openai_ocr_model": args.model, "openai_ocr_fallback_models": ""}
         )
     extractor: VisionExtractor | None = None
     with tempfile.TemporaryDirectory() as tmp:
@@ -690,7 +692,7 @@ def main(argv: list[str] | None = None) -> int:
                 results,
                 args.threshold,
                 subsets_data.get("excluded"),
-                settings.openai_models[0],
+                settings.openai_ocr_models[0],
             ),
             encoding="utf-8",
         )

@@ -291,10 +291,16 @@ python scripts/top_requests.py --database-url "postgresql://..."   # 30 most req
 
 **OpenAI** (prescription reading and the symptom guide) is a paid API: keep the key only in
 `backend/.env` and on Render (never in git or chat), and set a monthly usage limit in the OpenAI
-dashboard. Requests use the Responses API with `store: false` and a strict JSON schema. Models are
-settings: `OPENAI_MODEL` (default `gpt-6-luna`), `OPENAI_FALLBACK_MODELS` (default
-`gpt-6.1-terra`), `OPENAI_REASONING_EFFORT` (default `low`). The daily limits (300 prescriptions,
-200 symptom guides) also cap the spend.
+dashboard. Requests use the Responses API with `store: false` and a strict JSON schema. Each
+feature has its own model setting, chosen by measurement (`data/eval/`):
+
+| Feature | Setting (default) | Fallback setting (default) | Why | Cost per call |
+|---|---|---|---|---|
+| Prescription reading | `OPENAI_OCR_MODEL` (`gpt-6.1-terra`) | `OPENAI_OCR_FALLBACK_MODELS` (`gpt-6-luna`) | real handwriting: 94.1% recall vs 70.6% | ~$0.0034 |
+| Symptom guide | `OPENAI_MODEL` (`gpt-6-luna`) | `OPENAI_FALLBACK_MODELS` (`gpt-6.1-terra`) | already 13/13 red flags, 27/27 specialties | ~$0.0001 |
+
+`OPENAI_REASONING_EFFORT` (default `low`) applies to both. The daily limits (300 prescriptions,
+about $1 at most; 200 symptom guides) also cap the spend.
 
 `FRONTEND_SHARED_SECRET` must be the same long random value on Vercel and Render. The frontend adds
 it to prescription uploads and symptom guide requests, and the backend refuses them without it,

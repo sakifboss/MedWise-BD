@@ -51,7 +51,7 @@ python scripts/eval_ocr.py --refresh          # ask the model again even when ca
 python scripts/eval_ocr.py --threshold 90     # stricter name match (default 85)
 python scripts/eval_ocr.py --no-write         # print only
 # One model only (no fallbacks), cached in cache/<model>/, so runs can resume the next day:
-python scripts/eval_ocr.py --model gpt-6.1-terra --out ../data/eval/results_gpt-6.1-terra.md
+python scripts/eval_ocr.py --model gpt-6-luna --out ../data/eval/results_gpt-6-luna.md
 ```
 
 - Each photo is resized exactly like the app does before upload (longest side 2000 px, JPEG 0.85).

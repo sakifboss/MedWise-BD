@@ -38,8 +38,9 @@ def make_extractor(
 
     config = Settings(
         openai_api_key="test-key",
-        openai_model="main-model",
-        openai_fallback_models="backup-model",
+        openai_ocr_model="main-model",
+        openai_ocr_fallback_models="backup-model",
+        openai_model="text-model",  # the symptom guide's model: never used for photos
         **settings,  # type: ignore[arg-type]
     )
     client = httpx.Client(transport=httpx.MockTransport(record))
@@ -244,3 +245,20 @@ def test_reasoning_effort_is_optional() -> None:
 @pytest.mark.parametrize("pasted", ["  abc123\n", '"abc123"', "'abc123'"])
 def test_api_key_is_cleaned(pasted: str) -> None:
     assert Settings(openai_api_key=pasted).openai_api_key == "abc123"
+
+
+def test_scans_and_the_symptom_guide_use_their_own_models() -> None:
+    defaults = Settings(openai_api_key="k")
+    # Handwriting needs the stronger model; the symptom guide is fine with the cheapest one.
+    assert defaults.openai_ocr_models == ["gpt-6.1-terra", "gpt-6-luna"]
+    assert defaults.openai_models == ["gpt-6-luna", "gpt-6.1-terra"]
+    extractor, seen = make_extractor(
+        lambda r: httpx.Response(200, json=openai_reply({"medicines": []}))
+    )
+    extractor(IMAGE, "image/jpeg")
+    assert [model_of(r) for r in seen] == ["main-model"]  # not "text-model"
+
+
+def test_model_lists_skip_repeats_and_blanks() -> None:
+    s = Settings(openai_ocr_model="a", openai_ocr_fallback_models=" b, a,, c ")
+    assert s.openai_ocr_models == ["a", "b", "c"]
