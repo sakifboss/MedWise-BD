@@ -341,7 +341,8 @@ prescription with the letterhead, the chosen chamber, a signature line, page num
 DEMO or not-verified mark. Patient details stay in the browser tab and on the paper: they are
 never stored (no local storage, cookies or IndexedDB) and never sent; patient fields turn off
 autofill, browser spellcheck and translation, and have no voice input. Search sends only the
-typed text, at most 60 searches a minute per tab.
+typed text, at most 60 searches a minute per tab. The only thing the pad keeps on the device is
+the doctor's choice of print language (localStorage `medwise.rxPrefs`; Bangla at first).
 
 Accounts start as pending. The owner manages them on their own computer (no admin pages):
 

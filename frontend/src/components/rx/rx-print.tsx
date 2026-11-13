@@ -3,10 +3,11 @@
 import { useDict } from "@/i18n/client";
 import type { DoctorProfile } from "@/lib/api";
 import { instruction, type RxLine } from "@/lib/rx";
+import type { PrintLanguage } from "@/lib/rx-preferences";
 
 import { lineTitle } from "./line-editor";
 
-export type PrintLanguage = "both" | "bn" | "en";
+export type { PrintLanguage };
 
 export type RxPatient = {
   name: string;

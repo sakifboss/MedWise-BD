@@ -1514,7 +1514,7 @@ const bn: Dict = {
     },
     sections: {
       complaints: "প্রধান সমস্যা",
-      findings: "পরীক্ষায় পাওয়া তথ্য",
+      findings: "শারীরিক পরীক্ষা",
       diagnosis: "রোগ নির্ণয় (ঐচ্ছিক)",
       allergies: "জানা অ্যালার্জি",
       medicines: "ওষুধ",
@@ -1541,7 +1541,7 @@ const bn: Dict = {
     line: {
       formWord: "ধরন",
       pattern: "ডোজের নিয়ম",
-      patternHint: "a+b+c বা a+b+c+d, ০, ½, ১, ১½, ২ … দিয়ে, অথবা “প্রয়োজনে”-র মতো কথায়",
+      patternHint: "যেমন ১+০+১, ১+১+১+১, ½+০+½; অথবা “প্রয়োজনে”-র মতো কথায়",
       unit: "একক",
       units: {
         tablet: "ট্যাবলেট",
@@ -1577,7 +1577,7 @@ const bn: Dict = {
       language: "প্রিন্টে রোগীর নির্দেশনা",
       langs: { both: "বাংলা ও ইংরেজি", bn: "বাংলা", en: "ইংরেজি" },
       chamber: "প্রিন্টে চেম্বার",
-      noChamber: "চেম্বার নয়",
+      noChamber: "চেম্বার ছাড়া",
       rx: "Rx",
       bmdc: "BMDC রেজি. নং",
       age: "বয়স",

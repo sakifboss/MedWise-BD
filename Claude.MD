@@ -793,8 +793,10 @@ Rules for every R step:
   a unique patient name, then check no request URL, body or header and no storage holds it, and
   that every patient field has autocomplete off, spellcheck off and translate="no"; print layout
   in en and bn on A4.
-  Done 2026-11-13 (PR): owner's choices: patient instructions print in Bangla and English by default
-  (the doctor can switch), approx. cost on screen only, the existing server search. Search requests
+  Done 2026-11-13 (PR): owner's choices: the print language of the patient instructions is the
+  doctor's last choice on this device (localStorage medwise.rxPrefs, format version 1, the doctor's
+  preference only, never patient data), Bangla on a new device; approx. cost on screen only; the
+  existing server search. Bangla approved by the owner with three changes. Search requests
   carry only the typed text: the session cookie moved to Path=/api/doctor (R2's Path=/ cookie is
   cleared at login and logout); the pad waits 250 ms after typing, needs 2 characters, caches
   answers, cancels stale requests and sends at most 60 searches a minute per tab (server: 120 per

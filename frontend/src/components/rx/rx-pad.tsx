@@ -11,6 +11,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useDict } from "@/i18n/client";
 import type { DoctorProfile } from "@/lib/api";
 import { MAX_LINES, newLine, type RxLine, type RxSource } from "@/lib/rx";
+import { PRINT_LANGUAGES, loadPrintLanguage, savePrintLanguage } from "@/lib/rx-preferences";
 import { confirmBeforeLeaving, setPrintMargins, todayIso } from "@/lib/rx-print";
 
 import { LineEditor } from "./line-editor";
@@ -77,7 +78,8 @@ function Pad({ doctor }: { doctor: DoctorProfile }) {
   const [patient, setPatient] = useState<RxPatient>(emptyPatient);
   const [notes, setNotes] = useState<RxNotes>(EMPTY_NOTES);
   const [lines, setLines] = useState<RxLine[]>([]);
-  const [language, setLanguage] = useState<PrintLanguage>("both");
+  // The doctor's last choice on this device (a preference, never patient data); Bangla at first.
+  const [language, setLanguage] = useState<PrintLanguage>(loadPrintLanguage);
   const [chamberIndex, setChamberIndex] = useState(doctor.chambers.length ? 0 : -1);
   const [confirmingNew, setConfirmingNew] = useState(false);
   const hasContent =
@@ -240,9 +242,13 @@ function Pad({ doctor }: { doctor: DoctorProfile }) {
               id="rx-print-language"
               className={SELECT}
               value={language}
-              onChange={(e) => setLanguage(e.target.value as PrintLanguage)}
+              onChange={(e) => {
+                const next = e.target.value as PrintLanguage;
+                setLanguage(next);
+                savePrintLanguage(next);
+              }}
             >
-              {(["both", "bn", "en"] as const).map((k) => (
+              {PRINT_LANGUAGES.map((k) => (
                 <option key={k} value={k}>
                   {t.rx.print.langs[k]}
                 </option>
