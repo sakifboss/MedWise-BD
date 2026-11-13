@@ -1,8 +1,8 @@
 # Symptom guide evaluation
 
-Date: 2026-11-10 · Cases: 40 (invented, no real patients; `data/eval/symptoms.json`) · Models: gemini-3.5-flash-lite (32), gemini-3.6-flash (6), gemini-3.5-flash (2)
+Date: 2026-11-13 · Cases: 40 (invented, no real patients; `data/eval/symptoms.json`) · Models: gpt-6-luna (40)
 
-The whole pipeline ran: Gemini, then the strict schema, the medicine/dose/diagnosis
+The whole pipeline ran: OpenAI, then the strict schema, the medicine/dose/diagnosis
 checks and the fixed rules (child -> paediatrics, pregnant -> obstetrics).
 
 | | Red-flag recall | False alarms | Specialty accuracy |

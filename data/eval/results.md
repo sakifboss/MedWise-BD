@@ -1,8 +1,8 @@
 # OCR evaluation results
 
-Run on 2026-11-10 with `backend/scripts/eval_ocr.py`. 23 images.
-Models that answered: gemini-3.5-flash-lite (22), gemini-3.5-flash (1).
-The app's first-choice model (gemini-3.8-flash) did not answer (busy), so its fallback models did, as they would for a user at that moment.
+Run on 2026-11-13 with `backend/scripts/eval_ocr.py`. 23 images.
+Models that answered: gpt-6-luna (23).
+
 Images are resized like the app (longest side 2000 px, JPEG quality 85).
 
 ## How it is scored
@@ -22,10 +22,10 @@ Images are resized like the app (longest side 2000 px, JPEG quality 85).
 
 | Subset | Images | On prescriptions | Read | Correct | Recall | Precision | Matched | Match rate | Offered | Offered rate |
 |---|---|---|---|---|---|---|---|---|---|---|
-| real_handwritten | 10 | 34 | 34 | 28 | 82.4% | 82.4% | 11/15 | 73.3% | 12/15 | 80.0% |
+| real_handwritten | 10 | 34 | 35 | 24 | 70.6% | 68.6% | 13/21 | 61.9% | 14/21 | 66.7% |
 | synthetic_printed | 10 | 13 | 13 | 13 | 100.0% | 100.0% | 0/0 | n/a | 0/0 | n/a |
-| degraded_copies | 3 | 9 | 9 | 8 | 88.9% | 88.9% | 4/4 | 100.0% | 4/4 | 100.0% |
-| overall | 23 | 56 | 56 | 49 | 87.5% | 87.5% | 15/19 | 78.9% | 16/19 | 84.2% |
+| degraded_copies | 3 | 9 | 9 | 7 | 77.8% | 77.8% | 6/7 | 85.7% | 6/7 | 85.7% |
+| overall | 23 | 56 | 57 | 44 | 78.6% | 77.2% | 19/28 | 67.9% | 20/28 | 71.4% |
 
 ## The images
 
@@ -40,16 +40,16 @@ Images are resized like the app (longest side 2000 px, JPEG quality 85).
 
 | Image | Subset | Correct | Missed | Extra (read, not on the prescription) | Matched |
 |---|---|---|---|---|---|
-| rx01 | real_handwritten | 2/4 | AcePlus, Montene | Ace Plm, Monters | 0/1 |
-| rx02 | real_handwritten | 3/3 | - | - | 2/2 |
-| rx03 | real_handwritten | 3/4 | Fenomin | Feronion | 1/1 |
-| rx04 | real_handwritten | 3/3 | - | - | 2/2 |
-| rx05 | real_handwritten | 4/5 | Zithrin | Zithrox | 1/2 |
-| rx06 | real_handwritten | 3/3 | - | - | 1/1 |
-| rx07 | real_handwritten | 5/5 | - | - | 1/2 |
-| rx08 | real_handwritten | 1/3 | Montene, Romycin | Montek, Ponysan | 1/2 |
-| rx09 | real_handwritten | 3/3 | - | - | 1/1 |
-| rx10 | real_handwritten | 1/1 | - | - | 1/1 |
+| rx01 | real_handwritten | 2/4 | Fenomin, Montene | Femovin, Montex | 0/1 |
+| rx02 | real_handwritten | 3/3 | - | - | 3/3 |
+| rx03 | real_handwritten | 3/4 | Benostar | Benolax | 1/1 |
+| rx04 | real_handwritten | 2/3 | Montene | Montelukast | 1/2 |
+| rx05 | real_handwritten | 3/5 | Zithrin, Loratin | Azithromycin, Ovel, Lorat... | 2/4 |
+| rx06 | real_handwritten | 3/3 | - | - | 2/2 |
+| rx07 | real_handwritten | 4/5 | Motigut | Motisyl | 1/3 |
+| rx08 | real_handwritten | 2/3 | Montene | Montek | 1/2 |
+| rx09 | real_handwritten | 2/3 | Viodin | Vitamin | 2/2 |
+| rx10 | real_handwritten | 0/1 | Montene | Monteluk | 0/1 |
 | rx11 | synthetic_printed | 1/1 | - | - | 0/0 |
 | rx12 | synthetic_printed | 2/2 | - | - | 0/0 |
 | rx13 | synthetic_printed | 1/1 | - | - | 0/0 |
@@ -60,6 +60,6 @@ Images are resized like the app (longest side 2000 px, JPEG quality 85).
 | rx18 | synthetic_printed | 2/2 | - | - | 0/0 |
 | rx19 | synthetic_printed | 1/1 | - | - | 0/0 |
 | rx20 | synthetic_printed | 1/1 | - | - | 0/0 |
-| rx21 | degraded_copies | 3/3 | - | - | 2/2 |
-| rx22 | degraded_copies | 3/3 | - | - | 1/1 |
-| rx23 | degraded_copies | 2/3 | Viodin | Viadin M/W | 1/1 |
+| rx21 | degraded_copies | 3/3 | - | - | 3/3 |
+| rx22 | degraded_copies | 3/3 | - | - | 2/2 |
+| rx23 | degraded_copies | 1/3 | Fexo, Viodin | Pexo, Vitamin | 1/2 |
