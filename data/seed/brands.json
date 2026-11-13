@@ -74,17 +74,6 @@
       "price_checked_on": "2026-11-13"
     },
     {
-      "code": "BR00189",
-      "name": "Sinapol",
-      "generic": "Paracetamol",
-      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
-      "strength": "500 mg",
-      "dosage_form": "tablet",
-      "price_per_unit": 1.2,
-      "source_url": "https://www.arogga.com/product/17588",
-      "price_checked_on": "2026-11-13"
-    },
-    {
       "code": "BR00007",
       "name": "Napa",
       "generic": "Paracetamol",
@@ -148,17 +137,6 @@
       "dosage_form": "suspension",
       "price_per_unit": 35.0,
       "source_url": "https://www.arogga.com/product/16294",
-      "price_checked_on": "2026-11-13"
-    },
-    {
-      "code": "BR00190",
-      "name": "Sinapol",
-      "generic": "Paracetamol",
-      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
-      "strength": "120 mg/5 ml",
-      "dosage_form": "suspension",
-      "price_per_unit": 35.0,
-      "source_url": "https://www.arogga.com/product/17587",
       "price_checked_on": "2026-11-13"
     },
     {
@@ -327,17 +305,6 @@
       "price_checked_on": "2026-11-13"
     },
     {
-      "code": "BR00191",
-      "name": "Prolok",
-      "generic": "Omeprazole",
-      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
-      "strength": "20 mg",
-      "dosage_form": "capsule",
-      "price_per_unit": 5.5,
-      "source_url": "https://www.arogga.com/product/15505",
-      "price_checked_on": "2026-11-13"
-    },
-    {
       "code": "BR00028",
       "name": "Maxpro",
       "generic": "Esomeprazole",
@@ -401,17 +368,6 @@
       "dosage_form": "tablet",
       "price_per_unit": 11.0,
       "source_url": "https://www.arogga.com/product/31978",
-      "price_checked_on": "2026-11-13"
-    },
-    {
-      "code": "BR00192",
-      "name": "Esolok",
-      "generic": "Esomeprazole",
-      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
-      "strength": "20 mg",
-      "dosage_form": "tablet",
-      "price_per_unit": 6.0,
-      "source_url": "https://www.arogga.com/product/6834",
       "price_checked_on": "2026-11-13"
     },
     {
@@ -481,17 +437,6 @@
       "price_checked_on": "2026-11-13"
     },
     {
-      "code": "BR00193",
-      "name": "Esolok",
-      "generic": "Esomeprazole",
-      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
-      "strength": "40 mg",
-      "dosage_form": "tablet",
-      "price_per_unit": 9.0,
-      "source_url": "https://www.arogga.com/product/6836",
-      "price_checked_on": "2026-11-13"
-    },
-    {
       "code": "BR00040",
       "name": "Pantonix",
       "generic": "Pantoprazole",
@@ -555,17 +500,6 @@
       "dosage_form": "tablet",
       "price_per_unit": 7.0,
       "source_url": "https://www.arogga.com/product/14495",
-      "price_checked_on": "2026-11-13"
-    },
-    {
-      "code": "BR00194",
-      "name": "Pantolok",
-      "generic": "Pantoprazole",
-      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
-      "strength": "40 mg",
-      "dosage_form": "tablet",
-      "price_per_unit": 7.0,
-      "source_url": "https://www.arogga.com/product/14497",
       "price_checked_on": "2026-11-13"
     },
     {
@@ -635,17 +569,6 @@
       "price_checked_on": "2026-11-13"
     },
     {
-      "code": "BR00195",
-      "name": "Sinamox",
-      "generic": "Amoxicillin",
-      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
-      "strength": "500 mg",
-      "dosage_form": "capsule",
-      "price_per_unit": 7.5,
-      "source_url": "https://www.arogga.com/product/17584",
-      "price_checked_on": "2026-11-13"
-    },
-    {
       "code": "BR00052",
       "name": "Moxacil",
       "generic": "Amoxicillin",
@@ -709,17 +632,6 @@
       "dosage_form": "suspension",
       "price_per_unit": 70.0,
       "source_url": "https://www.arogga.com/product/1503",
-      "price_checked_on": "2026-11-13"
-    },
-    {
-      "code": "BR00196",
-      "name": "Sinamox",
-      "generic": "Amoxicillin",
-      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
-      "strength": "125 mg/5 ml",
-      "dosage_form": "suspension",
-      "price_per_unit": 47.46,
-      "source_url": "https://www.arogga.com/product/17585",
       "price_checked_on": "2026-11-13"
     },
     {
@@ -789,17 +701,6 @@
       "price_checked_on": "2026-11-13"
     },
     {
-      "code": "BR00197",
-      "name": "Romycin",
-      "generic": "Azithromycin",
-      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
-      "strength": "500 mg",
-      "dosage_form": "tablet",
-      "price_per_unit": 40.0,
-      "source_url": "https://www.arogga.com/product/16658",
-      "price_checked_on": "2026-11-13"
-    },
-    {
       "code": "BR00064",
       "name": "Cef-3",
       "generic": "Cefixime",
@@ -863,17 +764,6 @@
       "dosage_form": "capsule",
       "price_per_unit": 52.0,
       "source_url": "https://www.arogga.com/product/16618",
-      "price_checked_on": "2026-11-13"
-    },
-    {
-      "code": "BR00198",
-      "name": "Cefixim",
-      "generic": "Cefixime",
-      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
-      "strength": "200 mg",
-      "dosage_form": "capsule",
-      "price_per_unit": 35.0,
-      "source_url": "https://www.arogga.com/product/3520",
       "price_checked_on": "2026-11-13"
     },
     {
@@ -943,17 +833,6 @@
       "price_checked_on": "2026-11-13"
     },
     {
-      "code": "BR00199",
-      "name": "Bactin",
-      "generic": "Ciprofloxacin",
-      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
-      "strength": "500 mg",
-      "dosage_form": "tablet",
-      "price_per_unit": 16.0,
-      "source_url": "https://www.arogga.com/product/2258",
-      "price_checked_on": "2026-11-13"
-    },
-    {
       "code": "BR00076",
       "name": "Amodis",
       "generic": "Metronidazole",
@@ -1017,17 +896,6 @@
       "dosage_form": "tablet",
       "price_per_unit": 1.7,
       "source_url": "https://www.arogga.com/product/25221",
-      "price_checked_on": "2026-11-13"
-    },
-    {
-      "code": "BR00200",
-      "name": "Metsina",
-      "generic": "Metronidazole",
-      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
-      "strength": "400 mg",
-      "dosage_form": "tablet",
-      "price_per_unit": 1.7,
-      "source_url": "https://www.arogga.com/product/26685",
       "price_checked_on": "2026-11-13"
     },
     {
@@ -1097,17 +965,6 @@
       "price_checked_on": "2026-11-13"
     },
     {
-      "code": "BR00201",
-      "name": "Insimet",
-      "generic": "Metformin",
-      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
-      "strength": "500 mg",
-      "dosage_form": "tablet",
-      "price_per_unit": 4.0,
-      "source_url": "https://www.arogga.com/product/9536",
-      "price_checked_on": "2026-11-13"
-    },
-    {
       "code": "BR00088",
       "name": "Comet",
       "generic": "Metformin",
@@ -1171,17 +1028,6 @@
       "dosage_form": "tablet",
       "price_per_unit": 6.0,
       "source_url": "https://www.arogga.com/product/15876",
-      "price_checked_on": "2026-11-13"
-    },
-    {
-      "code": "BR00202",
-      "name": "Insimet",
-      "generic": "Metformin",
-      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
-      "strength": "850 mg",
-      "dosage_form": "tablet",
-      "price_per_unit": 4.0,
-      "source_url": "https://www.arogga.com/product/9537",
       "price_checked_on": "2026-11-13"
     },
     {
@@ -1251,17 +1097,6 @@
       "price_checked_on": "2026-11-13"
     },
     {
-      "code": "BR00203",
-      "name": "Sinazid",
-      "generic": "Gliclazide",
-      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
-      "strength": "80 mg",
-      "dosage_form": "tablet",
-      "price_per_unit": 6.5,
-      "source_url": "https://www.arogga.com/product/17551",
-      "price_checked_on": "2026-11-13"
-    },
-    {
       "code": "BR00100",
       "name": "Amdocal",
       "generic": "Amlodipine",
@@ -1325,17 +1160,6 @@
       "dosage_form": "tablet",
       "price_per_unit": 4.5,
       "source_url": "https://www.arogga.com/product/10740",
-      "price_checked_on": "2026-11-13"
-    },
-    {
-      "code": "BR00204",
-      "name": "Diplor",
-      "generic": "Amlodipine",
-      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
-      "strength": "5 mg",
-      "dosage_form": "tablet",
-      "price_per_unit": 5.0,
-      "source_url": "https://www.arogga.com/product/5706",
       "price_checked_on": "2026-11-13"
     },
     {
@@ -1405,17 +1229,6 @@
       "price_checked_on": "2026-11-13"
     },
     {
-      "code": "BR00205",
-      "name": "Losium",
-      "generic": "Losartan",
-      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
-      "strength": "50 mg",
-      "dosage_form": "tablet",
-      "price_per_unit": 8.5,
-      "source_url": "https://www.arogga.com/product/10908",
-      "price_checked_on": "2026-11-13"
-    },
-    {
       "code": "BR00112",
       "name": "Atova",
       "generic": "Atorvastatin",
@@ -1482,17 +1295,6 @@
       "price_checked_on": "2026-11-13"
     },
     {
-      "code": "BR00206",
-      "name": "Colostat",
-      "generic": "Atorvastatin",
-      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
-      "strength": "10 mg",
-      "dosage_form": "tablet",
-      "price_per_unit": 6.0,
-      "source_url": "https://www.arogga.com/product/4521",
-      "price_checked_on": "2026-11-13"
-    },
-    {
       "code": "BR00118",
       "name": "Atova",
       "generic": "Atorvastatin",
@@ -1556,17 +1358,6 @@
       "dosage_form": "tablet",
       "price_per_unit": 18.0,
       "source_url": "https://www.arogga.com/product/20386",
-      "price_checked_on": "2026-11-13"
-    },
-    {
-      "code": "BR00207",
-      "name": "Colostat",
-      "generic": "Atorvastatin",
-      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
-      "strength": "20 mg",
-      "dosage_form": "tablet",
-      "price_per_unit": 10.0,
-      "source_url": "https://www.arogga.com/product/4522",
       "price_checked_on": "2026-11-13"
     },
     {
@@ -1702,17 +1493,6 @@
       "price_checked_on": "2026-11-13"
     },
     {
-      "code": "BR00208",
-      "name": "Montex",
-      "generic": "Montelukast",
-      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
-      "strength": "10 mg",
-      "dosage_form": "tablet",
-      "price_per_unit": 16.0,
-      "source_url": "https://www.arogga.com/product/12073",
-      "price_checked_on": "2026-11-13"
-    },
-    {
       "code": "BR00136",
       "name": "Alatrol",
       "generic": "Cetirizine",
@@ -1776,17 +1556,6 @@
       "dosage_form": "tablet",
       "price_per_unit": 3.0,
       "source_url": "https://www.arogga.com/product/3870",
-      "price_checked_on": "2026-11-13"
-    },
-    {
-      "code": "BR00209",
-      "name": "Nosemin",
-      "generic": "Cetirizine",
-      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
-      "strength": "10 mg",
-      "dosage_form": "tablet",
-      "price_per_unit": 3.0,
-      "source_url": "https://www.arogga.com/product/13229",
       "price_checked_on": "2026-11-13"
     },
     {
@@ -1856,17 +1625,6 @@
       "price_checked_on": "2026-11-13"
     },
     {
-      "code": "BR00210",
-      "name": "Fexomin",
-      "generic": "Fexofenadine",
-      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
-      "strength": "120 mg",
-      "dosage_form": "tablet",
-      "price_per_unit": 8.0,
-      "source_url": "https://www.arogga.com/product/7569",
-      "price_checked_on": "2026-11-13"
-    },
-    {
       "code": "BR00148",
       "name": "Oradin",
       "generic": "Loratadine",
@@ -1930,17 +1688,6 @@
       "dosage_form": "tablet",
       "price_per_unit": 3.0,
       "source_url": "https://www.arogga.com/product/6501",
-      "price_checked_on": "2026-11-13"
-    },
-    {
-      "code": "BR00211",
-      "name": "Silora",
-      "generic": "Loratadine",
-      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
-      "strength": "10 mg",
-      "dosage_form": "tablet",
-      "price_per_unit": 2.5,
-      "source_url": "https://www.arogga.com/product/17499",
       "price_checked_on": "2026-11-13"
     },
     {
@@ -2010,17 +1757,6 @@
       "price_checked_on": "2026-11-13"
     },
     {
-      "code": "BR00212",
-      "name": "Dopadon",
-      "generic": "Domperidone",
-      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
-      "strength": "10 mg",
-      "dosage_form": "tablet",
-      "price_per_unit": 3.0,
-      "source_url": "https://www.arogga.com/product/5888",
-      "price_checked_on": "2026-11-13"
-    },
-    {
       "code": "BR00160",
       "name": "Famotack",
       "generic": "Famotidine",
@@ -2073,17 +1809,6 @@
       "dosage_form": "tablet",
       "price_per_unit": 2.5,
       "source_url": "https://www.arogga.com/product/92964",
-      "price_checked_on": "2026-11-13"
-    },
-    {
-      "code": "BR00213",
-      "name": "Famas",
-      "generic": "Famotidine",
-      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
-      "strength": "20 mg",
-      "dosage_form": "tablet",
-      "price_per_unit": 2.0,
-      "source_url": "https://www.arogga.com/product/47066",
       "price_checked_on": "2026-11-13"
     },
     {
@@ -2153,17 +1878,6 @@
       "price_checked_on": "2026-11-13"
     },
     {
-      "code": "BR00214",
-      "name": "Sinacet",
-      "generic": "Levocetirizine",
-      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
-      "strength": "5 mg",
-      "dosage_form": "tablet",
-      "price_per_unit": 4.0,
-      "source_url": "https://www.arogga.com/product/17562",
-      "price_checked_on": "2026-11-13"
-    },
-    {
       "code": "BR00171",
       "name": "Rosuva",
       "generic": "Rosuvastatin",
@@ -2227,17 +1941,6 @@
       "dosage_form": "tablet",
       "price_per_unit": 20.0,
       "source_url": "https://www.arogga.com/product/16740",
-      "price_checked_on": "2026-11-13"
-    },
-    {
-      "code": "BR00215",
-      "name": "Restat",
-      "generic": "Rosuvastatin",
-      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
-      "strength": "10 mg",
-      "dosage_form": "tablet",
-      "price_per_unit": 25.0,
-      "source_url": "https://www.arogga.com/product/16330",
       "price_checked_on": "2026-11-13"
     },
     {
@@ -2307,17 +2010,6 @@
       "price_checked_on": "2026-11-13"
     },
     {
-      "code": "BR00216",
-      "name": "Orabis",
-      "generic": "Bisoprolol",
-      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
-      "strength": "2.5 mg",
-      "dosage_form": "tablet",
-      "price_per_unit": 6.0,
-      "source_url": "https://www.arogga.com/product/13896",
-      "price_checked_on": "2026-11-13"
-    },
-    {
       "code": "BR00183",
       "name": "Vildapin",
       "generic": "Vildagliptin",
@@ -2381,6 +2073,314 @@
       "dosage_form": "tablet",
       "price_per_unit": 18.0,
       "source_url": "https://www.arogga.com/product/86965",
+      "price_checked_on": "2026-11-13"
+    },
+    {
+      "code": "BR00189",
+      "name": "Sinapol",
+      "generic": "Paracetamol",
+      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
+      "strength": "500 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 1.2,
+      "source_url": "https://www.arogga.com/product/17588",
+      "price_checked_on": "2026-11-13"
+    },
+    {
+      "code": "BR00190",
+      "name": "Sinapol",
+      "generic": "Paracetamol",
+      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
+      "strength": "120 mg/5 ml",
+      "dosage_form": "suspension",
+      "price_per_unit": 35.0,
+      "source_url": "https://www.arogga.com/product/17587",
+      "price_checked_on": "2026-11-13"
+    },
+    {
+      "code": "BR00191",
+      "name": "Prolok",
+      "generic": "Omeprazole",
+      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
+      "strength": "20 mg",
+      "dosage_form": "capsule",
+      "price_per_unit": 5.5,
+      "source_url": "https://www.arogga.com/product/15505",
+      "price_checked_on": "2026-11-13"
+    },
+    {
+      "code": "BR00192",
+      "name": "Esolok",
+      "generic": "Esomeprazole",
+      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
+      "strength": "20 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 6.0,
+      "source_url": "https://www.arogga.com/product/6834",
+      "price_checked_on": "2026-11-13"
+    },
+    {
+      "code": "BR00193",
+      "name": "Esolok",
+      "generic": "Esomeprazole",
+      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
+      "strength": "40 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 9.0,
+      "source_url": "https://www.arogga.com/product/6836",
+      "price_checked_on": "2026-11-13"
+    },
+    {
+      "code": "BR00194",
+      "name": "Pantolok",
+      "generic": "Pantoprazole",
+      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
+      "strength": "40 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 7.0,
+      "source_url": "https://www.arogga.com/product/14497",
+      "price_checked_on": "2026-11-13"
+    },
+    {
+      "code": "BR00195",
+      "name": "Sinamox",
+      "generic": "Amoxicillin",
+      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
+      "strength": "500 mg",
+      "dosage_form": "capsule",
+      "price_per_unit": 7.5,
+      "source_url": "https://www.arogga.com/product/17584",
+      "price_checked_on": "2026-11-13"
+    },
+    {
+      "code": "BR00196",
+      "name": "Sinamox",
+      "generic": "Amoxicillin",
+      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
+      "strength": "125 mg/5 ml",
+      "dosage_form": "suspension",
+      "price_per_unit": 47.46,
+      "source_url": "https://www.arogga.com/product/17585",
+      "price_checked_on": "2026-11-13"
+    },
+    {
+      "code": "BR00197",
+      "name": "Romycin",
+      "generic": "Azithromycin",
+      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
+      "strength": "500 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 40.0,
+      "source_url": "https://www.arogga.com/product/16658",
+      "price_checked_on": "2026-11-13"
+    },
+    {
+      "code": "BR00198",
+      "name": "Cefixim",
+      "generic": "Cefixime",
+      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
+      "strength": "200 mg",
+      "dosage_form": "capsule",
+      "price_per_unit": 35.0,
+      "source_url": "https://www.arogga.com/product/3520",
+      "price_checked_on": "2026-11-13"
+    },
+    {
+      "code": "BR00199",
+      "name": "Bactin",
+      "generic": "Ciprofloxacin",
+      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
+      "strength": "500 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 16.0,
+      "source_url": "https://www.arogga.com/product/2258",
+      "price_checked_on": "2026-11-13"
+    },
+    {
+      "code": "BR00200",
+      "name": "Metsina",
+      "generic": "Metronidazole",
+      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
+      "strength": "400 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 1.7,
+      "source_url": "https://www.arogga.com/product/26685",
+      "price_checked_on": "2026-11-13"
+    },
+    {
+      "code": "BR00201",
+      "name": "Insimet",
+      "generic": "Metformin",
+      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
+      "strength": "500 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 4.0,
+      "source_url": "https://www.arogga.com/product/9536",
+      "price_checked_on": "2026-11-13"
+    },
+    {
+      "code": "BR00202",
+      "name": "Insimet",
+      "generic": "Metformin",
+      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
+      "strength": "850 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 4.0,
+      "source_url": "https://www.arogga.com/product/9537",
+      "price_checked_on": "2026-11-13"
+    },
+    {
+      "code": "BR00203",
+      "name": "Sinazid",
+      "generic": "Gliclazide",
+      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
+      "strength": "80 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 6.5,
+      "source_url": "https://www.arogga.com/product/17551",
+      "price_checked_on": "2026-11-13"
+    },
+    {
+      "code": "BR00204",
+      "name": "Diplor",
+      "generic": "Amlodipine",
+      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
+      "strength": "5 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 5.0,
+      "source_url": "https://www.arogga.com/product/5706",
+      "price_checked_on": "2026-11-13"
+    },
+    {
+      "code": "BR00205",
+      "name": "Losium",
+      "generic": "Losartan",
+      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
+      "strength": "50 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 8.5,
+      "source_url": "https://www.arogga.com/product/10908",
+      "price_checked_on": "2026-11-13"
+    },
+    {
+      "code": "BR00206",
+      "name": "Colostat",
+      "generic": "Atorvastatin",
+      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
+      "strength": "10 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 6.0,
+      "source_url": "https://www.arogga.com/product/4521",
+      "price_checked_on": "2026-11-13"
+    },
+    {
+      "code": "BR00207",
+      "name": "Colostat",
+      "generic": "Atorvastatin",
+      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
+      "strength": "20 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 10.0,
+      "source_url": "https://www.arogga.com/product/4522",
+      "price_checked_on": "2026-11-13"
+    },
+    {
+      "code": "BR00208",
+      "name": "Montex",
+      "generic": "Montelukast",
+      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
+      "strength": "10 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 16.0,
+      "source_url": "https://www.arogga.com/product/12073",
+      "price_checked_on": "2026-11-13"
+    },
+    {
+      "code": "BR00209",
+      "name": "Nosemin",
+      "generic": "Cetirizine",
+      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
+      "strength": "10 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 3.0,
+      "source_url": "https://www.arogga.com/product/13229",
+      "price_checked_on": "2026-11-13"
+    },
+    {
+      "code": "BR00210",
+      "name": "Fexomin",
+      "generic": "Fexofenadine",
+      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
+      "strength": "120 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 8.0,
+      "source_url": "https://www.arogga.com/product/7569",
+      "price_checked_on": "2026-11-13"
+    },
+    {
+      "code": "BR00211",
+      "name": "Silora",
+      "generic": "Loratadine",
+      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
+      "strength": "10 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 2.5,
+      "source_url": "https://www.arogga.com/product/17499",
+      "price_checked_on": "2026-11-13"
+    },
+    {
+      "code": "BR00212",
+      "name": "Dopadon",
+      "generic": "Domperidone",
+      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
+      "strength": "10 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 3.0,
+      "source_url": "https://www.arogga.com/product/5888",
+      "price_checked_on": "2026-11-13"
+    },
+    {
+      "code": "BR00213",
+      "name": "Famas",
+      "generic": "Famotidine",
+      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
+      "strength": "20 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 2.0,
+      "source_url": "https://www.arogga.com/product/47066",
+      "price_checked_on": "2026-11-13"
+    },
+    {
+      "code": "BR00214",
+      "name": "Sinacet",
+      "generic": "Levocetirizine",
+      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
+      "strength": "5 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 4.0,
+      "source_url": "https://www.arogga.com/product/17562",
+      "price_checked_on": "2026-11-13"
+    },
+    {
+      "code": "BR00215",
+      "name": "Restat",
+      "generic": "Rosuvastatin",
+      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
+      "strength": "10 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 25.0,
+      "source_url": "https://www.arogga.com/product/16330",
+      "price_checked_on": "2026-11-13"
+    },
+    {
+      "code": "BR00216",
+      "name": "Orabis",
+      "generic": "Bisoprolol",
+      "manufacturer": "The IBN SINA Pharmaceutical Industry PLC",
+      "strength": "2.5 mg",
+      "dosage_form": "tablet",
+      "price_per_unit": 6.0,
+      "source_url": "https://www.arogga.com/product/13896",
       "price_checked_on": "2026-11-13"
     },
     {
