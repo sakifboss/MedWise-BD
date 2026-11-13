@@ -86,6 +86,8 @@ Final = 100 * (0.8*Q + 0.2*P)
 - Extracted medicines are shown to the user for confirmation before results.
 - Every results page shows: "Consult your doctor or pharmacist before changing any medicine."
 - Do not store uploaded prescription images.
+- Rx Pad: the app never proposes a medicine, dose, frequency, duration, test or diagnosis, and
+  patient information never reaches our backend (Phase 5 rules).
 
 ## Coding conventions
 - Backend: type hints everywhere, small functions, pytest for tests.
@@ -132,7 +134,7 @@ live deploy -> tick the box here -> stop for the user's review before starting t
 
 Not doing (by design): AI diagnosis or medicine suggestions, AI chat about medicines, dose advice,
 counterfeit detection (no reliable data). The P10 symptom guide is allowed only because it never
-names a disease or a medicine.
+names a disease or a medicine. The Rx Pad (Phase 5) prints only what the doctor typed.
 
 ## Security hardening (approved 2026-11-04)
 Same workflow as the roadmap: one step at a time; tests, ruff, lint, typecheck, build; for anything
@@ -551,3 +553,244 @@ Approved by the owner 2026-11-10 ("Q2 ok", with Q3, Q4 and Q5), built in this or
   Done 2026-11-11 (PR): localStorage key medwise.recent, format version 1 (lib/recent.ts); stored
   links must match our ranking or alternatives page patterns; opening a page again moves it to the
   top; links carry no page state (e.g. the calculator amount).
+
+## Phase 5 — Doctor's Rx Pad (approved 2026-11-13)
+Same rules and PR workflow as Phase 3: plan first and wait for the user's OK; en + bn for every
+string; no hard-coded counts; docs updated when behaviour changes; never merge (the user merges).
+Order: R1 -> R2 -> R3 -> R4 -> R5 -> (R6); each step starts after the previous one is merged.
+
+Purpose: doctors write prescriptions with MedWise data beside them (quality rank, price, approvals,
+interactions), print a clear A4 prescription, and give the patient a QR code that opens the
+medicines in MedWise BD. The paper, signed by hand, stays the prescription; the QR is a helper.
+
+Open questions for the owner (answer before R3): (a) the catalog has 28 generics and 188 brands
+and adding medicines is on hold, so most real prescriptions will show "Not in MedWise yet";
+either grow the catalog alongside Phase 5 or present the Rx Pad as a pilot/demo; (b) the
+competition deadline above (2026-11-05) has passed: confirm the new date, since R1-R4 are enough
+for the demo (write -> print -> QR -> /rx) and R5-R6 can follow.
+
+Rules for every R step:
+- Patient information never reaches our backend. Patient name, age, sex, weight, complaints,
+  findings, diagnosis, allergies, tests, advice and the medicine list exist only in the doctor's
+  open browser tab and on the printed page or PDF. They are not written to localStorage,
+  sessionStorage, IndexedDB or cookies, not sent in any request (URL, body or header) and never
+  logged. A browser test types a unique patient name and checks every request and storage area.
+- The browser itself must not keep or send patient text either: every patient field has
+  autocomplete="off" (no form autofill history), spellcheck={false} (Chrome's enhanced spellcheck
+  sends text to Google) and translate="no"; voice input is offered only in the medicine search,
+  never in patient fields (browser speech recognition sends audio to the browser maker).
+- The app never proposes a medicine, dose, frequency, duration, test or diagnosis. No default or
+  pre-selected dose. Dose shortcuts are the same for every medicine and none is selected.
+  Templates are written by each doctor, private to that doctor, never shared, listed, ranked or
+  aggregated; the app ships no templates.
+- Medicine facts come only from the database (seed files). Search suggests only names that match
+  what the doctor typed.
+- Same generic only: the pad may show a brand's rank among brands of the same generic, strength and
+  dosage form. It never suggests a different generic.
+- Doctor accounts are the only new stored personal data, exactly as listed in R2. Passwords and
+  tokens are stored hashed. Nothing personal goes into logs. A public privacy and terms page for
+  doctors (/doctor/privacy) says what is stored, why, where, for how long, and how to delete it.
+- Demo accounts print "DEMO — not a real prescription" / "ডেমো — আসল প্রেসক্রিপশন নয়" across
+  every printed page and on the /rx page. Accounts that are not verified print "Doctor not yet
+  verified by MedWise BD" / "ডাক্তার এখনো MedWise BD দ্বারা যাচাই হননি".
+- The QR proves who issued it, not that the medicines or doses are right, and it can be copied.
+  Wording never suggests MedWise checked the medicines (see R4).
+- Anything that must outlive a deploy (templates, QR codes, share links, the device-only lists of
+  P8 and Q5, page links) refers to brands by the stable brand code from R1, never by a database id.
+- Durable tables (request log, reports, doctor tables) change only through Alembic migrations
+  (from R1). Seed tables keep drop/create in import_data.py.
+- The service worker never caches /doctor/* or /api/doctor/*. Those responses send
+  Cache-Control: no-store.
+- DDInter data is CC BY-NC-SA 4.0 (non-commercial): fine for the competition and a free tool; any
+  paid use of the Rx Pad needs a different interaction source or a licence first.
+
+- [ ] **R1. Foundations: stable brand codes, brand index, migrations.**
+  1. Every record in data/seed/brands.json gets a `code` ("BR" + 5 digits, e.g. BR00042), unique
+     and never reused; meta.retired_codes lists codes of removed brands. A one-time script assigns
+     codes to the current brands in file order. build_brands_from_csv.py keeps a brand's code when
+     name + manufacturer + strength + dosage form match an existing record (also when only the
+     price changed), gives new rows the next free code, and retires codes of removed brands.
+     import_data.py validates: present, unique, right format, not retired. Model, schemas and API
+     responses that return brands include `code`.
+  2. GET /api/brands/index: every brand with code, name, generic (en/bn), strength, dosage form,
+     manufacturer, price per unit, price source date, rank in its compared group and group size,
+     and number of stringent approvals (0-4). Cache-Control public, max-age 3600; rate-limited
+     like search. Report its size in the plan (it must stay small enough to fetch whole).
+  3. Share links: new links use codes ("c:<code>:<quantity>"); old "b:<id>" links still open.
+     Vitest for encode/decode.
+  4. Everything else that keeps a brand id moves to codes:
+     - My Medicines (P8, localStorage medwise.myMedicines): format version 2 stores the brand code;
+       a version 1 list is migrated on the device (each id looked up once in the brand index,
+       while ids still match; an item that cannot be matched is kept with its name and a note).
+     - Pages: /alternatives/<code> (e.g. /alternatives/BR00042); /alternatives/<id> still works and
+       redirects to the code URL. Recently viewed (Q5, medwise.recent) moves to version 2 with code
+       links; version 1 items are migrated the same way.
+     - Data reports (Q4) already store the brand's details; also store its code from now on.
+  5. Alembic for the durable tables (RequestsBase: medicine_requests, data_reports; doctor tables
+     later). The first revision must run safely on the live Neon database where these tables
+     already exist with rows: no data loss. Show the plan before any live run; the owner makes a
+     Neon branch (backup) first. Startup (Dockerfile CMD and the Render start command) runs
+     `alembic upgrade head` before import_data.py, and import_data.py stops creating the durable
+     tables itself (it still drops and recreates only the seed tables).
+  Tests: upgrade on an empty SQLite database; upgrade on a database that already has both tables
+  with rows (rows kept); importing twice gives identical codes; build_brands_from_csv keeps codes
+  after a price change and retires removed ones; My Medicines and Recently viewed v1 -> v2
+  migration (Vitest); old id links redirect.
+
+- [ ] **R2. Doctor accounts and verification.**
+  Pages: /doctor (what the Rx Pad is, sign up, log in), /doctor/profile, /doctor/account,
+  /doctor/privacy (public: what is stored about doctors, why, where, for how long, how to download
+  and delete it; that patients' information is never stored; terms of use: the doctor is
+  responsible for every prescription, MedWise BD does not choose medicines or doses). Footer link
+  "For doctors" / "ডাক্তারদের জন্য".
+  Stored (durable metadata, through Alembic), and nothing else:
+  - doctors: email (unique, lowercased), password hash, display name (en; bn optional), degrees
+    (text), specialty (text), BMDC registration number, phone to print (optional), status
+    (pending | verified | rejected), rejection reason, verified_at, verified_by (owner initials),
+    verify_method (text), is_demo, created_at, last_login_day.
+  - chambers (max 3 per doctor): name, address, days and hours (text), phone (optional).
+  - sessions: sha256 of a 32-byte random token, doctor id, created_at, last_seen, expires_at.
+  - password reset tokens (hashed, 60 minutes, single use).
+  Auth: email + password. Password at least 10 characters and not in a common-password list; no
+  other composition rules. Hash with argon2id (argon2-cffi, pinned with every dependency) or, if
+  the owner prefers no new dependency, hashlib.scrypt with OWASP parameters; decide in the plan.
+  Session cookie `mw_doc`: HttpOnly, Secure (except http://localhost), SameSite=Lax, Path=/, no
+  Domain attribute; idle timeout 12 hours, absolute 7 days; "Log out" and "Log out everywhere".
+  Check that Set-Cookie passes through the Next /api rewrite (Docker and a Vercel preview).
+  State-changing doctor endpoints require the frontend secret header and an Origin header that
+  matches the site. Login gives one error for unknown email and wrong password; after 5 failures
+  for one email or 20 from one client in 15 minutes, wait 15 minutes. Sign-up: 5 per hour per
+  client. No email sending: a password reset is a one-time link made by the owner with the admin
+  script and sent to the doctor after confirming who they are by phone.
+  Verification: new doctors are pending. backend/scripts/doctors.py, run locally with
+  DATABASE_URL like top_requests.py: list, show, verify, reject, reset-link, create-demo, delete.
+  `verify` prints this checklist and asks the owner to confirm each line: (1) name and
+  registration number match on the official BMDC register (confirm the register's current address
+  in the R2 plan); (2) identity confirmed in person, or through a chamber or hospital phone number
+  the owner found independently (not the number typed at sign-up). No ID documents or photos are
+  uploaded or stored. No admin web pages.
+  Profile shows the status: pending; verified (badge "BMDC verified by MedWise BD" /
+  "MedWise BD দ্বারা BMDC যাচাইকৃত"); rejected (with reason). Changing the BMDC number sets the
+  status back to pending. Doctors can download their data (JSON) and delete their account (with
+  confirm; removes profile, chambers, sessions and templates).
+  Privacy note on sign-up: en "We store your email, profile and chamber details to print your
+  prescriptions. We never store your patients' information." bn "প্রেসক্রিপশন ছাপাতে আমরা আপনার
+  ইমেইল, প্রোফাইল ও চেম্বারের তথ্য রাখি। আপনার রোগীদের কোনো তথ্য আমরা কখনো রাখি না।"
+  Tests: hashing, session idle and absolute expiry, cookie flags, lockout, Origin check, secret
+  header, status changes, delete account removes every row, no password or token in logs (caplog).
+
+- [ ] **R3. Write and print a prescription.**
+  Page /doctor/rx (login required; verified, pending and demo doctors). Sections: patient (name,
+  age, sex, weight optional, date = today, editable), chief complaints, examination findings,
+  diagnosis (optional), known allergies, medicines, tests, advice, follow-up date. Everything
+  except medicine search is free text typed by the doctor. Every patient field: autocomplete="off",
+  spellcheck={false}, translate="no", no voice input. Leaving the page with content asks to
+  confirm; "New prescription" clears everything.
+  Medicine lines (max 12): search with the existing search (Bangla, Banglish, English, voice).
+  A suggestion shows brand, generic, strength, dosage form, manufacturer, price per unit,
+  "#k of N" in its compared group with approvals x/4, and a link to the ranking page (new tab).
+  The doctor may also pick a catalog generic without a brand, or write a medicine that is not in
+  the catalog: "Not in MedWise yet — no price, rank or interaction check" / "MedWise-এ এখনো নেই —
+  দাম, র‍্যাংক বা ইন্টারঅ্যাকশন যাচাই হয়নি".
+  Per line: form word (Tab., Cap., Syp., Susp., Inj., Drop, Cream, Inhaler… from the dosage form,
+  editable); dose pattern typed by the doctor (a+b+c or a+b+c+d with 0, ½, 1, 1½, 2 …, or free text
+  such as "as needed"); unit (tablet, capsule, spoon, ml, drop, puff, application); food timing
+  (before / after / with food / any / blank); duration (n days, weeks or months; "continue"; or
+  blank); note (free text); substitution: unchecked = "Give this brand only" / "শুধু এই ব্র্যান্ড
+  দিন", checked = "Same generic, strength and form allowed" / "একই জেনেরিক, শক্তি ও ধরনের অন্য
+  ব্র্যান্ড দেওয়া যাবে". Shortcuts 1+0+1, 1+1+1, 0+0+1, 1+0+0, 1+1+1+1: same for every line,
+  none selected.
+  Under each line, the patient instruction made by a pure function from the doctor's input only,
+  in en and bn. Example: 0+0+1, tablet, after food, 30 days → "রাতে ১টি, খাবারের পরে — ৩০ দিন (মোট
+  ৩০টি)" / "1 at night, after food — 30 days (30 in total)". Three slots are morning, noon, night;
+  four slots read "4 times a day" / "দিনে ৪ বার" with the amounts. Totals only for tablets and
+  capsules with a fixed duration. Estimated cost only for catalog brands: total × price per unit,
+  labelled "approx., Arogga MRP" with the price date.
+  Warnings panel, information for the doctor and never blocking: DDInter interactions among
+  catalog generics (existing interaction API, major first, DDInter credit; the call sends only
+  generic ids); the same generic twice; lines not in the catalog ("not checked").
+  Print: "Print / Save as PDF" opens an A4 print layout made with HTML and print CSS; the browser's
+  print gives the PDF and shapes Bangla correctly (no PDF library). Letterhead from the profile:
+  name, degrees, specialty, BMDC number, the chamber the doctor picks with days and hours, phone.
+  Patient line. Left column: complaints, findings, diagnosis, allergies, tests. Right column: Rx
+  lines (brand, generic in brackets, strength), pattern, food, duration, the patient instruction
+  in Bangla, English or both (doctor's choice), substitution note per line; then advice and
+  follow-up; a signature line for signing by hand. Footer: "Made with MedWise BD. MedWise BD does
+  not choose medicines or doses." / "MedWise BD দিয়ে তৈরি। MedWise BD ওষুধ বা ডোজ বেছে দেয় না।"
+  plus the demo or not-verified watermark. Long prescriptions continue on a second page with the
+  doctor's name and page number. Print is always light.
+  Tests (Vitest): instruction sentences in en and bn (halves, 4-slot patterns, free text, missing
+  parts, Bangla digits), totals, cost, duplicate generic. Browser: fill a whole prescription with
+  a unique patient name, then check no request URL, body or header and no storage holds it, and
+  that every patient field has autocomplete off, spellcheck off and translate="no"; print layout
+  in en and bn on A4.
+
+- [ ] **R4. QR, signature and the patient page.**
+  "Finalize" builds, in the browser, a versioned compact payload of the medicine lines only (brand
+  code, or generic name + strength + form, or free-text name of at most 40 characters; pattern,
+  unit, food, duration, substitution flag) and the issue date. No patient fields, complaints,
+  findings, diagnosis, allergies, tests or advice. The browser computes SHA-256 of the canonical
+  payload (WebCrypto) and sends only that hash to POST /api/doctor/rx/sign (logged-in doctor,
+  300 a day per doctor). The server returns {doctor_id, issued_at, sig}, where
+  sig = HMAC-SHA256(RX_SIGNING_SECRET, version|doctor_id|issued_at|hash). The server never sees
+  the medicines and stores nothing about the prescription. RX_SIGNING_SECRET lives only in
+  backend/.env and on Render.
+  The printed QR is https://<site>/rx#<base64url payload with doctor_id, issued_at and sig>. The
+  part after # never reaches any server. A 12-line prescription must give a QR that a mid-range
+  Android phone scans from a printed A4; measure in the plan at 4 cm and 5 cm, show payload and QR
+  sizes, and use CompressionStream ("deflate-raw") if needed. Editing after Finalize needs a new
+  Finalize. Printed next to the QR: "Scan to see these medicines in MedWise BD" /
+  "MedWise BD-তে এই ওষুধগুলো দেখতে স্ক্যান করুন".
+  Page /rx (public, no login) decodes on the device and loads GET /api/brands/index once (cached
+  like other GET data), looking codes up on the device, so nothing about the prescription reaches
+  the server. Verification sends only {doctor_id, issued_at, hash, sig} to POST /api/rx/verify
+  (rate-limited), which answers valid or not and, when valid, the doctor's public details (name,
+  degrees, BMDC number, status, demo). Wording (the QR proves who issued it, not that the medicines
+  are right, and it can be copied):
+  valid: "Issued by Dr. X on <date>. MedWise BD checked the doctor's signature on this QR, not the
+  medicines or doses." / "ডা. X, <date>-এ দিয়েছেন। MedWise BD এই QR-এ ডাক্তারের স্বাক্ষর যাচাই
+  করেছে, ওষুধ বা ডোজ নয়।";
+  always, for pharmacists: "A QR can be copied. Before giving medicines, check the doctor's
+  signature on the paper." / "QR কপি করা যায়। ওষুধ দেওয়ার আগে কাগজে ডাক্তারের সই দেখুন।";
+  not valid: "Could not check this QR. The paper prescription is what counts." / "এই QR যাচাই করা
+  যায়নি। কাগজের প্রেসক্রিপশনটিই আসল।". Offline: show the medicines and say checking needs internet.
+  Each line: name as written, generic, strength and form, the instruction (language toggle),
+  total, approx. cost for catalog brands, a "How to take" link to the generic page (P4), and the
+  substitution note. Only when substitution is allowed: a link "Other brands of the same generic
+  (ranked)" to the existing alternatives page. Never the word "switch". No interaction warnings on
+  /rx (the doctor saw them while writing). Buttons: "Save to My Medicines" (P8 module, by brand
+  code; units per day from the doctor's pattern; reminder times typed by the user as in P8), "Find
+  pharmacies" (P9), and for the follow-up date "Add to calendar" (.ics made on the device, title
+  "Follow-up visit" / "ফলো-আপ ভিজিট", option to hide the doctor's name). Always show the existing
+  "consult your doctor or pharmacist" disclaimer.
+  If RX_SIGNING_SECRET changes, old QR codes still open but show "Could not check". Document it.
+  Tests: payload round trip and fuzz (bad input never crashes the page), HMAC sign and verify,
+  tampered payload fails, demo and unverified states. Browser: open /rx from a generated URL and
+  check that no request carries a medicine name.
+
+- [ ] **R5. Templates and favourite tests.**
+  Doctors save the current medicine lines, plus tests and advice text, as a named template; list,
+  rename, edit, delete; "Apply" adds the lines to the current prescription. No patient fields are
+  ever saved in a template; the save box warns: "Do not write patient information here." /
+  "এখানে রোগীর তথ্য লিখবেন না।" Max 100 templates per doctor, 12 lines each. Stored per doctor
+  through Alembic, by brand code with a name snapshot; a brand that left the catalog becomes a
+  free-text line with a note. Private to the doctor: not shared, listed, ranked or aggregated.
+  Favourite tests: the doctor's own list of test names (max 50) shown as chips in the tests box.
+  Not in catalog: on Finalize, each free-text medicine name (name only, max 80 characters) goes to
+  the existing request log with source "rx-pad" (no doctor id, no patient data), so the team
+  learns what to add. The pad says so under the search box.
+  Tests: CRUD, ownership (doctor A gets 404 for doctor B's templates), limits, catalog change,
+  request log rows carry only name, source and day.
+
+- [ ] **R6 (optional). Chamber serial board, on this computer only.**
+  /doctor/queue, no login needed: serial numbers only, no names or any other patient detail
+  (keeps the rule that patient information is never stored). Add the next number; statuses waiting
+  / with the doctor / done / no-show; "Call next"; a full-screen view for a TV. Kept only in this
+  browser (localStorage, versioned module, try/catch), cleared automatically at midnight and by
+  "Clear today". Nothing is sent to our backend. The page says "Saved only on this computer,
+  cleared every night." / "শুধু এই কম্পিউটারে, প্রতি রাতে মুছে যায়।" Vitest for the queue logic;
+  browser test that no request carries queue data and that the page has no field for a name.
+
+Not doing in Phase 5 (by design): telemedicine or video calls, patient records or report storage,
+online appointment booking, payments or earnings, AI summaries of reports, AI-suggested medicines,
+doses or tests, uploading ID documents.
