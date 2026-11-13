@@ -321,7 +321,7 @@ Rules for every step:
      product information (e.g. vildagliptin has no FDA label). Fill how_to_take as in P4.
   2. Bangla: through the review sheet; the team approves before apply.
   3. Brands and prices: add the new groups to data/templates/brands_template.csv for the team to
-     fill (Arogga MRP + page link, only the 13 manufacturers in manufacturers.json), then run
+     fill (Arogga MRP + page link, only the manufacturers in manufacturers.json), then run
      build_brands_from_csv.py and fix any reported rows.
   4. Interactions: re-run extract_ddinter.py with the DDInter CSVs in data/raw/ddinter/; extend
      DDINTER_ALIASES if DDInter spells a name differently; report generics it could not find.
@@ -645,7 +645,7 @@ Rules for every R step:
   Alembic runs inside import_data.py (no Render change); 0001 is a no-op on existing tables, 0002 adds
   data_reports.brand_code; local run on a database with rows: requests 24 -> 24, reports 7 -> 7.
 
-- [ ] **R1b. Targeted catalog growth (data step, after R1 is merged).**
+- [x] **R1b. Targeted catalog growth (data step, after R1 is merged).**
   Same process as P7: generic records with sourced text (NHS, then the US FDA label on DailyMed,
   then the EMA product information) and how_to_take; Bangla through the review sheet, approved
   before apply; brands and Arogga prices through data/templates/brands_template.csv and
@@ -660,6 +660,17 @@ Rules for every R step:
   readable medicine lines whose medicine exists in the catalog. Baseline 2026-11-13: 21 of 34
   readable lines (62%; 36 lines including 2 nobody could read; the owner's estimate was 19 of 36).
   Target: 80% or more. results.md shows it; a unit test covers the calculation.
+  Done 2026-11-13 (PR): coverage 21 -> 26 of 34 lines (76.5%). The rest are combinations (AcePlus),
+  herbal (Adovas), mouthwash (Benostar), antiseptic (Viodin) and Ambroxol (skipped by the owner:
+  no NHS, FDA or EMA source), so 80% needs those rules to change. Added Ibn Sina (14th manufacturer,
+  sourced) with 28 brands in existing groups (none on Arogga for Ibuprofen, Aspirin, Clopidogrel,
+  Vildagliptin) and Chloramphenicol 0.5% eye drops (NHS, eye drops only; 11 brands, priced per
+  10 ml bottle like suspensions). Now 29 generics, 227 brands (BR00189-BR00227 new), 33 compared
+  groups, 62 interactions (7 DDInter pairs for chloramphenicol; DDInter does not separate eye
+  drops from capsules). Fenomin and Mycedin (not on Arogga) carry their generic in the local
+  ground truth (Fexomin, SQ-Mycetin per Arogga search). Scan matching: on a score tie the name
+  exactly as written wins (Cefixime generic vs Cefixim brand). Bangla approved by the owner.
+  Doctors' lists (2) and request-log queries (3) wait for doctors and PROD access.
 
 - [ ] **R2. Doctor accounts and verification.**
   Pages: /doctor (what the Rx Pad is, sign up, log in), /doctor/profile, /doctor/account,
