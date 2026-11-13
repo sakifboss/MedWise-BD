@@ -4,7 +4,7 @@ import { Geist, Geist_Mono, Noto_Sans_Bengali } from "next/font/google";
 import { OfflineBanner } from "@/components/offline";
 import { SiteFooter } from "@/components/site-footer";
 import { ServiceWorkerRegistration } from "@/components/pwa";
-import { SiteHeader } from "@/components/site-header";
+import { MobileNav, SiteHeader } from "@/components/site-header";
 import { LangProvider } from "@/i18n/client";
 import { getDict, getLang, getTextSize, getTheme } from "@/i18n/server";
 import { themeColorFor } from "@/lib/theme";
@@ -42,6 +42,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       <body className="flex min-h-full flex-col">
         <LangProvider lang={lang}>
           <SiteHeader />
+          <MobileNav />
           <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-6 sm:py-10">
             <OfflineBanner />
             {children}
