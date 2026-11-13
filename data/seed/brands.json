@@ -3,7 +3,7 @@
     "dataset": "brands",
     "source": "Collected by the MedWise BD team; each row's source_url is the price source",
     "is_sample": false,
-    "note": "Built from brands_template.csv on 2026-11-10."
+    "note": "Built from brands_template.csv on 2026-11-13."
   },
   "records": [
     {
