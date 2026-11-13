@@ -55,6 +55,11 @@ class Settings(BaseSettings):
     symptom_limit_per_day: int = 200
     # Words that make the guide drop an AI-written note (diagnosis words), editable without code.
     symptom_words_path: Path = BACKEND_DIR / "app" / "core" / "symptom_words.json"
+    # Doctor accounts (R2): sign-ups (and password resets) per client per hour.
+    doctor_signup_limit_per_hour: int = 5
+    # The only Origins allowed to change doctor data: the live site and local development or Docker.
+    # Not Vercel previews (they use the production API and database). Not secret.
+    site_origins: str = "https://medwise-bd.vercel.app,http://localhost:3000"
     cors_origins: str = "http://localhost:3000"
     # Shared with the frontend (same value on Vercel and Render). When set, prescription uploads
     # must carry it, so only our website can spend the OpenAI budget. Empty: no check (local dev).

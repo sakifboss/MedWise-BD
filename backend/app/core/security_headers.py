@@ -9,6 +9,8 @@ from collections.abc import Awaitable, Callable
 from fastapi import FastAPI, Request, Response
 
 DOCS_PATHS = ("/docs", "/redoc")
+# Doctor accounts: never kept by the browser, the service worker or any cache in between.
+NO_STORE_PATHS = ("/api/doctor",)
 
 COMMON_HEADERS = {
     "X-Content-Type-Options": "nosniff",
@@ -33,4 +35,6 @@ def add_security_headers(app: FastAPI) -> None:
         response = await call_next(request)
         for key, value in security_headers_for(request.url.path).items():
             response.headers.setdefault(key, value)
+        if request.url.path.startswith(NO_STORE_PATHS):
+            response.headers["Cache-Control"] = "no-store"
         return response
