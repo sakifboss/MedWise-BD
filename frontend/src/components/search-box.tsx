@@ -24,7 +24,7 @@ type State =
   | { status: "error"; rateLimited: boolean; offline: boolean };
 
 function resultHref(result: SearchResult): string {
-  return result.type === "generic" ? `/generics/${result.id}` : `/alternatives/${result.id}`;
+  return result.type === "generic" ? `/generics/${result.id}` : `/alternatives/${result.code ?? result.id}`;
 }
 
 export function SearchBox() {

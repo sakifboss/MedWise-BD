@@ -73,9 +73,8 @@ describe("noteText", () => {
   const labels = t.noteLabels;
   const note = { main_problem: "Itchy rash on both arms", duration: "1 to 4 weeks", other_symptoms: ["Dry skin", " "] };
   const seclo: SavedMedicine = {
-    brandId: 22,
+    brandCode: "BR00022",
     brandName: "Seclo",
-    genericId: 4,
     genericName: "Omeprazole",
     strength: "20 mg",
     dosageForm: "capsule",

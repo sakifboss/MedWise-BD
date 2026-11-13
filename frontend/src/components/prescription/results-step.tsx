@@ -25,7 +25,7 @@ type Loaded = { status: "loading" } | { status: "error" } | { status: "done"; da
 
 function fetchRanking(option: MatchOption, lang: Lang): Promise<AlternativesResponse> {
   return option.kind === "brand" && option.brand_id != null
-    ? api.alternatives(option.brand_id, lang)
+    ? api.alternatives(option.brand_code ?? option.brand_id, lang)
     : api.genericRanking(option.generic_id, option.strength, option.dosage_form, lang);
 }
 
@@ -33,7 +33,7 @@ function fetchRanking(option: MatchOption, lang: Lang): Promise<AlternativesResp
 function fullRankingHref(option: MatchOption, quantity: number | null): string {
   const href =
     option.kind === "brand" && option.brand_id != null
-      ? `/alternatives/${option.brand_id}`
+      ? `/alternatives/${option.brand_code ?? option.brand_id}`
       : rankingHref(option.generic_id, option.strength, option.dosage_form);
   if (quantity === null) return href;
   return `${href}${href.includes("?") ? "&" : "?"}${QUANTITY_PARAM}=${quantity}`;

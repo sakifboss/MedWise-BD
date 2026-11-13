@@ -144,24 +144,27 @@
         }
       }
     },
-    "/api/alternatives/{brand_id}": {
+    "/api/alternatives/{brand_ref}": {
       "get": {
         "tags": [
           "alternatives"
         ],
         "summary": "Get Alternatives",
         "description": "Same generic, same strength, same dosage form, ranked by quality (80%) and price (20%).\n\nThe selected brand is included in the list (is_selected=true) so users can see where it stands.",
-        "operationId": "get_alternatives_api_alternatives__brand_id__get",
+        "operationId": "get_alternatives_api_alternatives__brand_ref__get",
         "parameters": [
           {
-            "name": "brand_id",
+            "name": "brand_ref",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "title": "Brand Id"
-            }
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 10,
+              "description": "Brand code (BR00042) or, for old links, the brand's database id",
+              "title": "Brand Ref"
+            },
+            "description": "Brand code (BR00042) or, for old links, the brand's database id"
           },
           {
             "name": "lang",
@@ -693,6 +696,27 @@
         }
       }
     },
+    "/api/brands/index": {
+      "get": {
+        "tags": [
+          "brands"
+        ],
+        "summary": "Brand Index",
+        "operationId": "brand_index_api_brands_index_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_BrandIndex_"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/health": {
       "get": {
         "tags": [
@@ -730,6 +754,17 @@
             ],
             "title": "Selected Brand Id"
           },
+          "selected_brand_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Selected Brand Code"
+          },
           "generic": {
             "$ref": "#/components/schemas/GenericRef"
           },
@@ -757,6 +792,7 @@
         "type": "object",
         "required": [
           "selected_brand_id",
+          "selected_brand_code",
           "generic",
           "strength",
           "dosage_form",
@@ -818,6 +854,103 @@
           "image"
         ],
         "title": "Body_read_prescription_api_prescription_post"
+      },
+      "BrandIndex": {
+        "properties": {
+          "brands": {
+            "items": {
+              "$ref": "#/components/schemas/BrandIndexItem"
+            },
+            "type": "array",
+            "title": "Brands"
+          }
+        },
+        "type": "object",
+        "required": [
+          "brands"
+        ],
+        "title": "BrandIndex"
+      },
+      "BrandIndexItem": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "title": "Code"
+          },
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "generic_id": {
+            "type": "integer",
+            "title": "Generic Id"
+          },
+          "generic": {
+            "type": "string",
+            "title": "Generic"
+          },
+          "strength": {
+            "type": "string",
+            "title": "Strength"
+          },
+          "dosage_form": {
+            "type": "string",
+            "title": "Dosage Form"
+          },
+          "manufacturer": {
+            "type": "string",
+            "title": "Manufacturer"
+          },
+          "price_per_unit": {
+            "type": "number",
+            "title": "Price Per Unit"
+          },
+          "price_checked_on": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Price Checked On"
+          },
+          "rank": {
+            "type": "integer",
+            "title": "Rank"
+          },
+          "group_size": {
+            "type": "integer",
+            "title": "Group Size"
+          },
+          "approvals": {
+            "type": "integer",
+            "title": "Approvals"
+          }
+        },
+        "type": "object",
+        "required": [
+          "code",
+          "id",
+          "name",
+          "generic_id",
+          "generic",
+          "strength",
+          "dosage_form",
+          "manufacturer",
+          "price_per_unit",
+          "price_checked_on",
+          "rank",
+          "group_size",
+          "approvals"
+        ],
+        "title": "BrandIndexItem"
       },
       "CatalogStats": {
         "properties": {
@@ -962,6 +1095,32 @@
         },
         "type": "object",
         "title": "Envelope[AlternativesResponse]"
+      },
+      "Envelope_BrandIndex_": {
+        "properties": {
+          "data": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/BrandIndex"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorBody"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "Envelope[BrandIndex]"
       },
       "Envelope_CatalogStats_": {
         "properties": {
@@ -1706,6 +1865,10 @@
             "type": "integer",
             "title": "Id"
           },
+          "code": {
+            "type": "string",
+            "title": "Code"
+          },
           "name": {
             "type": "string",
             "title": "Name"
@@ -1734,6 +1897,7 @@
         "type": "object",
         "required": [
           "id",
+          "code",
           "name",
           "generic_id",
           "generic_name",
@@ -1986,6 +2150,17 @@
               }
             ],
             "title": "Brand Id"
+          },
+          "brand_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Brand Code"
           },
           "generic_id": {
             "type": "integer",
@@ -2346,6 +2521,10 @@
             "type": "integer",
             "title": "Brand Id"
           },
+          "code": {
+            "type": "string",
+            "title": "Code"
+          },
           "name": {
             "type": "string",
             "title": "Name"
@@ -2399,6 +2578,7 @@
         "required": [
           "rank",
           "brand_id",
+          "code",
           "name",
           "manufacturer",
           "price_per_unit",
@@ -2528,6 +2708,17 @@
               }
             ],
             "title": "Manufacturer"
+          },
+          "code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Code"
           }
         },
         "type": "object",

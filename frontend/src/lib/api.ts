@@ -27,6 +27,7 @@ export type FactorKey = Schemas["FactorDetail"]["key"];
 export type CatalogStats = Schemas["CatalogStats"];
 export type GenericListItem = Schemas["GenericListItem"];
 export type RequestSource = Schemas["MedicineRequestIn"]["source"];
+export type BrandIndex = Schemas["BrandIndex"];
 export type ReportReason = Schemas["DataReportIn"]["reason"];
 
 type Envelope<T> = {
@@ -113,8 +114,13 @@ export const api = {
     const params = new URLSearchParams({ strength, dosage_form: dosageForm, lang });
     return request<AlternativesResponse>(`/api/generics/${id}/ranking?${params}`);
   },
-  alternatives(brandId: number, lang: Lang = "en") {
-    return request<AlternativesResponse>(`/api/alternatives/${brandId}?lang=${lang}`);
+  /** A brand's ranking group, by its stable code (BR00042) or, for old links, its id. */
+  alternatives(brandRef: string | number, lang: Lang = "en") {
+    return request<AlternativesResponse>(`/api/alternatives/${encodeURIComponent(String(brandRef))}?lang=${lang}`);
+  },
+  /** Every brand with its code (cached by the browser for an hour). */
+  brandIndex() {
+    return request<BrandIndex>("/api/brands/index");
   },
   checkInteractions(body: InteractionCheckRequest, signal?: AbortSignal, lang: Lang = "en") {
     return request<InteractionCheckResponse>(`/api/interactions/check?lang=${lang}`, {

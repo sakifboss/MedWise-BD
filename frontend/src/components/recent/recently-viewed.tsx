@@ -2,18 +2,33 @@
 
 import { History, Trash2 } from "lucide-react";
 import Link from "next/link";
-import { useMemo, useSyncExternalStore } from "react";
+import { useEffect, useMemo, useSyncExternalStore } from "react";
 
 import { Button } from "@/components/ui/button";
 import { useDict } from "@/i18n/client";
-import { clearRecent, parseRecent, recentSnapshot, subscribeRecent } from "@/lib/recent";
+import { api } from "@/lib/api";
+import { clearRecent, parseRecent, recentSnapshot, saveMigratedRecent, subscribeRecent } from "@/lib/recent";
 
 /** Home page: the last pages opened on this device. Hidden when there are none. */
 export function RecentlyViewed() {
   const t = useDict();
   const r = t.recent;
   const text = useSyncExternalStore(subscribeRecent, recentSnapshot, () => "");
-  const items = useMemo(() => parseRecent(text || null).items, [text]);
+  const list = useMemo(() => parseRecent(text || null), [text]);
+  const pending = Boolean(list.legacy?.length);
+  // Brand pages saved before brand codes existed: match them to codes once.
+  useEffect(() => {
+    if (!pending) return;
+    let active = true;
+    api.brandIndex().then(
+      (index) => active && saveMigratedRecent(index.brands),
+      () => undefined,
+    );
+    return () => {
+      active = false;
+    };
+  }, [pending]);
+  const items = list.items;
   if (items.length === 0) return null;
 
   return (

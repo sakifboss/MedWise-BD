@@ -167,7 +167,7 @@ function RankedCard({ item, data, t }: { item: RankedAlternative; data: Alternat
           <div className="mt-2 flex flex-wrap items-center gap-1">
             <SaveToMyMedicines
               data={{ generic: data.generic, strength: data.strength, dosage_form: data.dosage_form }}
-              brand={{ brand_id: item.brand_id, name: item.name }}
+              brand={{ code: item.code, name: item.name }}
             />
             <ReportProblem brandId={item.brand_id} brandName={item.name} />
           </div>
@@ -223,7 +223,11 @@ export async function RankingList({ data, shareTitle }: { data: AlternativesResp
   return (
     <SavingsProvider dosageForm={data.dosage_form} selectedPrice={selected?.price_per_unit ?? null}>
       <section aria-label={t.ranking.listLabel} className="space-y-3">
-        <RankingShare title={shareTitle} text={shareText(data, shareTitle, t)} />
+        <RankingShare
+          title={shareTitle}
+          text={shareText(data, shareTitle, t)}
+          path={data.selected_brand_code ? `/alternatives/${data.selected_brand_code}` : undefined}
+        />
         <SavingsCalculator options={options} />
         <SamePriceBanner data={data} t={t} />
         <Summary data={data} t={t} />
