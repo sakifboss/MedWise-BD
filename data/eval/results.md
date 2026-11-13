@@ -22,24 +22,30 @@ Images are resized like the app (longest side 2000 px, JPEG quality 85).
 
 | Subset | Images | On prescriptions | Read | Correct | Recall | Precision | Matched | Match rate | Offered | Offered rate |
 |---|---|---|---|---|---|---|---|---|---|---|
-| real_handwritten | 10 | 34 | 34 | 32 | 94.1% | 94.1% | 22/26 | 84.6% | 23/26 | 88.5% |
+| real_handwritten | 10 | 34 | 34 | 32 | 94.1% | 94.1% | 20/24 | 83.3% | 22/24 | 91.7% |
 | synthetic_printed | 10 | 13 | 0 | 0 | 0.0% | n/a | 0/0 | n/a | 0/0 | n/a |
 | degraded_copies | 3 | 9 | 9 | 9 | 100.0% | 100.0% | 7/7 | 100.0% | 7/7 | 100.0% |
-| overall | 23 | 56 | 43 | 41 | 73.2% | 95.3% | 29/33 | 87.9% | 30/33 | 90.9% |
+| overall | 23 | 56 | 43 | 41 | 73.2% | 95.3% | 27/31 | 87.1% | 29/31 | 93.5% |
 
 ## Catalog coverage
 
 Of the readable medicine lines, how many name a medicine that is in our catalog (its brand name,
 its generic name, or the generic the team wrote in the ground truth when the written name differs
 from the pack). Lines nobody could read are left out. Target for the real handwritten
-prescriptions: 80% or more.
+prescriptions: 80% or more. "Coverage" counts confirmed mappings only (the main number); the next
+column also counts mappings the team has not confirmed yet.
 
-| Subset | Lines in catalog | Coverage | Not in catalog |
-|---|---|---|---|
-| real_handwritten | 26 of 34 | 76.5% | AcePlus (3), Adovas, Ambrox (2), Benostar, Viodin |
-| synthetic_printed | 0 of 13 | 0.0% | DemoCream-1, DemoDrop-1, DemoMed-A, DemoMed-B, DemoMed-C, DemoMed-D, DemoMed-E, DemoMed-F, DemoMed-G, DemoMed-H, DemoMed-I, DemoMed-J, DemoMed-K |
-| degraded_copies | 7 of 9 | 77.8% | Ambrox, Viodin |
-| overall | 33 of 56 | 58.9% | AcePlus (3), Adovas, Ambrox (3), Benostar, DemoCream-1, DemoDrop-1, DemoMed-A, DemoMed-B, DemoMed-C, DemoMed-D, DemoMed-E, DemoMed-F, DemoMed-G, DemoMed-H, DemoMed-I, DemoMed-J, DemoMed-K, Viodin (2) |
+| Subset | Lines in catalog | Coverage | With unconfirmed mappings | Unconfirmed | Not in catalog |
+|---|---|---|---|---|---|
+| real_handwritten | 24 of 34 | 70.6% | 76.5% | Fenomin (2) | AcePlus (3), Adovas, Ambrox (2), Benostar, Viodin |
+| synthetic_printed | 0 of 13 | 0.0% | 0.0% | - | DemoCream-1, DemoDrop-1, DemoMed-A, DemoMed-B, DemoMed-C, DemoMed-D, DemoMed-E, DemoMed-F, DemoMed-G, DemoMed-H, DemoMed-I, DemoMed-J, DemoMed-K |
+| degraded_copies | 7 of 9 | 77.8% | 77.8% | - | Ambrox, Viodin |
+| overall | 31 of 56 | 55.4% | 58.9% | Fenomin (2) | AcePlus (3), Adovas, Ambrox (3), Benostar, DemoCream-1, DemoDrop-1, DemoMed-A, DemoMed-B, DemoMed-C, DemoMed-D, DemoMed-E, DemoMed-F, DemoMed-G, DemoMed-H, DemoMed-I, DemoMed-J, DemoMed-K, Viodin (2) |
+
+Names written differently from the pack, as mapped by the team:
+
+- Fenomin -> Fexomin (Fexofenadine), NOT confirmed (not counted as covered or matched): the third letter looks like n or r, not x; confirm from the medicine box or pharmacy memo.
+- Mycedin -> SQ-Mycetin (Chloramphenicol), confirmed: the photo shows 'SQ' before the name and 'E/E drop' after it (owner, 2026-11-13).
 
 ## The images
 
@@ -54,9 +60,9 @@ prescriptions: 80% or more.
 
 | Image | Subset | Correct | Missed | Extra (read, not on the prescription) | Matched |
 |---|---|---|---|---|---|
-| rx01 | real_handwritten | 3/4 | Montene | Montex | 1/2 |
+| rx01 | real_handwritten | 3/4 | Montene | Montex | 0/1 |
 | rx02 | real_handwritten | 3/3 | - | - | 3/3 |
-| rx03 | real_handwritten | 4/4 | - | - | 2/2 |
+| rx03 | real_handwritten | 4/4 | - | - | 1/1 |
 | rx04 | real_handwritten | 3/3 | - | - | 2/3 |
 | rx05 | real_handwritten | 5/5 | - | - | 4/4 |
 | rx06 | real_handwritten | 3/3 | - | - | 2/2 |
