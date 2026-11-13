@@ -708,7 +708,8 @@ Rules for every R step:
   Auth: email + password. Password at least 10 characters and not in a common-password list; no
   other composition rules. Hash with argon2id (argon2-cffi, pinned with every dependency) or, if
   the owner prefers no new dependency, hashlib.scrypt with OWASP parameters; decide in the plan.
-  Session cookie `mw_doc`: HttpOnly, Secure (except http://localhost), SameSite=Lax, Path=/, no
+  Session cookie `mw_doc`: HttpOnly, Secure (except http://localhost), SameSite=Lax, Path=/api/doctor
+  (since R3, so search and other requests never carry who is asking), no
   Domain attribute; idle timeout 12 hours, absolute 7 days; "Log out" and "Log out everywhere".
   Check that Set-Cookie passes through the Next /api rewrite (Docker and a Vercel preview).
   State-changing doctor endpoints require the frontend secret header and an Origin header that
@@ -747,7 +748,7 @@ Rules for every R step:
   (Vercel, Render) keep standard request logs for a short time. Bangla wording fixed and approved by
   the owner (hashed, not "scrambled"; "যাচাই সফল হয়নি" for rejected).
 
-- [ ] **R3. Write and print a prescription.**
+- [x] **R3. Write and print a prescription.**
   Page /doctor/rx (login required; verified, pending and demo doctors). Sections: patient (name,
   age, sex, weight optional, date = today, editable), chief complaints, examination findings,
   diagnosis (optional), known allergies, medicines, tests, advice, follow-up date. Everything
@@ -792,6 +793,18 @@ Rules for every R step:
   a unique patient name, then check no request URL, body or header and no storage holds it, and
   that every patient field has autocomplete off, spellcheck off and translate="no"; print layout
   in en and bn on A4.
+  Done 2026-11-13 (PR): owner's choices: patient instructions print in Bangla and English by default
+  (the doctor can switch), approx. cost on screen only, the existing server search. Search requests
+  carry only the typed text: the session cookie moved to Path=/api/doctor (R2's Path=/ cookie is
+  cleared at login and logout); the pad waits 250 ms after typing, needs 2 characters, caches
+  answers, cancels stale requests and sends at most 60 searches a minute per tab (server: 120 per
+  client), retrying by itself after a 429 (e.g. many users behind one hospital Wi-Fi). Logic in
+  lib/rx.ts and lib/rx-search.ts (Vitest). Print: named @page "rx" (A4); the doctor's name on page
+  2 onwards, the footer and "page / pages" sit in the page margins (text from CSS custom properties
+  set by the pad); the DEMO or not-verified mark is a banner on page 1 plus a fixed diagonal mark
+  on every page; the site header and footer are hidden in print. Rejected doctors cannot use the pad.
+  Browser test (33 checks): no request, storage area or cookie holds the patient's details; Bangla
+  in the PDF is checked on the print view (PDF text extraction cannot rebuild Bangla conjuncts).
 
 - [ ] **R4. QR, signature and the patient page.**
   "Finalize" builds, in the browser, a versioned compact payload of the medicine lines only (brand
