@@ -142,6 +142,9 @@ export function DoctorHome() {
               {t.rx.writeLink}
             </Link>
           )}
+          <Link href="/doctor/templates" className={buttonVariants({ variant: "outline" })}>
+            {t.doctor.templatesLink}
+          </Link>
           <Link href="/doctor/profile" className={buttonVariants({ variant: "outline" })}>
             {t.doctor.profileLink}
           </Link>

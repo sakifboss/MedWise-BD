@@ -1220,7 +1220,7 @@
           "doctor"
         ],
         "summary": "Delete Account",
-        "description": "Removes the profile, chambers, sessions and reset links (and, from R5, templates).",
+        "description": "Removes the profile, chambers, sessions, reset links, templates and favourite tests.",
         "operationId": "delete_account_api_doctor_delete_post",
         "parameters": [
           {
@@ -1317,6 +1317,472 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Envelope_RxSignOut_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/doctor/templates": {
+      "get": {
+        "tags": [
+          "doctor"
+        ],
+        "summary": "List Templates",
+        "operationId": "list_templates_api_doctor_templates_get",
+        "parameters": [
+          {
+            "name": "mw_doc",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Mw Doc"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_list_TemplateSummary__"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "doctor"
+        ],
+        "summary": "Create Template",
+        "operationId": "create_template_api_doctor_templates_post",
+        "parameters": [
+          {
+            "name": "mw_doc",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Mw Doc"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TemplateIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_TemplateOut_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/doctor/templates/{template_id}": {
+      "get": {
+        "tags": [
+          "doctor"
+        ],
+        "summary": "Get Template",
+        "operationId": "get_template_api_doctor_templates__template_id__get",
+        "parameters": [
+          {
+            "name": "template_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "title": "Template Id"
+            }
+          },
+          {
+            "name": "mw_doc",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Mw Doc"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_TemplateOut_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "doctor"
+        ],
+        "summary": "Update Template",
+        "operationId": "update_template_api_doctor_templates__template_id__post",
+        "parameters": [
+          {
+            "name": "template_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "title": "Template Id"
+            }
+          },
+          {
+            "name": "mw_doc",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Mw Doc"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TemplateIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_TemplateOut_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/doctor/templates/{template_id}/rename": {
+      "post": {
+        "tags": [
+          "doctor"
+        ],
+        "summary": "Rename Template",
+        "operationId": "rename_template_api_doctor_templates__template_id__rename_post",
+        "parameters": [
+          {
+            "name": "template_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "title": "Template Id"
+            }
+          },
+          {
+            "name": "mw_doc",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Mw Doc"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TemplateRename"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_TemplateSummary_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/doctor/templates/{template_id}/delete": {
+      "post": {
+        "tags": [
+          "doctor"
+        ],
+        "summary": "Delete Template",
+        "operationId": "delete_template_api_doctor_templates__template_id__delete_post",
+        "parameters": [
+          {
+            "name": "template_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "title": "Template Id"
+            }
+          },
+          {
+            "name": "mw_doc",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Mw Doc"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_Done_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/doctor/favourite-tests": {
+      "get": {
+        "tags": [
+          "doctor"
+        ],
+        "summary": "Get Favourite Tests",
+        "operationId": "get_favourite_tests_api_doctor_favourite_tests_get",
+        "parameters": [
+          {
+            "name": "mw_doc",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Mw Doc"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_FavouriteTests_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "doctor"
+        ],
+        "summary": "Save Favourite Tests",
+        "operationId": "save_favourite_tests_api_doctor_favourite_tests_post",
+        "parameters": [
+          {
+            "name": "mw_doc",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Mw Doc"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FavouriteTests"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_FavouriteTests_"
                 }
               }
             }
@@ -1866,6 +2332,23 @@
             "type": "integer",
             "title": "Active Sessions"
           },
+          "favourite_tests": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Favourite Tests",
+            "default": []
+          },
+          "templates": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Templates",
+            "default": []
+          },
           "note": {
             "type": "string",
             "title": "Note",
@@ -2209,6 +2692,32 @@
         "type": "object",
         "title": "Envelope[Done]"
       },
+      "Envelope_FavouriteTests_": {
+        "properties": {
+          "data": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/FavouriteTests"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorBody"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "Envelope[FavouriteTests]"
+      },
       "Envelope_GenericDetail_": {
         "properties": {
           "data": {
@@ -2495,6 +3004,58 @@
         "type": "object",
         "title": "Envelope[SymptomGuideSetup]"
       },
+      "Envelope_TemplateOut_": {
+        "properties": {
+          "data": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TemplateOut"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorBody"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "Envelope[TemplateOut]"
+      },
+      "Envelope_TemplateSummary_": {
+        "properties": {
+          "data": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TemplateSummary"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorBody"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "Envelope[TemplateSummary]"
+      },
       "Envelope_dict_str__str__": {
         "properties": {
           "data": {
@@ -2585,6 +3146,36 @@
         "type": "object",
         "title": "Envelope[list[ManufacturerListItem]]"
       },
+      "Envelope_list_TemplateSummary__": {
+        "properties": {
+          "data": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/TemplateSummary"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Data"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorBody"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "Envelope[list[TemplateSummary]]"
+      },
       "ErrorBody": {
         "properties": {
           "code": {
@@ -2655,6 +3246,25 @@
           "points"
         ],
         "title": "FactorDetail"
+      },
+      "FavouriteTests": {
+        "properties": {
+          "tests": {
+            "items": {
+              "type": "string",
+              "maxLength": 80
+            },
+            "type": "array",
+            "maxItems": 50,
+            "title": "Tests"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "tests"
+        ],
+        "title": "FavouriteTests"
       },
       "GenericDetail": {
         "properties": {
@@ -3354,7 +3964,8 @@
             "type": "string",
             "enum": [
               "search",
-              "prescription"
+              "prescription",
+              "rx-pad"
             ],
             "title": "Source"
           }
@@ -4390,6 +5001,357 @@
           "specialties"
         ],
         "title": "SymptomGuideSetup"
+      },
+      "TemplateIn": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 60,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "lines": {
+            "items": {
+              "$ref": "#/components/schemas/TemplateLine"
+            },
+            "type": "array",
+            "maxItems": 12,
+            "title": "Lines"
+          },
+          "tests": {
+            "type": "string",
+            "maxLength": 1000,
+            "title": "Tests",
+            "default": ""
+          },
+          "advice": {
+            "type": "string",
+            "maxLength": 2000,
+            "title": "Advice",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "name",
+          "lines"
+        ],
+        "title": "TemplateIn"
+      },
+      "TemplateLine": {
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "brand",
+              "generic",
+              "free"
+            ],
+            "title": "Kind"
+          },
+          "code": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^BR\\d{5}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Code"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "generic": {
+            "type": "string",
+            "maxLength": 200,
+            "title": "Generic",
+            "default": ""
+          },
+          "strength": {
+            "type": "string",
+            "maxLength": 50,
+            "title": "Strength",
+            "default": ""
+          },
+          "dosage_form": {
+            "type": "string",
+            "maxLength": 50,
+            "title": "Dosage Form",
+            "default": ""
+          },
+          "form_word": {
+            "type": "string",
+            "maxLength": 12,
+            "title": "Form Word",
+            "default": ""
+          },
+          "pattern": {
+            "type": "string",
+            "maxLength": 40,
+            "title": "Pattern",
+            "default": ""
+          },
+          "unit": {
+            "type": "string",
+            "enum": [
+              "tablet",
+              "capsule",
+              "spoon",
+              "ml",
+              "drop",
+              "puff",
+              "application"
+            ],
+            "title": "Unit",
+            "default": "tablet"
+          },
+          "food": {
+            "type": "string",
+            "enum": [
+              "",
+              "before",
+              "after",
+              "with",
+              "any"
+            ],
+            "title": "Food",
+            "default": ""
+          },
+          "duration": {
+            "type": "string",
+            "pattern": "^(|c|[1-9]\\d{0,2}[dwm])$",
+            "title": "Duration",
+            "default": ""
+          },
+          "substitution": {
+            "type": "boolean",
+            "title": "Substitution",
+            "default": false
+          },
+          "note": {
+            "type": "string",
+            "maxLength": 120,
+            "title": "Note",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "kind",
+          "name"
+        ],
+        "title": "TemplateLine"
+      },
+      "TemplateLineOut": {
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "brand",
+              "generic",
+              "free"
+            ],
+            "title": "Kind"
+          },
+          "code": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^BR\\d{5}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Code"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "generic": {
+            "type": "string",
+            "maxLength": 200,
+            "title": "Generic",
+            "default": ""
+          },
+          "strength": {
+            "type": "string",
+            "maxLength": 50,
+            "title": "Strength",
+            "default": ""
+          },
+          "dosage_form": {
+            "type": "string",
+            "maxLength": 50,
+            "title": "Dosage Form",
+            "default": ""
+          },
+          "form_word": {
+            "type": "string",
+            "maxLength": 12,
+            "title": "Form Word",
+            "default": ""
+          },
+          "pattern": {
+            "type": "string",
+            "maxLength": 40,
+            "title": "Pattern",
+            "default": ""
+          },
+          "unit": {
+            "type": "string",
+            "enum": [
+              "tablet",
+              "capsule",
+              "spoon",
+              "ml",
+              "drop",
+              "puff",
+              "application"
+            ],
+            "title": "Unit",
+            "default": "tablet"
+          },
+          "food": {
+            "type": "string",
+            "enum": [
+              "",
+              "before",
+              "after",
+              "with",
+              "any"
+            ],
+            "title": "Food",
+            "default": ""
+          },
+          "duration": {
+            "type": "string",
+            "pattern": "^(|c|[1-9]\\d{0,2}[dwm])$",
+            "title": "Duration",
+            "default": ""
+          },
+          "substitution": {
+            "type": "boolean",
+            "title": "Substitution",
+            "default": false
+          },
+          "note": {
+            "type": "string",
+            "maxLength": 120,
+            "title": "Note",
+            "default": ""
+          },
+          "gone": {
+            "type": "boolean",
+            "title": "Gone",
+            "default": false
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "kind",
+          "name"
+        ],
+        "title": "TemplateLineOut"
+      },
+      "TemplateOut": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "lines": {
+            "items": {
+              "$ref": "#/components/schemas/TemplateLineOut"
+            },
+            "type": "array",
+            "title": "Lines"
+          },
+          "tests": {
+            "type": "string",
+            "title": "Tests"
+          },
+          "advice": {
+            "type": "string",
+            "title": "Advice"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "lines",
+          "tests",
+          "advice",
+          "updated_at"
+        ],
+        "title": "TemplateOut"
+      },
+      "TemplateRename": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 60,
+            "minLength": 1,
+            "title": "Name"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "TemplateRename"
+      },
+      "TemplateSummary": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "line_count": {
+            "type": "integer",
+            "title": "Line Count"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "line_count",
+          "updated_at"
+        ],
+        "title": "TemplateSummary"
       },
       "ValidationError": {
         "properties": {

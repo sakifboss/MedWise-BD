@@ -28,13 +28,13 @@ export type RxPayload = { issueDate: string; followUp: string; lines: PayloadLin
 
 // ---------------------------------------------------------------- building
 
-function durationCode(d: Duration): string {
+export function durationCode(d: Duration): string {
   if (d.kind === "none") return "";
   if (d.kind === "continue") return "c";
   return `${d.n}${{ days: "d", weeks: "w", months: "m" }[d.unit]}`;
 }
 
-function parseDuration(code: unknown): Duration {
+export function parseDuration(code: unknown): Duration {
   if (code === "") return { kind: "none" };
   if (code === "c") return { kind: "continue" };
   const m = typeof code === "string" ? /^([1-9]\d{0,2})([dwm])$/.exec(code) : null;

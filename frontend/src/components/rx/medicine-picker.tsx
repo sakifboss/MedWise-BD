@@ -160,6 +160,7 @@ export function MedicinePicker({
         />
       </div>
       <p className="text-xs text-muted-foreground">{disabled ? s.maxLines(t.fmt.int(12)) : s.onlySearchSent}</p>
+      <p className="text-xs text-muted-foreground">{s.freeNamesNote}</p>
       {voiceMessage && <p className="text-xs text-muted-foreground">{voiceMessage}</p>}
       {status === "short" && <p className="text-xs text-muted-foreground">{s.minChars}</p>}
       {(status === "loading" || status === "busy") && (

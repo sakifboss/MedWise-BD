@@ -493,7 +493,7 @@ export interface paths {
         put?: never;
         /**
          * Delete Account
-         * @description Removes the profile, chambers, sessions and reset links (and, from R5, templates).
+         * @description Removes the profile, chambers, sessions, reset links, templates and favourite tests.
          */
         post: operations["delete_account_api_doctor_delete_post"];
         delete?: never;
@@ -516,6 +516,94 @@ export interface paths {
          * @description Sign the hash of a prescription's QR payload. Only the hash reaches us; nothing is stored.
          */
         post: operations["sign_rx_api_doctor_rx_sign_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/doctor/templates": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Templates */
+        get: operations["list_templates_api_doctor_templates_get"];
+        put?: never;
+        /** Create Template */
+        post: operations["create_template_api_doctor_templates_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/doctor/templates/{template_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Template */
+        get: operations["get_template_api_doctor_templates__template_id__get"];
+        put?: never;
+        /** Update Template */
+        post: operations["update_template_api_doctor_templates__template_id__post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/doctor/templates/{template_id}/rename": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Rename Template */
+        post: operations["rename_template_api_doctor_templates__template_id__rename_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/doctor/templates/{template_id}/delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Delete Template */
+        post: operations["delete_template_api_doctor_templates__template_id__delete_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/doctor/favourite-tests": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Favourite Tests */
+        get: operations["get_favourite_tests_api_doctor_favourite_tests_get"];
+        put?: never;
+        /** Save Favourite Tests */
+        post: operations["save_favourite_tests_api_doctor_favourite_tests_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -732,6 +820,18 @@ export interface components {
             /** Active Sessions */
             active_sessions: number;
             /**
+             * Favourite Tests
+             * @default []
+             */
+            favourite_tests: string[];
+            /**
+             * Templates
+             * @default []
+             */
+            templates: {
+                [key: string]: unknown;
+            }[];
+            /**
              * Note
              * @default This is everything MedWise BD stores about you. MedWise BD never stores your patients' information.
              */
@@ -819,6 +919,11 @@ export interface components {
             data?: components["schemas"]["Done"] | null;
             error?: components["schemas"]["ErrorBody"] | null;
         };
+        /** Envelope[FavouriteTests] */
+        Envelope_FavouriteTests_: {
+            data?: components["schemas"]["FavouriteTests"] | null;
+            error?: components["schemas"]["ErrorBody"] | null;
+        };
         /** Envelope[GenericDetail] */
         Envelope_GenericDetail_: {
             data?: components["schemas"]["GenericDetail"] | null;
@@ -874,6 +979,16 @@ export interface components {
             data?: components["schemas"]["SymptomGuideSetup"] | null;
             error?: components["schemas"]["ErrorBody"] | null;
         };
+        /** Envelope[TemplateOut] */
+        Envelope_TemplateOut_: {
+            data?: components["schemas"]["TemplateOut"] | null;
+            error?: components["schemas"]["ErrorBody"] | null;
+        };
+        /** Envelope[TemplateSummary] */
+        Envelope_TemplateSummary_: {
+            data?: components["schemas"]["TemplateSummary"] | null;
+            error?: components["schemas"]["ErrorBody"] | null;
+        };
         /** Envelope[dict[str, str]] */
         Envelope_dict_str__str__: {
             /** Data */
@@ -892,6 +1007,12 @@ export interface components {
         Envelope_list_ManufacturerListItem__: {
             /** Data */
             data?: components["schemas"]["ManufacturerListItem"][] | null;
+            error?: components["schemas"]["ErrorBody"] | null;
+        };
+        /** Envelope[list[TemplateSummary]] */
+        Envelope_list_TemplateSummary__: {
+            /** Data */
+            data?: components["schemas"]["TemplateSummary"][] | null;
             error?: components["schemas"]["ErrorBody"] | null;
         };
         /** ErrorBody */
@@ -927,6 +1048,11 @@ export interface components {
              * @description weight * score * 100: this factor's share of the 0-100 quality
              */
             points: number;
+        };
+        /** FavouriteTests */
+        FavouriteTests: {
+            /** Tests */
+            tests: string[];
         };
         /** GenericDetail */
         GenericDetail: {
@@ -1204,7 +1330,7 @@ export interface components {
              * Source
              * @enum {string}
              */
-            source: "search" | "prescription";
+            source: "search" | "prescription" | "rx-pad";
         };
         /** MedicineRequestSaved */
         MedicineRequestSaved: {
@@ -1552,6 +1678,193 @@ export interface components {
             red_flags: components["schemas"]["RedFlagOut"][];
             /** Specialties */
             specialties: components["schemas"]["SpecialtyOut"][];
+        };
+        /** TemplateIn */
+        TemplateIn: {
+            /** Name */
+            name: string;
+            /** Lines */
+            lines: components["schemas"]["TemplateLine"][];
+            /**
+             * Tests
+             * @default
+             */
+            tests: string;
+            /**
+             * Advice
+             * @default
+             */
+            advice: string;
+        };
+        /** TemplateLine */
+        TemplateLine: {
+            /**
+             * Kind
+             * @enum {string}
+             */
+            kind: "brand" | "generic" | "free";
+            /** Code */
+            code?: string | null;
+            /** Name */
+            name: string;
+            /**
+             * Generic
+             * @default
+             */
+            generic: string;
+            /**
+             * Strength
+             * @default
+             */
+            strength: string;
+            /**
+             * Dosage Form
+             * @default
+             */
+            dosage_form: string;
+            /**
+             * Form Word
+             * @default
+             */
+            form_word: string;
+            /**
+             * Pattern
+             * @default
+             */
+            pattern: string;
+            /**
+             * Unit
+             * @default tablet
+             * @enum {string}
+             */
+            unit: "tablet" | "capsule" | "spoon" | "ml" | "drop" | "puff" | "application";
+            /**
+             * Food
+             * @default
+             * @enum {string}
+             */
+            food: "" | "before" | "after" | "with" | "any";
+            /**
+             * Duration
+             * @default
+             */
+            duration: string;
+            /**
+             * Substitution
+             * @default false
+             */
+            substitution: boolean;
+            /**
+             * Note
+             * @default
+             */
+            note: string;
+        };
+        /** TemplateLineOut */
+        TemplateLineOut: {
+            /**
+             * Kind
+             * @enum {string}
+             */
+            kind: "brand" | "generic" | "free";
+            /** Code */
+            code?: string | null;
+            /** Name */
+            name: string;
+            /**
+             * Generic
+             * @default
+             */
+            generic: string;
+            /**
+             * Strength
+             * @default
+             */
+            strength: string;
+            /**
+             * Dosage Form
+             * @default
+             */
+            dosage_form: string;
+            /**
+             * Form Word
+             * @default
+             */
+            form_word: string;
+            /**
+             * Pattern
+             * @default
+             */
+            pattern: string;
+            /**
+             * Unit
+             * @default tablet
+             * @enum {string}
+             */
+            unit: "tablet" | "capsule" | "spoon" | "ml" | "drop" | "puff" | "application";
+            /**
+             * Food
+             * @default
+             * @enum {string}
+             */
+            food: "" | "before" | "after" | "with" | "any";
+            /**
+             * Duration
+             * @default
+             */
+            duration: string;
+            /**
+             * Substitution
+             * @default false
+             */
+            substitution: boolean;
+            /**
+             * Note
+             * @default
+             */
+            note: string;
+            /**
+             * Gone
+             * @default false
+             */
+            gone: boolean;
+        };
+        /** TemplateOut */
+        TemplateOut: {
+            /** Id */
+            id: number;
+            /** Name */
+            name: string;
+            /** Lines */
+            lines: components["schemas"]["TemplateLineOut"][];
+            /** Tests */
+            tests: string;
+            /** Advice */
+            advice: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
+        };
+        /** TemplateRename */
+        TemplateRename: {
+            /** Name */
+            name: string;
+        };
+        /** TemplateSummary */
+        TemplateSummary: {
+            /** Id */
+            id: number;
+            /** Name */
+            name: string;
+            /** Line Count */
+            line_count: number;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
         };
         /** ValidationError */
         ValidationError: {
@@ -2440,6 +2753,278 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Envelope_RxSignOut_"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_templates_api_doctor_templates_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: {
+                mw_doc?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Envelope_list_TemplateSummary__"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_template_api_doctor_templates_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: {
+                mw_doc?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TemplateIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Envelope_TemplateOut_"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_template_api_doctor_templates__template_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                template_id: number;
+            };
+            cookie?: {
+                mw_doc?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Envelope_TemplateOut_"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_template_api_doctor_templates__template_id__post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                template_id: number;
+            };
+            cookie?: {
+                mw_doc?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TemplateIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Envelope_TemplateOut_"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    rename_template_api_doctor_templates__template_id__rename_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                template_id: number;
+            };
+            cookie?: {
+                mw_doc?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TemplateRename"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Envelope_TemplateSummary_"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    delete_template_api_doctor_templates__template_id__delete_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                template_id: number;
+            };
+            cookie?: {
+                mw_doc?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Envelope_Done_"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_favourite_tests_api_doctor_favourite_tests_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: {
+                mw_doc?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Envelope_FavouriteTests_"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    save_favourite_tests_api_doctor_favourite_tests_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: {
+                mw_doc?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["FavouriteTests"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Envelope_FavouriteTests_"];
                 };
             };
             /** @description Validation Error */
