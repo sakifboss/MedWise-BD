@@ -25,23 +25,23 @@ function fakeStorage(): Storage {
 afterEach(() => vi.unstubAllGlobals());
 
 describe("print language preference", () => {
-  it("is Bangla on a new device", () => {
-    expect(DEFAULT_PRINT_LANGUAGE).toBe("bn");
-    expect(parsePrintLanguage(null)).toBe("bn");
+  it("is both languages on a new device", () => {
+    expect(DEFAULT_PRINT_LANGUAGE).toBe("both");
+    expect(parsePrintLanguage(null)).toBe("both");
   });
 
   it("ignores anything that is not a saved choice of this version", () => {
     for (const raw of ["{", "[]", '{"v":2,"printLanguage":"en"}', '{"v":1,"printLanguage":"fr"}', '"en"']) {
-      expect(parsePrintLanguage(raw)).toBe("bn");
+      expect(parsePrintLanguage(raw)).toBe("both");
     }
   });
 
   it("remembers the last choice, and stores nothing else", () => {
     const storage = fakeStorage();
     vi.stubGlobal("window", { localStorage: storage });
-    savePrintLanguage("both");
-    expect(loadPrintLanguage()).toBe("both");
-    expect(JSON.parse(storage.getItem(RX_PREFS_KEY) ?? "")).toEqual({ v: 1, printLanguage: "both" });
+    savePrintLanguage("bn");
+    expect(loadPrintLanguage()).toBe("bn");
+    expect(JSON.parse(storage.getItem(RX_PREFS_KEY) ?? "")).toEqual({ v: 1, printLanguage: "bn" });
     savePrintLanguage("en");
     expect(loadPrintLanguage()).toBe("en");
   });
@@ -54,6 +54,6 @@ describe("print language preference", () => {
     };
     vi.stubGlobal("window", blocked);
     expect(() => savePrintLanguage("en")).not.toThrow();
-    expect(loadPrintLanguage()).toBe("bn");
+    expect(loadPrintLanguage()).toBe("both");
   });
 });

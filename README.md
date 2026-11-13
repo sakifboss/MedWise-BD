@@ -342,7 +342,7 @@ DEMO or not-verified mark. Patient details stay in the browser tab and on the pa
 never stored (no local storage, cookies or IndexedDB) and never sent; patient fields turn off
 autofill, browser spellcheck and translation, and have no voice input. Search sends only the
 typed text, at most 60 searches a minute per tab. The only thing the pad keeps on the device is
-the doctor's choice of print language (localStorage `medwise.rxPrefs`; Bangla at first).
+the doctor's choice of print language (localStorage `medwise.rxPrefs`; Bangla and English at first).
 
 **QR code and the patient page.** "Print" first finalizes the prescription: the browser builds
 a compact payload of the medicine lines and dates only (no patient details, notes or advice),
