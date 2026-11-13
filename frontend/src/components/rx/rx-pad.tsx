@@ -83,7 +83,7 @@ function Pad({ doctor }: { doctor: DoctorProfile }) {
   const [patient, setPatient] = useState<RxPatient>(emptyPatient);
   const [notes, setNotes] = useState<RxNotes>(EMPTY_NOTES);
   const [lines, setLines] = useState<RxLine[]>([]);
-  // The doctor's last choice on this device (a preference, never patient data); Bangla at first.
+  // The doctor's last choice on this device (a preference, never patient data); both at first.
   const [language, setLanguage] = useState<PrintLanguage>(loadPrintLanguage);
   const [chamberIndex, setChamberIndex] = useState(doctor.chambers.length ? 0 : -1);
   const [confirmingNew, setConfirmingNew] = useState(false);
