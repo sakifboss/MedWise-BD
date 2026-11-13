@@ -57,6 +57,11 @@ class Settings(BaseSettings):
     symptom_words_path: Path = BACKEND_DIR / "app" / "core" / "symptom_words.json"
     # Doctor accounts (R2): sign-ups (and password resets) per client per hour.
     doctor_signup_limit_per_hour: int = 5
+    # Rx Pad QR codes (R4): HMAC key, only in backend/.env and on Render; empty = QR signing off.
+    # Changing it makes old QR codes show "Could not check" (they still open).
+    rx_signing_secret: str = ""
+    rx_sign_limit_per_day: int = 300  # per doctor
+    rx_verify_limit_per_minute: int = 30  # per client
     # The only Origins allowed to change doctor data: the live site and local development or Docker.
     # Not Vercel previews (they use the production API and database). Not secret.
     site_origins: str = "https://medwise-bd.vercel.app,http://localhost:3000"
@@ -66,7 +71,7 @@ class Settings(BaseSettings):
     frontend_shared_secret: str = ""
     seed_dir: Path = REPO_DIR / "data" / "seed"
 
-    @field_validator("openai_api_key", "frontend_shared_secret")
+    @field_validator("openai_api_key", "frontend_shared_secret", "rx_signing_secret")
     @classmethod
     def _clean_key(cls, key: str) -> str:
         """Drop whitespace/quotes that sneak in when pasting into hosting dashboards."""

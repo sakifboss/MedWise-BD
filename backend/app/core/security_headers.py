@@ -9,8 +9,8 @@ from collections.abc import Awaitable, Callable
 from fastapi import FastAPI, Request, Response
 
 DOCS_PATHS = ("/docs", "/redoc")
-# Doctor accounts: never kept by the browser, the service worker or any cache in between.
-NO_STORE_PATHS = ("/api/doctor",)
+# Doctor accounts and QR checks: never kept by the browser, the service worker or any cache.
+NO_STORE_PATHS = ("/api/doctor", "/api/rx")
 
 COMMON_HEADERS = {
     "X-Content-Type-Options": "nosniff",

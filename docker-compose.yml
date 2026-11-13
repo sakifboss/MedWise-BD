@@ -32,6 +32,8 @@ services:
       CORS_ORIGINS: http://localhost:3000
       # Only the frontend container (same value below) may call prescription reading.
       FRONTEND_SHARED_SECRET: ${FRONTEND_SHARED_SECRET:-local-docker-secret}
+      # Rx Pad QR codes (local test value; production uses its own secret on Render).
+      RX_SIGNING_SECRET: ${RX_SIGNING_SECRET:-local-docker-rx-signing-secret}
     depends_on:
       db:
         condition: service_healthy

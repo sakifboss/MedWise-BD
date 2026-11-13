@@ -20,6 +20,7 @@ from app.api import (
     medicine_requests,
     pharmacies,
     prescription,
+    rx,
     search,
     stats,
     symptom_guide,
@@ -90,6 +91,7 @@ def create_app() -> FastAPI:
         data_reports,
         brands,
         doctor,
+        rx,
     )
     for module in routers:
         app.include_router(module.router, prefix="/api")

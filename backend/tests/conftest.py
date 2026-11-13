@@ -84,5 +84,9 @@ def reset_rate_limits() -> None:
     from app.services import doctor_auth
 
     doctor.signup_limiter.reset()
+    doctor.rx_sign_limiter.reset()
+    from app.api import rx
+
+    rx.verify_limiter.reset()
     doctor_auth.email_guard.reset()
     doctor_auth.client_guard.reset()
