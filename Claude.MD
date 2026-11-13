@@ -13,7 +13,8 @@ for cefixime, famotidine and levocetirizine; EMA for vildagliptin) and interacti
 - backend/: Python 3.11, FastAPI, SQLAlchemy, Pydantic
 - Database: PostgreSQL (SQLite allowed for local dev)
 - Search: rapidfuzz + Postgres pg_trgm; Bangla -> Latin transliteration for Bangla input
-- Prescription OCR: Gemini vision API (key in backend/.env as GEMINI_API_KEY)
+- Prescription OCR and the symptom guide: OpenAI Responses API (key in backend/.env and on Render as
+  OPENAI_API_KEY; never in git or chat). Gemini was used until 2026-11-13.
 
 ## Folder structure
 ```
@@ -26,7 +27,7 @@ medwise-bd/
       core/       # config, db
       models/     # SQLAlchemy models
       schemas/    # Pydantic schemas
-      services/   # search.py, ranking.py, interactions.py, ocr.py, gemini.py (shared client),
+      services/   # search.py, ranking.py, interactions.py, ocr.py, llm.py (shared OpenAI client),
                   # symptom_guide.py
     scripts/
       import_data.py
@@ -148,7 +149,7 @@ git history, non-root Docker images, Next.js patched to 16.4.2.
   frame denial and a locked-down CSP on API responses (not on /docs).
 - [x] **S2. Only our frontend may call the prescription endpoint** (and, since P10, the symptom guide). The Next proxy adds a secret
   header (`FRONTEND_SHARED_SECRET`, set on Vercel and Render) to /api/prescription; the backend
-  rejects OCR requests without it, so nobody can drain the Gemini quota by calling Render directly.
+  rejects OCR requests without it, so nobody can drain the OpenAI budget by calling Render directly.
 - [x] **S3. Rate limits on search and interactions,** generous for people, blocking floods.
 - [x] **S4. Pin backend dependencies** (exact versions installed by Render, Docker and CI).
   Every package, including transitive ones, is pinned with `==`; CI and Docker install with
@@ -469,9 +470,8 @@ Same rules and PR workflow as Phase 3: plan first and wait for the user's OK; en
 string; no medical advice; data only through seed files and import_data.py; no hard-coded counts;
 docs updated when behaviour changes; never merge (the user merges).
 
-Pending outside this list: re-run the OCR evaluation with the first-choice model
-(`eval_ocr.py --model gemini-3.8-flash`, branch `chore/ocr-eval-first-choice`). Free tier: 20
-requests a day for that model, so it takes two days. Adding more medicines is on hold (owner, 2026-11-10).
+Pending outside this list: re-run both evaluations with OpenAI (`eval_ocr.py`, `eval_symptoms.py`;
+needs OPENAI_API_KEY in backend/.env). Adding more medicines is on hold (owner, 2026-11-10).
 
 - [ ] **Q1. "Usually keeps" from partner pharmacies (Sylhet).** Blocked until the team has at least
   one partner (consent form kept by the team, never in the repo).
@@ -500,6 +500,15 @@ requests a day for that model, so it takes two days. Adding more medicines is on
   the `dark` Tailwind variant and the dark tokens apply on screen only (print stays light).
   Text contrast measured on 10 pages: WCAG AA in both themes (light muted text darkened to 0.52).
   Header labels from md (768 px), logo text hidden below 460 px; no sideways scroll 320-1024 px.
+
+- [x] **Q6. OpenAI instead of Gemini** (owner, 2026-11-13: paid OpenAI API, Gemini removed).
+  backend/app/services/llm.py: Responses API (POST /v1/responses), strict JSON schema, store=false,
+  models gpt-6-luna then gpt-6.1-terra (settings), reasoning effort low, IPv4, nothing logged,
+  httpx only (no new dependency). OCR sends the photo as input_image (detail high); the symptom
+  guide's schema limits the specialty to our ids; every server-side check and rule is unchanged.
+  Privacy text: OpenAI does not train on API data and may keep it up to 30 days for abuse checks.
+  Owner: key only in backend/.env and on Render (OPENAI_API_KEY), monthly usage limit set in the
+  OpenAI dashboard; remove GEMINI_API_KEY from Render after the merge. Evaluations to re-run.
 
 Approved by the owner 2026-11-10 ("Q2 ok", with Q3, Q4 and Q5), built in this order, one PR each:
 
