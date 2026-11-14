@@ -12,6 +12,7 @@ from rapidfuzz import fuzz, utils
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
+from app.core.catalog_cache import catalog_cache
 from app.models import Brand, Generic, Manufacturer
 from app.services.transliterate import phonetic_key, to_latin
 
@@ -44,53 +45,83 @@ def match_score(latin_query: str, query_key: str, name: str) -> float:
     return max(plain, phonetic)
 
 
-def _generic_hits(db: Session, latin: str, key: str) -> list[SearchHit]:
-    hits = []
-    for generic_id, name in db.execute(select(Generic.id, Generic.name)):
-        score = match_score(latin, key, name)
-        if score >= MIN_SCORE:
-            hits.append(SearchHit("generic", generic_id, name, score, generic_id, name))
-    return hits
+@dataclass(frozen=True)
+class _BrandName:
+    id: int
+    names: tuple[str, ...]  # the brand's name, then its aliases (other written names)
+    strength: str
+    dosage_form: str
+    generic_id: int
+    generic_name: str
+    manufacturer: str
+    code: str
 
 
-def _brand_hits(db: Session, latin: str, key: str) -> list[SearchHit]:
+@dataclass(frozen=True)
+class _Names:
+    generics: tuple[tuple[int, str], ...]
+    brands: tuple[_BrandName, ...]
+
+
+def _load_names(db: Session) -> _Names:
+    generics = tuple((gid, name) for gid, name in db.execute(select(Generic.id, Generic.name)))
     rows = db.execute(
         select(
             Brand.id,
             Brand.name,
+            Brand.aliases,
             Brand.strength,
             Brand.dosage_form,
             Generic.id,
             Generic.name,
             Manufacturer.name,
             Brand.code,
-            Brand.aliases,
         )
         .join(Generic, Brand.generic_id == Generic.id)
         .join(Manufacturer, Brand.manufacturer_id == Manufacturer.id)
     )
+    brands = tuple(
+        _BrandName(bid, (name, *(aliases or [])), strength, form, gid, gname, maker, code)
+        for bid, name, aliases, strength, form, gid, gname, maker, code in rows
+    )
+    return _Names(generics, brands)
+
+
+def _names(db: Session) -> _Names:
+    """Every generic and brand name, from memory after the first search (no database trip)."""
+    return catalog_cache.get_or_build(("search-names",), lambda: _load_names(db))
+
+
+def _generic_hits(names: _Names, latin: str, key: str) -> list[SearchHit]:
+    hits = []
+    for generic_id, name in names.generics:
+        score = match_score(latin, key, name)
+        if score >= MIN_SCORE:
+            hits.append(SearchHit("generic", generic_id, name, score, generic_id, name))
+    return hits
+
+
+def _brand_hits(names: _Names, latin: str, key: str) -> list[SearchHit]:
     scores: dict[tuple[str, ...], float] = {}
     hits = []
-    for row in rows:
-        brand_id, name, strength, form, generic_id, generic_name, manufacturer, code, aliases = row
+    for b in names.brands:
         # A brand matches by its name or by any other name people write for it (seed aliases).
-        names = (name, *(aliases or []))
-        if names not in scores:
-            scores[names] = max(match_score(latin, key, n) for n in names)
-        score = scores[names]
+        if b.names not in scores:
+            scores[b.names] = max(match_score(latin, key, n) for n in b.names)
+        score = scores[b.names]
         if score >= MIN_SCORE:
             hits.append(
                 SearchHit(
                     "brand",
-                    brand_id,
-                    name,
+                    b.id,
+                    b.names[0],
                     score,
-                    generic_id,
-                    generic_name,
-                    strength,
-                    form,
-                    manufacturer,
-                    code,
+                    b.generic_id,
+                    b.generic_name,
+                    b.strength,
+                    b.dosage_form,
+                    b.manufacturer,
+                    b.code,
                 )
             )
     return hits
@@ -102,6 +133,7 @@ def search_catalog(db: Session, query: str, limit: int) -> tuple[str, list[Searc
     key = phonetic_key(latin)
     if not utils.default_process(latin) and not key:
         return latin, []
-    hits = _generic_hits(db, latin, key) + _brand_hits(db, latin, key)
+    names = _names(db)
+    hits = _generic_hits(names, latin, key) + _brand_hits(names, latin, key)
     hits.sort(key=lambda h: (-h.score, h.type != "generic", h.name.casefold(), h.strength or ""))
     return latin, hits[:limit]

@@ -8,6 +8,7 @@ from fastapi import APIRouter, Depends, Response
 from sqlalchemy import select
 from sqlalchemy.orm import Session, joinedload
 
+from app.core.catalog_cache import catalog_cache
 from app.core.config import get_settings
 from app.core.db import get_db
 from app.core.rate_limit import RateLimiter, per_client_limit
@@ -32,6 +33,10 @@ def brand_index(
 ) -> Envelope[BrandIndex]:
     # The data changes only when a deploy re-imports the seed files.
     response.headers["Cache-Control"] = "public, max-age=3600"
+    return catalog_cache.get_or_build(("brand-index",), lambda: _brand_index(db))
+
+
+def _brand_index(db: Session) -> Envelope[BrandIndex]:
     brands = db.scalars(
         select(Brand)
         .options(joinedload(Brand.generic), joinedload(Brand.manufacturer))

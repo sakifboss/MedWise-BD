@@ -3,6 +3,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
+from app.core.catalog_cache import catalog_cache
 from app.core.config import get_settings
 from app.core.db import get_db
 from app.core.rate_limit import RateLimiter, per_client_limit
@@ -43,7 +44,15 @@ def check(
     """Recorded interactions between any of the given brands/generics, most severe first.
 
     Also lists generics that were chosen through more than one brand (duplicate medicine).
+    Only catalog ids are sent, so the answer is cached like other catalog data.
     """
+    key = ("interactions", tuple(body.generic_ids), tuple(body.brand_ids), lang)
+    return catalog_cache.get_or_build(key, lambda: _check(db, body, lang))
+
+
+def _check(
+    db: Session, body: InteractionCheckRequest, lang: str
+) -> Envelope[InteractionCheckResponse]:
     report = check_interactions(db, body.generic_ids, body.brand_ids)
     return Envelope(
         data=InteractionCheckResponse(

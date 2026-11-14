@@ -6,6 +6,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
+from app.core.catalog_cache import catalog_cache
 from app.core.config import get_settings
 from app.core.db import get_db
 from app.core.rate_limit import RateLimiter, per_client_limit
@@ -27,11 +28,14 @@ def catalog_stats(db: Annotated[Session, Depends(get_db)]) -> Envelope[CatalogSt
     def count(model: type) -> int:
         return db.scalar(select(func.count()).select_from(model)) or 0
 
-    return Envelope(
-        data=CatalogStats(
-            generics=count(Generic),
-            brands=count(Brand),
-            manufacturers=count(Manufacturer),
-            interactions=count(Interaction),
-        )
+    return catalog_cache.get_or_build(
+        ("stats",),
+        lambda: Envelope(
+            data=CatalogStats(
+                generics=count(Generic),
+                brands=count(Brand),
+                manufacturers=count(Manufacturer),
+                interactions=count(Interaction),
+            )
+        ),
     )

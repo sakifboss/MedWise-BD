@@ -24,7 +24,7 @@ medwise-bd/
     app/
       api/        # routers: search, generics, alternatives, manufacturers, interactions, prescription,
                   #          medicine_requests, stats, pharmacies, symptom_guide, data_reports, doctor
-      core/       # config, db
+      core/       # config, db, catalog_cache (catalog answers in memory)
       models/     # SQLAlchemy models
       schemas/    # Pydantic schemas
       services/   # search.py, ranking.py, interactions.py, ocr.py, llm.py (shared OpenAI client),
@@ -894,6 +894,7 @@ phone header from Q2/Q3.
   cookie is not sent there). Export and account deletion include templates; privacy page updated.
 
 - [ ] **R6 (optional). Chamber serial board, on this computer only.**
+  Not doing (owner, 2026-11-14): Phase 5 ends at R5. Kept here in case it is wanted later.
   /doctor/queue, no login needed: serial numbers only, no names or any other patient detail
   (keeps the rule that patient information is never stored). Add the next number; statuses waiting
   / with the doctor / done / no-show; "Call next"; a full-screen view for a TV. Kept only in this
@@ -905,3 +906,14 @@ phone header from Q2/Q3.
 Not doing in Phase 5 (by design): telemedicine or video calls, patient records or report storage,
 online appointment booking, payments or earnings, AI summaries of reports, AI-suggested medicines,
 doses or tests, uploading ID documents.
+
+## Speed (owner, 2026-11-14)
+Measured live before: 30 requests at the same moment all answered (API about 2.5 s, pages about
+4 s in total). Each database query costs about 0.25 s (Render in Singapore, Neon in Ohio), the
+generics list made one query per generic, and Vercel functions ran in US East.
+Done in PR feat/speed: catalog answers kept in backend memory (app/core/catalog_cache.py,
+CATALOG_CACHE_SECONDS, cleared by run_import; never doctor data, requests, reports, scans or the
+symptom guide), the generics list in two queries, Next keeps catalog fetches for 10 minutes per
+deployment (catalog() in lib/api.ts; refreshed in the background), Vercel functions in sin1
+(frontend/vercel.json). The owner keeps Render free (it sleeps after 15 minutes idle) and Neon in
+Ohio; moving Neon to Singapore would need a new project and copying the durable tables.

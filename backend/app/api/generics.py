@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException, Path
 from sqlalchemy import case, func, or_, select
 from sqlalchemy.orm import Session, aliased
 
+from app.core.catalog_cache import catalog_cache
 from app.core.db import get_db
 from app.models import SEVERITIES, Brand, Generic, Interaction
 from app.schemas.common import Envelope, LangQuery
@@ -14,29 +15,40 @@ from app.services.interactions import local_only_forms_by_id
 router = APIRouter(tags=["generics"])
 
 
-def _presentations(db: Session, generic_id: int) -> list[Presentation]:
-    rows = db.execute(
+def _presentations_by_generic(
+    db: Session, generic_id: int | None = None
+) -> dict[int, list[Presentation]]:
+    """Strength + form groups with brand count and price range, per generic (one query)."""
+    query = (
         select(
+            Brand.generic_id,
             Brand.strength,
             Brand.dosage_form,
             func.count(Brand.id),
             func.min(Brand.price_per_unit),
             func.max(Brand.price_per_unit),
         )
-        .where(Brand.generic_id == generic_id)
-        .group_by(Brand.strength, Brand.dosage_form)
-        .order_by(Brand.dosage_form, Brand.strength)
+        .group_by(Brand.generic_id, Brand.strength, Brand.dosage_form)
+        .order_by(Brand.generic_id, Brand.dosage_form, Brand.strength)
     )
-    return [
-        Presentation(
-            strength=strength,
-            dosage_form=form,
-            brand_count=count,
-            min_price=float(low),
-            max_price=float(high),
+    if generic_id is not None:
+        query = query.where(Brand.generic_id == generic_id)
+    groups: dict[int, list[Presentation]] = {}
+    for gid, strength, form, count, low, high in db.execute(query):
+        groups.setdefault(gid, []).append(
+            Presentation(
+                strength=strength,
+                dosage_form=form,
+                brand_count=count,
+                min_price=float(low),
+                max_price=float(high),
+            )
         )
-        for strength, form, count, low, high in rows
-    ]
+    return groups
+
+
+def _presentations(db: Session, generic_id: int) -> list[Presentation]:
+    return _presentations_by_generic(db, generic_id).get(generic_id, [])
 
 
 def _interactions(db: Session, generic_id: int, lang: str) -> list[InteractionSummary]:
@@ -87,13 +99,18 @@ def _localized(generic: Generic, lang: str) -> tuple[dict[str, Any], list[str]]:
 @router.get("/generics", response_model=Envelope[list[GenericListItem]])
 def list_generics(db: Annotated[Session, Depends(get_db)]) -> Envelope[list[GenericListItem]]:
     """Every generic and its presentations, by name (small: one row per generic)."""
-    generics = db.execute(select(Generic.id, Generic.name).order_by(Generic.name)).all()
-    return Envelope(
-        data=[
-            GenericListItem(id=gid, name=name, presentations=_presentations(db, gid))
-            for gid, name in generics
-        ]
-    )
+
+    def build() -> Envelope[list[GenericListItem]]:
+        generics = db.execute(select(Generic.id, Generic.name).order_by(Generic.name)).all()
+        groups = _presentations_by_generic(db)
+        return Envelope(
+            data=[
+                GenericListItem(id=gid, name=name, presentations=groups.get(gid, []))
+                for gid, name in generics
+            ]
+        )
+
+    return catalog_cache.get_or_build(("generics",), build)
 
 
 @router.get("/generics/{generic_id}", response_model=Envelope[GenericDetail])
@@ -102,6 +119,12 @@ def get_generic(
     db: Annotated[Session, Depends(get_db)],
     lang: LangQuery = "en",
 ) -> Envelope[GenericDetail]:
+    return catalog_cache.get_or_build(
+        ("generic", generic_id, lang), lambda: _generic_detail(db, generic_id, lang)
+    )
+
+
+def _generic_detail(db: Session, generic_id: int, lang: str) -> Envelope[GenericDetail]:
     generic = db.get(Generic, generic_id)
     if generic is None:
         raise HTTPException(status_code=404, detail=f"Generic {generic_id} not found")
