@@ -77,6 +77,25 @@ function baseUrl(): string {
   return process.env.API_URL ?? "http://localhost:8000";
 }
 
+/**
+ * Catalog data (medicines, brands, prices, rankings, manufacturers, pharmacies) changes only when
+ * the backend re-imports its seed files on a deploy. On the server, Next keeps these answers for up
+ * to 10 minutes and then refreshes them in the background, so a page does not wait for the backend
+ * (or for it to wake up). Only 200 answers are kept. The build id goes in a header, so a new
+ * frontend deploy never reads answers saved by an older one. In the browser this adds nothing.
+ * Never used for doctor data, search, scans or anything a person sends.
+ */
+export const CATALOG_REVALIDATE_SECONDS = 600;
+
+export function catalog(): RequestInit {
+  if (typeof window !== "undefined") return {};
+  const build = process.env.VERCEL_DEPLOYMENT_ID ?? process.env.VERCEL_GIT_COMMIT_SHA ?? "";
+  return {
+    next: { revalidate: CATALOG_REVALIDATE_SECONDS },
+    headers: build ? { "X-MedWise-Build": build } : {},
+  };
+}
+
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   let response: Response;
   try {
@@ -156,26 +175,26 @@ export const api = {
     return request<SearchResponse>(`/api/search?${params}`, { signal: options.signal });
   },
   manufacturers() {
-    return request<ManufacturerListItem[]>("/api/manufacturers");
+    return request<ManufacturerListItem[]>("/api/manufacturers", catalog());
   },
   manufacturer(id: number) {
-    return request<ManufacturerDetail>(`/api/manufacturers/${id}`);
+    return request<ManufacturerDetail>(`/api/manufacturers/${id}`, catalog());
   },
   /** `lang` picks the language of generated text (reasons, interaction descriptions). */
   generic(id: number, lang: Lang = "en") {
-    return request<GenericDetail>(`/api/generics/${id}?lang=${lang}`);
+    return request<GenericDetail>(`/api/generics/${id}?lang=${lang}`, catalog());
   },
   genericRanking(id: number, strength: string, dosageForm: string, lang: Lang = "en") {
     const params = new URLSearchParams({ strength, dosage_form: dosageForm, lang });
-    return request<AlternativesResponse>(`/api/generics/${id}/ranking?${params}`);
+    return request<AlternativesResponse>(`/api/generics/${id}/ranking?${params}`, catalog());
   },
   /** A brand's ranking group, by its stable code (BR00042) or, for old links, its id. */
   alternatives(brandRef: string | number, lang: Lang = "en") {
-    return request<AlternativesResponse>(`/api/alternatives/${encodeURIComponent(String(brandRef))}?lang=${lang}`);
+    return request<AlternativesResponse>(`/api/alternatives/${encodeURIComponent(String(brandRef))}?lang=${lang}`, catalog());
   },
   /** Every brand with its code (cached by the browser for an hour). */
   brandIndex() {
-    return request<BrandIndex>("/api/brands/index");
+    return request<BrandIndex>("/api/brands/index", catalog());
   },
   checkInteractions(body: InteractionCheckRequest, signal?: AbortSignal, lang: Lang = "en") {
     return request<InteractionCheckResponse>(`/api/interactions/check?lang=${lang}`, {
@@ -186,14 +205,14 @@ export const api = {
     });
   },
   generics() {
-    return request<GenericListItem[]>("/api/generics");
+    return request<GenericListItem[]>("/api/generics", catalog());
   },
   stats() {
-    return request<CatalogStats>("/api/stats");
+    return request<CatalogStats>("/api/stats", catalog());
   },
   /** The emergency checklist (NHS wording) and the specialties, in the page language. */
   symptomSetup(lang: Lang = "en") {
-    return request<SymptomSetup>(`/api/symptom-guide/setup?lang=${lang}`);
+    return request<SymptomSetup>(`/api/symptom-guide/setup?lang=${lang}`, catalog());
   },
   /** Only the person's text and answers are sent; nothing from My Medicines. Not stored. */
   symptomGuide(answers: SymptomAnswers) {
@@ -205,7 +224,7 @@ export const api = {
   },
   /** The whole pharmacy list; no position is sent (distances are worked out in the browser). */
   pharmacies() {
-    return request<PharmaciesData>("/api/pharmacies?city=sylhet");
+    return request<PharmaciesData>("/api/pharmacies?city=sylhet", catalog());
   },
   /** "Request this medicine": only the text and where it came from are sent (and stored). */
   requestMedicine(query: string, source: RequestSource) {

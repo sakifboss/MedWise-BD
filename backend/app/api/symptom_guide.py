@@ -11,6 +11,7 @@ from fastapi import APIRouter, Depends, Query, Request
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
+from app.core.catalog_cache import catalog_cache
 from app.core.config import get_settings
 from app.core.db import get_db
 from app.core.errors import AppError
@@ -74,6 +75,10 @@ def setup(
     lang: Annotated[Literal["en", "bn"], Query()] = "en",
 ) -> Envelope[SymptomGuideSetup]:
     """The emergency checklist (NHS wording, in order) and the specialties."""
+    return catalog_cache.get_or_build(("symptom-setup", lang), lambda: _setup(db, lang))
+
+
+def _setup(db: Session, lang: str) -> Envelope[SymptomGuideSetup]:
     bn = lang == "bn"
     flags = [
         RedFlagOut(

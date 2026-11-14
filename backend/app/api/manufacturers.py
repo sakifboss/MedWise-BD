@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException, Path
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session, joinedload
 
+from app.core.catalog_cache import catalog_cache
 from app.core.db import get_db
 from app.models import Brand
 from app.schemas.common import Envelope
@@ -31,6 +32,10 @@ def list_manufacturers(
     db: Annotated[Session, Depends(get_db)],
 ) -> Envelope[list[ManufacturerListItem]]:
     """Every manufacturer, highest quality score first."""
+    return catalog_cache.get_or_build(("manufacturers",), lambda: _manufacturers(db))
+
+
+def _manufacturers(db: Session) -> Envelope[list[ManufacturerListItem]]:
     counts = _brand_counts(db)
     return Envelope(
         data=[
@@ -101,6 +106,12 @@ def get_manufacturer(
     db: Annotated[Session, Depends(get_db)],
 ) -> Envelope[ManufacturerDetail]:
     """One manufacturer's quality score, explained factor by factor, with sources and brands."""
+    return catalog_cache.get_or_build(
+        ("manufacturer", manufacturer_id), lambda: _manufacturer(db, manufacturer_id)
+    )
+
+
+def _manufacturer(db: Session, manufacturer_id: int) -> Envelope[ManufacturerDetail]:
     rated = rate_all(db)
     match = next((r for r in rated if r.manufacturer.id == manufacturer_id), None)
     if match is None:

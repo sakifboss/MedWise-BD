@@ -25,6 +25,7 @@ from rapidfuzz import process  # noqa: E402
 from sqlalchemy import Engine, delete  # noqa: E402
 from sqlalchemy.orm import Session  # noqa: E402
 
+from app.core.catalog_cache import catalog_cache  # noqa: E402
 from app.core.config import get_settings  # noqa: E402
 from app.core.db import Base, make_engine  # noqa: E402
 from app.core.migrations import upgrade_durable_tables  # noqa: E402
@@ -522,6 +523,7 @@ def run_import(data_dir: Path, engine: Engine | None, dry_run: bool = False) -> 
         # Durable tables first (never dropped, changed only by migrations), then the seed tables.
         result.durable_rows = upgrade_durable_tables(engine)
         write_database(engine, data)
+        catalog_cache.clear()  # a server in this same process must not keep old answers
     return result
 
 

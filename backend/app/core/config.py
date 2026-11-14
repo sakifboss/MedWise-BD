@@ -70,6 +70,9 @@ class Settings(BaseSettings):
     # must carry it, so only our website can spend the OpenAI budget. Empty: no check (local dev).
     frontend_shared_secret: str = ""
     seed_dir: Path = REPO_DIR / "data" / "seed"
+    # Answers built only from the medicine catalog are kept in memory this long (seconds; 0 = off).
+    # The catalog changes only when import_data.py runs, before the server starts on each deploy.
+    catalog_cache_seconds: int = 3600
 
     @field_validator("openai_api_key", "frontend_shared_secret", "rx_signing_secret")
     @classmethod

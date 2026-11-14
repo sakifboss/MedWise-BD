@@ -7,6 +7,7 @@ from fastapi.testclient import TestClient
 from sqlalchemy import Engine
 from sqlalchemy.orm import Session, sessionmaker
 
+from app.core.catalog_cache import catalog_cache
 from app.core.config import get_settings
 from app.core.db import get_db, make_engine
 from app.main import app
@@ -42,6 +43,12 @@ def client(seeded_engine: Engine) -> Iterator[TestClient]:
     with TestClient(app) as test_client:
         yield test_client
     app.dependency_overrides.clear()
+
+
+@pytest.fixture(autouse=True)
+def clear_catalog_cache() -> None:
+    """Tests use different databases; never answer from another test's catalog."""
+    catalog_cache.clear()
 
 
 @pytest.fixture(autouse=True)

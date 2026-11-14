@@ -384,9 +384,9 @@ Facts on the privacy page (data region, restore window, contact) live in
 
 | Service | Settings |
 |---|---|
-| **Neon** | Postgres database (Singapore region) |
+| **Neon** | Postgres database (AWS US East, Ohio, us-east-2) |
 | **Render** (web service) | Build: `pip install -r backend/requirements.txt && python backend/scripts/import_data.py` · Start: `cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT` · Env: `DATABASE_URL`, `OPENAI_API_KEY`, `FRONTEND_SHARED_SECRET`, `RX_SIGNING_SECRET`, `PYTHON_VERSION=3.11.17` (same as `.python-version` and the Dockerfile) · Health check: `/api/health` |
-| **Vercel** | Root directory `frontend` · Env: `API_URL=https://medwise-bd.onrender.com`, `FRONTEND_SHARED_SECRET` |
+| **Vercel** | Root directory `frontend` · Functions in Singapore (`sin1`, set in `frontend/vercel.json`) · Env: `API_URL=https://medwise-bd.onrender.com`, `FRONTEND_SHARED_SECRET` |
 
 **OpenAI** (prescription reading and the symptom guide) is a paid API: keep the key only in
 `backend/.env` and on Render (never in git or chat), and set a monthly usage limit in the OpenAI
@@ -408,3 +408,22 @@ the backend has it.
 
 The free Render instance sleeps after 15 minutes idle; the first request then takes about a minute.
 Open the site shortly before a demo.
+
+### Speed and capacity
+
+The medicine catalog changes only when `import_data.py` runs on a deploy, so its answers are kept
+in memory twice over:
+
+- **Backend** (`app/core/catalog_cache.py`): search names, generics, rankings, alternatives, the
+  brand index, manufacturers, pharmacies, the symptom-guide checklist and interaction checks are
+  built once and then answered without a database trip, for up to `CATALOG_CACHE_SECONDS`
+  (default 3600; 0 turns it off). `run_import()` clears it. Errors are never kept. Doctor data,
+  requests, reports, scans and the symptom guide itself are never cached.
+- **Frontend server** (`catalog()` in `frontend/src/lib/api.ts`): pages keep the same catalog
+  answers for 10 minutes and then refresh them in the background, so a page renders without waiting
+  for the backend, also while Render is waking up (pages opened before). Only 200 answers are kept,
+  per deployment. After a data deploy, pages can show the old data for up to about 10 minutes.
+
+Measured on the live site before this (30 requests at the same moment): all 30 answered, the API
+in about 2.5 s and pages in about 4 s in total. The database (Neon, Ohio) is far from the backend
+(Render, Singapore), about 0.25 s per query, which is why answering from memory helps most.

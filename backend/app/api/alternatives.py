@@ -3,6 +3,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, Path, Query
 from sqlalchemy.orm import Session
 
+from app.core.catalog_cache import catalog_cache
 from app.core.db import get_db
 from app.models import Generic
 from app.schemas.alternatives import (
@@ -87,6 +88,13 @@ def get_alternatives(
 
     The selected brand is included in the list (is_selected=true) so users can see where it stands.
     """
+    key = brand_ref.strip().upper()
+    return catalog_cache.get_or_build(
+        ("alternatives", key, lang), lambda: _alternatives(db, key, lang)
+    )
+
+
+def _alternatives(db: Session, brand_ref: str, lang: Lang) -> Envelope[AlternativesResponse]:
     result = find_alternatives(db, brand_ref, lang)
     if result is None:
         raise HTTPException(status_code=404, detail=f"Brand {brand_ref} not found")
@@ -105,10 +113,19 @@ def get_generic_ranking(
     lang: LangQuery = "en",
 ) -> Envelope[AlternativesResponse]:
     """Rank every brand of a generic at one strength and dosage form (no selected brand)."""
+    strength, dosage_form = normalize_strength(strength), normalize_dosage_form(dosage_form)
+    return catalog_cache.get_or_build(
+        ("ranking", generic_id, strength, dosage_form, lang),
+        lambda: _ranking(db, generic_id, strength, dosage_form, lang),
+    )
+
+
+def _ranking(
+    db: Session, generic_id: int, strength: str, dosage_form: str, lang: Lang
+) -> Envelope[AlternativesResponse]:
     generic = db.get(Generic, generic_id)
     if generic is None:
         raise HTTPException(status_code=404, detail=f"Generic {generic_id} not found")
-    strength, dosage_form = normalize_strength(strength), normalize_dosage_form(dosage_form)
     ranked = rank_group(db, generic_id, strength, dosage_form, lang)
     if not ranked:
         raise HTTPException(

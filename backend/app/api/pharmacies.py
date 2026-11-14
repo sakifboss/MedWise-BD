@@ -10,6 +10,7 @@ from fastapi import APIRouter, Depends, Query
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
+from app.core.catalog_cache import catalog_cache
 from app.core.config import get_settings
 from app.core.db import get_db
 from app.core.rate_limit import RateLimiter, per_client_limit
@@ -46,6 +47,10 @@ def list_pharmacies(
     db: Annotated[Session, Depends(get_db)],
     city: Annotated[Literal["sylhet"], Query(description="Only Sylhet city for now")] = "sylhet",
 ) -> Envelope[PharmaciesResponse]:
+    return catalog_cache.get_or_build(("pharmacies", city), lambda: _pharmacies(db, city))
+
+
+def _pharmacies(db: Session, city: str) -> Envelope[PharmaciesResponse]:
     pharmacies = db.scalars(select(Pharmacy).order_by(Pharmacy.name, Pharmacy.id))
     areas = db.scalars(select(Area).order_by(Area.name))
     return Envelope(
