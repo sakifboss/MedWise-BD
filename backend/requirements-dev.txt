@@ -3,7 +3,7 @@
 
 pytest==9.2.0
 pillow==13.0.0  # scripts/eval_ocr.py resizes photos like the app does; not used by the app
-ruff==0.17.4
+ruff==0.17.5
 
 # --- Needed by the tools above
 colorama==0.4.6 ; sys_platform == 'win32'
